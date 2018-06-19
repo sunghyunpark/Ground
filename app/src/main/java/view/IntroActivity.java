@@ -1,5 +1,6 @@
 package view;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +14,7 @@ import com.yssh.ground.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import util.Util;
 
 public class IntroActivity extends AppCompatActivity {
@@ -31,7 +33,6 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-
         ButterKnife.bind(this);
         init();
     }
@@ -50,5 +51,12 @@ public class IntroActivity extends AppCompatActivity {
 
         Drawable d = new BitmapDrawable(getResources(), resized);
         background_vg.setBackground(d);
+    }
+
+    /**
+     * 회원가입 화면으로 이동.
+     */
+    @OnClick(R.id.register_btn) void goToRegister(){
+        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
     }
 }

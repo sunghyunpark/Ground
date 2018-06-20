@@ -1,9 +1,8 @@
 package view;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import util.LoginManager;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -59,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
                             Log.d(TAG, mAuth.getCurrentUser().getUid());
+                            LoginManager loginManager = new LoginManager(getApplicationContext());
+                            loginManager.postUserDataForRegister();
                             finish();
                         }else{
                             Toast.makeText(getApplicationContext(), "이미 동일한 계정이 존재합니다.",

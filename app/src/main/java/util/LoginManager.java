@@ -10,6 +10,10 @@ import api.ApiClient;
 import api.ApiInterface;
 import api.response.CommonResponse;
 import api.response.RegisterResponse;
+import database.RealmConfig;
+import database.model.UserVO;
+import io.realm.Realm;
+import model.UserModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,10 +22,13 @@ public class LoginManager {
 
     private Context context;
     private FirebaseAuth mAuth;
+    private Realm realm;
+    private RealmConfig realmConfig;
 
     public LoginManager(Context context){
         this.context = context;
         this.mAuth = FirebaseAuth.getInstance();
+        this.realmConfig = new RealmConfig();
     }
 
     /**
@@ -46,6 +53,9 @@ public class LoginManager {
                     "uid : "+registerResponse.getResult().getUid()+"\n"+
                     "loginType : "+registerResponse.getResult().getLoginType()+"\n"+
                     "nickName : "+registerResponse.getResult().getNickName());
+                    insertUserData(registerResponse.getResult().getUid(), registerResponse.getResult().getLoginType(), registerResponse.getResult().getEmail(),
+                            registerResponse.getResult().getNickName(), registerResponse.getResult().getProfile(), registerResponse.getResult().getProfileThumb(),
+                            registerResponse.getResult().getCreatedAt());
                 }else{
                     Toast.makeText(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                 }
@@ -58,5 +68,51 @@ public class LoginManager {
                 Toast.makeText(context, "네트워크 연결상태를 확인해주세요.",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * Realm DB 에 user data를 insert 한뒤 싱글톤 객체에 저장
+     * @param uid
+     * @param loginType
+     * @param email
+     * @param nickName
+     * @param profile
+     * @param profileThumb
+     * @param createdAt
+     */
+    private void insertUserData(String uid, String loginType, String email, String nickName, String profile, String profileThumb, String createdAt){
+        realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
+        realm.beginTransaction();
+
+        UserVO userVO = new UserVO();
+        userVO.setUid(uid);
+        userVO.setLoginType(loginType);
+        userVO.setEmail(email);
+        userVO.setNickName(nickName);
+        userVO.setProfile(profile);
+        userVO.setProfileThumb(profileThumb);
+        userVO.setCreatedAt(createdAt);
+
+        realm.copyToRealmOrUpdate(userVO);
+        realm.commitTransaction();
+
+        updateUserData(uid);
+    }
+
+    /**
+     * UserModel 싱글톤 객체에 데이터를 저장
+     * @param uid
+     */
+    private void updateUserData(String uid){
+        realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
+
+        UserVO userVO = realm.where(UserVO.class).equalTo("uid",uid).findFirst();
+        UserModel.getInstance().setUid(uid);
+        UserModel.getInstance().setLoginType(userVO.getLoginType());
+        UserModel.getInstance().setEmail(userVO.getEmail());
+        UserModel.getInstance().setNickName(userVO.getNickName());
+        UserModel.getInstance().setProfile(userVO.getProfile());
+        UserModel.getInstance().setProfileThumb(userVO.getProfileThumb());
+        UserModel.getInstance().setCreatedAt(userVO.getCreatedAt());
     }
 }

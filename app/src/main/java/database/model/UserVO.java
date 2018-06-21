@@ -1,32 +1,24 @@
-package model;
+package database.model;
 
-import com.google.gson.annotations.SerializedName;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-
-public class UserModel {
-    private static volatile UserModel user = null;
-
+public class UserVO extends RealmObject {
+    @PrimaryKey
     private String uid;
-    @SerializedName("login_type")
     private String loginType;
     private String email;
-    @SerializedName("nick_name")
     private String nickName;
     private String profile;
-    @SerializedName("profile_thumb")
     private String profileThumb;
-    @SerializedName("created_at")
     private String createdAt;
 
-    public static  UserModel getInstance(){
-        if(user == null)
-            synchronized (UserModel.class){
-                if(user==null){
-                    user = new UserModel();
-                }
-            }
+    public String getUid() {
+        return uid;
+    }
 
-        return user;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getLoginType() {
@@ -43,14 +35,6 @@ public class UserModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getNickName() {

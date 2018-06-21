@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email
      * @param password
      */
-    private void createAccount(String email, String password, final String name) {
+    private void createAccount(String email, String password, final String nickName) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, mAuth.getCurrentUser().getUid());
                             LoginManager loginManager = new LoginManager(getApplicationContext());
-                            loginManager.postUserDataForRegister();
+                            loginManager.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName);
                             finish();
                         }else{
                             Toast.makeText(getApplicationContext(), "이미 동일한 계정이 존재합니다.",

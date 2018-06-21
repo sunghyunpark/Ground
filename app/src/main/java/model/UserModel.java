@@ -1,12 +1,18 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserModel {
+    @SerializedName("login_type")
     private String loginType;
     private String email;
     private String uid;
+    @SerializedName("nick_name")
     private String nickName;
     private String profile;
+    @SerializedName("profile_thumb")
     private String profileThumb;
+    @SerializedName("created_at")
     private String createdAt;
 
     public String getLoginType() {

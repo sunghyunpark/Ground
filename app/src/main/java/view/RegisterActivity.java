@@ -30,7 +30,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private final static String TAG = "RegisterActivity";
     private FirebaseAuth mAuth;
+    private LoginManager loginManager;
 
+    // LoginManager 로 부터 생성된 realm 객체 해제
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(loginManager != null)
+            loginManager.RealmDestroy();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
                             Log.d(TAG, mAuth.getCurrentUser().getUid());
-                            LoginManager loginManager = new LoginManager(getApplicationContext());
+                            loginManager = new LoginManager(getApplicationContext());
                             loginManager.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName);
                             finish();
                         }else{

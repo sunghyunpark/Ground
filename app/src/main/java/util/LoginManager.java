@@ -1,10 +1,12 @@
 package util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.yssh.ground.MainActivity;
 
 import api.ApiClient;
 import api.ApiInterface;
@@ -31,6 +33,10 @@ public class LoginManager {
         this.realmConfig = new RealmConfig();
     }
 
+    public void RealmDestroy(){
+        this.realm.close();
+    }
+
     /**
      * 회원가입 후 server 로 전송.
      * @param uid
@@ -53,9 +59,12 @@ public class LoginManager {
                     "uid : "+registerResponse.getResult().getUid()+"\n"+
                     "loginType : "+registerResponse.getResult().getLoginType()+"\n"+
                     "nickName : "+registerResponse.getResult().getNickName());
+
                     insertUserData(registerResponse.getResult().getUid(), registerResponse.getResult().getLoginType(), registerResponse.getResult().getEmail(),
                             registerResponse.getResult().getNickName(), registerResponse.getResult().getProfile(), registerResponse.getResult().getProfileThumb(),
                             registerResponse.getResult().getCreatedAt());
+
+                    goMainActivity();
                 }else{
                     Toast.makeText(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                 }
@@ -103,7 +112,7 @@ public class LoginManager {
      * UserModel 싱글톤 객체에 데이터를 저장
      * @param uid
      */
-    private void updateUserData(String uid){
+    public void updateUserData(String uid){
         realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
 
         UserVO userVO = realm.where(UserVO.class).equalTo("uid",uid).findFirst();
@@ -114,5 +123,12 @@ public class LoginManager {
         UserModel.getInstance().setProfile(userVO.getProfile());
         UserModel.getInstance().setProfileThumb(userVO.getProfileThumb());
         UserModel.getInstance().setCreatedAt(userVO.getCreatedAt());
+    }
+
+    private void goMainActivity(){
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }

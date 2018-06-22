@@ -10,7 +10,6 @@ import com.yssh.ground.MainActivity;
 
 import api.ApiClient;
 import api.ApiInterface;
-import api.response.CommonResponse;
 import api.response.RegisterResponse;
 import database.RealmConfig;
 import database.model.UserVO;
@@ -34,7 +33,8 @@ public class LoginManager {
     }
 
     public void RealmDestroy(){
-        this.realm.close();
+        if(this.realm != null)
+            this.realm.close();
     }
 
     /**
@@ -123,6 +123,20 @@ public class LoginManager {
         UserModel.getInstance().setProfile(userVO.getProfile());
         UserModel.getInstance().setProfileThumb(userVO.getProfileThumb());
         UserModel.getInstance().setCreatedAt(userVO.getCreatedAt());
+    }
+
+    /**
+     * Firebase Logout
+     * @param uid
+     */
+    public void logOut(String uid){
+        mAuth.signOut();
+        realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
+        UserVO userVO = realm.where(UserVO.class).equalTo("uid",uid).findFirst();
+        realm.beginTransaction();
+        userVO.deleteFromRealm();
+        realm.commitTransaction();
+
     }
 
     private void goMainActivity(){

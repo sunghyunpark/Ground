@@ -1,18 +1,28 @@
 package com.yssh.ground;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.LoginManager;
+import view.BoardFragment;
+import view.HomeFragment;
 import view.IntroActivity;
+import view.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +31,20 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
     private LoginManager loginManager;
+    private int currentPage = R.id.tab_1;
+
+    @BindView(R.id.tab_1) ViewGroup tabBtn1;
+    @BindView(R.id.tab_2) ViewGroup tabBtn2;
+    @BindView(R.id.tab_3) ViewGroup tabBtn3;
+
+    @BindView(R.id.tab1_img) ImageView tab1_iv;
+    @BindView(R.id.tab2_img) ImageView tab2_iv;
+    @BindView(R.id.tab3_img) ImageView tab3_iv;
+
+    @BindView(R.id.tab1_txt) TextView tab1_tv;
+    @BindView(R.id.tab2_txt) TextView tab2_tv;
+    @BindView(R.id.tab3_txt) TextView tab3_tv;
+
 
     //Firebase 객체 제거
     @Override
@@ -54,9 +78,17 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();    // Firebase 객체 생성
 
         init();
+
+        //하단 탭 메뉴 초기화
+        InitTabIcon(currentPage);
     }
 
     private void init(){
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, new HomeFragment());
+        fragmentTransaction.commit();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -76,8 +108,73 @@ public class MainActivity extends AppCompatActivity {
             }};
     }
 
-    @OnClick(R.id.go_intro_btn) void goTest(){
-        Intent intent = new Intent(getApplicationContext(), IntroActivity.class);
-        startActivity(intent);
+    private void InitTabIcon(int tabId){
+        tab1_iv.setBackgroundResource(R.mipmap.ic_launcher);
+        tab1_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));
+        tab2_iv.setBackgroundResource(R.mipmap.ic_launcher);
+        tab2_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));
+        tab3_iv.setBackgroundResource(R.mipmap.ic_launcher);
+        tab3_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));
+
+        switch (tabId){
+            case R.id.tab_1:
+                tab1_iv.setBackgroundResource(R.mipmap.ic_launcher);
+                tab1_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                break;
+
+            case R.id.tab_2:
+                tab2_iv.setBackgroundResource(R.mipmap.ic_launcher);
+                tab2_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                break;
+
+            case R.id.tab_3:
+                tab3_iv.setBackgroundResource(R.mipmap.ic_launcher);
+                tab3_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                break;
+        }
+    }
+
+    @OnClick({R.id.tab_1, R.id.tab_2, R.id.tab_3}) void click(View v){
+        Fragment fragment = null;
+        Bundle bundle = new Bundle();
+        InitTabIcon(v.getId());
+
+        switch (v.getId()){
+            case R.id.tab_1:
+                if(currentPage == R.id.tab_1){
+                    return;
+                }else{
+                    currentPage = R.id.tab_1;
+                    fragment = new HomeFragment();
+                    bundle.putString("KEY_MSG", "replace");
+                    fragment.setArguments(bundle);
+                }
+                break;
+            case R.id.tab_2:
+                if(currentPage == R.id.tab_2){
+                    return;
+                }else{
+                    currentPage = R.id.tab_2;
+                    fragment = new BoardFragment();
+                    bundle.putString("KEY_MSG", "replace");
+                    fragment.setArguments(bundle);
+                }
+                break;
+            case R.id.tab_3:
+                if(currentPage == R.id.tab_3){
+                    return;
+                }else{
+                    currentPage = R.id.tab_3;
+                    fragment = new SettingFragment();
+                    bundle.putString("KEY_MSG", "replace");
+                    fragment.setArguments(bundle);
+                }
+                break;
+
+        }
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
     }
 }

@@ -6,6 +6,11 @@
     <string name="intro_activity_login_btn">로그인하기</string>
     <string name="intro_sub_help_txt">가입과 함께 그라운드의 이용약관, 개인정보취급방침,\n위치기반서비스 이용약관에 동의하시게 됩니다.</string>
 
+    <!-- bottom menu -->
+    <string name="bottom_menu_btn_1">홈</string>
+    <string name="bottom_menu_btn_2">게시판</string>
+    <string name="bottom_menu_btn_3">설정</string>
+
     <!-- Register Activity-->
     <string name="register_activity_title">가입하기</string>
     <string name="register_activity_email_edit_box_hint">이메일 주소</string>
@@ -15,4 +20,7 @@
     <string name="register_error_input_email_txt">올바른 이메일 형식이 아닙니다.</string>
     <string name="error_not_exist_input_txt">정보를 입력해주세요.</string>
     <string name="register_error_input_pw_txt">비밀번호가 너무 짧습니다.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

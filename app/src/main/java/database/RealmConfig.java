@@ -12,8 +12,8 @@ public class RealmConfig {
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("User.realm")
                 .schemaVersion(0)
-                //.deleteRealmIfMigrationNeeded()
-                .migration(new Migration())
+                .deleteRealmIfMigrationNeeded()
+                //.migration(new Migration())
                 .build();
 
         return config;

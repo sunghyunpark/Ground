@@ -3,6 +3,9 @@ package util;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +56,14 @@ public class LoginManager {
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 RegisterResponse registerResponse = response.body();
                 if(registerResponse.getCode() == 200){
-                    Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
+                    //토스트를 중앙에 띄워준다.
+                    Toast toast = Toast.makeText(context, "success", Toast.LENGTH_SHORT);
+                    View toastView = toast.getView();
+                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                    toastMessage.setGravity(Gravity.CENTER);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+
                     Log.d("userData", "code : "+registerResponse.getCode()+"\n"+
                     "message : "+registerResponse.getMessage()+"\n"+
                     "uid : "+registerResponse.getResult().getUid()+"\n"+

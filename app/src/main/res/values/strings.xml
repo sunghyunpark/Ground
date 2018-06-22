@@ -17,6 +17,14 @@
     <string name="register_activity_pw_edit_box_hing">비밀번호(6자 이상)</string>
     <string name="register_activity_nickname_edit_box_hint">이름(별명)</string>
     <string name="register_btn">가입하기</string>
+
+    <!-- Login Activity-->
+    <string name="login_activity_title">로그인</string>
+    <string name="login_activity_email_edit_box_hint">이메일 주소</string>
+    <string name="login_activity_pw_edit_box_hint">비밀번호</string>
+    <string name="login_activity_login_btn">로그인하기</string>
+
+    <!-- Error -->
     <string name="register_error_input_email_txt">올바른 이메일 형식이 아닙니다.</string>
     <string name="error_not_exist_input_txt">정보를 입력해주세요.</string>
     <string name="register_error_input_pw_txt">비밀번호가 너무 짧습니다.</string>

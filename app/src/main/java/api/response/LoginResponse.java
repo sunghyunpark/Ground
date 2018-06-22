@@ -2,7 +2,7 @@ package api.response;
 
 import model.UserModel;
 
-public class RegisterResponse {
+public class LoginResponse {
     private int code;
     private String message;
     private UserModel result;

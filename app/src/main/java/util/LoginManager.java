@@ -3,9 +3,6 @@ package util;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,7 +10,7 @@ import com.yssh.ground.MainActivity;
 
 import api.ApiClient;
 import api.ApiInterface;
-import api.response.RegisterResponse;
+import api.response.LoginResponse;
 import database.RealmConfig;
 import database.model.UserVO;
 import io.realm.Realm;
@@ -50,29 +47,24 @@ public class LoginManager {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<RegisterResponse> call = apiService.registerApi(uid, loginType, nickName);
-        call.enqueue(new Callback<RegisterResponse>() {
+        Call<LoginResponse> call = apiService.registerAPI(uid, loginType, nickName);
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                RegisterResponse registerResponse = response.body();
-                if(registerResponse.getCode() == 200){
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if(loginResponse.getCode() == 200){
                     //토스트를 중앙에 띄워준다.
-                    Toast toast = Toast.makeText(context, "success", Toast.LENGTH_SHORT);
-                    View toastView = toast.getView();
-                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
-                    toastMessage.setGravity(Gravity.CENTER);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    toast.show();
+                    Util.showToast(context, "success");
 
-                    Log.d("userData", "code : "+registerResponse.getCode()+"\n"+
-                    "message : "+registerResponse.getMessage()+"\n"+
-                    "uid : "+registerResponse.getResult().getUid()+"\n"+
-                    "loginType : "+registerResponse.getResult().getLoginType()+"\n"+
-                    "nickName : "+registerResponse.getResult().getNickName());
+                    Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
+                    "message : "+ loginResponse.getMessage()+"\n"+
+                    "uid : "+ loginResponse.getResult().getUid()+"\n"+
+                    "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
+                    "nickName : "+ loginResponse.getResult().getNickName());
 
-                    insertUserData(registerResponse.getResult().getUid(), registerResponse.getResult().getLoginType(), registerResponse.getResult().getEmail(),
-                            registerResponse.getResult().getNickName(), registerResponse.getResult().getProfile(), registerResponse.getResult().getProfileThumb(),
-                            registerResponse.getResult().getCreatedAt());
+                    insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), loginResponse.getResult().getEmail(),
+                            loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
+                            loginResponse.getResult().getCreatedAt());
 
                     goMainActivity();
                 }else{
@@ -81,7 +73,46 @@ public class LoginManager {
             }
 
             @Override
-            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Toast.makeText(context, "네트워크 연결상태를 확인해주세요.",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 로그인 후 server 로 GET 요청 후 데이터를 받아옴
+     * @param uid
+     */
+    public void getUserDataForLogin(String uid){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<LoginResponse> call = apiService.loginApi(uid);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if(loginResponse.getCode() == 200){
+                    Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
+                            "message : "+ loginResponse.getMessage()+"\n"+
+                            "uid : "+ loginResponse.getResult().getUid()+"\n"+
+                            "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
+                            "nickName : "+ loginResponse.getResult().getNickName());
+
+                    insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), loginResponse.getResult().getEmail(),
+                            loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
+                            loginResponse.getResult().getCreatedAt());
+
+                    goMainActivity();
+                }else{
+                    Toast.makeText(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Toast.makeText(context, "네트워크 연결상태를 확인해주세요.",Toast.LENGTH_SHORT).show();

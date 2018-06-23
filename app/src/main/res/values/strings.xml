@@ -29,6 +29,12 @@
     <string name="error_not_exist_input_txt">정보를 입력해주세요.</string>
     <string name="register_error_input_pw_txt">비밀번호가 너무 짧습니다.</string>
 
+    <!-- Setting Fragment -->
+    <string name="setting_fragment_title">설정</string>
+    <string name="setting_fragment_login_txt">로그인 정보</string>
+    <string name="setting_fragment_login_default_txt">로그인하세요</string>
+    <string name="setting_fragment_version_txt">버전 정보</string>
+
     <!-- Board Fragment-->
     <string name="board_fragment_title">게시판</string>
 

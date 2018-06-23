@@ -9,10 +9,9 @@ import android.widget.TextView;
 import com.yssh.ground.R;
 
 public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_ITEM = 0;
-    private static final int TYPE_HEADER = 1;
-
-    String[] listItems;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    private String[] listItems;
 
     public BoardAreaAdapter(String[] listItems) {
         this.listItems = listItems;

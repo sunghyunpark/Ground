@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.yssh.ground.MainActivity;
+import com.yssh.ground.SessionManager;
 
 import api.ApiClient;
 import api.ApiInterface;
@@ -25,11 +26,13 @@ public class LoginManager {
     private FirebaseAuth mAuth;
     private Realm realm;
     private RealmConfig realmConfig;
+    private SessionManager sessionManager;
 
     public LoginManager(Context context){
         this.context = context;
         this.mAuth = FirebaseAuth.getInstance();
         this.realmConfig = new RealmConfig();
+        this.sessionManager = new SessionManager(context);
     }
 
     public void RealmDestroy(){
@@ -85,7 +88,7 @@ public class LoginManager {
      * 로그인 후 server 로 GET 요청 후 데이터를 받아옴
      * @param uid
      */
-    public void getUserDataForLogin(String uid){
+    public void getUserDataForLogin(String uid, final String email){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -101,7 +104,7 @@ public class LoginManager {
                             "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
                             "nickName : "+ loginResponse.getResult().getNickName());
 
-                    insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), loginResponse.getResult().getEmail(),
+                    insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
                             loginResponse.getResult().getCreatedAt());
 
@@ -177,10 +180,11 @@ public class LoginManager {
         realm.beginTransaction();
         userVO.deleteFromRealm();
         realm.commitTransaction();
-
     }
 
     private void goMainActivity(){
+        sessionManager.setLogin(true);
+
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

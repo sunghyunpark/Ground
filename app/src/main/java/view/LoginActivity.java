@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            loginManager.getUserDataForLogin(mAuth.getCurrentUser().getUid());
+                            loginManager.getUserDataForLogin(mAuth.getCurrentUser().getUid(), mAuth.getCurrentUser().getEmail());
                         } else {
                             Util.showToast(getApplicationContext(), "Sign In Fail From Firebase");
                         }

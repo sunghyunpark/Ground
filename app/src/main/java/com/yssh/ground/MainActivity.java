@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
+        final SessionManager sessionManager = new SessionManager(getApplicationContext());
+
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, new HomeFragment());
@@ -93,18 +95,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
+                if (user != null || sessionManager.isLoggedIn()) {
                     //Firebase에서 로그인된 User 가 있는 경우 Realm에 저장된 데이터를 싱글톤에 저장
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 
                     loginManager = new LoginManager(getApplicationContext());
                     loginManager.updateUserData(user.getUid());
-                } else {
+                } /*else {
                     //Firebase에 로그인된 User가 없는 경우 Intro 화면으로 이동
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     startActivity(new Intent(getApplicationContext(), IntroActivity.class));
                     finish();
-                }
+                }*/
             }};
     }
 

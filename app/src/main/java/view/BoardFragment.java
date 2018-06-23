@@ -18,7 +18,6 @@ import util.adapter.BoardAreaAdapter;
 
 public class BoardFragment extends Fragment {
 
-    private View v;
     BoardAreaAdapter areaOfAdapter;
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
@@ -32,7 +31,7 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_board, container, false);
+        View v = inflater.inflate(R.layout.fragment_board, container, false);
         ButterKnife.bind(this, v);
 
         init();
@@ -40,9 +39,13 @@ public class BoardFragment extends Fragment {
         return v;
     }
 
+    /**
+     * init
+     */
     private void init(){
         Resources res = getResources();
         String[] area_seoul= res.getStringArray(R.array.seoul_area);
+
         LinearLayoutManager soul_lL = new LinearLayoutManager(getContext());
         areaOfAdapter = new BoardAreaAdapter(area_seoul);
         areaRecyclerView.setLayoutManager(soul_lL);

@@ -12,12 +12,15 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.UserModel;
+import util.BoardManager;
 import util.Util;
 
 public class WriteBoardActivity extends AppCompatActivity {
 
     private String area;
     private int areaNo;
+    private BoardManager boardManager;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
@@ -38,6 +41,7 @@ public class WriteBoardActivity extends AppCompatActivity {
     }
 
     private void init(){
+        boardManager = new BoardManager(getApplicationContext());
         area_tv.setText(area);
     }
 
@@ -48,7 +52,8 @@ public class WriteBoardActivity extends AppCompatActivity {
         if(titleStr.equals("") || contentsStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-
+            boardManager.postMatchingBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr);
+            finish();
         }
     }
 

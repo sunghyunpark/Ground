@@ -1,5 +1,6 @@
 package api;
 
+import api.response.CommonResponse;
 import api.response.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -29,4 +30,9 @@ public interface ApiInterface {
      */
     @GET("api/users/{uid}")
     Call<LoginResponse> loginApi(@Path("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("api/boards/matching")
+    Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
+                                    @Field("contents") String contents);
 }

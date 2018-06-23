@@ -10,8 +10,14 @@ import com.yssh.ground.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import util.SessionManager;
+import util.Util;
 
 public class AboutAreaBoardActivity extends AppCompatActivity {
+
+    private SessionManager sessionManager;
+    private String area;
+    private int areaNo;
 
     @BindView(R.id.about_area_board_title_tv) TextView title_tv;
 
@@ -22,14 +28,29 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String area = intent.getExtras().getString("area");
-        int areaNo = intent.getIntExtra("areaNo", 0);
+        area = intent.getExtras().getString("area");
+        areaNo = intent.getIntExtra("areaNo", 0);
 
         init(area, areaNo);
     }
 
     private void init(String area, int areaNo){
+        sessionManager = new SessionManager(getApplicationContext());
+
         title_tv.setText(area);
+    }
+
+    @OnClick(R.id.write_btn) void goWrite(){
+        if(sessionManager.isLoggedIn()){
+            //login
+            Intent intent = new Intent(getApplicationContext(), WriteBoardActivity.class);
+            intent.putExtra("area", area);
+            intent.putExtra("areaNo", areaNo);
+            startActivity(intent);
+        }else{
+            //not login
+            Util.showToast(getApplicationContext(), "로그인을 해주세요.");
+        }
     }
 
     @OnClick(R.id.back_btn) void goBack(){

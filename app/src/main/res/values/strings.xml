@@ -35,6 +35,9 @@
     <string name="setting_fragment_login_default_txt">로그인하세요</string>
     <string name="setting_fragment_version_txt">버전 정보</string>
 
+    <!-- Write Board Activity -->
+    <string name="write_board_title">글쓰기</string>
+
     <!-- Board Fragment-->
     <string name="board_fragment_title">게시판</string>
 

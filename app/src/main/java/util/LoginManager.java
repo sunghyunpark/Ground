@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.yssh.ground.MainActivity;
-import com.yssh.ground.SessionManager;
 
 import api.ApiClient;
 import api.ApiInterface;

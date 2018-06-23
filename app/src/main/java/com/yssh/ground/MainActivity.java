@@ -1,6 +1,5 @@
 package com.yssh.ground;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -19,9 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.LoginManager;
+import util.SessionManager;
 import view.BoardFragment;
 import view.HomeFragment;
-import view.IntroActivity;
 import view.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {

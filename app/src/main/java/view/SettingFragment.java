@@ -3,6 +3,8 @@ package view;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
-import com.yssh.ground.SessionManager;
+import util.SessionManager;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -26,6 +28,7 @@ public class SettingFragment extends Fragment {
     private SessionManager sessionManager;
 
     @BindView(R.id.user_id_tv) TextView user_id_tv;
+    @BindView(R.id.current_app_version_tv) TextView app_version_tv;
     @BindString(R.string.setting_fragment_login_default_txt) String loginDefaultStateStr;
 
     @Override
@@ -57,14 +60,35 @@ public class SettingFragment extends Fragment {
         sessionManager = new SessionManager(getContext());
 
         setLoginState();
+        setAppVersion();
     }
 
+    //로그인 상태에 따른 init
     private void setLoginState(){
         if(sessionManager.isLoggedIn()){
             user_id_tv.setText(UserModel.getInstance().getEmail());
+        }else{
+            user_id_tv.setText(loginDefaultStateStr);
         }
     }
 
+    private void setAppVersion(){
+        //앱 버전
+        String version;
+        try {
+            PackageInfo i = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            version = i.versionName;
+            app_version_tv.setText("v"+version);
+        } catch(PackageManager.NameNotFoundException e) { }
+    }
+
+    /**
+     * 로그인 영역을 탭 시
+     * - 로그인 상태
+     * : 로그아웃 확인용 다이얼로그 노출
+     * - 로그아웃 상태
+     * : 인트로화면 노출
+     */
     @OnClick(R.id.login_btn) void login(){
         if(sessionManager.isLoggedIn()){
             //login
@@ -75,7 +99,7 @@ public class SettingFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     sessionManager.setLogin(false);
                     loginManager.logOut(UserModel.getInstance().getUid());
-                    user_id_tv.setText(loginDefaultStateStr);
+                    setLoginState();
                 }
             });
             alert.setNegativeButton("아니오",

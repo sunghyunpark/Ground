@@ -1,5 +1,7 @@
 package util.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +10,16 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import view.AboutAreaBoardActivity;
+
 public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private String[] listItems;
+    private Context context;
 
-    public BoardAreaAdapter(String[] listItems) {
+    public BoardAreaAdapter(Context context, String[] listItems) {
+        this.context = context;
         this.listItems = listItems;
     }
 
@@ -39,7 +45,16 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final String currentItem = getItem(position);
             final Area_VH VHitem = (Area_VH)holder;
 
-            VHitem.areaName.setText(currentItem);
+            VHitem.areaName.setText(" - "+currentItem);
+            VHitem.areaName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, AboutAreaBoardActivity.class);
+                    intent.putExtra("area", currentItem);
+                    intent.putExtra("areaNo", position);
+                    context.startActivity(intent);
+                }
+            });
         }else if(holder instanceof Header_Vh){
             final String currentItem = getItem(position);
             final Header_Vh VHitem = (Header_Vh)holder;

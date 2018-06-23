@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import butterknife.BindView;
@@ -47,7 +48,7 @@ public class BoardFragment extends Fragment {
         String[] area_seoul= res.getStringArray(R.array.seoul_area);
 
         LinearLayoutManager soul_lL = new LinearLayoutManager(getContext());
-        areaOfAdapter = new BoardAreaAdapter(area_seoul);
+        areaOfAdapter = new BoardAreaAdapter(getContext(), area_seoul);
         areaRecyclerView.setLayoutManager(soul_lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
     }

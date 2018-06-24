@@ -19,7 +19,7 @@ import util.adapter.BoardAreaAdapter;
 
 public class BoardFragment extends Fragment {
 
-    BoardAreaAdapter areaOfAdapter;
+    private BoardAreaAdapter areaOfAdapter;
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
     @Override

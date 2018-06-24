@@ -1,14 +1,20 @@
 package util;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 import api.ApiClient;
 import api.ApiInterface;
+import api.response.AboutAreaBoardListResponse;
 import api.response.CommonResponse;
+import model.BoardModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import util.adapter.AboutAreaBoardAdapter;
 
 public class BoardManager {
     private Context context;
@@ -42,6 +48,40 @@ public class BoardManager {
 
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    public void getMatchingBoard(int areaNo, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<BoardModel> boardModelArrayList){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardLIst(areaNo);
+        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
+            @Override
+            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
+                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
+                if(aboutAreaBoardListResponse.getCode() == 200){
+                    int size = aboutAreaBoardListResponse.getResult().size();
+                    for(int i=0;i<size;i++){
+                        boardModelArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
+                        Log.d("boardData No : ", aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
+                        "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
+                        "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
+                        "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
+                        "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
+                    }
+                    aboutAreaBoardAdapter.notifyDataSetChanged();
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");

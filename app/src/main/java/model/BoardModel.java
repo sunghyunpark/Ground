@@ -10,6 +10,8 @@ public class BoardModel {
     private int areaNo;
     @SerializedName("writer_id")
     private String WriterId;
+    @SerializedName("nick_name")
+    private String nickName;
     private String title;
     private String contents;
     private String blocked;
@@ -49,6 +51,15 @@ public class BoardModel {
     public void setWriterId(String writerId) {
         WriterId = writerId;
     }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
 
     public String getTitle() {
         return title;

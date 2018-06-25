@@ -36,6 +36,12 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
     @BindView(R.id.about_area_board_title_tv) TextView title_tv;
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        init(area, areaNo);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_area_board);
@@ -44,8 +50,6 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         area = intent.getExtras().getString("area");
         areaNo = intent.getIntExtra("areaNo", 0);
-
-        init(area, areaNo);
     }
 
     private void init(String area, int areaNo){
@@ -53,7 +57,7 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
         boardManager = new BoardManager(getApplicationContext());
         boardModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        aboutAreaBoardAdapter = new AboutAreaBoardAdapter(getApplicationContext(), boardModelArrayList);
+        aboutAreaBoardAdapter = new AboutAreaBoardAdapter(getApplicationContext(), boardModelArrayList, area);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(aboutAreaBoardAdapter);
 

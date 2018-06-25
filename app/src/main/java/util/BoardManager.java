@@ -1,7 +1,6 @@
 package util;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -55,6 +54,12 @@ public class BoardManager {
         });
     }
 
+    /**
+     * 매칭 지역 게시판의 리스트를 받아옴
+     * @param areaNo
+     * @param aboutAreaBoardAdapter
+     * @param boardModelArrayList
+     */
     public void getMatchingBoard(int areaNo, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<BoardModel> boardModelArrayList){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);

@@ -61,6 +61,8 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     Intent intent = new Intent(context, AboutBoardActivity.class);
                     intent.putExtra("area", area);
                     intent.putExtra("areaNo", currentItem.getAreaNo());
+                    intent.putExtra("no", currentItem.getNo());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             });

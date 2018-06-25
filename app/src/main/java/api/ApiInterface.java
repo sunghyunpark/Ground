@@ -1,6 +1,7 @@
 package api;
 
 import api.response.AboutAreaBoardListResponse;
+import api.response.AboutBoardResponse;
 import api.response.CommonResponse;
 import api.response.LoginResponse;
 import retrofit2.Call;
@@ -45,8 +46,16 @@ public interface ApiInterface {
     Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
                                     @Field("contents") String contents);
 
+    /**
+     * get area board List api
+     * @param areaNo
+     * @return
+     */
     @GET("api/boards/matching/{areaNo}")
     Call<AboutAreaBoardListResponse> getAboutAreaBoardLIst(@Path("areaNo") int areaNo);
+
+    @GET("api/boards/matching/view/{areaNo}/{no}")
+    Call<AboutAreaBoardListResponse> getAboutBoard(@Path("areaNo") int areaNo, @Path("no") int no);
 
 
 }

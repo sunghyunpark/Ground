@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
+import api.response.AboutBoardResponse;
 import api.response.CommonResponse;
 import model.BoardModel;
 import retrofit2.Call;

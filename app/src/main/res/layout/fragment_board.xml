@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="view.BoardFragment">
 
@@ -30,9 +31,22 @@
         android:layout_below="@+id/app_title_bar"
         android:background="#9E9E9E"></LinearLayout>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/colorBlack"></android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--
     <android.support.v7.widget.RecyclerView
         android:id="@+id/area_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+        -->
 
 </LinearLayout>

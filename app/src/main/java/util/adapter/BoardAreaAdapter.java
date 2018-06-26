@@ -15,12 +15,23 @@ import view.AboutAreaBoardActivity;
 public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private static final int TYPE_MATCH = 2;
+    private static final int TYPE_HIRE = 3;
+    private static final int TYPE_RECRUIT = 4;
+    private int type;
     private String[] listItems;
     private Context context;
 
-    public BoardAreaAdapter(Context context, String[] listItems) {
+    public BoardAreaAdapter(Context context, String[] listItems, int type) {
         this.context = context;
         this.listItems = listItems;
+        if(type == TYPE_MATCH){
+            this.type = TYPE_MATCH;
+        }else if(type == TYPE_HIRE){
+            this.type = TYPE_HIRE;
+        }else{
+            this.type = TYPE_RECRUIT;
+        }
     }
 
     @Override
@@ -90,8 +101,12 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if(isPositionHeader(position)){
-            return TYPE_HEADER;
+        if(type == TYPE_MATCH){
+            if(isPositionHeader(position)){
+                return TYPE_HEADER;
+            }else{
+                return TYPE_ITEM;
+            }
         }else{
             return TYPE_ITEM;
         }

@@ -2,12 +2,12 @@ package api.response;
 
 import java.util.ArrayList;
 
-import model.BoardModel;
+import model.ArticleModel;
 
 public class AboutAreaBoardListResponse {
     private int code;
     private String message;
-    private ArrayList<BoardModel> result;
+    private ArrayList<ArticleModel> result;
 
     public int getCode() {
         return code;
@@ -25,11 +25,11 @@ public class AboutAreaBoardListResponse {
         this.message = message;
     }
 
-    public ArrayList<BoardModel> getResult() {
+    public ArrayList<ArticleModel> getResult() {
         return result;
     }
 
-    public void setResult(ArrayList<BoardModel> result) {
+    public void setResult(ArrayList<ArticleModel> result) {
         this.result = result;
     }
 }

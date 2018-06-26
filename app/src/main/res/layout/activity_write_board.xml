@@ -55,6 +55,16 @@
         android:textColor="@color/colorBlack"
         android:textStyle="bold"
         android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/title_length_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:text="0/20"
+        android:textColor="@color/colorTextHintGray"
+        android:layout_marginTop="7dp"
+        android:layout_gravity="right"/>
     
     <EditText
         android:id="@+id/board_title_et"
@@ -64,7 +74,6 @@
         android:hint="제목"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:layout_marginTop="7dp"
         android:textSize="15dp"
         android:textColor="@color/colorBlack"/>
 

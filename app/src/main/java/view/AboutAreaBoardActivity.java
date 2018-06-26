@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.BoardModel;
+import model.ArticleModel;
 import util.BoardManager;
 import util.SessionManager;
 import util.Util;
@@ -28,11 +28,11 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private BoardManager boardManager;
     private AboutAreaBoardAdapter aboutAreaBoardAdapter;
-    private ArrayList<BoardModel> boardModelArrayList;
-    @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
+    private ArrayList<ArticleModel> articleModelArrayList;
     private String area;
     private int areaNo;
 
+    @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
     @BindView(R.id.about_area_board_title_tv) TextView title_tv;
 
     @Override
@@ -55,9 +55,9 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
     private void init(String area, int areaNo){
         sessionManager = new SessionManager(getApplicationContext());
         boardManager = new BoardManager(getApplicationContext());
-        boardModelArrayList = new ArrayList<>();
+        articleModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        aboutAreaBoardAdapter = new AboutAreaBoardAdapter(getApplicationContext(), boardModelArrayList, area);
+        aboutAreaBoardAdapter = new AboutAreaBoardAdapter(getApplicationContext(), articleModelArrayList, area);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(aboutAreaBoardAdapter);
 
@@ -67,7 +67,7 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
     }
 
     private void loadData(int areaNo){
-        boardManager.getMatchingBoard(areaNo, aboutAreaBoardAdapter, boardModelArrayList);
+        boardManager.getMatchingBoard(areaNo, aboutAreaBoardAdapter, articleModelArrayList);
     }
 
     @OnClick(R.id.write_btn) void goWrite(){

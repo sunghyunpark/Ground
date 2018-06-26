@@ -14,11 +14,10 @@ import api.response.AboutAreaBoardListResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.BoardModel;
+import model.ArticleModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import util.BoardManager;
 import util.Util;
 
 public class AboutBoardActivity extends AppCompatActivity {
@@ -26,9 +25,14 @@ public class AboutBoardActivity extends AppCompatActivity {
     private String area;
     private int no;
     private int areaNo;
-    private BoardModel boardModel;
+    private ArticleModel articleModel;
 
     @BindView(R.id.area_tv) TextView area_tv;
+    @BindView(R.id.title_tv) TextView title_tv;
+    @BindView(R.id.nick_name_tv) TextView nick_name_tv;
+    @BindView(R.id.created_at_tv) TextView created_at_tv;
+    @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
+    @BindView(R.id.contents_tv) TextView contents_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class AboutBoardActivity extends AppCompatActivity {
     }
 
     private void init(){
-        boardModel = new BoardModel();
+        articleModel = new ArticleModel();
 
         getAboutBoard(areaNo, no);
 
@@ -62,8 +66,13 @@ public class AboutBoardActivity extends AppCompatActivity {
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
                 AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
                 if(aboutAreaBoardListResponse.getCode() == 200){
-                    boardModel = aboutAreaBoardListResponse.getResult().get(0);
+                    articleModel = aboutAreaBoardListResponse.getResult().get(0);
                     area_tv.setText(area);
+                    title_tv.setText(articleModel.getTitle());
+                    nick_name_tv.setText(articleModel.getNickName());
+                    created_at_tv.setText(articleModel.getCreatedAt());
+                    view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
+                    contents_tv.setText(articleModel.getContents());
                 }else{
                     Util.showToast(getApplicationContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

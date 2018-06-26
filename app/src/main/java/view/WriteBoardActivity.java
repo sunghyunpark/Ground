@@ -3,6 +3,8 @@ package view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,15 +18,17 @@ import model.UserModel;
 import util.BoardManager;
 import util.Util;
 
-public class WriteBoardActivity extends AppCompatActivity {
+public class WriteBoardActivity extends AppCompatActivity implements TextWatcher {
 
     private String area;
     private int areaNo;
     private BoardManager boardManager;
+    private String beforeStr;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
     @BindView(R.id.board_contents_et) EditText board_contents_et;
+    @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -41,6 +45,7 @@ public class WriteBoardActivity extends AppCompatActivity {
     }
 
     private void init(){
+        board_title_et.addTextChangedListener(this);
         boardManager = new BoardManager(getApplicationContext());
         area_tv.setText(area);
     }
@@ -59,5 +64,26 @@ public class WriteBoardActivity extends AppCompatActivity {
 
     @OnClick(R.id.back_btn) void goBack(){
         finish();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if(s.length() >= 20)
+        {
+            Util.showToast(getApplicationContext(), "20자까지 입력이 가능합니다.");
+            board_title_et.setText(beforeStr);
+        }
+        title_length_tv.setText(s.length() + "/20");
+        title_length_tv.setTextColor(getResources().getColor(R.color.colorTextHintGray));
+    }
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count,
+                                  int after) {
+        beforeStr = s.toString();
+
+    }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
     }
 }

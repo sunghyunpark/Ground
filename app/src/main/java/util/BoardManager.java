@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
-import api.response.AboutBoardResponse;
 import api.response.CommonResponse;
-import model.BoardModel;
+import model.ArticleModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,9 +58,9 @@ public class BoardManager {
      * 매칭 지역 게시판의 리스트를 받아옴
      * @param areaNo
      * @param aboutAreaBoardAdapter
-     * @param boardModelArrayList
+     * @param articleModelArrayList
      */
-    public void getMatchingBoard(int areaNo, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<BoardModel> boardModelArrayList){
+    public void getMatchingBoard(int areaNo, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<ArticleModel> articleModelArrayList){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -73,7 +72,7 @@ public class BoardManager {
                 if(aboutAreaBoardListResponse.getCode() == 200){
                     int size = aboutAreaBoardListResponse.getResult().size();
                     for(int i=0;i<size;i++){
-                        boardModelArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
+                        articleModelArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
                         Log.d("boardData No : ", aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
                         "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
                         "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+

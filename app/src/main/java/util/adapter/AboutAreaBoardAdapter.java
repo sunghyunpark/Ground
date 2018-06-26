@@ -12,17 +12,17 @@ import com.yssh.ground.R;
 
 import java.util.ArrayList;
 
-import model.BoardModel;
+import model.ArticleModel;
 import view.AboutBoardActivity;
 
 public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private String area;    //지역명
-    private ArrayList<BoardModel> listItems;
+    private ArrayList<ArticleModel> listItems;
     private Context context;
 
-    public AboutAreaBoardAdapter(Context context, ArrayList<BoardModel> listItems, String area) {
+    public AboutAreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
@@ -40,14 +40,14 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private BoardModel getItem(int position) {
+    private ArticleModel getItem(int position) {
         return listItems.get(position-1);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Board_VH) {
-            final BoardModel currentItem = getItem(position);
+            final ArticleModel currentItem = getItem(position);
             final Board_VH VHitem = (Board_VH)holder;
 
             VHitem.title_tv.setText(currentItem.getTitle());

@@ -1,7 +1,6 @@
 package api;
 
 import api.response.AboutAreaBoardListResponse;
-import api.response.AboutBoardResponse;
 import api.response.CommonResponse;
 import api.response.LoginResponse;
 import retrofit2.Call;
@@ -10,7 +9,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiInterface {
 

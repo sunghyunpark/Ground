@@ -2,7 +2,7 @@ package model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BoardModel {
+public class ArticleModel {
     private int no;
     @SerializedName("board_type")
     private String boardType;

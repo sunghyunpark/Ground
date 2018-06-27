@@ -15,6 +15,8 @@ import com.yssh.ground.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import util.SessionManager;
+import util.Util;
 import view.boardPager.HireFragment;
 import view.boardPager.MatchFragment;
 import view.boardPager.RecruitFragment;
@@ -24,6 +26,7 @@ public class BoardFragment extends Fragment {
 
     private static final int NUM_PAGES = 3;//페이지 수
     private MyContentsDialog myContentsDialog;
+    private SessionManager sessionManager;
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
@@ -46,6 +49,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void init(){
+        sessionManager = new SessionManager(getContext());
         myContentsDialog = new MyContentsDialog(getContext());
         PagerAdapter pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -92,7 +96,13 @@ public class BoardFragment extends Fragment {
     }
 
     @OnClick(R.id.my_btn) void showMyContentsDialog(){
-        myContentsDialog.show();
+        if(sessionManager.isLoggedIn()){
+            //login
+            myContentsDialog.show();
+        }else{
+            //not login
+            Util.showToast(getContext(), "로그인을 해주세요.");
+        }
 
         /*
         myContentsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

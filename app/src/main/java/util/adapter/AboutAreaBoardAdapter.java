@@ -13,19 +13,26 @@ import com.yssh.ground.R;
 import java.util.ArrayList;
 
 import model.ArticleModel;
+import util.SessionManager;
+import util.Util;
 import view.AboutBoardActivity;
 
+/**
+ * 임의의 지역 > 게시판 게시글 recyclerView Adapter
+ */
 public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private String area;    //지역명
     private ArrayList<ArticleModel> listItems;
     private Context context;
+    private SessionManager sessionManager;
 
     public AboutAreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
+        this.sessionManager = new SessionManager(context);
     }
 
     @Override
@@ -58,12 +65,18 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, AboutBoardActivity.class);
-                    intent.putExtra("area", area);
-                    intent.putExtra("areaNo", currentItem.getAreaNo());
-                    intent.putExtra("no", currentItem.getNo());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    if(sessionManager.isLoggedIn()){
+                        //login
+                        Intent intent = new Intent(context, AboutBoardActivity.class);
+                        intent.putExtra("area", area);
+                        intent.putExtra("areaNo", currentItem.getAreaNo());
+                        intent.putExtra("no", currentItem.getNo());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }else{
+                        //not login
+                        Util.showToast(context, "로그인을 해주세요.");
+                    }
                 }
             });
 

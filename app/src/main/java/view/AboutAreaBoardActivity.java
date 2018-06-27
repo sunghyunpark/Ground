@@ -21,7 +21,7 @@ import util.Util;
 import util.adapter.AboutAreaBoardAdapter;
 
 /**
- * 임의의 지역 게시판 리스트
+ * 임의의 지역 > 게시판 리스트
  */
 public class AboutAreaBoardActivity extends AppCompatActivity {
 

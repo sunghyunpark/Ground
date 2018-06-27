@@ -10,8 +10,14 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import util.SessionManager;
+import util.Util;
 import view.AboutAreaBoardActivity;
 
+/**
+ * 게시판 recyclerView Adapter
+ * 서울(도봉/노원/강북/중랑.....) 등등 지역별 노출되는 영역
+ */
 public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;

@@ -3,7 +3,9 @@ package view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
@@ -33,6 +35,8 @@ public class AboutBoardActivity extends AppCompatActivity {
     @BindView(R.id.created_at_tv) TextView created_at_tv;
     @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
     @BindView(R.id.contents_tv) TextView contents_tv;
+    @BindView(R.id.comment_recyclerView) RecyclerView comment_recyclerView;
+    @BindView(R.id.comment_et) EditText comment_et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,9 @@ public class AboutBoardActivity extends AppCompatActivity {
         articleModel = new ArticleModel();
 
         getAboutBoard(areaNo, no);
-
     }
+
+
 
     public void getAboutBoard(int areaNo, int no){
         ApiInterface apiService =

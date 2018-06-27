@@ -35,6 +35,12 @@
     <string name="setting_fragment_login_default_txt">로그인하세요</string>
     <string name="setting_fragment_version_txt">버전 정보</string>
 
+    <!-- About Article Activity -->
+    <string name="about_article_activity_favorite_btn">관심</string>
+    <string name="about_article_activity_comment_btn">댓글</string>
+    <string name="about_article_activity_share_btn">캡쳐 후 공유</string>
+    <string name="about_article_activity_comment_hint">댓글을 입력해주세요.</string>
+
     <!-- Write Board Activity -->
     <string name="write_board_title">글쓰기</string>
 

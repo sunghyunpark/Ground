@@ -1,34 +1,29 @@
 package view;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
-import android.widget.TextView;
 
-import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import util.adapter.BoardAreaAdapter;
+import butterknife.OnClick;
 import view.boardPager.HireFragment;
 import view.boardPager.MatchFragment;
 import view.boardPager.RecruitFragment;
+import view.dialog.MyContentsDialog;
 
 public class BoardFragment extends Fragment {
 
     private static final int NUM_PAGES = 3;//페이지 수
-    private int temp = 0; //현재 페이지
+    private MyContentsDialog myContentsDialog;
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
@@ -51,6 +46,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void init(){
+        myContentsDialog = new MyContentsDialog(getContext());
         PagerAdapter pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -93,5 +89,17 @@ public class BoardFragment extends Fragment {
                         return null;
             }
         }
+    }
+
+    @OnClick(R.id.my_btn) void showMyContentsDialog(){
+        myContentsDialog.show();
+
+        /*
+        myContentsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+            }
+        });*/
     }
 }

@@ -252,12 +252,10 @@
                     android:layout_marginTop="2dp"
                     android:background="@color/colorPrimary"
                     android:textColor="@color/colorWhite"
-                    android:text="댓글 입력"/>
-
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/about_article_activity_write_comment_btn"/>
             </LinearLayout>
-
         </LinearLayout>
-
     </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

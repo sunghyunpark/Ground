@@ -3,8 +3,6 @@ package view;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +15,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.SessionManager;
 import util.Util;
-import view.boardPager.HireFragment;
-import view.boardPager.MatchFragment;
-import view.boardPager.RecruitFragment;
+import util.adapter.BoardViewPagerAdapter;
 import view.dialog.MyContentsDialog;
 
 public class BoardFragment extends Fragment {
 
-    private static final int NUM_PAGES = 3;//페이지 수
     private MyContentsDialog myContentsDialog;
     private SessionManager sessionManager;
 
@@ -51,48 +46,9 @@ public class BoardFragment extends Fragment {
     private void init(){
         sessionManager = new SessionManager(getContext());
         myContentsDialog = new MyContentsDialog(getContext());
-        PagerAdapter pagerAdapter = new PagerAdapter(getChildFragmentManager());
+        BoardViewPagerAdapter pagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    public class PagerAdapter extends FragmentPagerAdapter {
-        public PagerAdapter(FragmentManager fm){
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position){
-            switch (position){
-                case 0:
-                    return MatchFragment.newInstance();
-                case 1:
-                    return HireFragment.newInstance();
-                case 2:
-                    return RecruitFragment.newInstance();
-                    default:
-                        return null;
-            }
-        }
-
-        @Override
-        public int getCount(){
-            return NUM_PAGES;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position){
-            switch (position){
-                case 0:
-                    return "매칭";
-                case 1:
-                    return "용병";
-                case 2:
-                    return "모집";
-                    default:
-                        return null;
-            }
-        }
     }
 
     @OnClick(R.id.my_btn) void showMyContentsDialog(){

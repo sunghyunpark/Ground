@@ -88,8 +88,7 @@
                 android:textStyle="bold"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/colorPrimary"
-                android:text="8"/>
+                android:textColor="@color/colorPrimary"/>
         </RelativeLayout>
 
         <TextView

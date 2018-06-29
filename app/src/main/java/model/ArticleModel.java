@@ -17,6 +17,8 @@ public class ArticleModel {
     private String blocked;
     @SerializedName("view_cnt")
     private String viewCnt;
+    @SerializedName("comment_cnt")
+    private String commentCnt;
     @SerializedName("created_at")
     private String createdAt;
 
@@ -91,6 +93,14 @@ public class ArticleModel {
 
     public void setViewCnt(String viewCnt) {
         this.viewCnt = viewCnt;
+    }
+
+    public String getCommentCnt() {
+        return commentCnt;
+    }
+
+    public void setCommentCnt(String commentCnt) {
+        this.commentCnt = commentCnt;
     }
 
     public String getCreatedAt() {

@@ -61,6 +61,7 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             VHitem.nick_name_tv.setText(currentItem.getNickName());
             VHitem.created_at_tv.setText(currentItem.getCreatedAt());
             VHitem.view_cnt_tv.setText(currentItem.getViewCnt());
+            VHitem.comment_cnt_tv.setText(currentItem.getCommentCnt());
 
             VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,8 +1,8 @@
 package view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.EditText;
@@ -13,13 +13,16 @@ import com.yssh.ground.R;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
+import model.UserModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import util.BoardManager;
 import util.Util;
 
 public class AboutBoardActivity extends AppCompatActivity {
@@ -28,6 +31,7 @@ public class AboutBoardActivity extends AppCompatActivity {
     private int no;
     private int areaNo;
     private ArticleModel articleModel;
+    private BoardManager boardManager;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.title_tv) TextView title_tv;
@@ -37,6 +41,7 @@ public class AboutBoardActivity extends AppCompatActivity {
     @BindView(R.id.contents_tv) TextView contents_tv;
     @BindView(R.id.comment_recyclerView) RecyclerView comment_recyclerView;
     @BindView(R.id.comment_et) EditText comment_et;
+    @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,7 @@ public class AboutBoardActivity extends AppCompatActivity {
 
     private void init(){
         articleModel = new ArticleModel();
+        boardManager = new BoardManager(getApplicationContext());
 
         getAboutBoard(areaNo, no);
     }
@@ -90,6 +96,16 @@ public class AboutBoardActivity extends AppCompatActivity {
                 Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
             }
         });
+    }
+
+    @OnClick(R.id.write_comment_btn) void writeComment(){
+        String commentStr = comment_et.getText().toString().trim();
+
+        if(commentStr.equals("")){
+            Util.showToast(getApplicationContext(), errorNotExistInputStr);
+        }else{
+            boardManager.writerComment(areaNo, no, UserModel.getInstance().getUid(), commentStr, comment_et);
+        }
     }
 
     @OnClick(R.id.back_btn) void goBack(){

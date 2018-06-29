@@ -52,8 +52,25 @@ public interface ApiInterface {
     @GET("api/boards/matching/{areaNo}")
     Call<AboutAreaBoardListResponse> getAboutAreaBoardLIst(@Path("areaNo") int areaNo);
 
+    /**
+     * get Article view api
+     * @param areaNo
+     * @param no
+     * @return
+     */
     @GET("api/boards/matching/view/{areaNo}/{no}")
     Call<AboutAreaBoardListResponse> getAboutBoard(@Path("areaNo") int areaNo, @Path("no") int no);
 
+    /**
+     * write Article Comment api
+     * @param areaNo
+     * @param no
+     * @param writer_id
+     * @param comment
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/boards/matching/view/comment")
+    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("no") int no, @Field("writer_id") String writer_id, @Field("comment") String comment);
 
 }

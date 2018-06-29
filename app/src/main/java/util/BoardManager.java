@@ -2,6 +2,7 @@ package util;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -87,6 +88,40 @@ public class BoardManager {
 
             @Override
             public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    /**
+     * 게시글 화면에서 댓글 작성
+     * @param areaNo
+     * @param no
+     * @param writer_id
+     * @param comment
+     * @param comment_et
+     */
+    public void writerComment(int areaNo, int no, String writer_id, String comment, final EditText comment_et){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommonResponse> call = apiService.writeComment(areaNo, no, writer_id, comment);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    Util.showToast(context, "댓글을 작성하였습니다.");
+                    comment_et.setText(null);
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");

@@ -53,9 +53,9 @@ public class MatchFragment extends Fragment {
         Resources res = getResources();
         String[] matching_board_list= res.getStringArray(R.array.matching_board_list);
 
-        LinearLayoutManager soul_lL = new LinearLayoutManager(getContext());
+        LinearLayoutManager lL = new LinearLayoutManager(getContext());
         BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getContext(), matching_board_list, 2);
-        areaRecyclerView.setLayoutManager(soul_lL);
+        areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
     }
 }

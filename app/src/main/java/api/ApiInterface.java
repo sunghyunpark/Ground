@@ -1,6 +1,7 @@
 package api;
 
 import api.response.AboutAreaBoardListResponse;
+import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import api.response.LoginResponse;
 import retrofit2.Call;
@@ -73,4 +74,6 @@ public interface ApiInterface {
     @POST("api/boards/matching/view/comment")
     Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("no") int no, @Field("writer_id") String writer_id, @Field("comment") String comment);
 
+    @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList")
+    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType);
 }

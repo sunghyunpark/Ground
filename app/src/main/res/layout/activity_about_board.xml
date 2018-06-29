@@ -51,7 +51,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -206,38 +206,67 @@
                 android:layout_marginTop="20dp"
                 android:background="#9E9E9E"></LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/comment_cnt_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="댓글"/>
+
+                <Button
+                    android:id="@+id/more_comment_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:text="더보기"
+                    android:textSize="13dp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/empty_comment_tv"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
                 android:textSize="15dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="댓글"/>
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/colorMoreGray"
+                android:text="등록된 댓글이 없습니다."/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/comment_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/comment_shape">
 
                 <EditText
                     android:id="@+id/comment_et"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
+                    android:inputType="textMultiLine"
                     android:background="@null"
                     android:padding="15dp"
                     android:textSize="14dp"

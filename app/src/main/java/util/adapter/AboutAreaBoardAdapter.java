@@ -20,7 +20,7 @@ import view.AboutBoardActivity;
 /**
  * 임의의 지역 > 게시판 게시글 recyclerView Adapter
  */
-public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private String area;    //지역명

@@ -1,20 +1,26 @@
 package util;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
+import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import model.ArticleModel;
+import model.CommentModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.adapter.AboutAreaBoardAdapter;
+import util.adapter.CommentAdapter;
 
 public class BoardManager {
     private Context context;
@@ -103,7 +109,8 @@ public class BoardManager {
      * @param comment
      * @param comment_et
      */
-    public void writerComment(int areaNo, int no, String writer_id, String comment, final EditText comment_et){
+    public void writerComment(int areaNo, final int no, String writer_id, String comment, final EditText comment_et, final String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
+                              final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -115,6 +122,7 @@ public class BoardManager {
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
                     comment_et.setText(null);
+                    getCommentList(no, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -122,6 +130,61 @@ public class BoardManager {
 
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    /**
+     * Article Comment
+     * @param articleNo
+     * @param boardType
+     * @param empty_tv
+     * @param commentRecyclerview
+     * @param commentModelArrayList
+     * @param commentAdapter
+     * @param comment_cnt_tv
+     */
+    public void getCommentList(int articleNo, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
+                               final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
+        if(commentModelArrayList != null){
+            commentModelArrayList.clear();
+        }
+
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType);
+        call.enqueue(new Callback<CommentListResponse>() {
+            @Override
+            public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
+                CommentListResponse commentListResponse = response.body();
+                if(commentListResponse.getCode() == 200){
+                    int size = commentListResponse.getResult().size();
+                    if(size > 0){
+                        //exist commentList
+                        comment_cnt_tv.setText("댓글 "+size);
+                        empty_tv.setVisibility(View.GONE);
+                        commentRecyclerview.setVisibility(View.VISIBLE);
+                        for(int i=0;i<size;i++){
+                            commentModelArrayList.add(commentListResponse.getResult().get(i));
+                        }
+                        commentAdapter.notifyDataSetChanged();
+                    }else{
+                        //not exist commentList
+                        comment_cnt_tv.setText("댓글 0");
+                        empty_tv.setVisibility(View.VISIBLE);
+                        commentRecyclerview.setVisibility(View.GONE);
+                    }
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");

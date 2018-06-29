@@ -68,12 +68,12 @@ public class WriteBoardActivity extends AppCompatActivity implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(s.length() >= 20)
+        if(s.length() >= 50)
         {
-            Util.showToast(getApplicationContext(), "20자까지 입력이 가능합니다.");
+            Util.showToast(getApplicationContext(), "50자까지 입력이 가능합니다.");
             board_title_et.setText(beforeStr);
         }
-        title_length_tv.setText(s.length() + "/20");
+        title_length_tv.setText(s.length() + "/50");
         title_length_tv.setTextColor(getResources().getColor(R.color.colorTextHintGray));
     }
     @Override

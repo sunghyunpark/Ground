@@ -139,6 +139,14 @@ public class AboutBoardActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick({R.id.more_comment_btn, R.id.comment_btn}) void goCommentPage(){
+        Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
+        intent.putExtra("areaNo", articleModel.getAreaNo());
+        intent.putExtra("no", articleModel.getNo());
+        intent.putExtra("boardType", articleModel.getBoardType());
+        startActivity(intent);
+    }
+
     @OnClick(R.id.back_btn) void goBack(){
         finish();
     }

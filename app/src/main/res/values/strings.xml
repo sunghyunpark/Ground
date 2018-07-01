@@ -43,6 +43,9 @@
     <string name="about_article_activity_comment_hint">댓글을 입력해주세요.</string>
     <string name="about_article_activity_write_comment_btn">댓글 입력</string>
 
+    <!-- Comment Activity -->
+    <string name="comment_activity_title">댓글</string>
+
     <!-- Write Board Activity -->
     <string name="write_board_title">글쓰기</string>
 

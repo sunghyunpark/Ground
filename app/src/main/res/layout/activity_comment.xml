@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="view.CommentActivity">
+
+    <RelativeLayout
+        android:id="@+id/app_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorWhite"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comment_activity_title"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="18dp"/>
+    </RelativeLayout>
+    <!--구분선-->
+    <LinearLayout
+        android:id="@+id/divider"
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/app_title_bar"
+        android:background="#9E9E9E"></LinearLayout>
+
+    <TextView
+        android:id="@+id/empty_comment_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/colorMoreGray"
+        android:visibility="gone"
+        android:text="등록된 댓글이 없습니다."/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/comment_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divider"
+        android:layout_marginBottom="50dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/comment_shape"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/comment_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/about_article_activity_comment_hint"
+            android:textSize="14dp"
+            android:layout_weight="1.5"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"/>
+
+        <Button
+            android:id="@+id/write_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8.5"
+            android:background="@color/colorPrimary"
+            android:text="입력"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

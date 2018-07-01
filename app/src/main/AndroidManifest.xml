@@ -23,7 +23,8 @@
         <activity android:name="view.LoginActivity" />
         <activity android:name="view.AboutAreaBoardActivity" />
         <activity android:name="view.WriteBoardActivity" />
-        <activity android:name="view.AboutBoardActivity"></activity>
+        <activity android:name="view.AboutBoardActivity" />
+        <activity android:name="view.CommentActivity"></activity>
     </application>
 
 </manifest>

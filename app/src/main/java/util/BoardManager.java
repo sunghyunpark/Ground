@@ -105,17 +105,17 @@ public class BoardManager {
     /**
      * 게시글 화면에서 댓글 작성
      * @param areaNo
-     * @param no
+     * @param articleNo
      * @param writer_id
      * @param comment
      * @param comment_et
      */
-    public void writerComment(int areaNo, final int no, String writer_id, String comment, final EditText comment_et, final String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
+    public void writerComment(int areaNo, final int articleNo, String writer_id, String comment, final EditText comment_et, final String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
                               final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommonResponse> call = apiService.writeComment(areaNo, no, writer_id, comment);
+        Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writer_id, comment);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -123,7 +123,7 @@ public class BoardManager {
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
                     comment_et.setText(null);
-                    getCommentList(no, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
+                    getCommentList(articleNo, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -140,6 +140,7 @@ public class BoardManager {
 
     /**
      * Article Comment
+     * @param no -> comment no
      * @param articleNo
      * @param boardType
      * @param empty_tv
@@ -171,6 +172,7 @@ public class BoardManager {
                         commentRecyclerview.setVisibility(View.VISIBLE);
                         for(int i=0;i<size;i++){
                             commentModelArrayList.add(commentListResponse.getResult().get(i));
+                            Log.d("commentAPI", commentListResponse.getResult().get(i).getComment());
                         }
                         commentAdapter.notifyDataSetChanged();
                     }else{

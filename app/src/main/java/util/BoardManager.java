@@ -21,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import util.adapter.AboutAreaBoardAdapter;
 import util.adapter.CommentAdapter;
+import view.AboutAreaBoardActivity;
 
 public class BoardManager {
     private Context context;
@@ -67,11 +68,11 @@ public class BoardManager {
      * @param aboutAreaBoardAdapter
      * @param articleModelArrayList
      */
-    public void getMatchingBoard(int areaNo, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<ArticleModel> articleModelArrayList){
+    public void getMatchingBoard(int areaNo, int no, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<ArticleModel> articleModelArrayList){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardLIst(areaNo);
+        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardLIst(areaNo, no);
         call.enqueue(new Callback<AboutAreaBoardListResponse>() {
             @Override
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
@@ -122,7 +123,7 @@ public class BoardManager {
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
                     comment_et.setText(null);
-                    getCommentList(no, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
+                    getCommentList(no, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -147,7 +148,7 @@ public class BoardManager {
      * @param commentAdapter
      * @param comment_cnt_tv
      */
-    public void getCommentList(int articleNo, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
+    public void getCommentList(int articleNo, int no, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
                                final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
         if(commentModelArrayList != null){
             commentModelArrayList.clear();
@@ -156,7 +157,7 @@ public class BoardManager {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType);
+        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType, no);
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {

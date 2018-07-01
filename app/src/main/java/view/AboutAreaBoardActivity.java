@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
 import util.BoardManager;
+import util.EndlessRecyclerOnScrollListener;
 import util.SessionManager;
 import util.Util;
 import util.adapter.AboutAreaBoardAdapter;
@@ -25,6 +26,7 @@ import util.adapter.AboutAreaBoardAdapter;
  */
 public class AboutAreaBoardActivity extends AppCompatActivity {
 
+    private static final int LOAD_DATA_COUNT = 10;
     private SessionManager sessionManager;
     private BoardManager boardManager;
     private AboutAreaBoardAdapter aboutAreaBoardAdapter;
@@ -52,7 +54,7 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
         areaNo = intent.getIntExtra("areaNo", 0);
     }
 
-    private void init(String area, int areaNo){
+    private void init(String area, final int areaNo){
         sessionManager = new SessionManager(getApplicationContext());
         boardManager = new BoardManager(getApplicationContext());
         articleModelArrayList = new ArrayList<>();
@@ -61,13 +63,20 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(aboutAreaBoardAdapter);
 
+        boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
+            @Override
+            public void onLoadMore(int current_page) {
+                // do something...
+                try{
+                    boardManager.getMatchingBoard(areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), aboutAreaBoardAdapter, articleModelArrayList);
+                }catch (IndexOutOfBoundsException ie){
+                    boardManager.getMatchingBoard(areaNo, 0, aboutAreaBoardAdapter, articleModelArrayList);
+                }
+            }
+        });
+
         title_tv.setText(area);
 
-        loadData(areaNo);
-    }
-
-    private void loadData(int areaNo){
-        boardManager.getMatchingBoard(areaNo, aboutAreaBoardAdapter, articleModelArrayList);
     }
 
     @OnClick(R.id.write_btn) void goWrite(){

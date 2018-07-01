@@ -106,7 +106,7 @@ public class AboutBoardActivity extends AppCompatActivity {
                     view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
                     contents_tv.setText(articleModel.getContents());
 
-                    boardManager.getCommentList(articleModel.getNo(), articleModel.getBoardType(), empty_comment_tv, comment_recyclerView,
+                    boardManager.getCommentList(articleModel.getNo(), 0, articleModel.getBoardType(), empty_comment_tv, comment_recyclerView,
                             commentModelArrayList, commentAdapter, comment_cnt_tv);
                 }else{
                     Util.showToast(getApplicationContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");

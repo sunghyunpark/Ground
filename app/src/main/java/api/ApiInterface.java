@@ -50,8 +50,8 @@ public interface ApiInterface {
      * @param areaNo
      * @return
      */
-    @GET("api/boards/matching/{areaNo}")
-    Call<AboutAreaBoardListResponse> getAboutAreaBoardLIst(@Path("areaNo") int areaNo);
+    @GET("api/boards/matching/{areaNo}/{no}")
+    Call<AboutAreaBoardListResponse> getAboutAreaBoardLIst(@Path("areaNo") int areaNo, @Path("no") int no);
 
     /**
      * get Article view api
@@ -74,6 +74,6 @@ public interface ApiInterface {
     @POST("api/boards/matching/view/comment")
     Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("no") int no, @Field("writer_id") String writer_id, @Field("comment") String comment);
 
-    @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList")
-    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType);
+    @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList/{no}")
+    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType, @Path("no") int no);
 }

@@ -21,7 +21,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import util.adapter.AboutAreaBoardAdapter;
 import util.adapter.CommentAdapter;
-import view.AboutAreaBoardActivity;
 
 public class BoardManager {
     private Context context;
@@ -149,11 +148,9 @@ public class BoardManager {
      * @param commentAdapter
      * @param comment_cnt_tv
      */
-    public void getCommentList(int articleNo, int no, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
+    public void getCommentList(int articleNo, final int no, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
                                final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
-        if(commentModelArrayList != null){
-            commentModelArrayList.clear();
-        }
+
 
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -164,22 +161,31 @@ public class BoardManager {
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
                 CommentListResponse commentListResponse = response.body();
                 if(commentListResponse.getCode() == 200){
-                    int size = commentListResponse.getResult().size();
-                    if(size > 0){
-                        //exist commentList
-                        comment_cnt_tv.setText("댓글 "+size);
-                        empty_tv.setVisibility(View.GONE);
-                        commentRecyclerview.setVisibility(View.VISIBLE);
+                    if(no == 0){
+                        int size = commentListResponse.getResult().size();
+                        if(size > 0){
+                            //exist commentList
+                            comment_cnt_tv.setText("댓글 "+size);
+                            empty_tv.setVisibility(View.GONE);
+                            commentRecyclerview.setVisibility(View.VISIBLE);
+                            for(int i=0;i<size;i++){
+                                commentModelArrayList.add(commentListResponse.getResult().get(i));
+                                Log.d("commentAPI", commentListResponse.getResult().get(i).getComment());
+                            }
+                            commentAdapter.notifyDataSetChanged();
+                        }else{
+                            //not exist commentList
+                            comment_cnt_tv.setText("댓글 0");
+                            empty_tv.setVisibility(View.VISIBLE);
+                            commentRecyclerview.setVisibility(View.GONE);
+                        }
+                    }else{
+                        int size = commentListResponse.getResult().size();
                         for(int i=0;i<size;i++){
                             commentModelArrayList.add(commentListResponse.getResult().get(i));
                             Log.d("commentAPI", commentListResponse.getResult().get(i).getComment());
                         }
                         commentAdapter.notifyDataSetChanged();
-                    }else{
-                        //not exist commentList
-                        comment_cnt_tv.setText("댓글 0");
-                        empty_tv.setVisibility(View.VISIBLE);
-                        commentRecyclerview.setVisibility(View.GONE);
                     }
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");

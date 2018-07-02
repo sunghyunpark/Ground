@@ -1,8 +1,8 @@
 package view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,12 +27,12 @@ import util.adapter.CommentAdapter;
 
 public class CommentActivity extends AppCompatActivity {
 
-    private static final int LOAD_DATA_COUNT = 5;
+    private static final int LOAD_DATA_COUNT = 10;
     private BoardManager boardManager;
     private CommentAdapter commentAdapter;
     private ArrayList<CommentModel> commentModelArrayList;
     private SessionManager sessionManager;
-    private int areaNo, no;
+    private int areaNo, articleNo;
     private String boardType;
 
     @BindView(R.id.empty_comment_tv) TextView empty_tv;
@@ -50,33 +50,46 @@ public class CommentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         areaNo = intent.getIntExtra("areaNo", 0);
-        no = intent.getIntExtra("no", 0);
+        articleNo = intent.getIntExtra("articleNo", 0);
         boardType = intent.getExtras().getString("boardType");
 
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
         init();
     }
+
 
     private void init(){
         sessionManager = new SessionManager(getApplicationContext());
         boardManager = new BoardManager(getApplicationContext());
-        commentModelArrayList = new ArrayList<CommentModel>();
-        LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
+        commentModelArrayList = new ArrayList<>();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList);
-        commentRecyclerView.setLayoutManager(lL);
         commentRecyclerView.setAdapter(commentAdapter);
+        commentRecyclerView.setLayoutManager(linearLayoutManager);
 
-        commentRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(lL, LOAD_DATA_COUNT) {
+        boardManager.getCommentList(articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+
+        Log.d("onLoadMore","before");
+
+        commentRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
                 // do something...
                 Log.d("onLoadMore", "hi");
                 try{
-                    boardManager.getCommentList(no, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
-                }catch (IndexOutOfBoundsException ie){
-                    boardManager.getCommentList(no, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                    Log.d("onLoadMore", "no ie"+commentModelArrayList.get(commentModelArrayList.size()-1).getNo());
+                    boardManager.getCommentList(articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                }catch (ArrayIndexOutOfBoundsException ie){
+                    Log.d("onLoadMore", "ie");
+                    boardManager.getCommentList(articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
                 }
             }
         });
+        Log.d("onLoadMore","after");
     }
 
     @OnClick(R.id.write_btn) void writeComment(){
@@ -87,7 +100,7 @@ public class CommentActivity extends AppCompatActivity {
             if(commentStr.equals("")){
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
-                boardManager.writerComment(areaNo, no, UserModel.getInstance().getUid(), commentStr, comment_et, boardType,
+                boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, boardType,
                         empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
             }
         }else{

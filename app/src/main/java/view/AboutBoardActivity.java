@@ -65,8 +65,12 @@ public class AboutBoardActivity extends AppCompatActivity {
         no = intent.getIntExtra("no", 0);
         areaNo = intent.getIntExtra("areaNo", 0);
 
-        init();
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        init();
     }
 
     private void init(){
@@ -142,7 +146,7 @@ public class AboutBoardActivity extends AppCompatActivity {
     @OnClick({R.id.more_comment_btn, R.id.comment_btn}) void goCommentPage(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra("areaNo", articleModel.getAreaNo());
-        intent.putExtra("no", articleModel.getNo());
+        intent.putExtra("articleNo", articleModel.getNo());
         intent.putExtra("boardType", articleModel.getBoardType());
         startActivity(intent);
     }

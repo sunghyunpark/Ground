@@ -110,27 +110,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void InitTabIcon(int tabId){
-        tab1_iv.setBackgroundResource(R.mipmap.ic_launcher);
+        tab1_iv.setBackgroundResource(R.mipmap.home_img);
         tab1_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));
-        tab2_iv.setBackgroundResource(R.mipmap.ic_launcher);
+        tab2_iv.setBackgroundResource(R.mipmap.board_img);
         tab2_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));
-        tab3_iv.setBackgroundResource(R.mipmap.ic_launcher);
+        tab3_iv.setBackgroundResource(R.mipmap.setting_img);
         tab3_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));
 
         switch (tabId){
             case R.id.tab_1:
-                tab1_iv.setBackgroundResource(R.mipmap.ic_launcher);
-                tab1_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                tab1_iv.setBackgroundResource(R.mipmap.home_selected_img);
+                //tab1_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                 break;
 
             case R.id.tab_2:
-                tab2_iv.setBackgroundResource(R.mipmap.ic_launcher);
-                tab2_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                tab2_iv.setBackgroundResource(R.mipmap.board_selected_img);
+                //tab2_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                 break;
 
             case R.id.tab_3:
-                tab3_iv.setBackgroundResource(R.mipmap.ic_launcher);
-                tab3_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                tab3_iv.setBackgroundResource(R.mipmap.setting_selected_img);
+                //tab3_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                 break;
         }
     }

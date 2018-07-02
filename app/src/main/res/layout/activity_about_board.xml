@@ -17,11 +17,11 @@
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@mipmap/ic_launcher"/>
+            android:layout_marginLeft="7dp"
+            android:background="@mipmap/back_img"/>
         <TextView
             android:id="@+id/area_tv"
             android:layout_width="wrap_content"
@@ -126,12 +126,12 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_toLeftOf="@+id/favorite_tv"
                             android:layout_marginRight="5dp"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/ic_launcher"/>
+                            android:src="@mipmap/favorite_img"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/comment_btn"
@@ -149,12 +149,12 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_toLeftOf="@+id/comment_tv"
                             android:layout_marginRight="5dp"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/ic_launcher"/>
+                            android:src="@mipmap/comment_img"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/share_btn"
@@ -172,12 +172,12 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"/>
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_toLeftOf="@+id/share_tv"
                             android:layout_marginRight="5dp"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/ic_launcher"/>
+                            android:src="@mipmap/share_img"/>
                     </RelativeLayout>
 
                 </LinearLayout>

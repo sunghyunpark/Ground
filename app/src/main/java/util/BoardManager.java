@@ -122,7 +122,7 @@ public class BoardManager {
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
                     comment_et.setText(null);
-                    getCommentList(articleNo, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
+                    getCommentList(true, articleNo, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -139,7 +139,7 @@ public class BoardManager {
 
     /**
      * Article Comment
-     * @param no -> comment no
+     * @param commentNo -> comment no
      * @param articleNo
      * @param boardType
      * @param empty_tv
@@ -148,20 +148,23 @@ public class BoardManager {
      * @param commentAdapter
      * @param comment_cnt_tv
      */
-    public void getCommentList(int articleNo, final int no, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
+    public void getCommentList(boolean refresh, int articleNo, final int commentNo, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
                                final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
 
+        if(refresh){
+            commentModelArrayList.clear();
+        }
 
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType, no);
+        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType, commentNo);
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
                 CommentListResponse commentListResponse = response.body();
                 if(commentListResponse.getCode() == 200){
-                    if(no == 0){
+                    if(commentNo == 0){
                         int size = commentListResponse.getResult().size();
                         if(size > 0){
                             //exist commentList

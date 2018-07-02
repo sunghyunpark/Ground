@@ -65,15 +65,22 @@ public interface ApiInterface {
     /**
      * write Article Comment api
      * @param areaNo
-     * @param no
+     * @param articleNo
      * @param writer_id
      * @param comment
      * @return
      */
     @FormUrlEncoded
     @POST("api/boards/matching/view/comment")
-    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("no") int no, @Field("writer_id") String writer_id, @Field("comment") String comment);
+    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("articleNo") int articleNo, @Field("writer_id") String writer_id, @Field("comment") String comment);
 
-    @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList/{no}")
-    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType, @Path("no") int no);
+    /**
+     * get Article Comment List api
+     * @param articleNo
+     * @param boardType
+     * @param commentNo
+     * @return
+     */
+    @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList/{commentNo}")
+    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType, @Path("commentNo") int commentNo);
 }

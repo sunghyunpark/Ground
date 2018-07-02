@@ -71,7 +71,7 @@ public class CommentActivity extends AppCompatActivity {
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 
-        boardManager.getCommentList(articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+        boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
 
         Log.d("onLoadMore","before");
 
@@ -82,10 +82,10 @@ public class CommentActivity extends AppCompatActivity {
                 Log.d("onLoadMore", "hi");
                 try{
                     Log.d("onLoadMore", "no ie"+commentModelArrayList.get(commentModelArrayList.size()-1).getNo());
-                    boardManager.getCommentList(articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                    boardManager.getCommentList(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
                 }catch (ArrayIndexOutOfBoundsException ie){
                     Log.d("onLoadMore", "ie");
-                    boardManager.getCommentList(articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                    boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
                 }
             }
         });

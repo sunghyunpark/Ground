@@ -212,35 +212,6 @@
                 android:layout_marginTop="20dp"
                 android:background="#E0E0E0"></LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/comment_title_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/comment_cnt_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="댓글"/>
-
-                <Button
-                    android:id="@+id/more_comment_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:text="더보기"
-                    android:textSize="13dp"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
             <TextView
                 android:id="@+id/empty_comment_tv"
                 android:layout_width="match_parent"
@@ -253,7 +224,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/comment_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

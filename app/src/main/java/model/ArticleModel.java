@@ -12,6 +12,9 @@ public class ArticleModel {
     private String WriterId;
     @SerializedName("nick_name")
     private String nickName;
+    private String profile;
+    @SerializedName("profile_thumb")
+    private String profileThumb;
     private String title;
     private String contents;
     private String blocked;
@@ -62,6 +65,21 @@ public class ArticleModel {
         this.nickName = nickName;
     }
 
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getProfileThumb() {
+        return profileThumb;
+    }
+
+    public void setProfileThumb(String profileThumb) {
+        this.profileThumb = profileThumb;
+    }
 
     public String getTitle() {
         return title;

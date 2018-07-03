@@ -12,6 +12,9 @@ public class CommentModel {
     private String writerId;
     @SerializedName("nick_name")
     private String nickName;
+    private String profile;
+    @SerializedName("profile_thumb")
+    private String profileThumb;
     private String comment;
     private String blocked;
     @SerializedName("created_at")
@@ -56,6 +59,23 @@ public class CommentModel {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getProfileThumb() {
+        return profileThumb;
+    }
+
+    public void setProfileThumb(String profileThumb) {
+        this.profileThumb = profileThumb;
+    }
+
 
     public String getComment() {
         return comment;

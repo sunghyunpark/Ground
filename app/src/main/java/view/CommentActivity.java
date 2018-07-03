@@ -67,7 +67,7 @@ public class CommentActivity extends AppCompatActivity {
         boardManager = new BoardManager(getApplicationContext());
         commentModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList);
+        commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true);
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 

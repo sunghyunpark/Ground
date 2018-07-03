@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,15 +19,18 @@ import model.CommentModel;
 import util.SessionManager;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    private boolean isAll;
     private ArrayList<CommentModel> listItems;
     private Context context;
     private SessionManager sessionManager;
 
-    public CommentAdapter(Context context, ArrayList<CommentModel> listItems) {
+    public CommentAdapter(Context context, ArrayList<CommentModel> listItems, boolean isAll) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
+        this.isAll = isAll;
     }
 
     @Override
@@ -34,12 +38,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_item, parent, false);
             return new Comment_VH(v);
+        }else if(viewType == TYPE_HEADER){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_header, parent, false);
+            return new Comment_Header(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
     private CommentModel getItem(int position) {
-        return listItems.get(position);
+        if(isAll){
+            return listItems.get(position);
+        }else{
+            return listItems.get(position-1);
+        }
     }
 
     @Override
@@ -56,7 +67,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             Glide.with(context)
                     .setDefaultRequestOptions(requestOptions)
-                    .load(GroundApplication.GROUND_DEV_API+"")
+                    .load(GroundApplication.GROUND_DEV_API+currentItem.getProfile())
                     .into(VHitem.userProfile_iv);
 
             VHitem.nickName_tv.setText(currentItem.getNickName());
@@ -65,6 +76,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             VHitem.createdAt_tv.setText(currentItem.getCreatedAt());
 
+        }else if(holder instanceof Comment_Header){
+            final Comment_Header VHitem = (Comment_Header)holder;
+
+            VHitem.comment_cnt_tv.setText("댓글 "+(getItemCount()-1));
+
+            VHitem.more_comment_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
     }
 
@@ -88,18 +110,41 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    private class Comment_Header extends RecyclerView.ViewHolder{
+        TextView comment_cnt_tv;
+        Button more_comment_btn;
+
+        private Comment_Header(View itemView){
+            super(itemView);
+            comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
+            more_comment_btn = (Button) itemView.findViewById(R.id.more_comment_btn);
+        }
+    }
+
     private boolean isPositionHeader(int position){
         return position == 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return TYPE_ITEM;
+        if(isAll){
+            return TYPE_ITEM;
+        }else{
+            if(isPositionHeader(position)){
+                return TYPE_HEADER;
+            }else{
+                return TYPE_ITEM;
+            }
+        }
     }
     //increasing getItemcount to 1. This will be the row of header.
     @Override
     public int getItemCount() {
-        return listItems.size();
+        if(isAll){
+            return listItems.size();
+        }else{
+            return listItems.size()+1;
+        }
     }
 
 }

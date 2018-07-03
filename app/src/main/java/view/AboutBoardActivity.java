@@ -58,8 +58,6 @@ public class AboutBoardActivity extends AppCompatActivity {
     @BindView(R.id.contents_tv) TextView contents_tv;
     @BindView(R.id.comment_recyclerView) RecyclerView comment_recyclerView;
     @BindView(R.id.comment_et) EditText comment_et;
-    @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
-    @BindView(R.id.comment_title_layout) ViewGroup comment_title_layout;
     @BindView(R.id.empty_comment_tv) TextView empty_comment_tv;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
@@ -73,7 +71,6 @@ public class AboutBoardActivity extends AppCompatActivity {
         area = intent.getExtras().getString("area");
         no = intent.getIntExtra("no", 0);
         areaNo = intent.getIntExtra("areaNo", 0);
-        commentCnt = intent.getExtras().getString("commentCnt");
 
     }
 
@@ -88,24 +85,13 @@ public class AboutBoardActivity extends AppCompatActivity {
         articleModel = new ArticleModel();
         commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
-        commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList);
+        commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false);
         boardManager = new BoardManager(getApplicationContext());
         comment_recyclerView.setLayoutManager(lL);
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        setCommentTitle(commentCnt);
-
         getAboutBoard(areaNo, no);
-    }
-
-    private void setCommentTitle(String commentCnt){
-        if(commentCnt.equals("0")){
-            comment_title_layout.setVisibility(View.GONE);
-        }else{
-            comment_cnt_tv.setText("댓글 "+commentCnt);
-        }
-
     }
 
     private void setUserProfile(String urlPath){
@@ -143,7 +129,7 @@ public class AboutBoardActivity extends AppCompatActivity {
                     created_at_tv.setText(articleModel.getCreatedAt());
                     view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
                     contents_tv.setText(articleModel.getContents());
-                    setUserProfile("");
+                    setUserProfile(articleModel.getProfile());
 
                     boardManager.getCommentList(false, articleModel.getNo(), 0, articleModel.getBoardType(), empty_comment_tv, comment_recyclerView,
                             commentModelArrayList, commentAdapter);
@@ -178,7 +164,7 @@ public class AboutBoardActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.more_comment_btn, R.id.comment_btn}) void goCommentPage(){
+    @OnClick(R.id.comment_btn) void goCommentPage(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra("areaNo", articleModel.getAreaNo());
         intent.putExtra("articleNo", articleModel.getNo());

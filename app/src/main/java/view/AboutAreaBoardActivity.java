@@ -40,7 +40,10 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        init(area, areaNo);
+        //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
+        //돌아왔을 때 변경된 것을 갱신하기 위함.
+        if(aboutAreaBoardAdapter != null)
+            aboutAreaBoardAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -52,6 +55,8 @@ public class AboutAreaBoardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         area = intent.getExtras().getString("area");
         areaNo = intent.getIntExtra("areaNo", 0);
+
+        init(area, areaNo);
     }
 
     private void init(String area, final int areaNo){

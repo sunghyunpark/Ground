@@ -19,7 +19,7 @@ public class ArticleModel {
     private String contents;
     private String blocked;
     @SerializedName("view_cnt")
-    private String viewCnt;
+    private int viewCnt;
     @SerializedName("comment_cnt")
     private String commentCnt;
     @SerializedName("created_at")
@@ -105,11 +105,11 @@ public class ArticleModel {
         this.blocked = blocked;
     }
 
-    public String getViewCnt() {
+    public int getViewCnt() {
         return viewCnt;
     }
 
-    public void setViewCnt(String viewCnt) {
+    public void setViewCnt(int viewCnt) {
         this.viewCnt = viewCnt;
     }
 

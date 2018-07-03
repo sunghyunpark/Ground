@@ -65,7 +65,7 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             VHitem.title_tv.setText(currentItem.getTitle());
             VHitem.nick_name_tv.setText(currentItem.getNickName());
             VHitem.created_at_tv.setText(currentItem.getCreatedAt());
-            VHitem.view_cnt_tv.setText(currentItem.getViewCnt());
+            VHitem.view_cnt_tv.setText(currentItem.getViewCnt()+"");
             VHitem.comment_cnt_tv.setText(currentItem.getCommentCnt());
 
             VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +79,8 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         intent.putExtra("no", currentItem.getNo());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
+                        //클릭 시 해당 아이템 조회수 +1
+                        listItems.get(position-1).setViewCnt(getItem(position).getViewCnt()+1);
                     }else{
                         //not login
                         Util.showToast(context, "로그인을 해주세요.");

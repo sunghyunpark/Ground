@@ -11,11 +11,10 @@
 
         <ImageView
             android:id="@+id/user_profile_iv"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_marginLeft="15dp"/>
 
         <TextView
             android:id="@+id/nick_name_tv"
@@ -68,6 +67,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:background="#9E9E9E"></LinearLayout>
+        android:background="#E0E0E0"></LinearLayout>
 
 </LinearLayout>

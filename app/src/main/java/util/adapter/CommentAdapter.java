@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
@@ -44,6 +47,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof Comment_VH) {
             final CommentModel currentItem = getItem(position);
             final Comment_VH VHitem = (Comment_VH)holder;
+
+            //Glide Options
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.mipmap.user_profile_img);
+            requestOptions.error(R.mipmap.user_profile_img);
+            requestOptions.circleCrop();    //circle
+
+            Glide.with(context)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(GroundApplication.GROUND_DEV_API+"")
+                    .into(VHitem.userProfile_iv);
 
             VHitem.nickName_tv.setText(currentItem.getNickName());
 

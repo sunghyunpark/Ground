@@ -7,8 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
@@ -42,6 +46,7 @@ public class AboutBoardActivity extends AppCompatActivity {
     private ArrayList<CommentModel> commentModelArrayList;
     private SessionManager sessionManager;
 
+    @BindView(R.id.profile_iv) ImageView user_profile_iv;
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.title_tv) TextView title_tv;
     @BindView(R.id.nick_name_tv) TextView nick_name_tv;
@@ -87,6 +92,19 @@ public class AboutBoardActivity extends AppCompatActivity {
         getAboutBoard(areaNo, no);
     }
 
+    private void setUserProfile(String urlPath){
+        //Glide Options
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.mipmap.user_profile_img);
+        requestOptions.error(R.mipmap.user_profile_img);
+        requestOptions.circleCrop();    //circle
+
+        Glide.with(getApplicationContext())
+                .setDefaultRequestOptions(requestOptions)
+                .load(GroundApplication.GROUND_DEV_API+urlPath)
+                .into(user_profile_iv);
+    }
+
     /**
      * Article 내용 받아오기
      * @param areaNo
@@ -109,6 +127,7 @@ public class AboutBoardActivity extends AppCompatActivity {
                     created_at_tv.setText(articleModel.getCreatedAt());
                     view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
                     contents_tv.setText(articleModel.getContents());
+                    setUserProfile("");
 
                     boardManager.getCommentList(false, articleModel.getNo(), 0, articleModel.getBoardType(), empty_comment_tv, comment_recyclerView,
                             commentModelArrayList, commentAdapter, comment_cnt_tv);

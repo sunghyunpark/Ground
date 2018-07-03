@@ -110,7 +110,7 @@ public class BoardManager {
      * @param comment_et
      */
     public void writerComment(int areaNo, final int articleNo, String writer_id, String comment, final EditText comment_et, final String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
-                              final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
+                              final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -122,7 +122,7 @@ public class BoardManager {
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
                     comment_et.setText(null);
-                    getCommentList(true, articleNo, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter, comment_cnt_tv);
+                    getCommentList(true, articleNo, 0, boardType, empty_tv, commentRecyclerview, commentModelArrayList, commentAdapter);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -146,10 +146,9 @@ public class BoardManager {
      * @param commentRecyclerview
      * @param commentModelArrayList
      * @param commentAdapter
-     * @param comment_cnt_tv
      */
     public void getCommentList(boolean refresh, int articleNo, final int commentNo, String boardType, final TextView empty_tv, final RecyclerView commentRecyclerview,
-                               final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter, final TextView comment_cnt_tv){
+                               final ArrayList<CommentModel> commentModelArrayList, final CommentAdapter commentAdapter){
 
         if(refresh){
             commentModelArrayList.clear();
@@ -168,7 +167,6 @@ public class BoardManager {
                         int size = commentListResponse.getResult().size();
                         if(size > 0){
                             //exist commentList
-                            comment_cnt_tv.setText("댓글 "+size);
                             empty_tv.setVisibility(View.GONE);
                             commentRecyclerview.setVisibility(View.VISIBLE);
                             for(int i=0;i<size;i++){
@@ -178,7 +176,6 @@ public class BoardManager {
                             commentAdapter.notifyDataSetChanged();
                         }else{
                             //not exist commentList
-                            comment_cnt_tv.setText("댓글 0");
                             empty_tv.setVisibility(View.VISIBLE);
                             commentRecyclerview.setVisibility(View.GONE);
                         }

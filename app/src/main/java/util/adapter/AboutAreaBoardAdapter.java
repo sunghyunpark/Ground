@@ -77,6 +77,7 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         intent.putExtra("area", area);
                         intent.putExtra("areaNo", currentItem.getAreaNo());
                         intent.putExtra("no", currentItem.getNo());
+                        intent.putExtra("commentCnt", currentItem.getCommentCnt());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }else{

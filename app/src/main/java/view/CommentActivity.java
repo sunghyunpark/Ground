@@ -71,25 +71,19 @@ public class CommentActivity extends AppCompatActivity {
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 
-        boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
-
-        Log.d("onLoadMore","before");
+        boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
 
         commentRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
                 // do something...
-                Log.d("onLoadMore", "hi");
                 try{
-                    Log.d("onLoadMore", "no ie"+commentModelArrayList.get(commentModelArrayList.size()-1).getNo());
-                    boardManager.getCommentList(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                    boardManager.getCommentList(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
                 }catch (ArrayIndexOutOfBoundsException ie){
-                    Log.d("onLoadMore", "ie");
-                    boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                    boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
                 }
             }
         });
-        Log.d("onLoadMore","after");
     }
 
     @OnClick(R.id.write_btn) void writeComment(){
@@ -101,7 +95,7 @@ public class CommentActivity extends AppCompatActivity {
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, boardType,
-                        empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter, title_tv);
+                        empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
             }
         }else{
             //not login

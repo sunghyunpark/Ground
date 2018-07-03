@@ -127,7 +127,7 @@
                             android:text="@string/about_article_activity_favorite_btn"
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorMoreGray"/>
                         <ImageView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
@@ -151,7 +151,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorMoreGray"/>
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
@@ -176,7 +176,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorMoreGray"/>
                         <ImageView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
@@ -213,6 +213,7 @@
                 android:background="#E0E0E0"></LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/comment_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">

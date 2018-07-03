@@ -71,7 +71,7 @@ public class BoardManager {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardLIst(areaNo, no);
+        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardList(areaNo, no);
         call.enqueue(new Callback<AboutAreaBoardListResponse>() {
             @Override
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {

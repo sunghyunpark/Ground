@@ -4,11 +4,14 @@
     android:layout_height="90dp"
     android:minHeight="60dp"
     android:id="@+id/item_layout"
+    android:background="#E0E0E0"
     android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_marginBottom="0.5dp"
         android:layout_weight="1.5">
 
         <TextView
@@ -68,6 +71,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_marginBottom="0.5dp"
         android:layout_weight="8.5">
 
         <RelativeLayout

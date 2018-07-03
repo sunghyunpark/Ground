@@ -40,9 +40,9 @@ import util.adapter.CommentAdapter;
 public class AboutBoardActivity extends AppCompatActivity {
 
     private String area;
-    private int no;
+    private int articleNo;
     private int areaNo;
-    private String commentCnt;
+    private String boardType;
     private ArticleModel articleModel;
     private BoardManager boardManager;
     private CommentAdapter commentAdapter;
@@ -62,6 +62,13 @@ public class AboutBoardActivity extends AppCompatActivity {
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        boardManager.getCommentList(true, articleNo, 0, boardType, empty_comment_tv, comment_recyclerView,
+                commentModelArrayList, commentAdapter);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_board);
@@ -69,14 +76,10 @@ public class AboutBoardActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         area = intent.getExtras().getString("area");
-        no = intent.getIntExtra("no", 0);
+        articleNo = intent.getIntExtra("no", 0);
         areaNo = intent.getIntExtra("areaNo", 0);
+        boardType = intent.getExtras().getString("boardType");
 
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
         init();
     }
 
@@ -91,7 +94,8 @@ public class AboutBoardActivity extends AppCompatActivity {
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        getAboutBoard(areaNo, no);
+        getAboutBoard(areaNo, articleNo);
+
     }
 
     private void setUserProfile(String urlPath){
@@ -131,8 +135,6 @@ public class AboutBoardActivity extends AppCompatActivity {
                     contents_tv.setText(articleModel.getContents());
                     setUserProfile(articleModel.getProfile());
 
-                    boardManager.getCommentList(false, articleModel.getNo(), 0, articleModel.getBoardType(), empty_comment_tv, comment_recyclerView,
-                            commentModelArrayList, commentAdapter);
                 }else{
                     Util.showToast(getApplicationContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -155,7 +157,7 @@ public class AboutBoardActivity extends AppCompatActivity {
             if(commentStr.equals("")){
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
-                boardManager.writerComment(areaNo, no, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
+                boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                         empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }
         }else{

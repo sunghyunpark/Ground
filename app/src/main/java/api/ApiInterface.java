@@ -51,7 +51,7 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/matching/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getAboutAreaBoardLIst(@Path("areaNo") int areaNo, @Path("no") int no);
+    Call<AboutAreaBoardListResponse> getAboutAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
 
     /**
      * get Article view api

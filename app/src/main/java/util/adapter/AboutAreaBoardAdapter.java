@@ -10,7 +10,12 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 import model.ArticleModel;
 import util.SessionManager;
@@ -134,5 +139,17 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemCount() {
         return listItems.size()+1;
     }
+    public static Date fromISO8601UTC(String dateStr) {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+        df.setTimeZone(tz);
 
+        try {
+            return df.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

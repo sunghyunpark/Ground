@@ -2,7 +2,6 @@ package view.boardPager;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,18 +10,19 @@ import android.view.ViewGroup;
 
 import com.yssh.ground.R;
 
+import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import util.adapter.BoardAreaAdapter;
 
-public class RecruitFragment extends Fragment {
+public class MatchBoardFragment extends BaseFragment {
 
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
-    public static RecruitFragment newInstance(){
+    public static MatchBoardFragment newInstance(){
         Bundle args = new Bundle();
 
-        RecruitFragment fragment = new RecruitFragment();
+        MatchBoardFragment fragment = new MatchBoardFragment();
         fragment.setArguments(args);
 
         return fragment;
@@ -38,10 +38,11 @@ public class RecruitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_recruit, container, false);
+        View v = inflater.inflate(R.layout.fragment_match, container, false);
         ButterKnife.bind(this, v);
 
         init();
+
         return v;
     }
 
@@ -50,12 +51,11 @@ public class RecruitFragment extends Fragment {
      */
     private void init(){
         Resources res = getResources();
-        String[] matching_board_list= res.getStringArray(R.array.recruit_board_list);
+        String[] matching_board_list= res.getStringArray(R.array.matching_board_list);
 
-        LinearLayoutManager soul_lL = new LinearLayoutManager(getContext());
-        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getContext(), matching_board_list, 4);
-        areaRecyclerView.setLayoutManager(soul_lL);
+        LinearLayoutManager lL = new LinearLayoutManager(getContext());
+        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getContext(), matching_board_list, 2);
+        areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
     }
-
 }

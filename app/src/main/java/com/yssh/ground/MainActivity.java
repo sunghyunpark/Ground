@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +13,16 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.LoginManager;
-import util.SessionManager;
 import view.BoardFragment;
 import view.HomeFragment;
 import view.SettingFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity{
 
     private final static String TAG = "MainActivity";
 
@@ -83,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        final SessionManager sessionManager = new SessionManager(getApplicationContext());
-
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, new HomeFragment());
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null || sessionManager.isLoggedIn()) {
+                if (user != null || isLogin()) {
                     //Firebase에서 로그인된 User 가 있는 경우 Realm에 저장된 데이터를 싱글톤에 저장
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
 

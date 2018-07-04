@@ -20,12 +20,12 @@ import java.util.TimeZone;
 import model.ArticleModel;
 import util.SessionManager;
 import util.Util;
-import view.AboutBoardActivity;
+import view.DetailArticleActivity;
 
 /**
  * 임의의 지역 > 게시판 게시글 recyclerView Adapter
  */
-public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private String area;    //지역명
@@ -33,7 +33,7 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private Context context;
     private SessionManager sessionManager;
 
-    public AboutAreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area) {
+    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
@@ -73,7 +73,7 @@ public class AboutAreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 public void onClick(View view) {
                     if(sessionManager.isLoggedIn()){
                         //login
-                        Intent intent = new Intent(context, AboutBoardActivity.class);
+                        Intent intent = new Intent(context, DetailArticleActivity.class);
                         intent.putExtra("area", area);
                         intent.putExtra("areaNo", currentItem.getAreaNo());
                         intent.putExtra("no", currentItem.getNo());

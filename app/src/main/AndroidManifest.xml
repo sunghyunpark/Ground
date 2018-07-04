@@ -21,9 +21,9 @@
         <activity android:name="view.IntroActivity" />
         <activity android:name="view.RegisterActivity" />
         <activity android:name="view.LoginActivity" />
-        <activity android:name="view.AboutAreaBoardActivity" />
+        <activity android:name="view.AreaBoardActivity" />
         <activity android:name="view.WriteBoardActivity" />
-        <activity android:name="view.AboutBoardActivity" />
+        <activity android:name="view.DetailArticleActivity" />
         <activity android:name="view.CommentActivity"></activity>
     </application>
 

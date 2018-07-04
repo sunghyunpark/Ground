@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
-import util.SessionManager;
-import util.Util;
-import view.AboutAreaBoardActivity;
+import view.AreaBoardActivity;
 
 /**
  * 게시판 recyclerView Adapter
@@ -66,7 +64,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHitem.areaName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, AboutAreaBoardActivity.class);
+                    Intent intent = new Intent(context, AreaBoardActivity.class);
                     intent.putExtra("area", currentItem);
                     intent.putExtra("areaNo", position);
                     context.startActivity(intent);

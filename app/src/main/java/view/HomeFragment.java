@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 
 import com.yssh.ground.R;
 
+import base.BaseFragment;
 import butterknife.ButterKnife;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     private View v;
 

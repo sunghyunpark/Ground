@@ -19,7 +19,7 @@ import model.CommentModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import util.adapter.AboutAreaBoardAdapter;
+import util.adapter.AreaBoardAdapter;
 import util.adapter.CommentAdapter;
 
 public class BoardManager {
@@ -64,10 +64,10 @@ public class BoardManager {
     /**
      * 매칭 지역 게시판의 리스트를 받아옴
      * @param areaNo
-     * @param aboutAreaBoardAdapter
+     * @param areaBoardAdapter
      * @param articleModelArrayList
      */
-    public void getMatchingBoard(int areaNo, int no, final AboutAreaBoardAdapter aboutAreaBoardAdapter, final ArrayList<ArticleModel> articleModelArrayList){
+    public void getMatchingBoard(int areaNo, int no, final AreaBoardAdapter areaBoardAdapter, final ArrayList<ArticleModel> articleModelArrayList){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -86,7 +86,7 @@ public class BoardManager {
                         "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
                         "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
                     }
-                    aboutAreaBoardAdapter.notifyDataSetChanged();
+                    areaBoardAdapter.notifyDataSetChanged();
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

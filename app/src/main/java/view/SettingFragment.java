@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
+
+import base.BaseFragment;
 import util.SessionManager;
 
 import butterknife.BindString;
@@ -22,7 +24,7 @@ import butterknife.OnClick;
 import model.UserModel;
 import util.LoginManager;
 
-public class SettingFragment extends Fragment {
+public class SettingFragment extends BaseFragment {
 
     private LoginManager loginManager;
     private SessionManager sessionManager;

@@ -37,7 +37,7 @@ import util.SessionManager;
 import util.Util;
 import util.adapter.CommentAdapter;
 
-public class AboutBoardActivity extends AppCompatActivity {
+public class DetailArticleActivity extends AppCompatActivity {
 
     private String area;
     private int articleNo;

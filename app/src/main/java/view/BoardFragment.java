@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.yssh.ground.R;
 
+import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,10 +19,9 @@ import util.Util;
 import util.adapter.BoardViewPagerAdapter;
 import view.dialog.MyContentsDialog;
 
-public class BoardFragment extends Fragment {
+public class BoardFragment extends BaseFragment {
 
     private MyContentsDialog myContentsDialog;
-    private SessionManager sessionManager;
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
@@ -44,7 +44,6 @@ public class BoardFragment extends Fragment {
     }
 
     private void init(){
-        sessionManager = new SessionManager(getContext());
         myContentsDialog = new MyContentsDialog(getContext());
         BoardViewPagerAdapter pagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -52,12 +51,12 @@ public class BoardFragment extends Fragment {
     }
 
     @OnClick(R.id.my_btn) void showMyContentsDialog(){
-        if(sessionManager.isLoggedIn()){
+        if(isLogin()){
             //login
             myContentsDialog.show();
         }else{
             //not login
-            Util.showToast(getContext(), "로그인을 해주세요.");
+            showMessage("로그인을 해주세요.");
         }
 
         /*

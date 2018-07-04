@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,27 +14,29 @@ import com.yssh.ground.R;
 
 import java.util.ArrayList;
 
+import base.BaseActivity;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.CommentModel;
 import model.UserModel;
+import presenter.CommentPresenter;
+import presenter.view.CommentView;
 import util.BoardManager;
 import util.EndlessRecyclerOnScrollListener;
 import util.SessionManager;
 import util.Util;
 import util.adapter.CommentAdapter;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends BaseActivity implements CommentView{
 
     private static final int LOAD_DATA_COUNT = 10;
-    private BoardManager boardManager;
     private CommentAdapter commentAdapter;
     private ArrayList<CommentModel> commentModelArrayList;
-    private SessionManager sessionManager;
     private int areaNo, articleNo;
     private String boardType;
+    private CommentPresenter commentPresenter;
 
     @BindView(R.id.empty_comment_tv) TextView empty_tv;
     @BindView(R.id.comment_recyclerView) RecyclerView commentRecyclerView;
@@ -61,49 +64,61 @@ public class CommentActivity extends AppCompatActivity {
         init();
     }
 
-
     private void init(){
-        sessionManager = new SessionManager(getApplicationContext());
-        boardManager = new BoardManager(getApplicationContext());
         commentModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true);
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 
-        boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
+        commentPresenter = new CommentPresenter(this, getApplicationContext(), commentModelArrayList, commentAdapter);
+        commentPresenter.loadComment(false, articleNo, 0, boardType);
+        Log.d("commentPresenter", "articleNo : "+articleNo+"\n"+"boardType : "+boardType);
 
         commentRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
                 // do something...
                 try{
-                    boardManager.getCommentList(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
+                    commentPresenter.loadComment(false, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), 0, boardType);
                 }catch (ArrayIndexOutOfBoundsException ie){
-                    boardManager.getCommentList(false, articleNo, 0, boardType, empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
+                    commentPresenter.loadComment(false, articleNo, 0, boardType);
                 }
             }
         });
     }
 
-    @OnClick(R.id.write_btn) void writeComment(){
+    @Override
+    public void writeComment(){
         String commentStr = comment_et.getText().toString().trim();
-
-        if(sessionManager.isLoggedIn()){
-            //login
+        if(isLogin()){
             if(commentStr.equals("")){
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
-                boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, boardType,
-                        empty_tv, commentRecyclerView, commentModelArrayList, commentAdapter);
+                comment_et.setText(null);
+                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, boardType);
             }
         }else{
-            //not login
-            Util.showToast(getApplicationContext(), "로그인을 해주세요.");
+            showMessage("로그인을 해주세요.");
         }
     }
 
-    @OnClick(R.id.back_btn) void goBack(){
+    @Override
+    public void initComment(boolean hasCommentItem){
+        if(hasCommentItem){
+            empty_tv.setVisibility(View.GONE);
+            commentRecyclerView.setVisibility(View.VISIBLE);
+        }else{
+            empty_tv.setVisibility(View.VISIBLE);
+            commentRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.write_btn) void writeBtn(){
+        writeComment();
+    }
+
+    @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
 }

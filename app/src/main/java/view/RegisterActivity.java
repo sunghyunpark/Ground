@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * 가입하기 버튼 클릭 시 간단하게 검증 후 firebase 로 전송함과 동시에 ground server 로 보낸다.
      */
-    @OnClick(R.id.register_btn) void register(){
+    @OnClick(R.id.register_btn) void registerBtn(){
         String emailStr = email_et.getText().toString().trim();
         String pwStr = pw_et.getText().toString().trim();
         String nameStr = name_et.getText().toString().trim();
@@ -99,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.back_btn) void goBack(){
+    @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
 }

@@ -56,14 +56,14 @@ public class IntroActivity extends AppCompatActivity {
     /**
      * 회원가입 화면으로 이동.
      */
-    @OnClick(R.id.register_btn) void goToRegister(){
+    @OnClick(R.id.register_btn) void regiterBtn(){
         startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
     }
 
     /**
      * 로그인 화면으로 이동.
      */
-    @OnClick(R.id.login_btn) void goToLogin(){
+    @OnClick(R.id.login_btn) void loginBtn(){
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 }

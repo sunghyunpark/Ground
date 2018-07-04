@@ -62,46 +62,6 @@ public class BoardManager {
     }
 
     /**
-     * 매칭 지역 게시판의 리스트를 받아옴
-     * @param areaNo
-     * @param areaBoardAdapter
-     * @param articleModelArrayList
-     */
-    public void getMatchingBoard(int areaNo, int no, final AreaBoardAdapter areaBoardAdapter, final ArrayList<ArticleModel> articleModelArrayList){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
-        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardList(areaNo, no);
-        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
-            @Override
-            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
-                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
-                if(aboutAreaBoardListResponse.getCode() == 200){
-                    int size = aboutAreaBoardListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        articleModelArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
-                        Log.d("boardData No : ", aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
-                        "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
-                        "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
-                        "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
-                        "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
-                    }
-                    areaBoardAdapter.notifyDataSetChanged();
-                }else{
-                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
-                // Log error here since request failed
-                Log.e("tag", t.toString());
-                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
-            }
-        });
-    }
-
-    /**
      * 게시글 화면에서 댓글 작성
      * @param areaNo
      * @param articleNo

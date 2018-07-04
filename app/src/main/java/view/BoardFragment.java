@@ -50,7 +50,7 @@ public class BoardFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @OnClick(R.id.my_btn) void showMyContentsDialog(){
+    @OnClick(R.id.my_btn) void myBtn(){
         if(isLogin()){
             //login
             myContentsDialog.show();

@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     } } );
     }
 
-    @OnClick(R.id.login_btn) void login(){
+    @OnClick(R.id.login_btn) void loginBtn(){
         String emailStr = email_et.getText().toString().trim();
         String pwStr = pw_et.getText().toString().trim();
 
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.back_btn) void goBack(){
+    @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
 }

@@ -1,15 +1,20 @@
 package presenter.view;
 
 import base.presenter.view.BasePresenterView;
+import model.ArticleModel;
 
 public interface DetailArticleView extends BasePresenterView{
 
-    void onFavoriteClick();
+    void favoriteClick();
 
-    void onCommentClick();
+    void commentClick();
 
-    void onShareClick();
+    void shareClick();
 
-    void onWriteComment();
+    void writeComment();
+
+    void setArticleData(ArticleModel articleModel);
+
+    void initComment(boolean hasComment);
 
 }

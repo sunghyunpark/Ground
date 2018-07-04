@@ -91,7 +91,7 @@ public class SettingFragment extends BaseFragment {
      * - 로그아웃 상태
      * : 인트로화면 노출
      */
-    @OnClick(R.id.login_btn) void login(){
+    @OnClick(R.id.login_btn) void loginBtn(){
         if(sessionManager.isLoggedIn()){
             //login
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());

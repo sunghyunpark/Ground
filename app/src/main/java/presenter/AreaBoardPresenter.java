@@ -30,11 +30,11 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
         this.articleModelArrayList = articleModelArrayList;
     }
 
-    public void loadArticleList(int areaNo, int no){
+    public void loadArticleList(int areaNo, int articleNo){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardList(areaNo, no);
+        Call<AboutAreaBoardListResponse> call = apiService.getAboutAreaBoardList(areaNo, articleNo);
         call.enqueue(new Callback<AboutAreaBoardListResponse>() {
             @Override
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
@@ -43,7 +43,7 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
                     int size = aboutAreaBoardListResponse.getResult().size();
                     for(int i=0;i<size;i++){
                         articleModelArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
-                        Log.d("boardData No : ", aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
+                        Log.d("ArticleLIst","boardData No : "+ aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
                                 "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
                                 "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
                                 "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+

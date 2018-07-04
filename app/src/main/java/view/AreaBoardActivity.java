@@ -96,11 +96,11 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView{
         }
     }
 
-    @OnClick(R.id.write_btn) void goWrite(){
+    @OnClick(R.id.write_btn) void writeBtn(){
         onWriteClick();
     }
 
-    @OnClick(R.id.back_btn) void goBack(){
+    @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
 }

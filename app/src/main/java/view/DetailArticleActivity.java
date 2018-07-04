@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
+import base.BaseActivity;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +30,8 @@ import butterknife.OnClick;
 import model.ArticleModel;
 import model.CommentModel;
 import model.UserModel;
+import presenter.DetailArticlePresenter;
+import presenter.view.DetailArticleView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,17 +40,12 @@ import util.SessionManager;
 import util.Util;
 import util.adapter.CommentAdapter;
 
-public class DetailArticleActivity extends AppCompatActivity {
+public class DetailArticleActivity extends BaseActivity implements DetailArticleView{
 
-    private String area;
-    private int articleNo;
-    private int areaNo;
-    private String boardType;
+    private String area, boardType;
+    private int articleNo, areaNo;
     private ArticleModel articleModel;
-    private BoardManager boardManager;
-    private CommentAdapter commentAdapter;
-    private ArrayList<CommentModel> commentModelArrayList;
-    private SessionManager sessionManager;
+    private DetailArticlePresenter commentPresenter;
 
     @BindView(R.id.profile_iv) ImageView user_profile_iv;
     @BindView(R.id.area_tv) TextView area_tv;
@@ -64,8 +62,9 @@ public class DetailArticleActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        boardManager.getCommentList(true, articleNo, 0, boardType, empty_comment_tv, comment_recyclerView,
-                commentModelArrayList, commentAdapter);
+        if(commentPresenter != null){
+            commentPresenter.loadComment(true, articleNo, 0, boardType);
+        }
     }
 
     @Override
@@ -84,18 +83,19 @@ public class DetailArticleActivity extends AppCompatActivity {
     }
 
     private void init(){
-        sessionManager = new SessionManager(getApplicationContext());
+        area_tv.setText(area);
         articleModel = new ArticleModel();
-        commentModelArrayList = new ArrayList<CommentModel>();
+        ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
-        commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false);
-        boardManager = new BoardManager(getApplicationContext());
+        CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false);
         comment_recyclerView.setLayoutManager(lL);
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        getAboutBoard(areaNo, articleNo);
+        DetailArticlePresenter detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, articleModel);
+        detailArticlePresenter.loadDetailArticle(areaNo, articleNo);
 
+        commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
     }
 
     private void setUserProfile(String urlPath){
@@ -111,62 +111,35 @@ public class DetailArticleActivity extends AppCompatActivity {
                 .into(user_profile_iv);
     }
 
-    /**
-     * Article 내용 받아오기
-     * @param areaNo
-     * @param no
-     */
-    private void getAboutBoard(int areaNo, int no){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
-        Call<AboutAreaBoardListResponse> call = apiService.getAboutBoard(areaNo, no);
-        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
-            @Override
-            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
-                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
-                if(aboutAreaBoardListResponse.getCode() == 200){
-                    articleModel = aboutAreaBoardListResponse.getResult().get(0);
-                    area_tv.setText(area);
-                    title_tv.setText(articleModel.getTitle());
-                    nick_name_tv.setText(articleModel.getNickName());
-                    created_at_tv.setText(articleModel.getCreatedAt());
-                    view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
-                    contents_tv.setText(articleModel.getContents());
-                    setUserProfile(articleModel.getProfile());
-
-                }else{
-                    Util.showToast(getApplicationContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
-                // Log error here since request failed
-                Log.e("tag", t.toString());
-                Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
-            }
-        });
-    }
-
-    @OnClick(R.id.write_comment_btn) void writeComment(){
-        String commentStr = comment_et.getText().toString().trim();
-
-        if(sessionManager.isLoggedIn()){
-            //login
-            if(commentStr.equals("")){
-                Util.showToast(getApplicationContext(), errorNotExistInputStr);
-            }else{
-                boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
-                        empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
-            }
+    @Override
+    public void initComment(boolean hasCommentItem){
+        if(hasCommentItem){
+            empty_comment_tv.setVisibility(View.GONE);
+            comment_recyclerView.setVisibility(View.VISIBLE);
         }else{
-            //not login
-            Util.showToast(getApplicationContext(), "로그인을 해주세요.");
+            empty_comment_tv.setVisibility(View.VISIBLE);
+            comment_recyclerView.setVisibility(View.GONE);
         }
     }
 
-    @OnClick(R.id.comment_btn) void goCommentPage(){
+    @Override
+    public void setArticleData(ArticleModel articleModel){
+        this.articleModel = articleModel;
+        title_tv.setText(articleModel.getTitle());
+        nick_name_tv.setText(articleModel.getNickName());
+        created_at_tv.setText(articleModel.getCreatedAt());
+        view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
+        contents_tv.setText(articleModel.getContents());
+        setUserProfile(articleModel.getProfile());
+    }
+
+    @Override
+    public void favoriteClick(){
+        showMessage("관심 버튼 탭");
+    }
+
+    @Override
+    public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra("areaNo", articleModel.getAreaNo());
         intent.putExtra("articleNo", articleModel.getNo());
@@ -174,7 +147,35 @@ public class DetailArticleActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.back_btn) void goBack(){
+    @Override
+    public void shareClick(){
+        showMessage("공유 버튼 탭");
+    }
+
+    @Override
+    public void writeComment(){
+        String commentStr = comment_et.getText().toString().trim();
+        if(isLogin()){
+            if(commentStr.equals("")){
+                Util.showToast(getApplicationContext(), errorNotExistInputStr);
+            }else{
+                //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
+                  //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
+            }
+        }else{
+            showMessage("로그인을 해주세요.");
+        }
+    }
+
+    @OnClick(R.id.write_comment_btn) void writeCommentBtn(){
+        writeComment();
+    }
+
+    @OnClick(R.id.comment_btn) void commentBtn(){
+        commentClick();
+    }
+
+    @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
 }

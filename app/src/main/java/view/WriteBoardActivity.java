@@ -50,7 +50,7 @@ public class WriteBoardActivity extends AppCompatActivity implements TextWatcher
         area_tv.setText(area);
     }
 
-    @OnClick(R.id.write_btn) void write(){
+    @OnClick(R.id.write_btn) void writeBtn(){
         String titleStr = board_title_et.getText().toString().trim();
         String contentsStr = board_contents_et.getText().toString().trim();
 
@@ -62,7 +62,7 @@ public class WriteBoardActivity extends AppCompatActivity implements TextWatcher
         }
     }
 
-    @OnClick(R.id.back_btn) void goBack(){
+    @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
 

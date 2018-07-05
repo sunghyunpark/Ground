@@ -1,4 +1,4 @@
-package util;
+package presenter;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,24 +6,22 @@ import android.util.Log;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.CommonResponse;
+import base.presenter.BasePresenter;
+import presenter.view.WriteBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import util.Util;
 
-public class BoardManager {
+public class WriteBoardPresenter extends BasePresenter<WriteBoardView> {
+
     private Context context;
 
-    public BoardManager(Context context){
+    public WriteBoardPresenter(WriteBoardView view, Context context){
+        super(view);
         this.context = context;
     }
 
-    /**
-     * 매칭 게시판에서 게시글 작성 후 전송
-     * @param areaNo -> 지역 고유 no
-     * @param uid
-     * @param title
-     * @param contents
-     */
     public void postMatchingBoard(int areaNo, String uid, String title, String contents){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);

@@ -1,5 +1,6 @@
 package view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +18,6 @@ import butterknife.OnClick;
 import model.ArticleModel;
 import presenter.AreaBoardPresenter;
 import presenter.view.AreaBoardView;
-import util.BoardManager;
 import util.EndlessRecyclerOnScrollListener;
 import util.adapter.AreaBoardAdapter;
 
@@ -27,6 +27,7 @@ import util.adapter.AreaBoardAdapter;
 public class AreaBoardActivity extends BaseActivity implements AreaBoardView{
 
     private static final int LOAD_DATA_COUNT = 10;
+    private static final int REQUEST_WRITE = 1000;
     private AreaBoardAdapter areaBoardAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
@@ -83,13 +84,26 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView{
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_WRITE) {
+            if(resultCode == Activity.RESULT_OK){
+                init(area, areaNo);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
+            }
+        }
+    }
+
+    @Override
     public void onWriteClick(){
         if(isLogin()){
             //login
             Intent intent = new Intent(getApplicationContext(), WriteBoardActivity.class);
             intent.putExtra("area", area);
             intent.putExtra("areaNo", areaNo);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_WRITE);
         }else{
             //not login
             showMessage("로그인을 해주세요.");

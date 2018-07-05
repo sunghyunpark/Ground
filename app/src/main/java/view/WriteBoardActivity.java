@@ -1,7 +1,7 @@
 package view;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,20 +10,22 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import base.BaseActivity;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.UserModel;
-import util.BoardManager;
+import presenter.WriteBoardPresenter;
+import presenter.view.WriteBoardView;
 import util.Util;
 
-public class WriteBoardActivity extends AppCompatActivity implements TextWatcher {
+public class WriteBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
     private String area;
     private int areaNo;
-    private BoardManager boardManager;
     private String beforeStr;
+    private WriteBoardPresenter writeBoardPresenter;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
@@ -46,23 +48,32 @@ public class WriteBoardActivity extends AppCompatActivity implements TextWatcher
 
     private void init(){
         board_title_et.addTextChangedListener(this);
-        boardManager = new BoardManager(getApplicationContext());
+        writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
     }
 
-    @OnClick(R.id.write_btn) void writeBtn(){
+    @Override
+    public void writeBoard(){
         String titleStr = board_title_et.getText().toString().trim();
         String contentsStr = board_contents_et.getText().toString().trim();
 
         if(titleStr.equals("") || contentsStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-            boardManager.postMatchingBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr);
+            writeBoardPresenter.postMatchingBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr);
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }
     }
 
+    @OnClick(R.id.write_btn) void writeBtn(){
+        writeBoard();
+    }
+
     @OnClick(R.id.back_btn) void backBtn(){
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_CANCELED, returnIntent);
         finish();
     }
 

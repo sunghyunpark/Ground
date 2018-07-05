@@ -29,8 +29,6 @@ import util.adapter.BoardAreaAdapter;
 public class MatchBoardFragment extends BaseFragment {
 
     private ArrayList<AreaModel> areaModelArrayList;
-    private LinearLayoutManager lL;
-    private BoardAreaAdapter areaOfAdapter;
     private String[] areaNameArray;
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
@@ -86,13 +84,11 @@ public class MatchBoardFragment extends BaseFragment {
                     for(int i=0;i<size;i++){
                         updateTimeResponse.getResult().get(i).setAreaName(areaNameArray[i]);
                         areaModelArrayList.add(updateTimeResponse.getResult().get(i));
+                        Log.d("updateTime", updateTimeResponse.getResult().get(i).getUpdatedAt());
                     }
-                    lL = new LinearLayoutManager(getContext());
-                    areaOfAdapter = new BoardAreaAdapter(getContext(), 2, areaModelArrayList);
-                    areaRecyclerView.setLayoutManager(lL);
-                    areaRecyclerView.setAdapter(areaOfAdapter);
+                    setRecyclerView(areaModelArrayList);
                 }else{
-                    Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                    Util.showToast(getActivity(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                     setErrorList();
                 }
             }
@@ -101,7 +97,7 @@ public class MatchBoardFragment extends BaseFragment {
             public void onFailure(Call<UpdateTimeResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
-                Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
+                Util.showToast(getActivity(), "네트워크 연결상태를 확인해주세요.");
                 setErrorList();
             }
         });
@@ -118,9 +114,14 @@ public class MatchBoardFragment extends BaseFragment {
 
             areaModelArrayList.add(areaModel);
         }
-        lL = new LinearLayoutManager(getContext());
-        areaOfAdapter = new BoardAreaAdapter(getContext(), 2, areaModelArrayList);
+        setRecyclerView(areaModelArrayList);
+    }
+
+    private void setRecyclerView(ArrayList<AreaModel> areaModelArrayList){
+        LinearLayoutManager lL = new LinearLayoutManager(getActivity());
+        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getActivity(), 2, areaModelArrayList);
         areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
+        areaOfAdapter.notifyDataSetChanged();
     }
 }

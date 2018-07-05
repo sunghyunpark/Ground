@@ -28,8 +28,6 @@ import util.adapter.BoardAreaAdapter;
 
 public class HireBoardFragment extends BaseFragment {
     private ArrayList<AreaModel> areaModelArrayList;
-    private LinearLayoutManager lL;
-    private BoardAreaAdapter areaOfAdapter;
     private String[] areaNameArray;
 
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
@@ -87,10 +85,7 @@ public class HireBoardFragment extends BaseFragment {
                         updateTimeResponse.getResult().get(i).setAreaName(areaNameArray[i]);
                         areaModelArrayList.add(updateTimeResponse.getResult().get(i));
                     }
-                    lL = new LinearLayoutManager(getContext());
-                    areaOfAdapter = new BoardAreaAdapter(getContext(), 3, areaModelArrayList);
-                    areaRecyclerView.setLayoutManager(lL);
-                    areaRecyclerView.setAdapter(areaOfAdapter);
+                    setRecyclerView(areaModelArrayList);
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                     setErrorList();
@@ -118,9 +113,14 @@ public class HireBoardFragment extends BaseFragment {
 
             areaModelArrayList.add(areaModel);
         }
-        lL = new LinearLayoutManager(getContext());
-        areaOfAdapter = new BoardAreaAdapter(getContext(), 3, areaModelArrayList);
+        setRecyclerView(areaModelArrayList);
+    }
+
+    private void setRecyclerView(ArrayList<AreaModel> areaModelArrayList){
+        LinearLayoutManager lL = new LinearLayoutManager(getActivity());
+        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getActivity(), 2, areaModelArrayList);
         areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
+        areaOfAdapter.notifyDataSetChanged();
     }
 }

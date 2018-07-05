@@ -64,7 +64,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof Area_VH) {
             final AreaModel currentItem = getItem(position);
             final Area_VH VHitem = (Area_VH)holder;
@@ -75,7 +75,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AreaBoardActivity.class);
                     intent.putExtra("area", currentItem.getAreaName());
-                    intent.putExtra("areaNo", position);
+                    intent.putExtra("areaNo", currentItem.getAreaNo());
                     context.startActivity(intent);
                 }
             });

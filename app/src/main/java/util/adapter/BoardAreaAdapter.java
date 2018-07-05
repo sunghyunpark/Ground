@@ -3,13 +3,21 @@ package util.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import model.AreaModel;
 import view.AreaBoardActivity;
 
 /**
@@ -23,12 +31,13 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_HIRE = 3;
     private static final int TYPE_RECRUIT = 4;
     private int type;
-    private String[] listItems;
+    private ArrayList<AreaModel> areaModelArrayList;
     private Context context;
 
-    public BoardAreaAdapter(Context context, String[] listItems, int type) {
+    public BoardAreaAdapter(Context context, int type, ArrayList<AreaModel> areaModelArrayList) {
         this.context = context;
-        this.listItems = listItems;
+        this.areaModelArrayList = areaModelArrayList;
+
         if(type == TYPE_MATCH){
             this.type = TYPE_MATCH;
         }else if(type == TYPE_HIRE){
@@ -50,31 +59,39 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private String getItem(int position) {
-        return listItems[position];
+    private AreaModel getItem(int position) {
+        return areaModelArrayList.get(position);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Area_VH) {
-            final String currentItem = getItem(position);
+            final AreaModel currentItem = getItem(position);
             final Area_VH VHitem = (Area_VH)holder;
 
-            VHitem.areaName.setText(" - "+currentItem);
+            VHitem.areaName.setText(" - "+currentItem.getAreaName());
             VHitem.areaName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AreaBoardActivity.class);
-                    intent.putExtra("area", currentItem);
+                    intent.putExtra("area", currentItem.getAreaName());
                     intent.putExtra("areaNo", position);
                     context.startActivity(intent);
                 }
             });
+
+
+            if(hasNewArticle(position)){
+                VHitem.newImg.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.newImg.setVisibility(View.GONE);
+            }
+
         }else if(holder instanceof Header_Vh){
-            final String currentItem = getItem(position);
+            final AreaModel currentItem = getItem(position);
             final Header_Vh VHitem = (Header_Vh)holder;
 
-            VHitem.areaName.setText(currentItem);
+            VHitem.areaName.setText(currentItem.getAreaName());
 
         }
     }
@@ -92,11 +109,19 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     //상세 지역 이름
     private class Area_VH extends RecyclerView.ViewHolder{
         TextView areaName;
+        ImageView newImg;
 
         private Area_VH(View itemView){
             super(itemView);
             areaName = (TextView)itemView.findViewById(R.id.area_name_tv);
+            newImg = (ImageView)itemView.findViewById(R.id.new_iv);
         }
+    }
+
+    private boolean hasNewArticle(int position){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String todayStr = df.format(new Date());
+        return getItem(position).getUpdatedAt().contains(todayStr);
     }
 
     private boolean isPositionHeader(int position){
@@ -118,7 +143,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     //increasing getItemcount to 1. This will be the row of header.
     @Override
     public int getItemCount() {
-        return listItems.length;
+        return areaModelArrayList.size();
     }
 
 }

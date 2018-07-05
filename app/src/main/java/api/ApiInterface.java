@@ -4,6 +4,7 @@ import api.response.AboutAreaBoardListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import api.response.LoginResponse;
+import api.response.UpdateTimeResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -83,4 +84,7 @@ public interface ApiInterface {
      */
     @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList/{commentNo}")
     Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType, @Path("commentNo") int commentNo);
+
+    @GET("api/boards/matching/updated")
+    Call<UpdateTimeResponse> getUpdateTimeList();
 }

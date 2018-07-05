@@ -4,18 +4,33 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.yssh.ground.R;
 
+import java.util.ArrayList;
+
+import api.ApiClient;
+import api.ApiInterface;
+import api.response.UpdateTimeResponse;
 import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import model.AreaModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import util.Util;
 import util.adapter.BoardAreaAdapter;
 
 public class HireBoardFragment extends BaseFragment {
+    private ArrayList<AreaModel> areaModelArrayList;
+    private LinearLayoutManager lL;
+    private BoardAreaAdapter areaOfAdapter;
+    private String[] areaNameArray;
 
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
@@ -50,11 +65,62 @@ public class HireBoardFragment extends BaseFragment {
      */
     private void init(){
         Resources res = getResources();
-        String[] matching_board_list= res.getStringArray(R.array.hire_board_list);
+        areaNameArray = res.getStringArray(R.array.hire_board_list);
 
-        LinearLayoutManager soul_lL = new LinearLayoutManager(getContext());
-        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getContext(), matching_board_list, 3);
-        areaRecyclerView.setLayoutManager(soul_lL);
+        areaModelArrayList = new ArrayList<>();
+
+        loadUpdateList();
+    }
+
+    private void loadUpdateList(){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList();
+        call.enqueue(new Callback<UpdateTimeResponse>() {
+            @Override
+            public void onResponse(Call<UpdateTimeResponse> call, Response<UpdateTimeResponse> response) {
+                UpdateTimeResponse updateTimeResponse = response.body();
+                if(updateTimeResponse.getCode() == 200){
+                    int size = updateTimeResponse.getResult().size();
+                    for(int i=0;i<7;i++){
+                        updateTimeResponse.getResult().get(i).setAreaName(areaNameArray[i]);
+                        areaModelArrayList.add(updateTimeResponse.getResult().get(i));
+                    }
+                    lL = new LinearLayoutManager(getContext());
+                    areaOfAdapter = new BoardAreaAdapter(getContext(), 3, areaModelArrayList);
+                    areaRecyclerView.setLayoutManager(lL);
+                    areaRecyclerView.setAdapter(areaOfAdapter);
+                }else{
+                    Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                    setErrorList();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateTimeResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
+                setErrorList();
+            }
+        });
+    }
+
+    private void setErrorList(){
+        int size = areaNameArray.length;
+        AreaModel areaModel;
+        for(int i=0;i<size;i++){
+            areaModel = new AreaModel();
+            areaModel.setAreaNo(i);
+            areaModel.setAreaName(areaNameArray[i]);
+            areaModel.setUpdatedAt("0000-00-00");
+
+            areaModelArrayList.add(areaModel);
+        }
+        lL = new LinearLayoutManager(getContext());
+        areaOfAdapter = new BoardAreaAdapter(getContext(), 3, areaModelArrayList);
+        areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
     }
 }

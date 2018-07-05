@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +14,8 @@ import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
+
 import model.CommentModel;
-import util.SessionManager;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -24,12 +23,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean isAll;
     private ArrayList<CommentModel> listItems;
     private Context context;
-    private SessionManager sessionManager;
 
     public CommentAdapter(Context context, ArrayList<CommentModel> listItems, boolean isAll) {
         this.context = context;
         this.listItems = listItems;
-        this.sessionManager = new SessionManager(context);
         this.isAll = isAll;
     }
 
@@ -81,12 +78,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             VHitem.comment_cnt_tv.setText("댓글 "+(getItemCount()-1));
 
-            VHitem.more_comment_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
         }
     }
 
@@ -112,12 +103,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private class Comment_Header extends RecyclerView.ViewHolder{
         TextView comment_cnt_tv;
-        Button more_comment_btn;
 
         private Comment_Header(View itemView){
             super(itemView);
             comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
-            more_comment_btn = (Button) itemView.findViewById(R.id.more_comment_btn);
         }
     }
 

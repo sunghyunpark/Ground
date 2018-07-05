@@ -14,14 +14,4 @@
         android:layout_marginLeft="15dp"
         android:text="댓글"/>
 
-    <Button
-        android:id="@+id/more_comment_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@null"
-        android:text="더보기"
-        android:textSize="13dp"
-        android:layout_centerVertical="true"/>
-
 </RelativeLayout>

@@ -81,7 +81,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     public void afterTextChanged(Editable s) {
         if(s.length() >= 50)
         {
-            Util.showToast(getApplicationContext(), "50자까지 입력이 가능합니다.");
+            showMessage("50자까지 입력이 가능합니다.");
             board_title_et.setText(beforeStr);
         }
         title_length_tv.setText(s.length() + "/50");

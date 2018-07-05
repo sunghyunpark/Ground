@@ -8,4 +8,6 @@ public interface CommentView extends BasePresenterView{
 
     void initComment(boolean hasComment);
 
+    void loadMoreComment();
+
 }

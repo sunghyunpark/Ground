@@ -2,10 +2,8 @@ package view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,9 +21,7 @@ import model.CommentModel;
 import model.UserModel;
 import presenter.CommentPresenter;
 import presenter.view.CommentView;
-import util.BoardManager;
 import util.EndlessRecyclerOnScrollListener;
-import util.SessionManager;
 import util.Util;
 import util.adapter.CommentAdapter;
 
@@ -37,6 +33,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
     private int areaNo, articleNo;
     private String boardType;
     private CommentPresenter commentPresenter;
+    private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.empty_comment_tv) TextView empty_tv;
     @BindView(R.id.comment_recyclerView) RecyclerView commentRecyclerView;
@@ -56,33 +53,38 @@ public class CommentActivity extends BaseActivity implements CommentView{
         articleNo = intent.getIntExtra("articleNo", 0);
         boardType = intent.getExtras().getString("boardType");
 
+        init();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        init();
     }
 
     private void init(){
         commentModelArrayList = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true);
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 
         commentPresenter = new CommentPresenter(this, getApplicationContext(), commentModelArrayList, commentAdapter);
-        commentPresenter.loadComment(false, articleNo, 0, boardType);
-        Log.d("commentPresenter", "articleNo : "+articleNo+"\n"+"boardType : "+boardType);
+        commentPresenter.loadComment(true, articleNo, 0, boardType);
+    }
 
+    /**
+     * loadMoreComment 가 호출될 경우에만 commentRecyclerView 에 addOnScrollListener 를 적용한다.
+     */
+    @Override
+    public void loadMoreComment(){
         commentRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
                 // do something...
                 try{
-                    commentPresenter.loadComment(false, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), 0, boardType);
+                    commentPresenter.loadCommentMore(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType);
                 }catch (ArrayIndexOutOfBoundsException ie){
-                    commentPresenter.loadComment(false, articleNo, 0, boardType);
+                    commentPresenter.loadComment(true, articleNo, 0, boardType);
                 }
             }
         });

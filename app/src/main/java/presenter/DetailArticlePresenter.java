@@ -9,6 +9,7 @@ import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
 import api.response.CommentListResponse;
+import api.response.CommonResponse;
 import base.presenter.BasePresenter;
 import model.ArticleModel;
 import model.CommentModel;
@@ -29,6 +30,13 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
     private ArrayList<CommentModel> commentModelArrayList;
     private CommentAdapter commentAdapter;
 
+    /**
+     * Comment
+     * @param context
+     * @param view
+     * @param commentModelArrayList
+     * @param commentAdapter
+     */
     public DetailArticlePresenter(Context context, DetailArticleView view, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
         super(view);
         this.context = context;
@@ -36,6 +44,12 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         this.commentAdapter = commentAdapter;
     }
 
+    /**
+     * Article
+     * @param context
+     * @param view
+     * @param articleModel
+     */
     public DetailArticlePresenter(Context context, DetailArticleView view, ArticleModel articleModel){
         super(view);
         this.context = context;
@@ -111,6 +125,32 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
 
             @Override
             public void onFailure(Call<CommentListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    public void postComment(int areaNo, final int articleNo, String writerId, String comment, final String boardType){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writerId, comment);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    Util.showToast(context, "댓글을 작성하였습니다.");
+                    loadComment(true, articleNo, 0, boardType);
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");

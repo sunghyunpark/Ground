@@ -2,12 +2,9 @@ package view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,9 +16,6 @@ import com.yssh.ground.R;
 
 import java.util.ArrayList;
 
-import api.ApiClient;
-import api.ApiInterface;
-import api.response.AboutAreaBoardListResponse;
 import base.BaseActivity;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -32,11 +26,6 @@ import model.CommentModel;
 import model.UserModel;
 import presenter.DetailArticlePresenter;
 import presenter.view.DetailArticleView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import util.BoardManager;
-import util.SessionManager;
 import util.Util;
 import util.adapter.CommentAdapter;
 
@@ -159,6 +148,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             if(commentStr.equals("")){
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
+                comment_et.setText(null);
+                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, boardType);
                 //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                   //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }

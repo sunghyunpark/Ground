@@ -74,14 +74,43 @@ public class CommentPresenter extends BasePresenter<CommentView> {
                         getView().initComment(true);
                         for(int i=0;i<size;i++){
                             commentModelArrayList.add(commentListResponse.getResult().get(i));
-                            Log.d("CommentAPI", commentListResponse.getResult().get(i).getComment());
                         }
                         commentAdapter.notifyDataSetChanged();
+                        getView().loadMoreComment();
                     }else{
-                        if(commentNo == 0){
-                            getView().initComment(false);
-                        }
+                        getView().initComment(false);
                     }
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    public void loadCommentMore(boolean refresh, int articleNo, final int commentNo, String boardType){
+        if(refresh)
+            commentModelArrayList.clear();
+
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType, commentNo);
+        call.enqueue(new Callback<CommentListResponse>() {
+            @Override
+            public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
+                CommentListResponse commentListResponse = response.body();
+                if(commentListResponse.getCode() == 200){
+                    int size = commentListResponse.getResult().size();
+                    for(int i=0;i<size;i++){
+                        commentModelArrayList.add(commentListResponse.getResult().get(i));
+                    }
+                    commentAdapter.notifyDataSetChanged();
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

@@ -3,6 +3,7 @@ package view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import util.adapter.AreaBoardAdapter;
 /**
  * 임의의 지역 > 게시판 리스트
  */
-public class AreaBoardActivity extends BaseActivity implements AreaBoardView{
+public class AreaBoardActivity extends BaseActivity implements AreaBoardView, SwipeRefreshLayout.OnRefreshListener{
 
     private static final int LOAD_DATA_COUNT = 10;
     private static final int REQUEST_WRITE = 1000;
@@ -34,8 +35,16 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView{
     private String area;
     private int areaNo;
 
+    @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
     @BindView(R.id.about_area_board_title_tv) TextView title_tv;
+
+    @Override
+    public void onRefresh() {
+        //새로고침시 이벤트 구현
+        init(area, areaNo);
+        swipeRefreshLayout.setRefreshing(false);
+    }
 
     @Override
     protected void onResume(){
@@ -65,6 +74,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView{
         areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
+        swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
         boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {

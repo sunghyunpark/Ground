@@ -14,8 +14,8 @@
 
     <ImageView
         android:id="@+id/new_iv"
-        android:layout_width="7dp"
-        android:layout_height="7dp"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/area_name_tv"
         android:layout_alignTop="@+id/area_name_tv"

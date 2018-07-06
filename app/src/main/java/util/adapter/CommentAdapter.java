@@ -13,7 +13,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import model.CommentModel;
 import util.Util;
@@ -74,12 +77,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             VHitem.createdAt_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
 
+            if(hasNewArticle(position)){
+                VHitem.new_iv.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.new_iv.setVisibility(View.INVISIBLE);
+            }
+
         }else if(holder instanceof Comment_Header){
             final Comment_Header VHitem = (Comment_Header)holder;
 
             VHitem.comment_cnt_tv.setText("댓글 "+(getItemCount()-1));
 
         }
+    }
+
+    private boolean hasNewArticle(int position){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String todayStr = df.format(new Date());
+        return getItem(position).getCreatedAt().contains(todayStr);
     }
 
     //게시판 item
@@ -89,6 +104,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView comment_tv;
         TextView createdAt_tv;
         TextView report_tv;
+        ImageView new_iv;
 
         private Comment_VH(View itemView){
             super(itemView);
@@ -97,8 +113,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comment_tv = (TextView)itemView.findViewById(R.id.comment_tv);
             createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             report_tv = (TextView)itemView.findViewById(R.id.report_tv);
-
-
+            new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
         }
     }
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
@@ -90,24 +91,14 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
             VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
 
+            if(hasNewArticle(position)){
+                VHitem.new_iv.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.new_iv.setVisibility(View.INVISIBLE);
+            }
+
         }else if(holder instanceof Header_Vh){
 
-        }
-    }
-
-    public Date getDate(String dateStr) {
-        SimpleDateFormat s;
-        if (dateStr.endsWith("Z")) {
-            s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000Z'", Locale.getDefault());
-            s.setTimeZone(TimeZone.getTimeZone("UTC"));
-        } else {
-            s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.getDefault());
-        }
-        try {
-            return s.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
@@ -124,6 +115,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     //게시판 item
     private class Board_VH extends RecyclerView.ViewHolder{
         ViewGroup item_layout;
+        ImageView new_iv;
         TextView title_tv;
         TextView nick_name_tv;
         TextView created_at_tv;
@@ -133,6 +125,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private Board_VH(View itemView){
             super(itemView);
             item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
+            new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
             title_tv = (TextView)itemView.findViewById(R.id.title_tv);
             nick_name_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
             created_at_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
@@ -140,6 +133,12 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
 
         }
+    }
+
+    private boolean hasNewArticle(int position){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String todayStr = df.format(new Date());
+        return getItem(position).getCreatedAt().contains(todayStr);
     }
 
     private boolean isPositionHeader(int position){

@@ -59,7 +59,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_board);
+        setContentView(R.layout.activity_detail_article);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();

@@ -25,6 +25,14 @@
             android:layout_toRightOf="@+id/user_profile_iv"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/new_iv"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/nick_name_tv"
+            android:background="@drawable/new_circle_shape"/>
     </RelativeLayout>
 
     <TextView

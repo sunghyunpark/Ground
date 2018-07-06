@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import model.ArticleModel;
@@ -64,7 +65,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             VHitem.title_tv.setText(currentItem.getTitle());
             VHitem.nick_name_tv.setText(currentItem.getNickName());
-            VHitem.created_at_tv.setText(currentItem.getCreatedAt());
             VHitem.view_cnt_tv.setText(currentItem.getViewCnt()+"");
             VHitem.comment_cnt_tv.setText(currentItem.getCommentCnt());
 
@@ -88,9 +88,26 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
             });
+            VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
 
         }else if(holder instanceof Header_Vh){
 
+        }
+    }
+
+    public Date getDate(String dateStr) {
+        SimpleDateFormat s;
+        if (dateStr.endsWith("Z")) {
+            s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000Z'", Locale.getDefault());
+            s.setTimeZone(TimeZone.getTimeZone("UTC"));
+        } else {
+            s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.getDefault());
+        }
+        try {
+            return s.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

@@ -16,6 +16,7 @@ import com.yssh.ground.R;
 import java.util.ArrayList;
 
 import model.CommentModel;
+import util.Util;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -71,7 +72,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             VHitem.comment_tv.setText(currentItem.getComment());
 
-            VHitem.createdAt_tv.setText(currentItem.getCreatedAt());
+            VHitem.createdAt_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
 
         }else if(holder instanceof Comment_Header){
             final Comment_Header VHitem = (Comment_Header)holder;

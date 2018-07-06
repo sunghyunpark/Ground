@@ -116,7 +116,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         this.articleModel = articleModel;
         title_tv.setText(articleModel.getTitle());
         nick_name_tv.setText(articleModel.getNickName());
-        created_at_tv.setText(articleModel.getCreatedAt());
+        created_at_tv.setText(Util.parseTime(articleModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
         contents_tv.setText(articleModel.getContents());
         setUserProfile(articleModel.getProfile());

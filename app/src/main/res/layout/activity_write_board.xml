@@ -65,12 +65,13 @@
         android:textColor="@color/colorTextHintGray"
         android:layout_marginTop="7dp"
         android:layout_gravity="right"/>
-    
+
     <EditText
         android:id="@+id/board_title_et"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@null"
+        android:maxLines="1"
         android:hint="제목"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -86,6 +87,10 @@
         android:layout_marginRight="10dp"
         android:background="#9E9E9E"></LinearLayout>
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null">
     <EditText
         android:id="@+id/board_contents_et"
         android:layout_width="match_parent"
@@ -93,8 +98,9 @@
         android:background="@null"
         android:hint="내용"
         android:textSize="15dp"
+        android:text="@string/write_board_default_txt"
         android:gravity="top"
-        android:padding="15dp"
-        />
+        android:padding="15dp"/>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

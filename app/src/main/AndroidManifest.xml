@@ -22,7 +22,8 @@
         <activity android:name="view.RegisterActivity" />
         <activity android:name="view.LoginActivity" />
         <activity android:name="view.AreaBoardActivity" />
-        <activity android:name="view.WriteBoardActivity" />
+        <activity android:name="view.WriteBoardActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity android:name="view.DetailArticleActivity" />
         <activity android:name="view.CommentActivity"></activity>
     </application>

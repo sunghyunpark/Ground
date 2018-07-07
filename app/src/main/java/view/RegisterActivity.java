@@ -63,7 +63,8 @@ public class RegisterActivity extends BaseActivity implements LoginView {
      * @param email
      * @param password
      */
-    private void createAccount(String email, String password, final String nickName) {
+    private void createAccount(final String email, String password, final String nickName) {
+        showLoading();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -74,9 +75,9 @@ public class RegisterActivity extends BaseActivity implements LoginView {
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
                             Log.d(TAG, mAuth.getCurrentUser().getUid());
-                            loginPresenter.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName);
-                            finish();
+                            loginPresenter.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName, email);
                         }else{
+                            hideLoading();
                             Toast.makeText(getApplicationContext(), "이미 동일한 계정이 존재합니다.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -104,6 +105,7 @@ public class RegisterActivity extends BaseActivity implements LoginView {
 
     @Override
     public void goMainActivity(){
+        hideLoading();
         sessionManager.setLogin(true);
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,7 @@ public class SettingFragment extends BaseFragment implements LoginView {
     private void setLoginState(){
         if(sessionManager.isLoggedIn()){
             user_id_tv.setText(UserModel.getInstance().getEmail());
+            Log.d("After Register", UserModel.getInstance().getEmail()+"????");
         }else{
             user_id_tv.setText(loginDefaultStateStr);
         }

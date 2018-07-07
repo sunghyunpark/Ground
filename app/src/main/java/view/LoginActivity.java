@@ -61,6 +61,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
      * @param password
      */
     private void signIn(final String email, final String password){
+        showLoading();
         mAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -68,6 +69,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
                         if(task.isSuccessful()){
                             loginPresenter.getUserDataForLogin(mAuth.getCurrentUser().getUid(), mAuth.getCurrentUser().getEmail());
                         } else {
+                            hideLoading();
                             showMessage("Sign In Fail From Firebase");
                         }
                     } } );
@@ -75,6 +77,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void goMainActivity(){
+        hideLoading();
         sessionManager.setLogin(true);
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

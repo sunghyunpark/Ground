@@ -48,7 +48,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param loginType
      * @param nickName
      */
-    public void postUserDataForRegister(String uid, String loginType, String nickName){
+    public void postUserDataForRegister(String uid, String loginType, String nickName, final String email){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -60,6 +60,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 if(loginResponse.getCode() == 200){
                     //토스트를 중앙에 띄워준다.
                     Util.showToast(context, "success");
+                    sessionManager.setLogin(true);
 
                     Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
                             "message : "+ loginResponse.getMessage()+"\n"+
@@ -67,7 +68,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
                             "nickName : "+ loginResponse.getResult().getNickName());
 
-                    insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), loginResponse.getResult().getEmail(),
+                    insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
                             loginResponse.getResult().getCreatedAt());
 
@@ -96,6 +97,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
                 if(loginResponse.getCode() == 200){
+                    sessionManager.setLogin(true);
                     Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
                             "message : "+ loginResponse.getMessage()+"\n"+
                             "uid : "+ loginResponse.getResult().getUid()+"\n"+

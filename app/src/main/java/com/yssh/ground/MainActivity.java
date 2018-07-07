@@ -17,6 +17,7 @@ import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.UserModel;
 import presenter.LoginPresenter;
 import presenter.view.LoginView;
 import view.BoardFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity implements LoginView{
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
     // loginPresenter 로 부터 생성된 realm 객체 해제
     @Override
     protected void onDestroy(){
@@ -98,6 +100,11 @@ public class MainActivity extends BaseActivity implements LoginView{
                     //Firebase에서 로그인된 User 가 있는 경우 Realm에 저장된 데이터를 싱글톤에 저장
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     loginPresenter.updateUserData(user.getUid());
+
+                    Log.d("userData",
+                            "uid : "+ UserModel.getInstance().getUid()+"\n"+
+                            "loginType : "+ UserModel.getInstance().getLoginType()+"\n"+
+                            "nickName : "+ UserModel.getInstance().getNickName());
                 } /*else {
                     //Firebase에 로그인된 User가 없는 경우 Intro 화면으로 이동
                     Log.d(TAG, "onAuthStateChanged:signed_out");

@@ -85,6 +85,13 @@ public interface ApiInterface {
     @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList/{commentNo}")
     Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType, @Path("commentNo") int commentNo);
 
+    /**
+     * get Match Board updated_at
+     * @return
+     */
     @GET("api/boards/matching/updated")
     Call<UpdateTimeResponse> getUpdateTimeList();
+
+    @GET("api/boards/matching/recent")
+    Call<AboutAreaBoardListResponse> getRecentMatchingArticleList();
 }

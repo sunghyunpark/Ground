@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 import com.yssh.ground.R;
 
 import base.BaseFragment;
+import presenter.LoginPresenter;
+import presenter.view.LoginView;
 import util.SessionManager;
 
 import butterknife.BindString;
@@ -22,12 +23,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.UserModel;
-import util.LoginManager;
 
-public class SettingFragment extends BaseFragment {
+public class SettingFragment extends BaseFragment implements LoginView {
 
-    private LoginManager loginManager;
     private SessionManager sessionManager;
+    private LoginPresenter loginPresenter;
 
     @BindView(R.id.user_id_tv) TextView user_id_tv;
     @BindView(R.id.current_app_version_tv) TextView app_version_tv;
@@ -36,8 +36,8 @@ public class SettingFragment extends BaseFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if(loginManager != null)
-            loginManager.RealmDestroy();
+        if(loginPresenter != null)
+            loginPresenter.RealmDestroy();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SettingFragment extends BaseFragment {
     }
 
     private void init(){
-        loginManager = new LoginManager(getContext());
+        loginPresenter = new LoginPresenter(this, getContext());
         sessionManager = new SessionManager(getContext());
 
         setLoginState();
@@ -84,6 +84,16 @@ public class SettingFragment extends BaseFragment {
         } catch(PackageManager.NameNotFoundException e) { }
     }
 
+    @Override
+    public void loginClick(){
+
+    }
+
+    @Override
+    public void goMainActivity(){
+
+    }
+
     /**
      * 로그인 영역을 탭 시
      * - 로그인 상태
@@ -100,7 +110,7 @@ public class SettingFragment extends BaseFragment {
             alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     sessionManager.setLogin(false);
-                    loginManager.logOut(UserModel.getInstance().getUid());
+                    loginPresenter.logOut(UserModel.getInstance().getUid());
                     setLoginState();
                 }
             });

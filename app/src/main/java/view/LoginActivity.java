@@ -1,28 +1,27 @@
 package view;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.yssh.ground.MainActivity;
 import com.yssh.ground.R;
 
+import base.BaseActivity;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import util.LoginManager;
-import util.Util;
+import presenter.LoginPresenter;
+import presenter.view.LoginView;
+import util.SessionManager;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity implements LoginView {
 
     @BindView(R.id.email_edit_box) EditText email_et;
     @BindView(R.id.password_edit_box) EditText pw_et;
@@ -30,9 +29,17 @@ public class LoginActivity extends AppCompatActivity {
     @BindString(R.string.register_error_input_email_txt) String inputEmailErrorStr;
     @BindString(R.string.register_error_input_pw_txt) String inputPwErrorStr;
 
-    private LoginManager loginManager;
     private FirebaseAuth mAuth;
+    private LoginPresenter loginPresenter;
+    private SessionManager sessionManager;
 
+    // loginPresenter 로 부터 생성된 realm 객체 해제
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(loginPresenter != null)
+            loginPresenter.RealmDestroy();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void init(){
-        loginManager = new LoginManager(getApplicationContext());
+        sessionManager = new SessionManager(getApplicationContext());
+        loginPresenter = new LoginPresenter(this, getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -58,27 +66,42 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            loginManager.getUserDataForLogin(mAuth.getCurrentUser().getUid(), mAuth.getCurrentUser().getEmail());
+                            loginPresenter.getUserDataForLogin(mAuth.getCurrentUser().getUid(), mAuth.getCurrentUser().getEmail());
                         } else {
-                            Util.showToast(getApplicationContext(), "Sign In Fail From Firebase");
+                            showMessage("Sign In Fail From Firebase");
                         }
                     } } );
     }
 
-    @OnClick(R.id.login_btn) void loginBtn(){
+    @Override
+    public void goMainActivity(){
+        sessionManager.setLogin(true);
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void loginClick(){
         String emailStr = email_et.getText().toString().trim();
         String pwStr = pw_et.getText().toString().trim();
 
         if(emailStr.equals("") || pwStr.equals("")){
-            Util.showToast(getApplicationContext(), notExistErrorStr);
+            showMessage(notExistErrorStr);
         }else if(!emailStr.contains("@") || !emailStr.contains(".com")){
-            Util.showToast(getApplicationContext(), inputEmailErrorStr);
+            showMessage(inputEmailErrorStr);
         }else if(pwStr.length()<6){
-            Util.showToast(getApplicationContext(), inputPwErrorStr);
+            showMessage(inputPwErrorStr);
         }else{
             //loadingDialog.show();
             signIn(emailStr, pwStr);
         }
+    }
+
+    @OnClick(R.id.login_btn) void loginBtn(){
+        loginClick();
     }
 
     @OnClick(R.id.back_btn) void backBtn(){

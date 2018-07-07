@@ -1,25 +1,27 @@
-package util;
+package presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.yssh.ground.MainActivity;
 
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.LoginResponse;
+import base.presenter.BasePresenter;
 import database.RealmConfig;
 import database.model.UserVO;
 import io.realm.Realm;
 import model.UserModel;
+import presenter.view.LoginView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import util.SessionManager;
+import util.Util;
 
-public class LoginManager {
+public class LoginPresenter extends BasePresenter<LoginView> {
 
     private Context context;
     private FirebaseAuth mAuth;
@@ -27,7 +29,8 @@ public class LoginManager {
     private RealmConfig realmConfig;
     private SessionManager sessionManager;
 
-    public LoginManager(Context context){
+    public LoginPresenter(LoginView view, Context context){
+        super(view);
         this.context = context;
         this.mAuth = FirebaseAuth.getInstance();
         this.realmConfig = new RealmConfig();
@@ -59,16 +62,16 @@ public class LoginManager {
                     Util.showToast(context, "success");
 
                     Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
-                    "message : "+ loginResponse.getMessage()+"\n"+
-                    "uid : "+ loginResponse.getResult().getUid()+"\n"+
-                    "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
-                    "nickName : "+ loginResponse.getResult().getNickName());
+                            "message : "+ loginResponse.getMessage()+"\n"+
+                            "uid : "+ loginResponse.getResult().getUid()+"\n"+
+                            "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
+                            "nickName : "+ loginResponse.getResult().getNickName());
 
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), loginResponse.getResult().getEmail(),
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
                             loginResponse.getResult().getCreatedAt());
 
-                    goMainActivity();
+                    getView().goMainActivity();
                 }else{
                     Toast.makeText(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                 }
@@ -83,10 +86,6 @@ public class LoginManager {
         });
     }
 
-    /**
-     * 로그인 후 server 로 GET 요청 후 데이터를 받아옴
-     * @param uid
-     */
     public void getUserDataForLogin(String uid, final String email){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -107,7 +106,7 @@ public class LoginManager {
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
                             loginResponse.getResult().getCreatedAt());
 
-                    goMainActivity();
+                    getView().goMainActivity();
                 }else{
                     Toast.makeText(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                 }
@@ -181,12 +180,4 @@ public class LoginManager {
         realm.commitTransaction();
     }
 
-    private void goMainActivity(){
-        sessionManager.setLogin(true);
-
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
 }

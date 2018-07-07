@@ -17,19 +17,20 @@ import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import util.LoginManager;
+import presenter.LoginPresenter;
+import presenter.view.LoginView;
 import view.BoardFragment;
 import view.HomeFragment;
 import view.SettingFragment;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity implements LoginView{
 
     private final static String TAG = "MainActivity";
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
-    private LoginManager loginManager;
     private int currentPage = R.id.tab_1;
+    private LoginPresenter loginPresenter;
 
     @BindView(R.id.tab_1) ViewGroup tabBtn1;
     @BindView(R.id.tab_2) ViewGroup tabBtn2;
@@ -59,12 +60,12 @@ public class MainActivity extends BaseActivity{
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-    // LoginManager 로 부터 생성된 realm 객체 해제
+    // loginPresenter 로 부터 생성된 realm 객체 해제
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        if(loginManager != null)
-            loginManager.RealmDestroy();
+        if(loginPresenter != null)
+            loginPresenter.RealmDestroy();
     }
 
     @Override
@@ -82,6 +83,8 @@ public class MainActivity extends BaseActivity{
     }
 
     private void init(){
+        loginPresenter = new LoginPresenter(this, getApplicationContext());
+
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, new HomeFragment());
@@ -94,9 +97,7 @@ public class MainActivity extends BaseActivity{
                 if (user != null || isLogin()) {
                     //Firebase에서 로그인된 User 가 있는 경우 Realm에 저장된 데이터를 싱글톤에 저장
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
-                    loginManager = new LoginManager(getApplicationContext());
-                    loginManager.updateUserData(user.getUid());
+                    loginPresenter.updateUserData(user.getUid());
                 } /*else {
                     //Firebase에 로그인된 User가 없는 경우 Intro 화면으로 이동
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -130,6 +131,16 @@ public class MainActivity extends BaseActivity{
                 //tab3_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                 break;
         }
+    }
+
+    @Override
+    public void loginClick(){
+
+    }
+
+    @Override
+    public void goMainActivity(){
+
     }
 
     @OnClick({R.id.tab_1, R.id.tab_2, R.id.tab_3}) void click(View v){

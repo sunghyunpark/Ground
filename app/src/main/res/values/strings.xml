@@ -35,6 +35,9 @@
     <string name="setting_fragment_login_txt">로그인 정보</string>
     <string name="setting_fragment_login_default_txt">로그인하세요</string>
     <string name="setting_fragment_version_txt">버전 정보</string>
+    <string name="setting_fragment_profile_txt">프로필</string>
+    <string name="setting_fragment_review_txt">리뷰쓰기</string>
+    <string name="setting_fragment_license_txt">라이센스</string>
 
     <!-- About Article Activity -->
     <string name="about_article_activity_favorite_btn">관심</string>

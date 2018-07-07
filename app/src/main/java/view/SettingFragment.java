@@ -32,6 +32,7 @@ public class SettingFragment extends BaseFragment implements LoginView {
 
     @BindView(R.id.user_id_tv) TextView user_id_tv;
     @BindView(R.id.current_app_version_tv) TextView app_version_tv;
+    @BindView(R.id.user_nick_name_tv) TextView user_nickName_tv;
     @BindString(R.string.setting_fragment_login_default_txt) String loginDefaultStateStr;
 
     @Override
@@ -64,6 +65,7 @@ public class SettingFragment extends BaseFragment implements LoginView {
 
         setLoginState();
         setAppVersion();
+        setUserNickName();
     }
 
     //로그인 상태에 따른 init
@@ -73,6 +75,14 @@ public class SettingFragment extends BaseFragment implements LoginView {
             Log.d("After Register", UserModel.getInstance().getEmail()+"????");
         }else{
             user_id_tv.setText(loginDefaultStateStr);
+        }
+    }
+
+    private void setUserNickName(){
+        if(sessionManager.isLoggedIn()){
+            user_nickName_tv.setText(UserModel.getInstance().getNickName());
+        }else{
+            user_nickName_tv.setText("");
         }
     }
 
@@ -114,6 +124,7 @@ public class SettingFragment extends BaseFragment implements LoginView {
                     sessionManager.setLogin(false);
                     loginPresenter.logOut(UserModel.getInstance().getUid());
                     setLoginState();
+                    setUserNickName();
                 }
             });
             alert.setNegativeButton("아니오",

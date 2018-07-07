@@ -84,6 +84,87 @@
         android:text="정보"/>
 
     <RelativeLayout
+    android:id="@+id/profile_btn"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:layout_marginTop="1dp"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp"
+        android:textSize="15dp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/setting_fragment_profile_txt"/>
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/arrow_right_img"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"/>
+    <TextView
+        android:id="@+id/user_nick_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="35dp"
+        android:layout_alignParentRight="true"
+        android:textSize="15dp"
+        android:textColor="@color/colorMoreGray"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/review_btn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/setting_fragment_review_txt"/>
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrow_right_img"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/app_license_txt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/setting_fragment_license_txt"/>
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrow_right_img"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginTop="1dp"

@@ -2,6 +2,7 @@ package util.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.text.DateFormat;
@@ -98,17 +102,26 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
         }else if(holder instanceof Header_Vh){
+            final Header_Vh VHitem = (Header_Vh)holder;
 
+            RequestOptions requestOptions = new RequestOptions();
+            Drawable drawable = context.getResources().getDrawable(R.drawable.banner_test_img);
+            requestOptions.placeholder(drawable);
+
+            Glide.with(context)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(null)
+                    .into(VHitem.banner_iv);
         }
     }
 
     //상단 헤더
     private class Header_Vh extends RecyclerView.ViewHolder{
-        TextView areaName;
+        ImageView banner_iv;
 
         private Header_Vh(View itemView){
             super(itemView);
-            areaName = (TextView)itemView.findViewById(R.id.title_tv);
+            banner_iv = (ImageView) itemView.findViewById(R.id.banner_iv);
         }
     }
 

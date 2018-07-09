@@ -2,8 +2,11 @@ package util.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +41,11 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private SessionManager sessionManager;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private int bannerCount;
+
+    private static final int SEND_RUNNING = 1000;
+    private static final int SEND_STOP = 2000;
+    private Handler handler;
+    private Thread thread = null;
 
     public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount) {
         this.context = context;
@@ -137,6 +146,60 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
             });
+
+            //handler = new BannerHandler(this, banner_pager);
+            //thread = new Thread();
+            //thread.start();
+        }
+    }
+
+    private class Thread extends java.lang.Thread{
+        boolean stopped = false;
+
+        private Thread(){
+            this.stopped = false;
+        }
+
+        public void stopThread(){
+            this.stopped = true;
+        }
+
+        @Override
+        public void run(){
+            super.run();
+            while (!stopped){
+                Message message = handler.obtainMessage();
+                message.what = SEND_RUNNING;
+                handler.sendMessage(message);
+                try{
+                    sleep(5000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static class BannerHandler extends Handler{
+        private final WeakReference<Header_Vh> weakReference;
+        private ViewPager viewPager;
+        private int p=0;	//페이지번호
+
+        private BannerHandler(Header_Vh header_vh, ViewPager viewPager){
+            this.weakReference = new WeakReference<Header_Vh>(header_vh);
+            this.viewPager = viewPager;
+        }
+
+        @Override
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case SEND_RUNNING:
+                    viewPager.arrowScroll(View.FOCUS_RIGHT);
+                    Log.d("BannerThread","Running");
+                    break;
+                    default:
+                        break;
+            }
         }
     }
 

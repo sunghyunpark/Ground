@@ -36,13 +36,15 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private SessionManager sessionManager;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
+    private int bannerCount;
 
-    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter) {
+    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
         this.sessionManager = new SessionManager(context);
         this.bannerViewPagerAdapter = bannerViewPagerAdapter;
+        this.bannerCount = bannerCount;
     }
 
     @Override
@@ -104,7 +106,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Header_Vh VHitem = (Header_Vh)holder;
 
             VHitem.banner_pager.setAdapter(bannerViewPagerAdapter);
-
+            VHitem.banner_pager.setCurrentItem(bannerCount);
         }
     }
 
@@ -115,6 +117,26 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private Header_Vh(View itemView){
             super(itemView);
             banner_pager = (ViewPager) itemView.findViewById(R.id.banner_pager);
+
+            banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if(position < bannerCount)        //1번째 아이템에서 마지막 아이템으로 이동하면
+                        banner_pager.setCurrentItem(position+bannerCount, false); //이동 애니메이션을 제거 해야 한다
+                    else if(position >= bannerCount*2)     //마지막 아이템에서 1번째 아이템으로 이동하면
+                        banner_pager.setCurrentItem(position - bannerCount, false);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
         }
     }
 

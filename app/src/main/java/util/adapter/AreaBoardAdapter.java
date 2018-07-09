@@ -2,7 +2,7 @@ package util.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.text.DateFormat;
@@ -38,12 +35,14 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ArrayList<ArticleModel> listItems;
     private Context context;
     private SessionManager sessionManager;
+    private BannerViewPagerAdapter bannerViewPagerAdapter;
 
-    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area) {
+    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
         this.sessionManager = new SessionManager(context);
+        this.bannerViewPagerAdapter = bannerViewPagerAdapter;
     }
 
     @Override
@@ -104,24 +103,18 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }else if(holder instanceof Header_Vh){
             final Header_Vh VHitem = (Header_Vh)holder;
 
-            RequestOptions requestOptions = new RequestOptions();
-            Drawable drawable = context.getResources().getDrawable(R.drawable.banner_test_img);
-            requestOptions.placeholder(drawable);
+            VHitem.banner_pager.setAdapter(bannerViewPagerAdapter);
 
-            Glide.with(context)
-                    .setDefaultRequestOptions(requestOptions)
-                    .load(null)
-                    .into(VHitem.banner_iv);
         }
     }
 
     //상단 헤더
     private class Header_Vh extends RecyclerView.ViewHolder{
-        ImageView banner_iv;
+        ViewPager banner_pager;
 
         private Header_Vh(View itemView){
             super(itemView);
-            banner_iv = (ImageView) itemView.findViewById(R.id.banner_iv);
+            banner_pager = (ViewPager) itemView.findViewById(R.id.banner_pager);
         }
     }
 

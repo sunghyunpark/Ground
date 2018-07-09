@@ -17,10 +17,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
+import model.BannerModel;
 import presenter.AreaBoardPresenter;
 import presenter.view.AreaBoardView;
 import util.EndlessRecyclerOnScrollListener;
 import util.adapter.AreaBoardAdapter;
+import util.adapter.BannerViewPagerAdapter;
 
 /**
  * 임의의 지역 > 게시판 리스트
@@ -34,6 +36,9 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private ArrayList<ArticleModel> articleModelArrayList;
     private String area;
     private int areaNo;
+
+    private BannerViewPagerAdapter bannerViewPagerAdapter;
+    private ArrayList<BannerModel> bannerModelArrayList;
 
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
@@ -69,9 +74,11 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     }
 
     private void init(String area, final int areaNo){
+        bannerModelArrayList = new ArrayList<>();
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList);
         articleModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area);
+        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);

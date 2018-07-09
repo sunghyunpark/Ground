@@ -76,6 +76,7 @@ public class RecentMatchBoardFragment extends Fragment {
         recentBoardAdapter = new RecentBoardAdapter(getContext(), articleModelArrayList, 2);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recentBoardAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
 
         loadArticleList();
     }

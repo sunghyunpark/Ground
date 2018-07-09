@@ -61,6 +61,13 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     }
 
     @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(areaBoardAdapter != null)
+            areaBoardAdapter.stopBannerThread();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_area_board);
@@ -74,7 +81,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     }
 
     private void init(String area, final int areaNo){
-        bannerModelArrayList = new ArrayList<>();
+        bannerModelArrayList = new ArrayList<>();    //banner List
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());

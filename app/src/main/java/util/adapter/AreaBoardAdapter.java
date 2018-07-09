@@ -43,9 +43,8 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int bannerCount;
 
     private static final int SEND_RUNNING = 1000;
-    private static final int SEND_STOP = 2000;
-    private Handler handler;
-    private Thread thread = null;
+    private Util.BannerHandler handler;
+    private BannerThread thread = null;
 
     public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount) {
         this.context = context;
@@ -147,20 +146,25 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            //handler = new BannerHandler(this, banner_pager);
-            //thread = new Thread();
-            //thread.start();
+            handler = new Util.BannerHandler(this, banner_pager, bannerCount);
+            thread = new BannerThread();
+            thread.start();
         }
     }
 
-    private class Thread extends java.lang.Thread{
+    public void stopBannerThread(){
+        thread.stopThread();
+        this.handler.removeMessages(0);
+    }
+
+    private class BannerThread extends java.lang.Thread{
         boolean stopped = false;
 
-        private Thread(){
+        private BannerThread(){
             this.stopped = false;
         }
 
-        public void stopThread(){
+        private void stopThread(){
             this.stopped = true;
         }
 
@@ -176,29 +180,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
-            }
-        }
-    }
-
-    private static class BannerHandler extends Handler{
-        private final WeakReference<Header_Vh> weakReference;
-        private ViewPager viewPager;
-        private int p=0;	//페이지번호
-
-        private BannerHandler(Header_Vh header_vh, ViewPager viewPager){
-            this.weakReference = new WeakReference<Header_Vh>(header_vh);
-            this.viewPager = viewPager;
-        }
-
-        @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
-                case SEND_RUNNING:
-                    viewPager.arrowScroll(View.FOCUS_RIGHT);
-                    Log.d("BannerThread","Running");
-                    break;
-                    default:
-                        break;
             }
         }
     }
@@ -248,18 +229,5 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemCount() {
         return listItems.size()+1;
-    }
-    public static Date fromISO8601UTC(String dateStr) {
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-        df.setTimeZone(tz);
-
-        try {
-            return df.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }

@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -12,14 +15,18 @@ import android.widget.Toast;
 
 import com.yssh.ground.R;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import util.adapter.AreaBoardAdapter;
+
 public class Util {
 
+    public static final int SEND_RUNNING = 1000;
     /**
      * 디바이스 사이즈를 구할 때 사용한다.
      * @param context
@@ -112,4 +119,38 @@ public class Util {
             return null;
         }
     }
+
+    public static class BannerHandler extends Handler {
+        private final WeakReference<Object> weakReference;
+        private ViewPager viewPager;
+        private int bannerCount;
+
+        public BannerHandler(Object object, ViewPager viewPager, int bannerCount){
+            this.weakReference = new WeakReference<Object>(object);
+            this.viewPager = viewPager;
+            this.bannerCount = bannerCount;
+        }
+
+        @Override
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case SEND_RUNNING:
+                    if(viewPager.getCurrentItem() % bannerCount == 0){
+                        viewPager.setCurrentItem(1);
+
+                    }else if(viewPager.getCurrentItem() % bannerCount == 1){
+                        viewPager.setCurrentItem(2);
+
+                    }else if(viewPager.getCurrentItem() % bannerCount == 2){
+                        viewPager.setCurrentItem(0);
+
+                    }
+                    //viewPager.arrowScroll(View.FOCUS_RIGHT);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
 }

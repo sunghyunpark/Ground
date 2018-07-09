@@ -68,8 +68,8 @@ public class BannerViewPagerAdapter extends PagerAdapter {
             }
         });
 
-        TextView cnt_tv = (TextView) v.findViewById(R.id.cnt_tv);
-        cnt_tv.setText(position+"");
+        TextView banner_cnt_tv = (TextView) v.findViewById(R.id.count_tv);
+        banner_cnt_tv.setText((position+1)+"/"+bannerCount);
 
         container.addView(v);
         return v;

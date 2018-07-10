@@ -210,7 +210,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean hasNewArticle(int position){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         String todayStr = df.format(new Date());
-        return getItem(position).getCreatedAt().contains(todayStr);
+        return Util.parseTime(getItem(position).getCreatedAt()).contains(todayStr);
     }
 
     private boolean isPositionHeader(int position){

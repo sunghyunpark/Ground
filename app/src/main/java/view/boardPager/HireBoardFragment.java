@@ -118,7 +118,7 @@ public class HireBoardFragment extends BaseFragment {
 
     private void setRecyclerView(ArrayList<AreaModel> areaModelArrayList){
         LinearLayoutManager lL = new LinearLayoutManager(getActivity());
-        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getActivity(), 2, areaModelArrayList);
+        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getActivity(), 3, areaModelArrayList);
         areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
         areaOfAdapter.notifyDataSetChanged();

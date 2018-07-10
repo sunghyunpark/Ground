@@ -47,13 +47,30 @@ public interface ApiInterface {
                                     @Field("contents") String contents);
 
     /**
-     * get area board List api
+     * get match area board List api
      * @param areaNo
      * @return
      */
     @GET("api/boards/matching/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getAboutAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
+    Call<AboutAreaBoardListResponse> getMatchAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
 
+    /**
+     * get hire area board List api
+     * @param areaNo
+     * @param no
+     * @return
+     */
+    @GET("api/boards/hire/{areaNo}/{no}")
+    Call<AboutAreaBoardListResponse> getHireAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
+
+    /**
+     * get recruit area board List api
+     * @param areaNo
+     * @param no
+     * @return
+     */
+    @GET("api/boards/recruit/{areaNo}/{no}")
+    Call<AboutAreaBoardListResponse> getRecruitAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
     /**
      * get Article view api
      * @param areaNo

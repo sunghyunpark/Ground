@@ -34,7 +34,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private AreaBoardAdapter areaBoardAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
-    private String area;
+    private String area, from;
     private int areaNo;
 
     private BannerViewPagerAdapter bannerViewPagerAdapter;
@@ -74,6 +74,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
+        from = intent.getExtras().getString("from");
         area = intent.getExtras().getString("area");
         areaNo = intent.getIntExtra("areaNo", 0);
 
@@ -89,7 +90,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
-        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
+        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList, from);
 
         boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override

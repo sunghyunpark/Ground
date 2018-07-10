@@ -3,12 +3,12 @@ package util.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yssh.ground.R;
 
@@ -73,10 +73,13 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHitem.areaName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, AreaBoardActivity.class);
-                    intent.putExtra("area", currentItem.getAreaName());
-                    intent.putExtra("areaNo", currentItem.getAreaNo());
-                    context.startActivity(intent);
+                    if(type == TYPE_MATCH){
+                        goMatchAreaBoardActivity(currentItem);
+                    }else if(type == TYPE_HIRE){
+                        Toast.makeText(context, "용병", Toast.LENGTH_SHORT).show();
+                    }else if(type == TYPE_RECRUIT){
+                        Toast.makeText(context, "모집", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -94,6 +97,14 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHitem.areaName.setText(currentItem.getAreaName());
 
         }
+    }
+
+    private void goMatchAreaBoardActivity(AreaModel currentItem){
+        Intent intent = new Intent(context, AreaBoardActivity.class);
+        intent.putExtra("from", "match");
+        intent.putExtra("area", currentItem.getAreaName());
+        intent.putExtra("areaNo", currentItem.getAreaNo());
+        context.startActivity(intent);
     }
 
     //지역 이름

@@ -118,7 +118,7 @@ public class RecruitBoardFragment extends BaseFragment {
 
     private void setRecyclerView(ArrayList<AreaModel> areaModelArrayList){
         LinearLayoutManager lL = new LinearLayoutManager(getActivity());
-        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getActivity(), 2, areaModelArrayList);
+        BoardAreaAdapter areaOfAdapter = new BoardAreaAdapter(getActivity(), 4, areaModelArrayList);
         areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaOfAdapter);
         areaOfAdapter.notifyDataSetChanged();

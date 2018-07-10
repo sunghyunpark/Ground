@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yssh.ground.R;
 
@@ -74,15 +73,14 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View view) {
                     if(type == TYPE_MATCH){
-                        goMatchAreaBoardActivity(currentItem);
+                        goAreaBoardActivity(currentItem, "match");
                     }else if(type == TYPE_HIRE){
-                        Toast.makeText(context, "용병", Toast.LENGTH_SHORT).show();
+                        goAreaBoardActivity(currentItem, "hire");
                     }else if(type == TYPE_RECRUIT){
-                        Toast.makeText(context, "모집", Toast.LENGTH_SHORT).show();
+                        goAreaBoardActivity(currentItem, "recruit");
                     }
                 }
             });
-
 
             if(hasNewArticle(position)){
                 VHitem.newImg.setVisibility(View.VISIBLE);
@@ -99,9 +97,9 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    private void goMatchAreaBoardActivity(AreaModel currentItem){
+    private void goAreaBoardActivity(AreaModel currentItem, String from){
         Intent intent = new Intent(context, AreaBoardActivity.class);
-        intent.putExtra("from", "match");
+        intent.putExtra("from", from);
         intent.putExtra("area", currentItem.getAreaName());
         intent.putExtra("areaNo", currentItem.getAreaNo());
         context.startActivity(intent);

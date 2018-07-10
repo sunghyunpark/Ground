@@ -61,7 +61,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         if(titleStr.equals("") || contentsStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-            writeBoardPresenter.postMatchingBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
+            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
             finish();

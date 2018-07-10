@@ -22,7 +22,7 @@ public class WriteBoardPresenter extends BasePresenter<WriteBoardView> {
         this.context = context;
     }
 
-    public void postMatchingBoard(int areaNo, String uid, String title, String contents, String boardType){
+    public void postBoard(int areaNo, String uid, String title, String contents, String boardType){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

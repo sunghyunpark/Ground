@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,7 +53,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     protected void onResume(){
         super.onResume();
         if(commentPresenter != null){
-            commentPresenter.loadComment(true, articleNo, 0, areaNo);
+            commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
         }
     }
 
@@ -149,7 +150,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr);
+                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, boardType);
                 //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                   //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }

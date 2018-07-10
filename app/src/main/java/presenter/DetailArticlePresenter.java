@@ -95,14 +95,14 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param commentNo
      * @param areaNo
      */
-    public void loadComment(boolean refresh, int articleNo, final int commentNo, int areaNo){
+    public void loadComment(boolean refresh, int articleNo, final int commentNo, int areaNo, String boardType){
         if(refresh)
             commentModelArrayList.clear();
 
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommentListResponse> call = apiService.getCommentList(articleNo, areaNo, commentNo);
+        Call<CommentListResponse> call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
@@ -132,18 +132,18 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         });
     }
 
-    public void postComment(final int areaNo, final int articleNo, String writerId, String comment){
+    public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writerId, comment);
+        Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse commonResponse = response.body();
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
-                    loadComment(true, articleNo, 0, areaNo);
+                    loadComment(true, articleNo, 0, areaNo, boardType);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

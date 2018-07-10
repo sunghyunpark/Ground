@@ -72,8 +72,8 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/boards/matching/view/comment")
-    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("articleNo") int articleNo, @Field("writer_id") String writer_id, @Field("comment") String comment);
+    @POST("api/boards/view/comment")
+    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("articleNo") int articleNo, @Field("writer_id") String writer_id, @Field("comment") String comment, @Field("boardType") String boardType);
 
     /**
      * get Article Comment List api
@@ -82,8 +82,8 @@ public interface ApiInterface {
      * @param commentNo
      * @return
      */
-    @GET("api/boards/matching/view/{articleNo}/{areaNo}/commentList/{commentNo}")
-    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
+    @GET("api/boards/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
+    Call<CommentListResponse> getCommentList(@Path("boardType") String boardType, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
 
     /**
      * get Match Board updated_at

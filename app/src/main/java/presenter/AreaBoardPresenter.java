@@ -22,39 +22,23 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
     private Context context;
     private AreaBoardAdapter adapter;
     private ArrayList<ArticleModel> articleModelArrayList;
-    private String from;    // match / hire / recruit 어디서부터 접근을 했는지
 
-    public AreaBoardPresenter(Context context, AreaBoardView view, AreaBoardAdapter adapter, ArrayList<ArticleModel> articleModelArrayList, String from){
+    public AreaBoardPresenter(Context context, AreaBoardView view, AreaBoardAdapter adapter, ArrayList<ArticleModel> articleModelArrayList){
         super(view);
         this.context = context;
         this.adapter = adapter;
         this.articleModelArrayList = articleModelArrayList;
-        this.from = from;
     }
     /**
      * 매칭 게시판 리스트
      * @param areaNo
      * @param articleNo
      */
-    public void loadArticleList(int areaNo, int articleNo){
+    public void loadArticleList(int areaNo, int articleNo, String boardType){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call;
-        switch (from){
-            case "match":
-                call = apiService.getMatchAreaBoardList(areaNo, articleNo);
-                break;
-            case "hire":
-                call = apiService.getHireAreaBoardList(areaNo, articleNo);
-                break;
-            case "recruit":
-                call = apiService.getRecruitAreaBoardList(areaNo, articleNo);
-                break;
-                default:
-                    call = apiService.getMatchAreaBoardList(areaNo, articleNo);
-                    break;
-        }
+        Call<AboutAreaBoardListResponse> call = apiService.getAreaBoardList(boardType, areaNo, articleNo);
         call.enqueue(new Callback<AboutAreaBoardListResponse>() {
             @Override
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {

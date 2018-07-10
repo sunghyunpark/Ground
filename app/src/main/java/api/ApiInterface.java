@@ -34,7 +34,7 @@ public interface ApiInterface {
     Call<LoginResponse> loginApi(@Path("uid") String uid);
 
     /**
-     * write matching board api
+     * write match/hire/recruit board api
      * @param areaNo
      * @param uid
      * @param title
@@ -42,43 +42,26 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/boards/matching")
+    @POST("api/boards/")
     Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
-                                    @Field("contents") String contents);
+                                    @Field("contents") String contents, @Field("boardType") String boardType);
 
     /**
      * get match area board List api
      * @param areaNo
      * @return
      */
-    @GET("api/boards/matching/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getMatchAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
+    @GET("api/boards/{boardType}/{areaNo}/{no}")
+    Call<AboutAreaBoardListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
 
-    /**
-     * get hire area board List api
-     * @param areaNo
-     * @param no
-     * @return
-     */
-    @GET("api/boards/hire/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getHireAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
-
-    /**
-     * get recruit area board List api
-     * @param areaNo
-     * @param no
-     * @return
-     */
-    @GET("api/boards/recruit/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getRecruitAreaBoardList(@Path("areaNo") int areaNo, @Path("no") int no);
     /**
      * get Article view api
      * @param areaNo
      * @param no
      * @return
      */
-    @GET("api/boards/matching/view/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getAboutBoard(@Path("areaNo") int areaNo, @Path("no") int no);
+    @GET("api/boards/{boardType}/view/{areaNo}/{no}")
+    Call<AboutAreaBoardListResponse> getDetailBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
 
     /**
      * write Article Comment api

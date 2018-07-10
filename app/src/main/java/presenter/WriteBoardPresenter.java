@@ -22,11 +22,11 @@ public class WriteBoardPresenter extends BasePresenter<WriteBoardView> {
         this.context = context;
     }
 
-    public void postMatchingBoard(int areaNo, String uid, String title, String contents){
+    public void postMatchingBoard(int areaNo, String uid, String title, String contents, String boardType){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommonResponse> call = apiService.writeBoard(areaNo, uid, title, contents);
+        Call<CommonResponse> call = apiService.writeBoard(areaNo, uid, title, contents, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

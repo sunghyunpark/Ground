@@ -82,7 +82,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         comment_recyclerView.setNestedScrollingEnabled(false);
 
         DetailArticlePresenter detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, articleModel);
-        detailArticlePresenter.loadDetailArticle(areaNo, articleNo);
+        detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo);
 
         commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
     }

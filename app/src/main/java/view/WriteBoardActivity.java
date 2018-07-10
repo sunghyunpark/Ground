@@ -22,7 +22,7 @@ import util.Util;
 
 public class WriteBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
-    private String area;
+    private String area, boardType;
     private int areaNo;
     private String beforeStr;
     private WriteBoardPresenter writeBoardPresenter;
@@ -40,6 +40,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
+        boardType = intent.getExtras().getString("boardType");
         area = intent.getExtras().getString("area");
         areaNo = intent.getIntExtra("areaNo",0);
 
@@ -60,7 +61,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         if(titleStr.equals("") || contentsStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-            writeBoardPresenter.postMatchingBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr);
+            writeBoardPresenter.postMatchingBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
             finish();

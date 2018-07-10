@@ -34,7 +34,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private AreaBoardAdapter areaBoardAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
-    private String area, from;
+    private String area, boardType;
     private int areaNo;
 
     private BannerViewPagerAdapter bannerViewPagerAdapter;
@@ -74,7 +74,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        from = intent.getExtras().getString("from");
+        boardType = intent.getExtras().getString("boardType");
         area = intent.getExtras().getString("area");
         areaNo = intent.getIntExtra("areaNo", 0);
 
@@ -90,16 +90,16 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
-        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList, from);
+        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
         boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
                 // do something...
                 try{
-                    areaBoardPresenter.loadArticleList(areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo());
+                    areaBoardPresenter.loadArticleList(areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType);
                 }catch (IndexOutOfBoundsException ie){
-                    areaBoardPresenter.loadArticleList(areaNo, 0);
+                    areaBoardPresenter.loadArticleList(areaNo, 0, boardType);
                 }
             }
         });
@@ -126,6 +126,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         if(isLogin()){
             //login
             Intent intent = new Intent(getApplicationContext(), WriteBoardActivity.class);
+            intent.putExtra("boardType", boardType);
             intent.putExtra("area", area);
             intent.putExtra("areaNo", areaNo);
             startActivityForResult(intent, REQUEST_WRITE);

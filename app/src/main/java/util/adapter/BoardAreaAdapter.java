@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import model.AreaModel;
+import util.Util;
 import view.AreaBoardActivity;
 
 /**
@@ -130,7 +131,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean hasNewArticle(int position){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         String todayStr = df.format(new Date());
-        return getItem(position).getUpdatedAt().contains(todayStr);
+        return Util.parseTime(getItem(position).getUpdatedAt()).contains(todayStr);
     }
 
     private boolean isPositionHeader(int position){

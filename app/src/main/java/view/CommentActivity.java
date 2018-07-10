@@ -69,7 +69,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 
         commentPresenter = new CommentPresenter(this, getApplicationContext(), commentModelArrayList, commentAdapter);
-        commentPresenter.loadComment(true, articleNo, 0, boardType);
+        commentPresenter.loadComment(true, articleNo, 0, areaNo);
     }
 
     /**
@@ -82,9 +82,9 @@ public class CommentActivity extends BaseActivity implements CommentView{
             public void onLoadMore(int current_page) {
                 // do something...
                 try{
-                    commentPresenter.loadCommentMore(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), boardType);
+                    commentPresenter.loadCommentMore(false, articleNo, commentModelArrayList.get(commentModelArrayList.size()-1).getNo(), areaNo);
                 }catch (ArrayIndexOutOfBoundsException ie){
-                    commentPresenter.loadComment(true, articleNo, 0, boardType);
+                    commentPresenter.loadComment(true, articleNo, 0, areaNo);
                 }
             }
         });
@@ -98,7 +98,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, boardType);
+                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr);
             }
         }else{
             showMessage("로그인을 해주세요.");

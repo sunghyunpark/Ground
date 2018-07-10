@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context="view.HomeFragment">
 
+    <!--
     <RelativeLayout
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
@@ -22,13 +23,14 @@
             android:textColor="@color/colorBlack"
             android:textSize="18dp"/>
     </RelativeLayout>
-    <!--구분선-->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0.5dp"
         android:orientation="horizontal"
         android:background="#9E9E9E"></LinearLayout>
 
+-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

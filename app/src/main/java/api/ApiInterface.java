@@ -78,12 +78,12 @@ public interface ApiInterface {
     /**
      * get Article Comment List api
      * @param articleNo
-     * @param boardType
+     * @param areaNo
      * @param commentNo
      * @return
      */
-    @GET("api/boards/matching/view/{articleNo}/{boardType}/commentList/{commentNo}")
-    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("boardType") String boardType, @Path("commentNo") int commentNo);
+    @GET("api/boards/matching/view/{articleNo}/{areaNo}/commentList/{commentNo}")
+    Call<CommentListResponse> getCommentList(@Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
 
     /**
      * get Match Board updated_at

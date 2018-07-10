@@ -52,7 +52,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     protected void onResume(){
         super.onResume();
         if(commentPresenter != null){
-            commentPresenter.loadComment(true, articleNo, 0, boardType);
+            commentPresenter.loadComment(true, articleNo, 0, areaNo);
         }
     }
 
@@ -149,7 +149,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, boardType);
+                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr);
                 //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                   //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }

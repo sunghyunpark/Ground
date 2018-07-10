@@ -93,16 +93,16 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param refresh
      * @param articleNo
      * @param commentNo
-     * @param boardType
+     * @param areaNo
      */
-    public void loadComment(boolean refresh, int articleNo, final int commentNo, String boardType){
+    public void loadComment(boolean refresh, int articleNo, final int commentNo, int areaNo){
         if(refresh)
             commentModelArrayList.clear();
 
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommentListResponse> call = apiService.getCommentList(articleNo, boardType, commentNo);
+        Call<CommentListResponse> call = apiService.getCommentList(articleNo, areaNo, commentNo);
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
@@ -132,7 +132,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         });
     }
 
-    public void postComment(int areaNo, final int articleNo, String writerId, String comment, final String boardType){
+    public void postComment(final int areaNo, final int articleNo, String writerId, String comment){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -143,7 +143,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
                 CommonResponse commonResponse = response.body();
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
-                    loadComment(true, articleNo, 0, boardType);
+                    loadComment(true, articleNo, 0, areaNo);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

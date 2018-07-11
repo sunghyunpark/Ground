@@ -30,7 +30,7 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
         this.articleModelArrayList = articleModelArrayList;
     }
     /**
-     * 매칭 게시판 리스트
+     * 게시판 리스트
      * @param areaNo
      * @param articleNo
      */

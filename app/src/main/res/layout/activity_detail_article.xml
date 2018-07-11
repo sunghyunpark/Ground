@@ -129,13 +129,17 @@
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
                             android:textColor="@color/colorMoreGray"/>
-                        <ImageView
+
+                        <ToggleButton
+                            android:id="@+id/favorite_tb"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_toLeftOf="@+id/favorite_tv"
                             android:layout_marginRight="5dp"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/favorite_img"/>
+                            android:textOff=""
+                            android:textOn=""
+                            android:background="@drawable/favorite_toggle"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/comment_btn"

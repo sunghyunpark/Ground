@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -47,6 +47,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @BindView(R.id.comment_recyclerView) RecyclerView comment_recyclerView;
     @BindView(R.id.comment_et) EditText comment_et;
     @BindView(R.id.empty_comment_tv) TextView empty_comment_tv;
+    @BindView(R.id.favorite_tb) ToggleButton favorite_tb;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -156,6 +157,14 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
         }else{
             showMessage("로그인을 해주세요.");
+        }
+    }
+
+    @OnClick(R.id.favorite_btn) void favoriteBtnClicked(){
+        if(favorite_tb.isChecked()){
+            favorite_tb.setChecked(false);
+        }else{
+            favorite_tb.setChecked(true);
         }
     }
 

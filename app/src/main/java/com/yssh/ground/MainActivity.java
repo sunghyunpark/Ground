@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import model.UserModel;
 import presenter.LoginPresenter;
 import presenter.view.LoginView;
+import util.BackPressCloseHandler;
 import view.BoardFragment;
 import view.HomeFragment;
 import view.SettingFragment;
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity implements LoginView{
     private final static String TAG = "MainActivity";
 
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private BackPressCloseHandler backPressCloseHandler;
     private FirebaseAuth mAuth;
     private int currentPage = R.id.tab_1;
     private LoginPresenter loginPresenter;
@@ -75,6 +77,7 @@ public class MainActivity extends BaseActivity implements LoginView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         mAuth = FirebaseAuth.getInstance();    // Firebase 객체 생성
 
@@ -192,5 +195,10 @@ public class MainActivity extends BaseActivity implements LoginView{
         android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 }

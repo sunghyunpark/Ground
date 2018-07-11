@@ -32,6 +32,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     @BindView(R.id.board_contents_et) EditText board_contents_et;
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
+    @BindString(R.string.write_board_default_txt) String matchDefaultStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,9 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
+        if(boardType.equals("match")){
+            board_contents_et.setText(matchDefaultStr);
+        }
     }
 
     @Override

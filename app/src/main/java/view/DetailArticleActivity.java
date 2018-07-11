@@ -126,7 +126,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     @Override
     public void favoriteClick(){
-        showMessage("관심 버튼 탭");
+        if(favorite_tb.isChecked()){
+            favorite_tb.setChecked(false);
+        }else{
+            favorite_tb.setChecked(true);
+        }
     }
 
     @Override
@@ -161,11 +165,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @OnClick(R.id.favorite_btn) void favoriteBtnClicked(){
-        if(favorite_tb.isChecked()){
-            favorite_tb.setChecked(false);
-        }else{
-            favorite_tb.setChecked(true);
-        }
+        favoriteClick();
     }
 
     @OnClick(R.id.write_comment_btn) void writeCommentBtn(){

@@ -85,7 +85,7 @@ public class RecentMatchBoardFragment extends Fragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getRecentMatchingArticleList();
+        Call<AboutAreaBoardListResponse> call = apiService.getRecentArticleList("match");
         call.enqueue(new Callback<AboutAreaBoardListResponse>() {
             @Override
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {

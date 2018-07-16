@@ -93,6 +93,10 @@ public interface ApiInterface {
     @GET("api/boards/{boardType}/updated")
     Call<UpdateTimeResponse> getUpdateTimeList(@Path("boardType") String boardType);
 
-    @GET("api/boards/matching/recent")
-    Call<AboutAreaBoardListResponse> getRecentMatchingArticleList();
+    /**
+     * get recent Board List LIMIT 5 API
+     * @return
+     */
+    @GET("api/boards/{boardType}/recent")
+    Call<AboutAreaBoardListResponse> getRecentArticleList(@Path("boardType") String boardType);
 }

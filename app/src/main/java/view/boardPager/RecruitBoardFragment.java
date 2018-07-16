@@ -74,16 +74,17 @@ public class RecruitBoardFragment extends BaseFragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList();
+        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList("recruit");
         call.enqueue(new Callback<UpdateTimeResponse>() {
             @Override
             public void onResponse(Call<UpdateTimeResponse> call, Response<UpdateTimeResponse> response) {
                 UpdateTimeResponse updateTimeResponse = response.body();
                 if(updateTimeResponse.getCode() == 200){
                     int size = updateTimeResponse.getResult().size();
-                    for(int i=0;i<7;i++){
+                    for(int i=0;i<size;i++){
                         updateTimeResponse.getResult().get(i).setAreaName(areaNameArray[i]);
                         areaModelArrayList.add(updateTimeResponse.getResult().get(i));
+                        Log.d("Recruit_updateTime", updateTimeResponse.getResult().get(i).getUpdatedAt());
                     }
                     setRecyclerView(areaModelArrayList);
                 }else{

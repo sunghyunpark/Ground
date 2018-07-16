@@ -86,11 +86,12 @@ public interface ApiInterface {
     Call<CommentListResponse> getCommentList(@Path("boardType") String boardType, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
 
     /**
-     * get Match Board updated_at
+     * get area Board updated_at
+     * boardType > match / hire / recruit
      * @return
      */
-    @GET("api/boards/matching/updated")
-    Call<UpdateTimeResponse> getUpdateTimeList();
+    @GET("api/boards/{boardType}/updated")
+    Call<UpdateTimeResponse> getUpdateTimeList(@Path("boardType") String boardType);
 
     @GET("api/boards/matching/recent")
     Call<AboutAreaBoardListResponse> getRecentMatchingArticleList();

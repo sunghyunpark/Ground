@@ -37,9 +37,6 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private String area, boardType;
     private int areaNo;
 
-    private BannerViewPagerAdapter bannerViewPagerAdapter;
-    private ArrayList<BannerModel> bannerModelArrayList;
-
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
     @BindView(R.id.about_area_board_title_tv) TextView title_tv;
@@ -82,8 +79,8 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     }
 
     private void init(String area, final int areaNo){
-        bannerModelArrayList = new ArrayList<>();    //banner List
-        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
+        ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
+        BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3);

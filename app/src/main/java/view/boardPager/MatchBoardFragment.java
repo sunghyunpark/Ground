@@ -74,7 +74,7 @@ public class MatchBoardFragment extends BaseFragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList();
+        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList("match");
         call.enqueue(new Callback<UpdateTimeResponse>() {
             @Override
             public void onResponse(Call<UpdateTimeResponse> call, Response<UpdateTimeResponse> response) {
@@ -84,7 +84,7 @@ public class MatchBoardFragment extends BaseFragment {
                     for(int i=0;i<size;i++){
                         updateTimeResponse.getResult().get(i).setAreaName(areaNameArray[i]);
                         areaModelArrayList.add(updateTimeResponse.getResult().get(i));
-                        Log.d("updateTime", updateTimeResponse.getResult().get(i).getUpdatedAt());
+                        Log.d("Match_updateTime", updateTimeResponse.getResult().get(i).getUpdatedAt());
                     }
                     setRecyclerView(areaModelArrayList);
                 }else{

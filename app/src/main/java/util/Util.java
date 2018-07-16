@@ -100,8 +100,11 @@ public class Util {
     public static String parseTime(String timeStr){
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         s.setTimeZone(TimeZone.getDefault());
-
-        return s.format(getDate(timeStr));
+        try {
+            return s.format(getDate(timeStr));
+        }catch (NullPointerException e){
+            return "0000-00-00";
+        }
     }
 
     private static Date getDate(String dateStr) {

@@ -28,7 +28,6 @@ import util.adapter.CommentAdapter;
 public class CommentActivity extends BaseActivity implements CommentView{
 
     private static final int LOAD_DATA_COUNT = 10;
-    private CommentAdapter commentAdapter;
     private ArrayList<CommentModel> commentModelArrayList;
     private int areaNo, articleNo;
     private String boardType;
@@ -64,7 +63,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
     private void init(){
         commentModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true);
+        CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true);
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 

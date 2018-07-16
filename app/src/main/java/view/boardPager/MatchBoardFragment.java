@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class MatchBoardFragment extends BaseFragment {
             areaModel = new AreaModel();
             areaModel.setAreaNo(i);
             areaModel.setAreaName(areaNameArray[i]);
-            areaModel.setUpdatedAt("0000-00-00");
+            areaModel.setUpdatedAt(GroundApplication.DEFAULT_TIME_FORMAT);
 
             areaModelArrayList.add(areaModel);
         }

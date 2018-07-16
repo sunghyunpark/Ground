@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.lang.ref.WeakReference;
@@ -103,7 +104,7 @@ public class Util {
         try {
             return s.format(getDate(timeStr));
         }catch (NullPointerException e){
-            return "0000-00-00";
+            return GroundApplication.DEFAULT_TIME_FORMAT;
         }
     }
 

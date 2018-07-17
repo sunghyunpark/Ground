@@ -59,6 +59,9 @@
     <!-- Home Fragment-->
     <string name="home_fragment_title">GROUND</string>
 
+    <!-- My Activity-->
+    <string name="my_activity_title">MY</string>
+
     <string-array name="matching_board_list">
         <item>서울</item>
         <item>도봉/노원/강북/중랑</item>

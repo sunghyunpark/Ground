@@ -2,15 +2,18 @@ package view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.Util;
+import view.MyActivity;
 
 public class MyContentsDialog extends Dialog{
 
@@ -29,14 +32,20 @@ public class MyContentsDialog extends Dialog{
     }
 
     @OnClick(R.id.my_contents_tv) void goToMyContentsListPage(){
-        Util.showToast(getContext(), "내 글");
+        Intent intent = new Intent(getContext(), MyActivity.class);
+        intent.putExtra("type", GroundApplication.MY_ARTICLE_TYPE);
+        getContext().startActivity(intent);
     }
 
     @OnClick(R.id.my_comments_tv) void goToMyCommentsListPage(){
-        Util.showToast(getContext(), "내 댓글");
+        Intent intent = new Intent(getContext(), MyActivity.class);
+        intent.putExtra("type", GroundApplication.MY_COMMENT_TYPE);
+        getContext().startActivity(intent);
     }
 
     @OnClick(R.id.my_favorite_tv) void goToMyFavoriteListPage(){
-        Util.showToast(getContext(), "관심");
+        Intent intent = new Intent(getContext(), MyActivity.class);
+        intent.putExtra("type", GroundApplication.MY_FAVORITE_TYPE);
+        getContext().startActivity(intent);
     }
 }

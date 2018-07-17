@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".GroundApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".GroundApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -23,10 +23,12 @@
         <activity android:name="view.RegisterActivity" />
         <activity android:name="view.LoginActivity" />
         <activity android:name="view.AreaBoardActivity" />
-        <activity android:name="view.WriteBoardActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity
+            android:name="view.WriteBoardActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name="view.DetailArticleActivity" />
-        <activity android:name="view.CommentActivity"></activity>
+        <activity android:name="view.CommentActivity" />
+        <activity android:name="view.MyActivity"></activity>
     </application>
 
 </manifest>

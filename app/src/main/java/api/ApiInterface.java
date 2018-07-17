@@ -99,4 +99,17 @@ public interface ApiInterface {
      */
     @GET("api/boards/{boardType}/recent")
     Call<AboutAreaBoardListResponse> getRecentArticleList(@Path("boardType") String boardType);
+
+    /**
+     * get my Article List API
+     * @param boardType
+     * @param uid
+     * @param no
+     * @return
+     */
+    @GET("api/my/article/{boardType}/{uid}/{no}")
+    Call<AboutAreaBoardListResponse> getMyArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+
+    @GET("api/my/comment/{boardType}/{uid}/{no}")
+    Call<CommentListResponse> getMyCommentList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 }

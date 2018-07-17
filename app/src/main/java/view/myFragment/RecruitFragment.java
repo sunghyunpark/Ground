@@ -2,6 +2,7 @@ package view.myFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,14 @@ import android.view.ViewGroup;
 import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecruitFragment extends Fragment {
     private View v;
     private String type;
+
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
     // TODO: Rename and change types and number of parameters
     public static RecruitFragment newInstance(String type) {

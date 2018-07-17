@@ -35,17 +35,20 @@ public class MyContentsDialog extends Dialog{
         Intent intent = new Intent(getContext(), MyActivity.class);
         intent.putExtra("type", GroundApplication.MY_ARTICLE_TYPE);
         getContext().startActivity(intent);
+        this.cancel();
     }
 
     @OnClick(R.id.my_comments_tv) void goToMyCommentsListPage(){
         Intent intent = new Intent(getContext(), MyActivity.class);
         intent.putExtra("type", GroundApplication.MY_COMMENT_TYPE);
         getContext().startActivity(intent);
+        this.cancel();
     }
 
     @OnClick(R.id.my_favorite_tv) void goToMyFavoriteListPage(){
         Intent intent = new Intent(getContext(), MyActivity.class);
         intent.putExtra("type", GroundApplication.MY_FAVORITE_TYPE);
         getContext().startActivity(intent);
+        this.cancel();
     }
 }

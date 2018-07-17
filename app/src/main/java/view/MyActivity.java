@@ -10,6 +10,7 @@ import com.yssh.ground.R;
 import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import presenter.view.MyView;
 import util.Util;
 import util.adapter.MyViewPagerAdapter;
@@ -40,5 +41,9 @@ public class MyActivity extends BaseActivity implements MyView{
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), type);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @OnClick(R.id.back_btn) void backBtn(){
+        finish();
     }
 }

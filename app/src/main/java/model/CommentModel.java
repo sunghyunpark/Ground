@@ -6,6 +6,8 @@ public class CommentModel {
     private int no;
     @SerializedName("article_no")
     private int articleNo;
+    @SerializedName("area_no")
+    private int areaNo;
     @SerializedName("board_type")
     private String boardType;
     @SerializedName("writer_id")
@@ -26,6 +28,14 @@ public class CommentModel {
 
     public void setNo(int no) {
         this.no = no;
+    }
+
+    public int getAreaNo() {
+        return areaNo;
+    }
+
+    public void setAreaNo(int areaNo) {
+        this.areaNo = areaNo;
     }
 
     public int getArticleNo() {

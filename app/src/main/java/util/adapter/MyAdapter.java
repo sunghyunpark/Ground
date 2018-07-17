@@ -7,8 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
@@ -44,10 +48,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ARTICLE) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_recent_board_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_my_article_item, parent, false);
             return new ArticleVH(v);
         }else if(viewType == TYPE_COMMENT){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_header, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_item, parent, false);
             return new CommentVH(v);
         }else if(viewType == TYPE_FAVORITE){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_header, parent, false);
@@ -103,6 +107,41 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             final CommentModel currentItem = getCommentItem(position);
             final CommentVH VHitem = (CommentVH) holder;
 
+            //Glide Options
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.mipmap.user_profile_img);
+            requestOptions.error(R.mipmap.user_profile_img);
+            requestOptions.circleCrop();    //circle
+
+            Glide.with(context)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(GroundApplication.GROUND_DEV_API+currentItem.getProfile())
+                    .into(VHitem.userProfile_iv);
+
+            VHitem.nickName_tv.setText(currentItem.getNickName());
+
+            VHitem.comment_tv.setText(currentItem.getComment());
+
+            VHitem.createdAt_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+
+            VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(sessionManager.isLoggedIn()){
+                        //login
+                        Intent intent = new Intent(context, DetailArticleActivity.class);
+                        intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra("areaNo", currentItem.getAreaNo());
+                        intent.putExtra("no", currentItem.getArticleNo());
+                        intent.putExtra("boardType", currentItem.getBoardType());intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }else{
+                        //not login
+                        Util.showToast(context, "로그인을 해주세요.");
+                    }
+                }
+            });
+
         }else if(holder instanceof FavoriteVH){
 
         }
@@ -130,9 +169,23 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     }
 
     private class CommentVH extends RecyclerView.ViewHolder{
+        ViewGroup item_layout;
+        ImageView userProfile_iv;
+        TextView nickName_tv;
+        TextView comment_tv;
+        TextView createdAt_tv;
+        TextView report_tv;
+        ImageView new_iv;
 
         private CommentVH(View itemView){
             super(itemView);
+            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
+            userProfile_iv = (ImageView)itemView.findViewById(R.id.user_profile_iv);
+            nickName_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
+            comment_tv = (TextView)itemView.findViewById(R.id.comment_tv);
+            createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
+            report_tv = (TextView)itemView.findViewById(R.id.report_tv);
+            new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
         }
     }
 

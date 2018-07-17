@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
+import api.response.CommentListResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.ArticleModel;
@@ -27,6 +28,11 @@ import retrofit2.Response;
 import util.Util;
 import util.adapter.MyAdapter;
 
+/**
+ * MY > 내가 쓴 글, 내가 쓴 댓글, 관심을 눌렀을 때 매칭 화면
+ * type을 파라미터로 받아온다. 이때 파라미터값은 GroundApplication 의 static 값으로 전달받는다.
+ * type 에 따라 분기처리된다.
+ */
 public class MatchFragment extends Fragment {
     private View v;
     private String type;    //내가 쓴 글, 내가 쓴 댓글, 관심 글(myArticle, myComment, myFavorite)
@@ -80,31 +86,27 @@ public class MatchFragment extends Fragment {
 
         if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 0, 3);
+            loadArticleList(0);
         }else if(type.equals(GroundApplication.MY_COMMENT_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 1, 3);
+            loadCommentList(0);
         }else if(type.equals(GroundApplication.MY_FAVORITE_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 2, 3);
         }
-
-        loadArticleList(type, 0);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
     }
 
-    private void loadArticleList(String type, int no){
+    /**
+     * 내가 쓴 글
+     * @param no
+     */
+    private void loadArticleList(int no){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = null;
-
-        if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
-            call = apiService.getMyArticleList("match", UserModel.getInstance().getUid(), no);
-        }else if(type.equals(GroundApplication.MY_COMMENT_TYPE)){
-            call = apiService.getMyArticleList("match", UserModel.getInstance().getUid(), no);
-        }else if(type.equals(GroundApplication.MY_FAVORITE_TYPE)){
-            call = apiService.getMyArticleList("match", UserModel.getInstance().getUid(), no);
-        }
+        Call<AboutAreaBoardListResponse> call = apiService.getMyArticleList("match", UserModel.getInstance().getUid(), no);
         call.enqueue(new Callback<AboutAreaBoardListResponse>() {
             @Override
             public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
@@ -132,6 +134,47 @@ public class MatchFragment extends Fragment {
                 Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
             }
         });
+    }
+
+    /**
+     * 내가 쓴 댓글
+     * @param no
+     */
+    private void loadCommentList(int no){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommentListResponse> call = apiService.getMyCommentList("match", UserModel.getInstance().getUid(), no);
+        call.enqueue(new Callback<CommentListResponse>() {
+            @Override
+            public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
+                CommentListResponse commentListResponse = response.body();
+                if(commentListResponse.getCode() == 200){
+                    int size = commentListResponse.getResult().size();
+                    for(int i=0;i<size;i++){
+                        objectArrayList.add(commentListResponse.getResult().get(i));
+                    }
+                    myAdapter.notifyDataSetChanged();
+                }else{
+                    Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    /**
+     * 관심 글
+     * @param no
+     */
+    private void loadFavoriteList(int no){
+
     }
 
 }

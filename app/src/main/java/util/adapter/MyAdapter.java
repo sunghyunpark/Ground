@@ -28,6 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     private static final int TYPE_COMMENT = 1;
     private static final int TYPE_FAVORITE = 2;
 
+    // 내가 작성한 댓글에 필요한 변수
     private static final int MATCH_BOARD = 3;
     private static final int HIRE_BOARD = 4;
     private static final int RECRUIT_BOARD = 5;
@@ -54,7 +55,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_item, parent, false);
             return new CommentVH(v);
         }else if(viewType == TYPE_FAVORITE){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_header, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_my_article_item, parent, false);
             return new FavoriteVH(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -70,6 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position){
+        //내가 작성한 글
         if (holder instanceof ArticleVH) {
             final ArticleModel currentItem = getArticleItem(position);
             final ArticleVH VHitem = (ArticleVH) holder;
@@ -104,6 +106,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 
         }else if(holder instanceof CommentVH){
+            //내가 작성한 댓글
             final CommentModel currentItem = getCommentItem(position);
             final CommentVH VHitem = (CommentVH) holder;
 

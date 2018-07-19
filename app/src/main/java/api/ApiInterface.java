@@ -110,6 +110,26 @@ public interface ApiInterface {
     @GET("api/my/article/{boardType}/{uid}/{no}")
     Call<AboutAreaBoardListResponse> getMyArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 
+    /**
+     * get my Comment List API
+     * @param boardType
+     * @param uid
+     * @param no
+     * @return
+     */
     @GET("api/my/comment/{boardType}/{uid}/{no}")
     Call<CommentListResponse> getMyCommentList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+
+    /**
+     * post Favorite Article state api
+     * @param state
+     * @param articleNo
+     * @param uid
+     * @param boardType
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/boards/favorite")
+    Call<CommonResponse> postFavoriteState(@Field("favoriteState") String state, @Field("articleNo") int articleNo, @Field("uid") String uid,
+                                           @Field("boardType") String boardType);
 }

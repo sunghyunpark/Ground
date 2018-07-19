@@ -5,7 +5,7 @@ import model.ArticleModel;
 
 public interface DetailArticleView extends BasePresenterView{
 
-    void favoriteClick();
+    void favoriteClick(int state);
 
     void commentClick();
 

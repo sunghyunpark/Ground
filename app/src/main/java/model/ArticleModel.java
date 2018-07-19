@@ -22,6 +22,7 @@ public class ArticleModel {
     private int viewCnt;
     @SerializedName("comment_cnt")
     private String commentCnt;
+    private int favoriteState;    //0:not like, 1: like
     @SerializedName("created_at")
     private String createdAt;
 
@@ -119,6 +120,14 @@ public class ArticleModel {
 
     public void setCommentCnt(String commentCnt) {
         this.commentCnt = commentCnt;
+    }
+
+    public int getFavoriteState() {
+        return favoriteState;
+    }
+
+    public void setFavoriteState(int favoriteState) {
+        this.favoriteState = favoriteState;
     }
 
     public String getCreatedAt() {

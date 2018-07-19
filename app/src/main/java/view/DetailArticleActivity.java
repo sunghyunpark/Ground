@@ -36,6 +36,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private int articleNo, areaNo;
     private ArticleModel articleModel;
     private DetailArticlePresenter commentPresenter;
+    private DetailArticlePresenter detailArticlePresenter;
+    private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
     @BindView(R.id.profile_iv) ImageView user_profile_iv;
     @BindView(R.id.area_tv) TextView area_tv;
@@ -47,7 +49,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @BindView(R.id.comment_recyclerView) RecyclerView comment_recyclerView;
     @BindView(R.id.comment_et) EditText comment_et;
     @BindView(R.id.empty_comment_tv) TextView empty_comment_tv;
-    @BindView(R.id.favorite_tb) ToggleButton favorite_tb;
+    @BindView(R.id.favorite_tb) ImageView favorite_tb;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -83,7 +85,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        DetailArticlePresenter detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, articleModel);
+        detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, articleModel);
         detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo);
 
         commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
@@ -121,15 +123,45 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         created_at_tv.setText(Util.parseTime(articleModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
         contents_tv.setText(articleModel.getContents());
+        favoriteState = articleModel.getFavoriteState();
+        setFavorite(favoriteState);
         setUserProfile(articleModel.getProfile());
     }
 
-    @Override
-    public void favoriteClick(){
-        if(favorite_tb.isChecked()){
-            favorite_tb.setChecked(false);
+    /**
+     * 받아온 Article Data에서 관심 상태를 초기화한다.
+     * @param state
+     */
+    private void setFavorite(int state){
+        if(state == 0){
+            //not like
+            favorite_tb.setBackgroundResource(R.mipmap.favorite_img);
+        }else if(state == 1){
+            //like
+            favorite_tb.setBackgroundResource(R.mipmap.favorite_selected_img);
         }else{
-            favorite_tb.setChecked(true);
+            // favoriteState is null
+            favorite_tb.setBackgroundResource(R.mipmap.favorite_img);
+        }
+    }
+
+    /**
+     *
+     * @param state 현재 상태값 > 1이면 0으로 되어야 한다.
+     */
+    @Override
+    public void favoriteClick(int state){
+        if(favoriteState == 1){
+            favoriteState = 0;
+            setFavorite(favoriteState);
+            detailArticlePresenter.postFavoriteState(articleNo, UserModel.getInstance().getUid(), boardType, "N");
+        }else if(favoriteState == 0){
+            favoriteState = 1;
+            setFavorite(favoriteState);
+            detailArticlePresenter.postFavoriteState(articleNo, UserModel.getInstance().getUid(), boardType, "Y");
+        }else{
+            // favoriteState is null
+            Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
         }
     }
 
@@ -164,8 +196,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
-    @OnClick(R.id.favorite_btn) void favoriteBtnClicked(){
-        favoriteClick();
+    @OnClick({R.id.favorite_btn}) void favoriteBtnClicked(){
+        favoriteClick(favoriteState);
     }
 
     @OnClick(R.id.write_comment_btn) void writeCommentBtn(){

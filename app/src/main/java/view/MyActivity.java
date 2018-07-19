@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.widget.TextView;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import base.BaseActivity;
@@ -21,6 +23,7 @@ public class MyActivity extends BaseActivity implements MyView{
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
+    @BindView(R.id.my_title_tv) TextView title_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +35,17 @@ public class MyActivity extends BaseActivity implements MyView{
         Intent intent = getIntent();
         type = intent.getExtras().getString("type");
 
-        Util.showToast(getApplicationContext(), type);
-
         init();
     }
 
     private void init(){
+        if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
+            title_tv.setText("내가 작성한 글");
+        }else if(type.equals(GroundApplication.MY_COMMENT_TYPE)){
+            title_tv.setText("내가 작성한 댓글");
+        }else if(type.equals(GroundApplication.MY_FAVORITE_TYPE)){
+            title_tv.setText("나의 관심 글");
+        }
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), type);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

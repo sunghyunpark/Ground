@@ -25,6 +25,13 @@ import view.BoardFragment;
 import view.HomeFragment;
 import view.SettingFragment;
 
+/**
+ * MainActivity
+ * 어플리케이션을 실행하였을 때 실행된다.
+ * MainActivity 위에 Fragment들이 존재한다.(HomeFragment(홈) / BoardFragment(게시판) / SettingFragment(설정))
+ * FirebaseAuth 를 통해 현재 User가 로그인 상태인지 아닌지를 판별한다.
+ */
+
 public class MainActivity extends BaseActivity implements LoginView{
 
     private final static String TAG = "MainActivity";
@@ -87,6 +94,11 @@ public class MainActivity extends BaseActivity implements LoginView{
         InitTabIcon(currentPage);
     }
 
+    /**
+     * mAuthListener 를 통해 현재 user가 로그인 상태인지 아닌지를 판별한다.
+     * 만약 user가 로그인 상태라면 loginPresenter를 통해 로컬 DB인 realm에 user data를 업데이트한다.
+     * 업데이트된 user data는 singleTon 객체에 저장된다.
+     */
     private void init(){
         loginPresenter = new LoginPresenter(this, getApplicationContext());
 
@@ -117,6 +129,10 @@ public class MainActivity extends BaseActivity implements LoginView{
             }};
     }
 
+    /**
+     * 하단 바텀 메뉴 초기화
+     * @param tabId
+     */
     private void InitTabIcon(int tabId){
         tab1_iv.setBackgroundResource(R.mipmap.home_img);
         tab1_tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorMoreGray));

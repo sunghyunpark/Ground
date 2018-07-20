@@ -18,16 +18,18 @@ import java.util.ArrayList;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.AboutAreaBoardListResponse;
+import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.ArticleModel;
+import presenter.view.RecentBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.Util;
 import util.adapter.RecentBoardAdapter;
 
-public class RecentHireBoardFragment extends Fragment {
+public class RecentHireBoardFragment extends BaseFragment implements RecentBoardView {
 
     private View v;
     private ArrayList<ArticleModel> articleModelArrayList;
@@ -79,10 +81,11 @@ public class RecentHireBoardFragment extends Fragment {
         recyclerView.setAdapter(recentBoardAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        loadArticleList();
+        setListData();
     }
 
-    private void loadArticleList(){
+    @Override
+    public void setListData(){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -115,6 +118,4 @@ public class RecentHireBoardFragment extends Fragment {
             }
         });
     }
-
-
 }

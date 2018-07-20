@@ -56,11 +56,11 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void init(){
         setRecentArticlePager();
         setBannerPager();
-
     }
 
     /**
      * 최신글 영역
+     * 최신글 영역의 TabLayout 과 viewPager를 초기화한다.
      */
     @Override
     public void setRecentArticlePager(){

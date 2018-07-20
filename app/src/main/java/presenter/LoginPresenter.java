@@ -43,10 +43,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     /**
-     * 회원가입 후 server 로 전송.
-     * @param uid
-     * @param loginType
-     * @param nickName
+     * 회원가입 후 user data를 server로 전송한 뒤 Server DB에 insert 된 data를 받아와
+     * 로컬 DB인 realm 에 저장한다.
+     * @param uid -> user 의 고유 식별자
+     * @param loginType -> email
+     * @param nickName -> user nick_name
      */
     public void postUserDataForRegister(String uid, String loginType, String nickName, final String email){
         ApiInterface apiService =
@@ -87,6 +88,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
+    /**
+     * 로그인 시 server로 부터 user data를 받아온다.
+     * 받아온 data는 로컬 DB인 realm에 저장한다.
+     * @param uid -> user 고유 식별자
+     * @param email
+     */
     public void getUserDataForLogin(String uid, final String email){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);

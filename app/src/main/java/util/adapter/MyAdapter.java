@@ -183,6 +183,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             report_tv = (TextView)itemView.findViewById(R.id.report_tv);
             new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
+            new_iv.setVisibility(View.GONE);
         }
     }
 

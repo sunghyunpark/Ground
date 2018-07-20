@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,6 +72,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         articleNo = intent.getIntExtra("no", 0);
         areaNo = intent.getIntExtra("areaNo", 0);
         boardType = intent.getExtras().getString("boardType");
+
+        Log.d("DetailView", "area : "+area+"\n"+"articleNo : "+articleNo+"\n"+"areaNo : "+areaNo+"\n"+"boardType : "+boardType);
 
         init();
     }

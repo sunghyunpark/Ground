@@ -48,15 +48,12 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ARTICLE) {
+        if (viewType == TYPE_ARTICLE || viewType == TYPE_FAVORITE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_my_article_item, parent, false);
             return new ArticleVH(v);
         }else if(viewType == TYPE_COMMENT){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_item, parent, false);
             return new CommentVH(v);
-        }else if(viewType == TYPE_FAVORITE){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_my_article_item, parent, false);
-            return new FavoriteVH(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
@@ -71,7 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position){
-        //내가 작성한 글
+        //내가 작성한 글 or 관심있는 글
         if (holder instanceof ArticleVH) {
             final ArticleModel currentItem = getArticleItem(position);
             final ArticleVH VHitem = (ArticleVH) holder;
@@ -144,9 +141,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     }
                 }
             });
-
-        }else if(holder instanceof FavoriteVH){
-
         }
     }
 
@@ -189,13 +183,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             report_tv = (TextView)itemView.findViewById(R.id.report_tv);
             new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
-        }
-    }
-
-    private class FavoriteVH extends RecyclerView.ViewHolder{
-
-        private FavoriteVH(View itemView){
-            super(itemView);
         }
     }
 

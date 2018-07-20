@@ -132,4 +132,7 @@ public interface ApiInterface {
     @POST("api/boards/favorite")
     Call<CommonResponse> postFavoriteState(@Field("favoriteState") String state, @Field("articleNo") int articleNo, @Field("uid") String uid,
                                            @Field("boardType") String boardType);
+
+    @GET("api/my/favorite/{boardType}/{uid}/{no}")
+    Call<AboutAreaBoardListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 }

@@ -92,6 +92,7 @@ public class MatchFragment extends Fragment {
             loadCommentList(0);
         }else if(type.equals(GroundApplication.MY_FAVORITE_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 2, 3);
+            loadFavoriteList(0);
         }
 
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -174,7 +175,37 @@ public class MatchFragment extends Fragment {
      * @param no
      */
     private void loadFavoriteList(int no){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
 
+        Call<AboutAreaBoardListResponse> call = apiService.getMyFavoriteArticleList("match", UserModel.getInstance().getUid(), no);
+        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
+            @Override
+            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
+                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
+                if(aboutAreaBoardListResponse.getCode() == 200){
+                    int size = aboutAreaBoardListResponse.getResult().size();
+                    for(int i=0;i<size;i++){
+                        objectArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
+                        Log.d("MyArticleList","boardData No : "+ aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
+                                "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
+                                "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
+                                "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
+                                "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
+                    }
+                    myAdapter.notifyDataSetChanged();
+                }else{
+                    Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
+            }
+        });
     }
 
 }

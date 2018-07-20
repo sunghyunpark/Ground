@@ -159,7 +159,6 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
     }
 
     public void postFavoriteState(int articleNo, String uid, String boardType, final String state){
-        Log.d("FavoriteState", "start");
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

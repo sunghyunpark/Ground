@@ -1,6 +1,6 @@
 package api;
 
-import api.response.AboutAreaBoardListResponse;
+import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import api.response.LoginResponse;
@@ -52,7 +52,7 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/{boardType}/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
+    Call<ArticleModelListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
 
     /**
      * get Article view api
@@ -61,7 +61,7 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/{boardType}/view/{areaNo}/{no}")
-    Call<AboutAreaBoardListResponse> getDetailBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
+    Call<ArticleModelListResponse> getDetailBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
 
     /**
      * write Article Comment api
@@ -98,7 +98,7 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/{boardType}/recent")
-    Call<AboutAreaBoardListResponse> getRecentArticleList(@Path("boardType") String boardType);
+    Call<ArticleModelListResponse> getRecentArticleList(@Path("boardType") String boardType);
 
     /**
      * get my Article List API
@@ -108,7 +108,7 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/my/article/{boardType}/{uid}/{no}")
-    Call<AboutAreaBoardListResponse> getMyArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+    Call<ArticleModelListResponse> getMyArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 
     /**
      * get my Comment List API
@@ -141,5 +141,5 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/my/favorite/{boardType}/{uid}/{no}")
-    Call<AboutAreaBoardListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+    Call<ArticleModelListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 }

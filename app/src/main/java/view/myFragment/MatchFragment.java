@@ -16,11 +16,10 @@ import java.util.ArrayList;
 
 import api.ApiClient;
 import api.ApiInterface;
-import api.response.AboutAreaBoardListResponse;
+import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.ArticleModel;
 import model.UserModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,20 +106,20 @@ public class MatchFragment extends Fragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getMyArticleList("match", UserModel.getInstance().getUid(), no);
-        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
+        Call<ArticleModelListResponse> call = apiService.getMyArticleList("match", UserModel.getInstance().getUid(), no);
+        call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
-            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
-                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
-                if(aboutAreaBoardListResponse.getCode() == 200){
-                    int size = aboutAreaBoardListResponse.getResult().size();
+            public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
+                ArticleModelListResponse articleModelListResponse = response.body();
+                if(articleModelListResponse.getCode() == 200){
+                    int size = articleModelListResponse.getResult().size();
                     for(int i=0;i<size;i++){
-                        objectArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
-                        Log.d("MyArticleList","boardData No : "+ aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
+                        objectArrayList.add(articleModelListResponse.getResult().get(i));
+                        Log.d("MyArticleList","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
+                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
+                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
+                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
+                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
                     }
                     myAdapter.notifyDataSetChanged();
                 }else{
@@ -129,7 +128,7 @@ public class MatchFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
+            public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
@@ -178,20 +177,20 @@ public class MatchFragment extends Fragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getMyFavoriteArticleList("match", UserModel.getInstance().getUid(), no);
-        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
+        Call<ArticleModelListResponse> call = apiService.getMyFavoriteArticleList("match", UserModel.getInstance().getUid(), no);
+        call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
-            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
-                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
-                if(aboutAreaBoardListResponse.getCode() == 200){
-                    int size = aboutAreaBoardListResponse.getResult().size();
+            public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
+                ArticleModelListResponse articleModelListResponse = response.body();
+                if(articleModelListResponse.getCode() == 200){
+                    int size = articleModelListResponse.getResult().size();
                     for(int i=0;i<size;i++){
-                        objectArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
-                        Log.d("MyArticleList","boardData No : "+ aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
+                        objectArrayList.add(articleModelListResponse.getResult().get(i));
+                        Log.d("MyArticleList","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
+                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
+                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
+                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
+                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
                     }
                     myAdapter.notifyDataSetChanged();
                 }else{
@@ -200,7 +199,7 @@ public class MatchFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
+            public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");

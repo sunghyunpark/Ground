@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import model.ArticleModel;
 
-public class AboutAreaBoardListResponse {
+/**
+ * Article Model List Response
+ */
+public class ArticleModelListResponse {
     private int code;
     private String message;
     private ArrayList<ArticleModel> result;

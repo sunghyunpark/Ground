@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import api.ApiClient;
 import api.ApiInterface;
-import api.response.AboutAreaBoardListResponse;
+import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import base.presenter.BasePresenter;
@@ -66,13 +66,13 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getDetailBoard(boardType, areaNo, articleNo);
-        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
+        Call<ArticleModelListResponse> call = apiService.getDetailBoard(boardType, areaNo, articleNo);
+        call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
-            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
-                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
-                if(aboutAreaBoardListResponse.getCode() == 200){
-                    articleModel = aboutAreaBoardListResponse.getResult().get(0);
+            public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
+                ArticleModelListResponse articleModelListResponse = response.body();
+                if(articleModelListResponse.getCode() == 200){
+                    articleModel = articleModelListResponse.getResult().get(0);
                     getView().setArticleData(articleModel);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
@@ -80,7 +80,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
             }
 
             @Override
-            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
+            public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");

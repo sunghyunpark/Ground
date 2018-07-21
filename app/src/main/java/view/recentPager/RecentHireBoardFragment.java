@@ -1,9 +1,6 @@
 package view.recentPager;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 
 import api.ApiClient;
 import api.ApiInterface;
-import api.response.AboutAreaBoardListResponse;
+import api.response.ArticleModelListResponse;
 import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,20 +86,20 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<AboutAreaBoardListResponse> call = apiService.getRecentArticleList("hire");
-        call.enqueue(new Callback<AboutAreaBoardListResponse>() {
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList("hire");
+        call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
-            public void onResponse(Call<AboutAreaBoardListResponse> call, Response<AboutAreaBoardListResponse> response) {
-                AboutAreaBoardListResponse aboutAreaBoardListResponse = response.body();
-                if(aboutAreaBoardListResponse.getCode() == 200){
-                    int size = aboutAreaBoardListResponse.getResult().size();
+            public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
+                ArticleModelListResponse articleModelListResponse = response.body();
+                if(articleModelListResponse.getCode() == 200){
+                    int size = articleModelListResponse.getResult().size();
                     for(int i=0;i<size;i++){
-                        articleModelArrayList.add(aboutAreaBoardListResponse.getResult().get(i));
-                        Log.d("ArticleLIst","boardData No : "+ aboutAreaBoardListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+aboutAreaBoardListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+aboutAreaBoardListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+aboutAreaBoardListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+aboutAreaBoardListResponse.getResult().get(i).getCreatedAt());
+                        articleModelArrayList.add(articleModelListResponse.getResult().get(i));
+                        Log.d("ArticleLIst","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
+                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
+                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
+                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
+                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
                     }
                     recentBoardAdapter.notifyDataSetChanged();
                 }else{
@@ -111,7 +108,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
             }
 
             @Override
-            public void onFailure(Call<AboutAreaBoardListResponse> call, Throwable t) {
+            public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");

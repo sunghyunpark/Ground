@@ -24,6 +24,11 @@
     <string name="login_activity_pw_edit_box_hint">비밀번호</string>
     <string name="login_activity_login_btn">로그인하기</string>
 
+    <!-- Empty Texy-->
+    <string name="empty_tv_comment">등록된 댓글이 없습니다.</string>
+    <string name="empty_tv_article">등록된 게시글이 없습니다.</string>
+    <string name="empty_tv_favorite_article">등록된 관심 글이 없습니다.</string>
+
     <!-- Error -->
     <string name="register_error_input_email_txt">올바른 이메일 형식이 아닙니다.</string>
     <string name="error_not_exist_input_txt">정보를 입력해주세요.</string>

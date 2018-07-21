@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
@@ -44,7 +45,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
-        init(area, areaNo);
+        init(area);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -75,10 +76,10 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         area = intent.getExtras().getString("area");
         areaNo = intent.getIntExtra("areaNo", 0);
 
-        init(area, areaNo);
+        init(area);
     }
 
-    private void init(String area, final int areaNo){
+    private void init(String area){
         ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
@@ -89,6 +90,14 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
+        loadMoreArticle(linearLayoutManager);
+
+        title_tv.setText(area);
+
+    }
+
+    @Override
+    public void loadMoreArticle(LinearLayoutManager linearLayoutManager){
         boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
@@ -101,8 +110,6 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
         });
 
-        title_tv.setText(area);
-
     }
 
     @Override
@@ -110,7 +117,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
         if (requestCode == REQUEST_WRITE) {
             if(resultCode == Activity.RESULT_OK){
-                init(area, areaNo);
+                init(area);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.

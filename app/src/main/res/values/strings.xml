@@ -64,6 +64,9 @@
     <!-- Home Fragment-->
     <string name="home_fragment_title">GROUND</string>
 
+    <!-- Open Source Activity-->
+    <string name="open_source_activity_title">오픈소스 라이선스</string>
+
     <!-- My Activity-->
     <string name="my_activity_title">MY</string>
 

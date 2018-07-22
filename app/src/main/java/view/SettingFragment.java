@@ -17,6 +17,7 @@ import com.yssh.ground.R;
 import base.BaseFragment;
 import presenter.LoginPresenter;
 import presenter.view.LoginView;
+import presenter.view.SettingView;
 import util.SessionManager;
 
 import butterknife.BindString;
@@ -24,8 +25,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.UserModel;
+import util.Util;
 
-public class SettingFragment extends BaseFragment implements LoginView {
+public class SettingFragment extends BaseFragment implements LoginView, SettingView {
 
     private SessionManager sessionManager;
     private LoginPresenter loginPresenter;
@@ -96,16 +98,6 @@ public class SettingFragment extends BaseFragment implements LoginView {
         } catch(PackageManager.NameNotFoundException e) { }
     }
 
-    @Override
-    public void loginClick(){
-
-    }
-
-    @Override
-    public void goMainActivity(){
-
-    }
-
     /**
      * 로그인 영역을 탭 시
      * - 로그인 상태
@@ -113,7 +105,8 @@ public class SettingFragment extends BaseFragment implements LoginView {
      * - 로그아웃 상태
      * : 인트로화면 노출
      */
-    @OnClick(R.id.login_btn) void loginBtn(){
+    @Override
+    public void login(){
         if(sessionManager.isLoggedIn()){
             //login
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
@@ -140,5 +133,47 @@ public class SettingFragment extends BaseFragment implements LoginView {
             //로그인 상태가 아니므로 인트로 화면을 띄워준다.
             startActivity(new Intent(getContext(), IntroActivity.class));
         }
+    }
+
+    @Override
+    public void goProfile(){
+        Util.showToast(getContext(), "Profile");
+    }
+
+    @Override
+    public void goReview(){
+        Util.showToast(getContext(), "Review");
+    }
+
+    @Override
+    public void goOpenSource(){
+        Intent intent = new Intent(getContext(), OpenSourceActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void loginClick(){
+
+    }
+
+    @Override
+    public void goMainActivity(){
+
+    }
+
+    @OnClick(R.id.login_btn) void loginBtn(){
+        login();
+    }
+
+    @OnClick(R.id.profile_btn) void profileBtn(){
+        goProfile();
+    }
+
+    @OnClick(R.id.review_btn) void reviewBtn(){
+        goReview();
+    }
+
+    @OnClick(R.id.app_license_btn) void openSourceBtn(){
+        goOpenSource();
     }
 }

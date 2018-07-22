@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +83,8 @@ public class MainActivity extends BaseActivity implements LoginView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("title");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         backPressCloseHandler = new BackPressCloseHandler(this);

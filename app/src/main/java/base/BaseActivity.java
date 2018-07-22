@@ -9,7 +9,7 @@ import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
 
-public abstract  class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity{
 
     private ProgressDialog mProgressDialog;
     private SessionManager sessionManager;

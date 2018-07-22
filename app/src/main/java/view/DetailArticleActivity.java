@@ -2,9 +2,13 @@ package view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,6 +68,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar ab = getSupportActionBar();
+        ab.setIcon(R.mipmap.back_img);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         setContentView(R.layout.activity_detail_article);
         ButterKnife.bind(this);
 
@@ -197,6 +206,24 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }else{
             showMessage("로그인을 해주세요.");
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.detail_view_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_edit: Util.showToast(getApplicationContext(), "edit"); return true;
+            case R.id.item_delete: Util.showToast(getApplicationContext(), "delete"); return true;
+
+        }
+        return false;
     }
 
     @OnClick({R.id.favorite_btn}) void favoriteBtnClicked(){

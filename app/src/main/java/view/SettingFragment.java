@@ -74,7 +74,6 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
     private void setLoginState(){
         if(sessionManager.isLoggedIn()){
             user_id_tv.setText(UserModel.getInstance().getEmail());
-            Log.d("After Register", UserModel.getInstance().getEmail()+"????");
         }else{
             user_id_tv.setText(loginDefaultStateStr);
         }

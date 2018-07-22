@@ -22,7 +22,8 @@
         <activity android:name="view.IntroActivity" />
         <activity android:name="view.RegisterActivity" />
         <activity android:name="view.LoginActivity" />
-        <activity android:name="view.AreaBoardActivity" />
+        <activity android:name="view.AreaBoardActivity"
+            android:theme="@style/AppThemeWhite"/>
         <activity
             android:name="view.WriteBoardActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />

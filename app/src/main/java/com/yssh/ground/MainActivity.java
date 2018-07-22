@@ -83,8 +83,6 @@ public class MainActivity extends BaseActivity implements LoginView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("title");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         backPressCloseHandler = new BackPressCloseHandler(this);

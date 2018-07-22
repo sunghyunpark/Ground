@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private DetailArticlePresenter commentPresenter;
     private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
+    private ActionBar ab;
 
     @BindView(R.id.profile_iv) ImageView user_profile_iv;
     @BindView(R.id.area_tv) TextView area_tv;
@@ -68,11 +70,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar ab = getSupportActionBar();
-        ab.setIcon(R.mipmap.back_img);
-        ab.setDisplayUseLogoEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
-
         setContentView(R.layout.activity_detail_article);
         ButterKnife.bind(this);
 
@@ -81,8 +78,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         articleNo = intent.getIntExtra("no", 0);
         areaNo = intent.getIntExtra("areaNo", 0);
         boardType = intent.getExtras().getString("boardType");
-
-        Log.d("DetailView", "area : "+area+"\n"+"articleNo : "+articleNo+"\n"+"areaNo : "+areaNo+"\n"+"boardType : "+boardType);
 
         init();
     }
@@ -207,7 +202,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             showMessage("로그인을 해주세요.");
         }
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -221,11 +216,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         switch (item.getItemId()){
             case R.id.item_edit: Util.showToast(getApplicationContext(), "edit"); return true;
             case R.id.item_delete: Util.showToast(getApplicationContext(), "delete"); return true;
+            case android.R.id.home: finish(); return true;
 
         }
         return false;
     }
-
+*/
     @OnClick({R.id.favorite_btn}) void favoriteBtnClicked(){
         favoriteClick(favoriteState);
     }

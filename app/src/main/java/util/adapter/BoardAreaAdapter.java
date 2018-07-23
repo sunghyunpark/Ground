@@ -71,7 +71,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Area_VH VHitem = (Area_VH)holder;
 
             VHitem.areaName.setText(" - "+currentItem.getAreaName());
-            VHitem.areaName.setOnClickListener(new View.OnClickListener() {
+            VHitem.area_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(type == TYPE_MATCH){
@@ -119,11 +119,13 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //상세 지역 이름
     private class Area_VH extends RecyclerView.ViewHolder{
+        ViewGroup area_layout;
         TextView areaName;
         ImageView newImg;
 
         private Area_VH(View itemView){
             super(itemView);
+            area_layout = (ViewGroup)itemView.findViewById(R.id.area_layout);
             areaName = (TextView)itemView.findViewById(R.id.area_name_tv);
             newImg = (ImageView)itemView.findViewById(R.id.new_iv);
         }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
@@ -18,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
-import model.BannerModel;
 import presenter.AreaBoardPresenter;
 import presenter.view.AreaBoardView;
 import util.EndlessRecyclerOnScrollListener;
@@ -61,8 +59,10 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        /* 메모리 관련 이슈때문에 잠시 주석처리
         if(areaBoardAdapter != null)
             areaBoardAdapter.stopBannerThread();
+        */
     }
 
     @Override

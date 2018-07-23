@@ -2,11 +2,8 @@ package util.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +12,10 @@ import android.widget.TextView;
 
 import com.yssh.ground.R;
 
-import java.lang.ref.WeakReference;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import model.ArticleModel;
 import util.SessionManager;
@@ -42,9 +35,11 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private int bannerCount;
 
+    /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
     private Util.BannerHandler handler;
     private BannerThread thread = null;
+    */
 
     public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount) {
         this.context = context;
@@ -146,12 +141,15 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
+            /*메모리 관련 이슈때문에 잠시 주석처리
             handler = new Util.BannerHandler(this, banner_pager, bannerCount);
             thread = new BannerThread();
             thread.start();
+            */
         }
     }
 
+    /* 메모리 관련 이슈때문에 잠시 주석처리
     public void stopBannerThread(){
         thread.stopThread();
         this.handler.removeMessages(0);
@@ -183,6 +181,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
     }
+    */
 
     //게시판 item
     private class Board_VH extends RecyclerView.ViewHolder{

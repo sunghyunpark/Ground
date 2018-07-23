@@ -1,10 +1,7 @@
 package view;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.BannerModel;
 import presenter.view.HomeView;
-import util.Util;
-import util.adapter.AreaBoardAdapter;
 import util.adapter.BannerViewPagerAdapter;
 import util.adapter.RecentBoardViewPagerAdapter;
 
@@ -28,12 +23,26 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     private View v;
     private ArrayList<BannerModel> bannerModelArrayList;
+    /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
     private Handler handler;
+    private BannerThread thread;
+    */
 
     @BindView(R.id.banner_pager) ViewPager banner_pager;
     @BindView(R.id.recent_tab_layout) TabLayout recent_tabLayout;
     @BindView(R.id.recent_pager) ViewPager recent_pager;
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        /* 메모리 관련 이슈때문에 잠시 주석처리
+        if(thread != null){
+            thread.stopThread();
+            this.handler.removeMessages(0);
+        }
+        */
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,11 +106,14 @@ public class HomeFragment extends BaseFragment implements HomeView{
             }
         });
 
+        /*메모리 관련 이슈때문에 잠시 주석처리
         handler = new Util.BannerHandler(this, banner_pager, 3);
-        BannerThread thread = new BannerThread();
+        thread = new BannerThread();
         thread.start();
+        */
     }
 
+    /* 메모리 관련 이슈때문에 잠시 주석처리
     private class BannerThread extends java.lang.Thread{
         boolean stopped = false;
 
@@ -128,5 +140,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
             }
         }
     }
+    */
 
 }

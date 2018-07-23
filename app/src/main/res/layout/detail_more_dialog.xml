@@ -42,6 +42,17 @@
             android:textSize="15dp"
             android:textColor="@color/colorBlack"/>
 
+        <TextView
+            android:id="@+id/report_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:text="신고"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorWhite"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+
     </LinearLayout>
 
 </LinearLayout>

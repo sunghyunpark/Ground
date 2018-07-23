@@ -213,7 +213,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @OnClick(R.id.detail_more_btn) void moreBtn(){
-        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this);
+        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, articleModel.getWriterId());
         detailMoreDialog.show();
     }
 }

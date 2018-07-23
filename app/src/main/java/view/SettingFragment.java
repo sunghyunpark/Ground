@@ -42,12 +42,14 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         super.onDestroy();
         if(loginPresenter != null)
             loginPresenter.RealmDestroy();
+        sessionManager = null;
+        loginPresenter = null;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        init();
     }
 
     @Override
@@ -57,14 +59,16 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         View v = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this, v);
 
-        init();
+        initUI();
         return v;
     }
 
     private void init(){
         loginPresenter = new LoginPresenter(this, getContext());
         sessionManager = new SessionManager(getContext());
+    }
 
+    private void initUI(){
         setLoginState();
         setAppVersion();
         setUserNickName();
@@ -88,12 +92,9 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
     }
 
     private void setAppVersion(){
-        //앱 버전
-        String version;
         try {
             PackageInfo i = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            version = i.versionName;
-            app_version_tv.setText("v"+version);
+            app_version_tv.setText("v"+i.versionName);
         } catch(PackageManager.NameNotFoundException e) { }
     }
 

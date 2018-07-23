@@ -21,7 +21,8 @@ import util.adapter.RecentBoardViewPagerAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
 
-    private View v;
+    private RecentBoardViewPagerAdapter pagerAdapter;
+    private BannerViewPagerAdapter bannerViewPagerAdapter;
     private ArrayList<BannerModel> bannerModelArrayList;
     /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
@@ -45,24 +46,36 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        pagerAdapter = null;
+        bannerViewPagerAdapter = null;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        init();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_home, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
 
-        init();
-
+        initUI();
         return v;
     }
 
     private void init(){
+        pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
+    }
+
+    private void initUI(){
         setRecentArticlePager();
         setBannerPager();
     }
@@ -73,7 +86,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setRecentArticlePager(){
-        RecentBoardViewPagerAdapter pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         recent_pager.setAdapter(pagerAdapter);
         recent_tabLayout.setupWithViewPager(recent_pager);
     }
@@ -83,9 +95,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setBannerPager(){
-        BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
         banner_pager.setAdapter(bannerViewPagerAdapter);
-
         banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

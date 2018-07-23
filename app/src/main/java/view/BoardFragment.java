@@ -21,15 +21,23 @@ import view.dialog.MyContentsDialog;
 
 public class BoardFragment extends BaseFragment {
 
+    private BoardViewPagerAdapter pagerAdapter;
     private MyContentsDialog myContentsDialog;
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
 
     @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        pagerAdapter = null;
+        myContentsDialog = null;
+    }
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        init();
     }
 
     @Override
@@ -39,16 +47,20 @@ public class BoardFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_board, container, false);
         ButterKnife.bind(this, v);
 
-        init();
+        initUI();
         return v;
     }
 
     private void init(){
         myContentsDialog = new MyContentsDialog(getContext());
-        BoardViewPagerAdapter pagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
+        pagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
+    }
+
+    private void initUI(){
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
+
 
     @OnClick(R.id.my_btn) void myBtn(){
         if(isLogin()){

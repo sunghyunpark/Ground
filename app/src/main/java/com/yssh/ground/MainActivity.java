@@ -78,6 +78,8 @@ public class MainActivity extends BaseActivity implements LoginView{
         super.onDestroy();
         if(loginPresenter != null)
             loginPresenter.RealmDestroy();
+
+        loginPresenter = null;
     }
 
     @Override

@@ -33,6 +33,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private AreaBoardAdapter areaBoardAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
+    private LinearLayoutManager linearLayoutManager;
     private String area, boardType;
     private int areaNo;
 
@@ -63,6 +64,10 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         if(areaBoardAdapter != null)
             areaBoardAdapter.stopBannerThread();
         */
+        areaBoardAdapter = null;
+        areaBoardPresenter = null;
+        articleModelArrayList = null;
+        linearLayoutManager = null;
     }
 
     @Override
@@ -83,7 +88,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
@@ -103,9 +108,9 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             public void onLoadMore(int current_page) {
                 // do something...
                 try{
-                    areaBoardPresenter.loadArticleList(areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType);
+                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType);
                 }catch (IndexOutOfBoundsException ie){
-                    areaBoardPresenter.loadArticleList(areaNo, 0, boardType);
+                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType);
                 }
             }
         });
@@ -114,7 +119,6 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == REQUEST_WRITE) {
             if(resultCode == Activity.RESULT_OK){
                 init(area);

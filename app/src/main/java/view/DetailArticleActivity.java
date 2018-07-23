@@ -53,6 +53,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
+    public void onDestroy(){
+        super.onDestroy();
+        articleModel = null;
+        commentPresenter = null;
+        detailArticlePresenter = null;
+    }
+    @Override
     protected void onResume(){
         super.onResume();
         if(commentPresenter != null){

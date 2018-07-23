@@ -34,7 +34,10 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
      * @param areaNo
      * @param articleNo
      */
-    public void loadArticleList(int areaNo, int articleNo, String boardType){
+    public void loadArticleList(boolean refresh, int areaNo, int articleNo, String boardType){
+        if(refresh)
+            articleModelArrayList.clear();
+
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

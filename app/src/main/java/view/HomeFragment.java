@@ -87,6 +87,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @Override
     public void setRecentArticlePager(){
         recent_pager.setAdapter(pagerAdapter);
+        recent_pager.setOffscreenPageLimit(3);
         recent_tabLayout.setupWithViewPager(recent_pager);
     }
 

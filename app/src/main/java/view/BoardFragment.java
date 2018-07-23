@@ -58,6 +58,7 @@ public class BoardFragment extends BaseFragment {
 
     private void initUI(){
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
     }
 

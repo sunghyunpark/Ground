@@ -36,7 +36,6 @@ public class MatchFragment extends Fragment {
     private View v;
     private String type;    //내가 쓴 글, 내가 쓴 댓글, 관심 글(myArticle, myComment, myFavorite)
     private ArrayList<Object> objectArrayList;
-    private LinearLayoutManager linearLayoutManager;
     private MyAdapter myAdapter;
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
@@ -65,6 +64,7 @@ public class MatchFragment extends Fragment {
         if (getArguments() != null) {
             type = getArguments().getString("type");
         }
+        init();
     }
 
     @Override
@@ -74,14 +74,17 @@ public class MatchFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_match, container, false);
         ButterKnife.bind(this, v);
 
-        init(type);
+        initUI();
 
         return v;
     }
 
-    private void init(String type){
+    private void init(){
         objectArrayList = new ArrayList<>();
-        linearLayoutManager = new LinearLayoutManager(getContext());
+    }
+
+    private void initUI(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 0, 3);

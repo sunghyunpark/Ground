@@ -28,7 +28,6 @@ import util.adapter.RecentBoardAdapter;
 
 public class RecentRecruitBoardFragment extends BaseFragment implements RecentBoardView{
 
-    private View v;
     private ArrayList<ArticleModel> articleModelArrayList;
     private RecentBoardAdapter recentBoardAdapter;
 
@@ -57,29 +56,32 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        init();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_recent_recruit_board, container, false);
+        View v = inflater.inflate(R.layout.fragment_recent_recruit_board, container, false);
         ButterKnife.bind(this, v);
 
-        init();
+        initUI();
         return v;
     }
 
     private void init(){
         articleModelArrayList = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recentBoardAdapter = new RecentBoardAdapter(getContext(), articleModelArrayList, 2);
+        setListData();
+    }
+
+    private void initUI(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recentBoardAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        setListData();
     }
 
     @Override

@@ -56,8 +56,11 @@
     <string name="comment_activity_title">댓글</string>
 
     <!-- Write Board Activity -->
-    <string name="write_board_title">글쓰기</string>
+    <string name="write_board_title">글 쓰기</string>
     <string name="write_board_default_txt">날짜 및 시간 : \n\n\n장소 : \n\n\n경기방식 : \n\n\n비용 : \n\n\n팀 소개 : \n\n\n기타 : \n\n\n</string>
+
+    <!-- Edit Board Activity -->
+    <string name="edit_board_title">글 수정</string>
 
     <!-- Board Fragment-->
     <string name="board_fragment_title">게시판</string>

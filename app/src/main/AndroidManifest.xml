@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppThemeNoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,14 +24,15 @@
         <activity android:name="view.IntroActivity" />
         <activity android:name="view.RegisterActivity" />
         <activity android:name="view.LoginActivity" />
-        <activity android:name="view.AreaBoardActivity"/>
+        <activity android:name="view.AreaBoardActivity" />
         <activity
             android:name="view.WriteBoardActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name="view.DetailArticleActivity" />
         <activity android:name="view.CommentActivity" />
         <activity android:name="view.MyActivity" />
-        <activity android:name="view.OpenSourceActivity"></activity>
+        <activity android:name="view.OpenSourceActivity" />
+        <activity android:name="view.EditBoardActivity"></activity>
     </application>
 
 </manifest>

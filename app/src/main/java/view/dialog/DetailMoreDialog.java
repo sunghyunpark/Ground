@@ -1,7 +1,9 @@
 package view.dialog;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -74,7 +76,23 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.delete_article_tv) void deleteBtn(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("삭제");
+        alert.setMessage("정말 삭제 하시겠습니까?");
+        alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
 
+            }
+        });
+        alert.setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+
+                    }
+                });
+        alert.show();
+        dismiss();
     }
 
     @OnClick(R.id.favorite_tv) void favoriteBtn(){

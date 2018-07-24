@@ -92,6 +92,15 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     /**
+     * 상단 그라운드 유틸 영역
+     * 가로 리사이클러뷰
+     */
+    @Override
+    public void setGroundRecyclerView(){
+
+    }
+
+    /**
      * 최상단 배너 영역
      */
     @Override

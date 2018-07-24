@@ -24,13 +24,13 @@ public class DetailMoreDialog extends Dialog {
     private String uid;
     private String title, contents;
     private String boardType, area;
-    private int areaNo;
+    private int areaNo, articleNo;
 
     @BindView(R.id.edit_article_tv) TextView edit_tv;
     @BindView(R.id.delete_article_tv) TextView delete_tv;
     @BindView(R.id.report_tv) TextView report_tv;
 
-    public DetailMoreDialog(Context context, String uid, String title, String contents, String boardType, String area, int areaNo){
+    public DetailMoreDialog(Context context, String uid, String title, String contents, String boardType, String area, int areaNo, int articleNo){
         super(context);
         this.uid = uid;
         this.title = title;
@@ -38,6 +38,7 @@ public class DetailMoreDialog extends Dialog {
         this.boardType = boardType;
         this.area = area;
         this.areaNo = areaNo;
+        this.articleNo = articleNo;
     }
 
     @Override
@@ -71,6 +72,7 @@ public class DetailMoreDialog extends Dialog {
         intent.putExtra("areaNo", areaNo);
         intent.putExtra("title", title);
         intent.putExtra("contents", contents);
+        intent.putExtra("articleNo", articleNo);
         getContext().startActivity(intent);
         dismiss();
     }

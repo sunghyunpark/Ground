@@ -10,7 +10,9 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -45,6 +47,10 @@ public interface ApiInterface {
     @POST("api/boards/")
     Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
                                     @Field("contents") String contents, @Field("boardType") String boardType);
+
+    @PUT("api/boards/edit/{boardType}/{areaNo}/{no}/{title}/{contents}")
+    Call<CommonResponse> editBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
+                                   @Path("title") String title, @Path("contents") String contents);
 
     /**
      * get match area board List api

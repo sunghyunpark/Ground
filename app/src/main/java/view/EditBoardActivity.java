@@ -15,14 +15,16 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import presenter.EditBoardPresenter;
 import presenter.view.EditBoardView;
 import util.Util;
 
 public class EditBoardActivity extends BaseActivity implements EditBoardView, TextWatcher {
 
     private String boardType, area, titleStr, contentsStr;
-    private int areaNo;
+    private int areaNo, articleNo;
     private String beforeStr;
+    private EditBoardPresenter editBoardPresenter;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
@@ -42,11 +44,13 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         areaNo = intent.getIntExtra("areaNo",0);
         titleStr = intent.getExtras().getString("title");
         contentsStr = intent.getExtras().getString("contents");
+        articleNo = intent.getIntExtra("articleNo", 0);
 
         init();
     }
 
     private void init(){
+        editBoardPresenter = new EditBoardPresenter(this, getApplicationContext());
         board_title_et.addTextChangedListener(this);
         area_tv.setText(area);
         board_title_et.setText(titleStr);
@@ -62,6 +66,7 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             //writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
+            editBoardPresenter.EditBoard(boardType, areaNo, articleNo, titleStr, contentsStr);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
             finish();

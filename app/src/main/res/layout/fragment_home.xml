@@ -62,7 +62,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ground_util_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"/>
 
         </LinearLayout>
 
@@ -72,15 +73,34 @@
             android:layout_marginTop="40dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="23dp"
-                android:text="최신글"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"/>
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:text="최신글"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/recent_more_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:textSize="13dp"
+                    android:layout_centerVertical="true"
+                    android:text="더보기"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/recent_tab_layout"

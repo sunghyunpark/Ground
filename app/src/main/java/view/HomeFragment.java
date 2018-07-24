@@ -28,7 +28,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private ArrayList<BannerModel> bannerModelArrayList;
-    private ArrayList<GroundUtilModel> groundUtilModelArrayList;
 
     /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
@@ -80,7 +79,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void init(){
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
-        groundUtilModelArrayList = new ArrayList<>();
     }
 
     private void initUI(){
@@ -106,16 +104,9 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setGroundRecyclerView(){
-        GroundUtilModel groundUtilModel;
-        for(int i=0;i<3;i++){
-            groundUtilModel = new GroundUtilModel();
-            groundUtilModel.setText("test");
-            groundUtilModel.setImgPath("123");
-            groundUtilModelArrayList.add(groundUtilModel);
-        }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext(), groundUtilModelArrayList);
+        GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext());
 
         groundUtilRecyclerView.setAdapter(groundUtilAdapter);
         groundUtilRecyclerView.setLayoutManager(linearLayoutManager);

@@ -1,6 +1,7 @@
 package util.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
@@ -18,12 +21,13 @@ import model.GroundUtilModel;
 public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     private static final int TYPE_ITEM = 0;
-    private ArrayList<GroundUtilModel> listItems;
+    private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img,
+    R.mipmap.ground_util_market_img};
+    private String [] textArray = {"전술판", "날씨", "영상", "용품 마켓"};
     private Context context;
 
-    public GroundUtilAdapter(Context context, ArrayList<GroundUtilModel> groundUtilModelArrayList){
+    public GroundUtilAdapter(Context context){
         this.context = context;
-        this.listItems = groundUtilModelArrayList;
     }
 
     @Override
@@ -35,17 +39,26 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private GroundUtilModel getItem(int position) {
-        return listItems.get(position);
+    private String getItem(int position) {
+        return textArray[position];
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Util_VH) {
-            final GroundUtilModel currentItem = getItem(position);
+            final String currentItem = getItem(position);
             final Util_VH VHitem = (Util_VH)holder;
 
-            VHitem.util_tv.setText(currentItem.getText());
+            RequestOptions requestOptions = new RequestOptions();
+            Drawable drawable = context.getResources().getDrawable(imgArray[position]);
+            requestOptions.placeholder(drawable);
+
+            Glide.with(context)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(null)
+                    .into(VHitem.util_iv);
+
+            VHitem.util_tv.setText(currentItem);
         }
     }
 
@@ -67,6 +80,6 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     //increasing getItemcount to 1. This will be the row of header.
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return textArray.length;
     }
 }

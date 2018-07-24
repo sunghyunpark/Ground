@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="60dp"
-    android:layout_height="100dp">
+    android:layout_height="wrap_content"
+    android:layout_marginRight="7dp"
+    android:layout_marginLeft="7dp">
 
     <ImageView
         android:id="@+id/util_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/util_tv"
@@ -17,6 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/util_iv"
         android:layout_marginTop="5dp"
+        android:textColor="@color/colorMoreGray"
+        android:textSize="13dp"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

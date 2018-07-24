@@ -3,6 +3,8 @@ package view;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,10 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.BannerModel;
+import model.GroundUtilModel;
 import presenter.view.HomeView;
 import util.adapter.BannerViewPagerAdapter;
+import util.adapter.GroundUtilAdapter;
 import util.adapter.RecentBoardViewPagerAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
@@ -24,6 +28,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private ArrayList<BannerModel> bannerModelArrayList;
+    private ArrayList<GroundUtilModel> groundUtilModelArrayList;
+
     /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
     private Handler handler;
@@ -33,6 +39,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.banner_pager) ViewPager banner_pager;
     @BindView(R.id.recent_tab_layout) TabLayout recent_tabLayout;
     @BindView(R.id.recent_pager) ViewPager recent_pager;
+    @BindView(R.id.ground_util_recyclerView) RecyclerView groundUtilRecyclerView;
 
     @Override
     public void onDestroy(){
@@ -73,11 +80,13 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void init(){
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
+        groundUtilModelArrayList = new ArrayList<>();
     }
 
     private void initUI(){
         setRecentArticlePager();
         setBannerPager();
+        setGroundRecyclerView();
     }
 
     /**
@@ -97,7 +106,19 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setGroundRecyclerView(){
+        GroundUtilModel groundUtilModel;
+        for(int i=0;i<3;i++){
+            groundUtilModel = new GroundUtilModel();
+            groundUtilModel.setText("test");
+            groundUtilModel.setImgPath("123");
+            groundUtilModelArrayList.add(groundUtilModel);
+        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext(), groundUtilModelArrayList);
 
+        groundUtilRecyclerView.setAdapter(groundUtilAdapter);
+        groundUtilRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
     /**

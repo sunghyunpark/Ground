@@ -13,9 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.yssh.ground.R;
 
-import java.util.ArrayList;
-
-import model.GroundUtilModel;
+import view.dialog.GroundUtilWeatherDialog;
 
 
 public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
@@ -25,9 +23,11 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     R.mipmap.ground_util_market_img};
     private String [] textArray = {"전술판", "날씨", "영상", "용품 마켓"};
     private Context context;
+    private GroundUtilWeatherDialog groundUtilWeatherDialog;
 
     public GroundUtilAdapter(Context context){
         this.context = context;
+        groundUtilWeatherDialog = new GroundUtilWeatherDialog(context);
     }
 
     @Override
@@ -59,18 +59,40 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .into(VHitem.util_iv);
 
             VHitem.util_tv.setText(currentItem);
+
+            VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (position){
+                        case 0:
+                            break;
+                        case 1:
+                            goToWeatherDialog();
+                            break;
+                        case 2:
+                            break;
+
+                    }
+                }
+            });
         }
     }
 
     private class Util_VH extends RecyclerView.ViewHolder{
+        ViewGroup item_layout;
         TextView util_tv;
         ImageView util_iv;
 
         private Util_VH(View itemView){
             super(itemView);
+            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
             util_iv = (ImageView)itemView.findViewById(R.id.util_iv);
             util_tv = (TextView)itemView.findViewById(R.id.util_tv);
         }
+    }
+
+    private void goToWeatherDialog(){
+        groundUtilWeatherDialog.show();
     }
 
     @Override

@@ -81,11 +81,6 @@ public class MatchFragment extends Fragment {
 
     private void init(){
         objectArrayList = new ArrayList<>();
-    }
-
-    private void initUI(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
         if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 0, 3);
             loadArticleList(0);
@@ -96,7 +91,10 @@ public class MatchFragment extends Fragment {
             myAdapter = new MyAdapter(getContext(), objectArrayList, 2, 3);
             loadFavoriteList(0);
         }
+    }
 
+    private void initUI(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
     }

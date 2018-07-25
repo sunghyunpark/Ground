@@ -76,11 +76,6 @@ public class RecruitFragment extends Fragment {
 
     private void init(){
         objectArrayList = new ArrayList<>();
-    }
-
-    private void initUI(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
         if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
             myAdapter = new MyAdapter(getContext(), objectArrayList, 0, 4);
             loadArticleList(0);
@@ -91,7 +86,10 @@ public class RecruitFragment extends Fragment {
             myAdapter = new MyAdapter(getContext(), objectArrayList, 2, 4);
             loadFavoriteList(0);
         }
+    }
 
+    private void initUI(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
     }

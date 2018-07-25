@@ -59,12 +59,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         commentPresenter = null;
         detailArticlePresenter = null;
     }
+
     @Override
     protected void onResume(){
         super.onResume();
-        if(commentPresenter != null){
-            commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
-        }
+        initUI();
     }
 
     @Override
@@ -93,9 +92,17 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         comment_recyclerView.setNestedScrollingEnabled(false);
 
         detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, articleModel);
-        detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo);
 
         commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
+    }
+
+    private void initUI(){
+        if(commentPresenter != null){
+            commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
+        }
+        if(detailArticlePresenter != null){
+            detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo);
+        }
     }
 
     private void setUserProfile(String urlPath){

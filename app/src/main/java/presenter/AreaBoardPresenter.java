@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import api.ApiClient;
 import api.ApiInterface;
@@ -47,14 +48,8 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
                 ArticleModelListResponse articleModelListResponse = response.body();
                 if(articleModelListResponse.getCode() == 200){
-                    int size = articleModelListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        articleModelArrayList.add(articleModelListResponse.getResult().get(i));
-                        Log.d("ArticleLIst","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
+                    for(ArticleModel am : articleModelListResponse.getResult()){
+                        Collections.addAll(articleModelArrayList, am);
                     }
                     adapter.notifyDataSetChanged();
                 }else{

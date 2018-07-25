@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import api.ApiClient;
 import api.ApiInterface;
@@ -72,8 +73,8 @@ public class CommentPresenter extends BasePresenter<CommentView> {
                     int size = commentListResponse.getResult().size();
                     if(size > 0){
                         getView().initComment(true);
-                        for(int i=0;i<size;i++){
-                            commentModelArrayList.add(commentListResponse.getResult().get(i));
+                        for(CommentModel cm : commentListResponse.getResult()){
+                            Collections.addAll(commentModelArrayList, cm);
                         }
                         commentAdapter.notifyDataSetChanged();
                         getView().loadMoreComment();
@@ -107,8 +108,8 @@ public class CommentPresenter extends BasePresenter<CommentView> {
                 CommentListResponse commentListResponse = response.body();
                 if(commentListResponse.getCode() == 200){
                     int size = commentListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        commentModelArrayList.add(commentListResponse.getResult().get(i));
+                    for(CommentModel cm : commentListResponse.getResult()){
+                        Collections.addAll(commentModelArrayList, cm);
                     }
                     commentAdapter.notifyDataSetChanged();
                 }else{

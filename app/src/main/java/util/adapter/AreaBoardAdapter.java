@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import model.ArticleModel;
+import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
 import view.DetailArticleActivity;
@@ -80,8 +81,11 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(sessionManager.isLoggedIn()){
-                        //login
+                    if(!sessionManager.isLoggedIn()){
+                        Util.showToast(context, "로그인을 해주세요.");
+                    }else if(!NetworkUtils.isNetworkConnected(context)){
+                        Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+                    }else{
                         Intent intent = new Intent(context, DetailArticleActivity.class);
                         intent.putExtra("area", area);
                         intent.putExtra("areaNo", currentItem.getAreaNo());
@@ -91,9 +95,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1
                         listItems.get(position-1).setViewCnt(getItem(position).getViewCnt()+1);
-                    }else{
-                        //not login
-                        Util.showToast(context, "로그인을 해주세요.");
                     }
                 }
             });

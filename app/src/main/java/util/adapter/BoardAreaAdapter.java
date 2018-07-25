@@ -3,7 +3,6 @@ package util.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import model.AreaModel;
+import util.NetworkUtils;
 import util.Util;
 import view.AreaBoardActivity;
 
@@ -74,12 +74,16 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHitem.area_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(type == TYPE_MATCH){
-                        goAreaBoardActivity(currentItem, "match");
-                    }else if(type == TYPE_HIRE){
-                        goAreaBoardActivity(currentItem, "hire");
-                    }else if(type == TYPE_RECRUIT){
-                        goAreaBoardActivity(currentItem, "recruit");
+                    if(!NetworkUtils.isNetworkConnected(context)){
+                        Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+                    }else{
+                        if(type == TYPE_MATCH){
+                            goAreaBoardActivity(currentItem, "match");
+                        }else if(type == TYPE_HIRE){
+                            goAreaBoardActivity(currentItem, "hire");
+                        }else if(type == TYPE_RECRUIT){
+                            goAreaBoardActivity(currentItem, "recruit");
+                        }
                     }
                 }
             });

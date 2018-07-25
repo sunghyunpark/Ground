@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,16 @@ import android.widget.TextView;
 import com.yssh.ground.R;
 
 import base.BaseFragment;
-import presenter.LoginPresenter;
-import presenter.view.LoginView;
-import presenter.view.SettingView;
-import util.SessionManager;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.UserModel;
+import presenter.LoginPresenter;
+import presenter.view.LoginView;
+import presenter.view.SettingView;
+import util.NetworkUtils;
+import util.SessionManager;
 import util.Util;
 
 public class SettingFragment extends BaseFragment implements LoginView, SettingView {
@@ -107,8 +106,13 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
      */
     @Override
     public void login(){
-        if(sessionManager.isLoggedIn()){
-            //login
+        if(!NetworkUtils.isNetworkConnected(getContext())){
+            Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
+        }else if(!sessionManager.isLoggedIn()){
+            //not login
+            //로그인 상태가 아니므로 인트로 화면을 띄워준다.
+            startActivity(new Intent(getContext(), IntroActivity.class));
+        }else{
             AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
             alert.setTitle("로그아웃");
             alert.setMessage("정말 로그아웃 하시겠습니까?");
@@ -128,10 +132,6 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
                         }
                     });
             alert.show();
-        }else{
-            //not login
-            //로그인 상태가 아니므로 인트로 화면을 띄워준다.
-            startActivity(new Intent(getContext(), IntroActivity.class));
         }
     }
 

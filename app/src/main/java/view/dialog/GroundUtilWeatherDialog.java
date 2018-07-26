@@ -10,6 +10,9 @@ import com.yssh.ground.R;
 
 import butterknife.ButterKnife;
 
+/**
+ * 그라운드 유틸 > 날씨 다이얼로그
+ */
 public class GroundUtilWeatherDialog extends Dialog {
     private Context context;
 

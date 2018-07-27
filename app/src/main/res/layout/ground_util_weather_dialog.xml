@@ -11,10 +11,10 @@
         android:background="@color/colorWhite">
 
         <TextView
-            android:id="@+id/my_contents_tv"
+            android:id="@+id/item_1_tv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="내가 작성한 글"
+            android:text="네이버 날씨"
             android:gravity="center_horizontal|center_vertical"
             android:textSize="15dp"
             android:textColor="@color/colorBlack"/>
@@ -27,10 +27,10 @@
             android:background="#9E9E9E"></LinearLayout>
 
         <TextView
-            android:id="@+id/my_comments_tv"
+            android:id="@+id/item_2_tv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="내가 작성한 댓글"
+            android:text="기상청"
             android:gravity="center_horizontal|center_vertical"
             android:textSize="15dp"
             android:textColor="@color/colorBlack"/>
@@ -43,10 +43,10 @@
             android:background="#9E9E9E"></LinearLayout>
 
         <TextView
-            android:id="@+id/my_favorite_tv"
+            android:id="@+id/item_3_tv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="관심있는 글"
+            android:text="항공 기상청"
             android:gravity="center_horizontal|center_vertical"
             android:textSize="15dp"
             android:textColor="@color/colorBlack"/>

@@ -101,7 +101,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
         }
         if(detailArticlePresenter != null){
-            detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo);
+            detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo, UserModel.getInstance().getUid());
         }
     }
 

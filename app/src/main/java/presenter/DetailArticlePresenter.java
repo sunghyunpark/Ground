@@ -63,11 +63,11 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param areaNo
      * @param articleNo
      */
-    public void loadDetailArticle(String boardType, int areaNo, int articleNo){
+    public void loadDetailArticle(String boardType, int areaNo, int articleNo, String uid){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getDetailBoard(boardType, areaNo, articleNo);
+        Call<ArticleModelListResponse> call = apiService.getDetailBoard(boardType, areaNo, articleNo, uid);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

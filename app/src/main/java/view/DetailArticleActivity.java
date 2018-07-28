@@ -1,5 +1,6 @@
 package view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -227,8 +228,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @OnClick(R.id.detail_more_btn) void moreBtn(){
-        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, articleModel.getWriterId(), articleModel.getTitle(),
-                articleModel.getContents(), boardType, area, areaNo, articleNo);
+        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, area, articleModel, new DetailMoreDialog.DetailMoreDialogListener() {
+            @Override
+            public void deleteArticleEvent() {
+                finish();
+            }
+        });
         detailMoreDialog.show();
     }
 }

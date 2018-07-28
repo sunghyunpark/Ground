@@ -7,38 +7,49 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
 
+import api.ApiClient;
+import api.ApiInterface;
+import api.response.CommonResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.ArticleModel;
 import model.UserModel;
+import presenter.DetailArticlePresenter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import util.Util;
 import view.EditBoardActivity;
 
 public class DetailMoreDialog extends Dialog {
 
-    private String uid;
-    private String title, contents;
-    private String boardType, area;
-    private int areaNo, articleNo;
+    private ArticleModel articleModel;
+    private String area;
+
+    private DetailMoreDialogListener detailMoreDiaologListener;
 
     @BindView(R.id.edit_article_tv) TextView edit_tv;
     @BindView(R.id.delete_article_tv) TextView delete_tv;
     @BindView(R.id.report_tv) TextView report_tv;
 
-    public DetailMoreDialog(Context context, String uid, String title, String contents, String boardType, String area, int areaNo, int articleNo){
+    public DetailMoreDialog(Context context, String area, ArticleModel articleModel,
+                            DetailMoreDialogListener detailMoreDialogListener){
         super(context);
-        this.uid = uid;
-        this.title = title;
-        this.contents = contents;
-        this.boardType = boardType;
+        this.articleModel = articleModel;
         this.area = area;
-        this.areaNo = areaNo;
-        this.articleNo = articleNo;
+        this.detailMoreDiaologListener = detailMoreDialogListener;
+    }
+
+    public interface DetailMoreDialogListener{
+        public void deleteArticleEvent();
     }
 
     @Override
@@ -55,7 +66,7 @@ public class DetailMoreDialog extends Dialog {
     }
 
     private void init(){
-        if(UserModel.getInstance().getUid().equals(uid)){
+        if(UserModel.getInstance().getUid().equals(articleModel.getWriterId())){
             //내 글
             report_tv.setVisibility(View.GONE);
         }else{
@@ -65,14 +76,41 @@ public class DetailMoreDialog extends Dialog {
         }
     }
 
+    private void deleteBoard(String boardType, int articleNo, String uid){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommonResponse> call = apiService.deleteBoard(boardType, articleNo, uid);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    Util.showToast(getContext(), "게시글을 삭제하였습니다.");
+                    dismiss();
+                    detailMoreDiaologListener.deleteArticleEvent();
+                }else{
+                    Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
     @OnClick(R.id.edit_article_tv) void editBtn(){
         Intent intent = new Intent(getContext(), EditBoardActivity.class);
-        intent.putExtra("boardType", boardType);
+        intent.putExtra("boardType", articleModel.getBoardType());
         intent.putExtra("area", area);
-        intent.putExtra("areaNo", areaNo);
-        intent.putExtra("title", title);
-        intent.putExtra("contents", contents);
-        intent.putExtra("articleNo", articleNo);
+        intent.putExtra("areaNo", articleModel.getAreaNo());
+        intent.putExtra("title", articleModel.getTitle());
+        intent.putExtra("contents", articleModel.getContents());
+        intent.putExtra("articleNo", articleModel.getNo());
         getContext().startActivity(intent);
         dismiss();
     }
@@ -83,7 +121,7 @@ public class DetailMoreDialog extends Dialog {
         alert.setMessage("정말 삭제 하시겠습니까?");
         alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
+                deleteBoard(articleModel.getBoardType(), articleModel.getNo(), UserModel.getInstance().getUid());
             }
         });
         alert.setNegativeButton("아니오",
@@ -97,11 +135,6 @@ public class DetailMoreDialog extends Dialog {
         dismiss();
     }
 
-    @OnClick(R.id.favorite_tv) void favoriteBtn(){
-
-    }
-
     @OnClick(R.id.report_tv) void reportBtn(){
-
     }
 }

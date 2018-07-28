@@ -6,6 +6,7 @@ import api.response.CommonResponse;
 import api.response.LoginResponse;
 import api.response.UpdateTimeResponse;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -48,9 +49,28 @@ public interface ApiInterface {
     Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
                                     @Field("contents") String contents, @Field("boardType") String boardType);
 
+    /**
+     * edit match/hire/recruit board api
+     * @param boardType
+     * @param areaNo
+     * @param no
+     * @param title
+     * @param contents
+     * @return
+     */
     @PUT("api/boards/edit/{boardType}/{areaNo}/{no}/{title}/{contents}")
     Call<CommonResponse> editBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
                                    @Path("title") String title, @Path("contents") String contents);
+
+    /**
+     * delete match/hire/recruit board api
+     * @param boardType
+     * @param no
+     * @param uid
+     * @return
+     */
+    @DELETE("api/boards/delete/{boardType}/{no}/{uid}")
+    Call<CommonResponse> deleteBoard(@Path("boardType") String boardType, @Path("no") int no, @Path("uid") String uid);
 
     /**
      * get match area board List api

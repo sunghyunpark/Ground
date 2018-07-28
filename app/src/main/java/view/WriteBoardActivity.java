@@ -67,7 +67,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         }else{
             writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
             Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK,returnIntent);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
     }

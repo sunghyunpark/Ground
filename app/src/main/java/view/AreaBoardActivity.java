@@ -122,8 +122,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         if (requestCode == REQUEST_WRITE) {
             if(resultCode == Activity.RESULT_OK){
                 init(area);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
+            }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
             }
         }

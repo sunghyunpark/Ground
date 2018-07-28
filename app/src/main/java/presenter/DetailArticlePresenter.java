@@ -90,7 +90,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
     }
 
     /**
-     *
+     * 디테일 뷰 진입 시 하단 댓글 데이터를 불러온다.
      * @param refresh
      * @param articleNo
      * @param commentNo
@@ -133,6 +133,14 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         });
     }
 
+    /**
+     * 디테일뷰 하단 댓글 입력 후 서버로 전송
+     * @param areaNo
+     * @param articleNo
+     * @param writerId
+     * @param comment
+     * @param boardType
+     */
     public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -159,6 +167,13 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         });
     }
 
+    /**
+     * 해당 디테일뷰 좋아요
+     * @param articleNo
+     * @param uid
+     * @param boardType
+     * @param state
+     */
     public void postFavoriteState(int articleNo, String uid, String boardType, final String state){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -187,5 +202,4 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
             }
         });
     }
-
 }

@@ -89,7 +89,7 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getRecentArticleList("match");
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList("match", 0, 5);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
@@ -98,7 +98,7 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
                     int size = articleModelListResponse.getResult().size();
                     for(int i=0;i<size;i++){
                         articleModelArrayList.add(articleModelListResponse.getResult().get(i));
-                        Log.d("ArticleLIst","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
+                        Log.d("RecentMatch","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
                                 "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
                                 "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
                                 "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+

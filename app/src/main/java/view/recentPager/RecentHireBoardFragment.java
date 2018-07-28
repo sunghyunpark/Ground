@@ -89,7 +89,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getRecentArticleList("hire");
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList("hire", 0, 5);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

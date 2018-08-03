@@ -12,4 +12,6 @@ public interface SettingView extends BasePresenterView{
 
     void goOpenSource();
 
+    void goReportBug();
+
 }

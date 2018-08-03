@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,6 +153,12 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
     }
 
     @Override
+    public void goReportBug(){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://naver.me/IGvFHAfa"));
+        startActivity(intent);
+    }
+
+    @Override
     public void loginClick(){
 
     }
@@ -175,5 +182,9 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @OnClick(R.id.app_license_btn) void openSourceBtn(){
         goOpenSource();
+    }
+
+    @OnClick(R.id.report_issue_btn) void reportIssueBtn(){
+        goReportBug();
     }
 }

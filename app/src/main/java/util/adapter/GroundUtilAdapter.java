@@ -1,6 +1,7 @@
 package util.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.yssh.ground.R;
 
+import view.FormationActivity;
 import view.dialog.GroundUtilWeatherDialog;
 
 
@@ -65,6 +67,7 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View view) {
                     switch (position){
                         case 0:
+                            goToFormationActivity();
                             break;
                         case 1:
                             goToWeatherDialog();
@@ -89,6 +92,11 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             util_iv = (ImageView)itemView.findViewById(R.id.util_iv);
             util_tv = (TextView)itemView.findViewById(R.id.util_tv);
         }
+    }
+
+    private void goToFormationActivity(){
+        Intent intent = new Intent(context, FormationActivity.class);
+        context.startActivity(intent);
     }
 
     private void goToWeatherDialog(){

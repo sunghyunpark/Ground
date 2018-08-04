@@ -11,7 +11,7 @@
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorWhite"
+        android:background="@color/colorPrimary"
         android:layout_alignParentTop="true">
 
         <ImageButton
@@ -20,14 +20,14 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
-            android:background="@mipmap/back_img"/>
+            android:background="@mipmap/back_img_white"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/formation_activity_title"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
         <Button
             android:id="@+id/add_circle_btn"
@@ -35,15 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="추가"
+            android:textColor="@color/colorWhite"
             android:background="@null"
             android:textSize="15dp"/>
     </RelativeLayout>
-    <!--구분선-->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:orientation="horizontal"
-        android:background="#9E9E9E"></LinearLayout>
 
     <RelativeLayout
         android:id="@+id/background_layout"

@@ -90,15 +90,18 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         articleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3);
-        boardRecyclerView.setLayoutManager(linearLayoutManager);
-        boardRecyclerView.setAdapter(areaBoardAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
         loadMoreArticle(linearLayoutManager);
 
-        title_tv.setText(area);
+        initView();
+    }
 
+    private void initView(){
+        title_tv.setText(area);
+        boardRecyclerView.setLayoutManager(linearLayoutManager);
+        boardRecyclerView.setAdapter(areaBoardAdapter);
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import butterknife.BindView;
@@ -45,9 +46,8 @@ public class IntroActivity extends AppCompatActivity {
      * Intro 화면의 백그라운드 적용
      */
     private void setBackground(){
-        DisplayMetrics displayMetrics = Util.getDisplayMetrics(getApplicationContext());
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.intro_bg_img1);
-        resized = Bitmap.createScaledBitmap(bitmap, displayMetrics.widthPixels, displayMetrics.heightPixels, true);
+        resized = Bitmap.createScaledBitmap(bitmap, GroundApplication.DISPLAY_WIDTH, GroundApplication.DISPLAY_HEIGHT, true);
 
         Drawable d = new BitmapDrawable(getResources(), resized);
         background_vg.setBackground(d);
@@ -56,7 +56,7 @@ public class IntroActivity extends AppCompatActivity {
     /**
      * 회원가입 화면으로 이동.
      */
-    @OnClick(R.id.register_btn) void regiterBtn(){
+    @OnClick(R.id.register_btn) void registerBtn(){
         startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
     }
 

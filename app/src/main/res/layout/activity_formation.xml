@@ -45,12 +45,12 @@
         android:orientation="horizontal"
         android:background="#9E9E9E"></LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/background_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

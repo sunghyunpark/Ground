@@ -28,16 +28,6 @@ import util.adapter.AreaBoardAdapter;
 public class Util {
 
     public static final int SEND_RUNNING = 1000;
-    /**
-     * 디바이스 사이즈를 구할 때 사용한다.
-     * @param context
-     * @return DisplayMetrics
-     * width = getDisplayMetrics.widthPixels;
-     * height = getDisplayMetrics.heightPixels;
-     */
-    public static DisplayMetrics getDisplayMetrics(Context context){
-        return context.getResources().getDisplayMetrics();
-    }
 
     public static void showToast(Context context, String message){
         //토스트를 중앙에 띄워준다.

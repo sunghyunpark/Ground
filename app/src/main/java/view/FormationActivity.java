@@ -1,5 +1,9 @@
 package view;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -7,11 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
+
+import java.util.ArrayList;
 
 import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Formation 화면
@@ -19,10 +27,28 @@ import butterknife.ButterKnife;
  */
 public class FormationActivity extends BaseActivity implements View.OnTouchListener{
 
+    private static final int DEFAULT_CIRCLE_CNT = 5;
+    private ArrayList<ImageView> imageViews;
+    private ImageView imageView;
     private float oldXvalue;
     private float oldYvalue;
+    private Bitmap resized, bitmap;
+    private Drawable d;
 
     @BindView(R.id.background_layout) ViewGroup background_layout;
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(imageViews != null){
+            imageViews = null;
+        }
+        if(imageView != null){
+            imageView = null;
+        }
+        resized.recycle();
+        bitmap.recycle();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +60,36 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
     }
 
     private void init(){
-        ImageView imageView[] = new ImageView[5];
-        for(int i = 0; i < 5; i++){
-            imageView[i] = new ImageView(this);
-            imageView[i].setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            imageView[i].setImageResource(R.mipmap.ic_launcher);
-            imageView[i].setOnTouchListener(this);
-            background_layout.addView(imageView[i]);
+        imageViews = new ArrayList<>();
+        for(int i = 0; i < DEFAULT_CIRCLE_CNT; i++){
+            imageViews.add(getImageView());
+            background_layout.addView(imageView);
         }
+
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.formation_background_img1);
+        resized = Bitmap.createScaledBitmap(bitmap, GroundApplication.DISPLAY_WIDTH, GroundApplication.DISPLAY_HEIGHT, true);
+
+        d = new BitmapDrawable(getResources(), resized);
+        background_layout.setBackground(d);
+    }
+
+    private void addCircle(){
+        if(imageViews.size() < 11){
+            imageViews.add(getImageView());
+            background_layout.addView(imageView);
+        }else{
+            showMessage("최대 11개 까지만 생성이 가능합니다.");
+        }
+    }
+
+    private ImageView getImageView(){
+        imageView = new ImageView(this);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                GroundApplication.DISPLAY_HEIGHT/16,
+                GroundApplication.DISPLAY_HEIGHT/16));
+        imageView.setBackgroundResource(R.drawable.formation_circle_shape);
+        imageView.setOnTouchListener(this);
+        return imageView;
     }
 
     @Override
@@ -93,5 +139,13 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
             }
         }
         return true;
+    }
+
+    @OnClick(R.id.back_btn) void backBtn(){
+        finish();
+    }
+
+    @OnClick(R.id.add_circle_btn) void addCircleBtn(){
+        addCircle();
     }
 }

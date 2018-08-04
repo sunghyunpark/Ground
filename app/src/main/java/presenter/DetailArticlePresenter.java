@@ -84,6 +84,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
             public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
+                getView().error();
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
             }
         });

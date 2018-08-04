@@ -180,6 +180,16 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * Error 발생 시 액티비티 종료 시킨다.
+     * 현재는 게시글 삭제 후 리스트에서 바로 갱신이 되지않아
+     * 다시 진입 시 error 로 종료시킨다.
+     */
+    @Override
+    public void error(){
+        finish();
+    }
+
     @Override
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);

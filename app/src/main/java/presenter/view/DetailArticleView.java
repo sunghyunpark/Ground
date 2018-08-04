@@ -17,4 +17,6 @@ public interface DetailArticleView extends BasePresenterView{
 
     void initComment(boolean hasComment);
 
+    void error();
+
 }

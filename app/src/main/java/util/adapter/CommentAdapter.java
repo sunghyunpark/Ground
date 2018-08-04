@@ -1,6 +1,8 @@
 package util.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import model.CommentModel;
+import model.UserModel;
 import util.Util;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -83,6 +86,34 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 VHitem.new_iv.setVisibility(View.INVISIBLE);
             }
 
+            if(isMyComment(position)){
+                VHitem.delete_tv.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.delete_tv.setVisibility(View.GONE);
+            }
+
+            VHitem.delete_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getRootView().getContext());
+                    alert.setTitle("삭제");
+                    alert.setMessage("정말 삭제 하시겠습니까?");
+                    alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    });
+                    alert.setNegativeButton("아니오",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // Canceled.
+
+                                }
+                            });
+                    alert.show();
+                }
+            });
+
         }else if(holder instanceof Comment_Header){
             final Comment_Header VHitem = (Comment_Header)holder;
 
@@ -97,6 +128,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return getItem(position).getCreatedAt().contains(todayStr);
     }
 
+    private boolean isMyComment(int position){
+        return getItem(position).getWriterId().equals(UserModel.getInstance().getUid());
+    }
+
     //게시판 item
     private class Comment_VH extends RecyclerView.ViewHolder{
         ImageView userProfile_iv;
@@ -105,6 +140,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView createdAt_tv;
         TextView report_tv;
         ImageView new_iv;
+        TextView delete_tv;
 
         private Comment_VH(View itemView){
             super(itemView);
@@ -114,6 +150,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             report_tv = (TextView)itemView.findViewById(R.id.report_tv);
             new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
+            delete_tv = (TextView)itemView.findViewById(R.id.delete_btn);
         }
     }
 

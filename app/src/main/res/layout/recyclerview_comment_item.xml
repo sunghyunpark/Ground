@@ -34,6 +34,16 @@
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/nick_name_tv"
             android:background="@drawable/new_circle_shape"/>
+
+        <TextView
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="삭제"
+            android:textSize="13dp"
+            android:textColor="@color/colorBlack"/>
     </RelativeLayout>
 
     <TextView

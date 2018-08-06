@@ -11,6 +11,7 @@
         android:textSize="15dp"
         android:gravity="center_vertical|center_horizontal"
         android:textColor="@color/colorMoreGray"
+        android:visibility="gone"
         android:text="@string/empty_tv_article"/>
 
     <android.support.v7.widget.RecyclerView

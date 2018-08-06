@@ -87,17 +87,24 @@ public class MatchFragment extends Fragment {
     }
 
     private void init(){
+        int typeNo = 0;
         objectArrayList = new ArrayList<>();
-        if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
-            myAdapter = new MyAdapter(getContext(), objectArrayList, 0, 3);
-            loadArticleList(0);
-        }else if(type.equals(GroundApplication.MY_COMMENT_TYPE)){
-            myAdapter = new MyAdapter(getContext(), objectArrayList, 1, 3);
-            loadCommentList(0);
-        }else if(type.equals(GroundApplication.MY_FAVORITE_TYPE)){
-            myAdapter = new MyAdapter(getContext(), objectArrayList, 2, 3);
-            loadFavoriteList(0);
+
+        switch (type){
+            case GroundApplication.MY_ARTICLE_TYPE :
+                loadArticleList(0);
+                typeNo = 0;
+                break;
+            case GroundApplication.MY_COMMENT_TYPE :
+                loadCommentList(0);
+                typeNo = 1;
+                break;
+            case  GroundApplication.MY_FAVORITE_TYPE :
+                loadFavoriteList(0);
+                typeNo = 2;
+                break;
         }
+        myAdapter = new MyAdapter(getContext(), objectArrayList, typeNo, 3);
     }
 
     private void initUI(){

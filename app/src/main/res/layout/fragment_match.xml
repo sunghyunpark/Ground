@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:textSize="15dp"
         android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone"
         android:textColor="@color/colorMoreGray"
         android:text="@string/empty_tv_article"/>
 

@@ -1,6 +1,8 @@
 package util.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
@@ -141,7 +143,35 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     }
                 }
             });
+
+            VHitem.delete_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(view.getRootView().getContext());
+                    alert.setTitle("삭제");
+                    alert.setMessage("정말 삭제 하시겠습니까?");
+                    alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            onItemDismiss(position);
+                        }
+                    });
+                    alert.setNegativeButton("아니오",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // Canceled.
+
+                                }
+                            });
+                    alert.show();
+                }
+            });
         }
+    }
+
+    private void onItemDismiss(int position){
+        objectArrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     private class ArticleVH extends RecyclerView.ViewHolder{
@@ -173,6 +203,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView createdAt_tv;
         TextView report_tv;
         ImageView new_iv;
+        TextView delete_tv;
 
         private CommentVH(View itemView){
             super(itemView);
@@ -183,6 +214,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             report_tv = (TextView)itemView.findViewById(R.id.report_tv);
             new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
+            delete_tv = (TextView)itemView.findViewById(R.id.delete_btn);
             new_iv.setVisibility(View.GONE);
         }
     }

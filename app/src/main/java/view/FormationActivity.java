@@ -82,6 +82,16 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         }
     }
 
+    private void removeCircle(){
+        if(imageViews.size() < 6){
+            showMessage("최소 5개이상이어야 합니다.");
+        }else{
+            background_layout.removeView(imageViews.get(imageViews.size()-1));
+            imageViews.remove(imageViews.size()-1);
+            background_layout.invalidate();
+        }
+    }
+
     private ImageView getImageView(){
         imageView = new ImageView(this);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(
@@ -149,7 +159,10 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         addCircle();
     }
 
-    @OnClick(R.id.save_btn) void saveBtn(){
+    @OnClick(R.id.minus_btn) void removeCirecleBtn(){
+        removeCircle();
+    }
 
+    @OnClick(R.id.save_btn) void saveBtn(){
     }
 }

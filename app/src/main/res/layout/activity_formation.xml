@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/formation_activity_title"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/back_btn"
+            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
@@ -38,11 +39,19 @@
             android:layout_marginRight="10dp"
             android:background="@mipmap/plus_img"/>
         <ImageButton
-            android:id="@+id/save_btn"
+            android:id="@+id/minus_btn"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/add_btn"
+            android:layout_marginRight="20dp"
+            android:background="@mipmap/minus_img"/>
+        <ImageButton
+            android:id="@+id/save_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/minus_btn"
             android:layout_marginRight="20dp"
             android:background="@mipmap/save_img"/>
     </RelativeLayout>

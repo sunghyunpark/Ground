@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_fragment_title"
+            android:text="그라운드"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textColor="@color/colorBlack"

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorWhite"
+    android:id="@+id/rootView"
     tools:context="view.DetailArticleActivity">
     <RelativeLayout
         android:id="@+id/app_title_bar"

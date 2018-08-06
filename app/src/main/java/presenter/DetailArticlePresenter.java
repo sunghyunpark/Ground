@@ -203,4 +203,5 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
             }
         });
     }
+
 }

@@ -1,11 +1,19 @@
 package view;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import base.BaseActivity;
@@ -27,11 +36,15 @@ import model.CommentModel;
 import model.UserModel;
 import presenter.DetailArticlePresenter;
 import presenter.view.DetailArticleView;
+import util.JMediaScanner;
+import util.ShareArticleTask;
 import util.Util;
 import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
 
 public class DetailArticleActivity extends BaseActivity implements DetailArticleView{
+
+    private static final int REQUEST_PERMISSIONS = 10;
 
     private String area, boardType;
     private int articleNo, areaNo;
@@ -40,6 +53,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
+    private ShareArticleTask shareArticleTask;
+
+    @BindView(R.id.rootView) ViewGroup root_view;
     @BindView(R.id.profile_iv) ImageView user_profile_iv;
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.title_tv) TextView title_tv;
@@ -160,6 +176,15 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    private Bitmap takeScreenshot(View rootView) {
+        rootView.setDrawingCacheEnabled(true);
+        Bitmap bmap = rootView.getDrawingCache();
+        Rect statusBar = new Rect();
+        //this.getWindow().getDecorView().getWindowVisibleDisplayFrame(statusBar);
+        Bitmap snapshot = Bitmap.createBitmap(bmap, 0, statusBar.top, bmap.getWidth(), bmap.getHeight() - statusBar.top, null, true);
+
+        return snapshot;
+    }
     /**
      *
      * @param state 현재 상태값 > 1이면 0으로 되어야 한다.
@@ -199,9 +224,50 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         startActivity(intent);
     }
 
+    /**
+     * 공유 버튼 클릭 후 AsyncTask 로 로컬에 캡쳐한 비트맵을 저장
+     * ShareArticleTask 의 interface 를 통해 콜백을 받아온다.
+     */
     @Override
     public void shareClick(){
-        showMessage("공유 버튼 탭");
+        showLoading();
+        shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
+            @Override
+            public void openChooserCallback(String mediaPath, String timeStamp) {
+                hideLoading();
+                showMessage("게시글을 캡쳐했습니다.");
+                openShareChooser(mediaPath, timeStamp);
+            }
+        });
+        shareArticleTask.execute(takeScreenshot(root_view));
+    }
+
+    /**
+     * 츄져 노출
+     * @param mediaPath -> 이미지 경로 (ShareArticleTask)
+     * @param timeStamp -> 이미지 생성 시간 (ShareArticleTask)
+     */
+    private void openShareChooser(String mediaPath, String timeStamp){
+        String type = "image/*";
+        // Create the new Intent using the 'Send' action.
+        Intent share = new Intent(Intent.ACTION_SEND);
+
+        // Set the MIME type
+        share.setType(type);
+
+        // Create the URI from the media
+        File media = new File(mediaPath);
+        Uri uri = Uri.fromFile(media);
+
+        // Add the URI to the Intent.
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // Broadcast the Intent.
+        startActivity(Intent.createChooser(share, "Share to"));
+
+        JMediaScanner scanner = new JMediaScanner(getApplicationContext());
+        scanner.startScan(Environment.getExternalStorageDirectory()+ "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/"+timeStamp+GroundApplication.IMG_NAME);
+
     }
 
     @Override
@@ -233,6 +299,30 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         commentClick();
     }
 
+    @OnClick(R.id.share_btn) void shareBtn(){
+        if (ContextCompat.checkSelfPermission(DetailArticleActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(DetailArticleActivity.this,
+                        Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale
+                    (DetailArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                ActivityCompat.requestPermissions(DetailArticleActivity.this,
+                        new String[]{Manifest.permission
+                                .WRITE_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+            } else {
+                ActivityCompat.requestPermissions(DetailArticleActivity.this,
+                        new String[]{Manifest.permission
+                                .WRITE_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+            }
+        } else {
+            shareClick();
+        }
+    }
+
     @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
@@ -245,5 +335,21 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
         });
         detailMoreDialog.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS:
+                //권한이 있는 경우
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    shareClick();
+                }
+                //권한이 없는 경우
+                else {
+                    showMessage("퍼미션을 허용해야 이용할 수 있습니다.");
+                }
+                break;
+        }
     }
 }

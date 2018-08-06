@@ -8,16 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.UserModel;
@@ -39,6 +42,10 @@ public class MatchFragment extends Fragment {
     private MyAdapter myAdapter;
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.empty_tv) TextView empty_tv;
+    @BindString(R.string.empty_tv_comment) String emptyCommentStr;
+    @BindString(R.string.empty_tv_article) String emptyArticleStr;
+    @BindString(R.string.empty_tv_favorite_article) String emptyFavoriteStr;
 
     // TODO: Rename and change types and number of parameters
     public static MatchFragment newInstance(String type) {
@@ -97,6 +104,18 @@ public class MatchFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myAdapter);
+
+        switch (type){
+            case GroundApplication.MY_ARTICLE_TYPE :
+                empty_tv.setText(emptyArticleStr);
+                break;
+            case GroundApplication.MY_COMMENT_TYPE :
+                empty_tv.setText(emptyCommentStr);
+                break;
+            case GroundApplication.MY_FAVORITE_TYPE :
+                empty_tv.setText(emptyFavoriteStr);
+                break;
+        }
     }
 
     /**
@@ -114,15 +133,18 @@ public class MatchFragment extends Fragment {
                 ArticleModelListResponse articleModelListResponse = response.body();
                 if(articleModelListResponse.getCode() == 200){
                     int size = articleModelListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        objectArrayList.add(articleModelListResponse.getResult().get(i));
-                        Log.d("MyArticleList","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
+
+                    if(size > 0){
+                        empty_tv.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        for(Object ob : articleModelListResponse.getResult()){
+                            Collections.addAll(objectArrayList, ob);
+                        }
+                        myAdapter.notifyDataSetChanged();
+                    }else{
+                        empty_tv.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     }
-                    myAdapter.notifyDataSetChanged();
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -152,10 +174,18 @@ public class MatchFragment extends Fragment {
                 CommentListResponse commentListResponse = response.body();
                 if(commentListResponse.getCode() == 200){
                     int size = commentListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        objectArrayList.add(commentListResponse.getResult().get(i));
+
+                    if(size > 0){
+                        empty_tv.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        for(Object ob : commentListResponse.getResult()){
+                            Collections.addAll(objectArrayList, ob);
+                        }
+                        myAdapter.notifyDataSetChanged();
+                    }else{
+                        empty_tv.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     }
-                    myAdapter.notifyDataSetChanged();
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }
@@ -185,15 +215,18 @@ public class MatchFragment extends Fragment {
                 ArticleModelListResponse articleModelListResponse = response.body();
                 if(articleModelListResponse.getCode() == 200){
                     int size = articleModelListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        objectArrayList.add(articleModelListResponse.getResult().get(i));
-                        Log.d("MyArticleList","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
+
+                    if(size > 0){
+                        empty_tv.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        for(Object ob : articleModelListResponse.getResult()){
+                            Collections.addAll(objectArrayList, ob);
+                        }
+                        myAdapter.notifyDataSetChanged();
+                    }else{
+                        empty_tv.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                     }
-                    myAdapter.notifyDataSetChanged();
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

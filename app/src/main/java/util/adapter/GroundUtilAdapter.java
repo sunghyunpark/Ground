@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,7 +24,7 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_ITEM = 0;
     private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img,
     R.mipmap.ground_util_market_img};
-    private String [] textArray = {"전술판", "날씨", "영상", "용품 마켓"};
+    private String [] textArray = {"전술판", "날씨", "YouTube", "용품 마켓"};
     private Context context;
     private GroundUtilWeatherDialog groundUtilWeatherDialog;
 
@@ -73,6 +74,10 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             goToWeatherDialog();
                             break;
                         case 2:
+                            goToYouTubeAPP();
+                            break;
+                        case 3:
+                            Toast.makeText(context,"준비중입니다.", Toast.LENGTH_SHORT).show();
                             break;
 
                     }
@@ -101,6 +106,14 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private void goToWeatherDialog(){
         groundUtilWeatherDialog.show();
+    }
+
+    private void goToYouTubeAPP(){
+        Intent intent = new Intent(Intent.ACTION_SEARCH);
+        intent.setPackage("com.google.android.youtube");
+        intent.putExtra("query", "풋살");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override

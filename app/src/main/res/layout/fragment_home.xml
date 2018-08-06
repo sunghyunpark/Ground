@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context="view.HomeFragment">
 
-    <!--
     <RelativeLayout
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
@@ -30,7 +29,6 @@
         android:orientation="horizontal"
         android:background="#9E9E9E"></LinearLayout>
 
--->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

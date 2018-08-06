@@ -145,7 +145,11 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         finish();
     }
 
-    @OnClick(R.id.add_circle_btn) void addCircleBtn(){
+    @OnClick(R.id.add_btn) void addCircleBtn(){
         addCircle();
+    }
+
+    @OnClick(R.id.save_btn) void saveBtn(){
+
     }
 }

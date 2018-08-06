@@ -17,7 +17,6 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.BannerModel;
-import model.GroundUtilModel;
 import presenter.view.HomeView;
 import util.adapter.BannerViewPagerAdapter;
 import util.adapter.GroundUtilAdapter;

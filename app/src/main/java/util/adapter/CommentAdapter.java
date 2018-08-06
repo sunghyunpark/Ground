@@ -100,7 +100,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     alert.setMessage("정말 삭제 하시겠습니까?");
                     alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-
+                            onItemDismiss(position-1);
                         }
                     });
                     alert.setNegativeButton("아니오",
@@ -120,6 +120,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             VHitem.comment_cnt_tv.setText("댓글 "+(getItemCount()-1));
 
         }
+    }
+
+    /**
+     * Header 가 존재해서 position 값을 -1 한 값으로 전달한다.
+     * @param position
+     */
+    private void onItemDismiss(int position){
+        listItems.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     private boolean hasNewArticle(int position){

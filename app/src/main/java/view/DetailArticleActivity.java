@@ -53,8 +53,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
-    private ShareArticleTask shareArticleTask;
-
     @BindView(R.id.rootView) ViewGroup root_view;
     @BindView(R.id.profile_iv) ImageView user_profile_iv;
     @BindView(R.id.area_tv) TextView area_tv;
@@ -99,7 +97,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     private void init(){
-        area_tv.setText(area);
         articleModel = new ArticleModel();
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
@@ -114,6 +111,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     private void initUI(){
+        area_tv.setText(area);
+
         if(commentPresenter != null){
             commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
         }
@@ -178,12 +177,10 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     private Bitmap takeScreenshot(View rootView) {
         rootView.setDrawingCacheEnabled(true);
-        Bitmap bmap = rootView.getDrawingCache();
+        Bitmap bit = rootView.getDrawingCache();
         Rect statusBar = new Rect();
         //this.getWindow().getDecorView().getWindowVisibleDisplayFrame(statusBar);
-        Bitmap snapshot = Bitmap.createBitmap(bmap, 0, statusBar.top, bmap.getWidth(), bmap.getHeight() - statusBar.top, null, true);
-
-        return snapshot;
+        return Bitmap.createBitmap(bit, 0, statusBar.top, bit.getWidth(), bit.getHeight() - statusBar.top, null, true);
     }
     /**
      *
@@ -231,9 +228,10 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     public void shareClick(){
         showLoading();
-        shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
+        ShareArticleTask shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
             @Override
             public void openChooserCallback(String mediaPath, String timeStamp) {
+                //ShareArticleTask 의 interface
                 hideLoading();
                 showMessage("게시글을 캡쳐했습니다.");
                 openShareChooser(mediaPath, timeStamp);

@@ -1,10 +1,18 @@
 package view;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,12 +22,15 @@ import android.widget.ImageView;
 import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import util.JMediaScanner;
+import util.ShareArticleTask;
 
 /**
  * Formation 화면
@@ -27,7 +38,9 @@ import butterknife.OnClick;
  */
 public class FormationActivity extends BaseActivity implements View.OnTouchListener{
 
+    private static final int REQUEST_PERMISSIONS = 10;
     private static final int DEFAULT_CIRCLE_CNT = 5;
+
     private ArrayList<ImageView> imageViews;
     private ImageView imageView;
     private float oldXvalue;
@@ -102,6 +115,56 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         return imageView;
     }
 
+    private void saveClick(){
+        showLoading();
+        ShareArticleTask shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
+            @Override
+            public void openChooserCallback(String mediaPath, String timeStamp) {
+                //ShareArticleTask 의 interface
+                hideLoading();
+                showMessage("전술판을 캡쳐했습니다.");
+                openShareChooser(mediaPath, timeStamp);
+            }
+        });
+        shareArticleTask.execute(takeScreenshot(background_layout));
+    }
+
+    /**
+     * 츄져 노출
+     * @param mediaPath -> 이미지 경로 (ShareArticleTask)
+     * @param timeStamp -> 이미지 생성 시간 (ShareArticleTask)
+     */
+    private void openShareChooser(String mediaPath, String timeStamp){
+        String type = "image/*";
+        // Create the new Intent using the 'Send' action.
+        Intent share = new Intent(Intent.ACTION_SEND);
+
+        // Set the MIME type
+        share.setType(type);
+
+        // Create the URI from the media
+        File media = new File(mediaPath);
+        Uri uri = Uri.fromFile(media);
+
+        // Add the URI to the Intent.
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // Broadcast the Intent.
+        startActivity(Intent.createChooser(share, "Share to"));
+
+        JMediaScanner scanner = new JMediaScanner(getApplicationContext());
+        scanner.startScan(Environment.getExternalStorageDirectory()+ "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/"+timeStamp+GroundApplication.IMG_NAME);
+
+    }
+
+    private Bitmap takeScreenshot(View rootView) {
+        rootView.setDrawingCacheEnabled(true);
+        Bitmap bit = rootView.getDrawingCache();
+        Rect statusBar = new Rect();
+        //this.getWindow().getDecorView().getWindowVisibleDisplayFrame(statusBar);
+        return Bitmap.createBitmap(bit, 0, statusBar.top, bit.getWidth(), bit.getHeight() - statusBar.top, null, true);
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int width = ((ViewGroup) v.getParent()).getWidth() - v.getWidth();
@@ -159,10 +222,47 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         addCircle();
     }
 
-    @OnClick(R.id.minus_btn) void removeCirecleBtn(){
+    @OnClick(R.id.minus_btn) void removeCircleBtn(){
         removeCircle();
     }
 
     @OnClick(R.id.save_btn) void saveBtn(){
+        if (ContextCompat.checkSelfPermission(FormationActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(FormationActivity.this,
+                        Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale
+                    (FormationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                ActivityCompat.requestPermissions(FormationActivity.this,
+                        new String[]{Manifest.permission
+                                .WRITE_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+            } else {
+                ActivityCompat.requestPermissions(FormationActivity.this,
+                        new String[]{Manifest.permission
+                                .WRITE_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+            }
+        } else {
+            saveClick();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS:
+                //권한이 있는 경우
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    saveClick();
+                }
+                //권한이 없는 경우
+                else {
+                    showMessage("퍼미션을 허용해야 이용할 수 있습니다.");
+                }
+                break;
+        }
     }
 }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -65,6 +66,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @BindView(R.id.comment_et) EditText comment_et;
     @BindView(R.id.empty_comment_tv) TextView empty_comment_tv;
     @BindView(R.id.favorite_tb) ImageView favorite_tb;
+    @BindView(R.id.matching_state_btn) ToggleButton matching_state_toggle;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -282,6 +284,21 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
         }else{
             showMessage("로그인을 해주세요.");
+        }
+    }
+
+    /**
+     * 타이틀 영역 매칭 진행중/완료 토글 버튼
+     */
+    @OnClick(R.id.matching_state_btn) void matchingStateToggle(){
+        if(matching_state_toggle.isChecked()){
+            //off -> on
+            matching_state_toggle.setBackgroundResource(R.drawable.matching_state_on_shape);
+            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorAccent));
+        }else{
+            //on -> off
+            matching_state_toggle.setBackgroundResource(R.drawable.matching_state_off_shape);
+            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorMoreGray));
         }
     }
 

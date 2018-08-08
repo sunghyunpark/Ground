@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
 import model.UserModel;
-import presenter.DetailArticlePresenter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +33,7 @@ public class DetailMoreDialog extends Dialog {
     private ArticleModel articleModel;
     private String area;
 
-    private DetailMoreDialogListener detailMoreDiaologListener;
+    private DetailMoreDialogListener detailMoreDialogListener;
 
     @BindView(R.id.edit_article_tv) TextView edit_tv;
     @BindView(R.id.delete_article_tv) TextView delete_tv;
@@ -45,7 +44,7 @@ public class DetailMoreDialog extends Dialog {
         super(context);
         this.articleModel = articleModel;
         this.area = area;
-        this.detailMoreDiaologListener = detailMoreDialogListener;
+        this.detailMoreDialogListener = detailMoreDialogListener;
     }
 
     public interface DetailMoreDialogListener{
@@ -88,7 +87,7 @@ public class DetailMoreDialog extends Dialog {
                 if(commonResponse.getCode() == 200){
                     Util.showToast(getContext(), "게시글을 삭제하였습니다.");
                     dismiss();
-                    detailMoreDiaologListener.deleteArticleEvent();
+                    detailMoreDialogListener.deleteArticleEvent();
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

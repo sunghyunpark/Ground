@@ -13,7 +13,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -111,6 +110,17 @@ public interface ApiInterface {
      */
     @GET("api/boards/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
     Call<CommentListResponse> getCommentList(@Path("boardType") String boardType, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
+
+    /**
+     * delete comment api
+     * @param boardType
+     * @param commentNo
+     * @param articleNo
+     * @param areaNo
+     * @return
+     */
+    @DELETE("api/boards/view/comment/delete/{boardType}/{no}/{articleNo}/{areaNo}")
+    Call<CommonResponse> deleteComment(@Path("boardType") String boardType, @Path("no") int commentNo, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo);
 
     /**
      * get area Board updated_at

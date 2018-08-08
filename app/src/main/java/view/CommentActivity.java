@@ -63,7 +63,12 @@ public class CommentActivity extends BaseActivity implements CommentView{
     private void init(){
         commentModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true);
+        CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, true, new CommentAdapter.CommentListener() {
+            @Override
+            public void deleteCommentEvent(int commentNo) {
+                commentPresenter.deleteComment(boardType, commentNo, articleNo, areaNo);
+            }
+        });
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 

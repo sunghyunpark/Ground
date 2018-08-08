@@ -58,6 +58,39 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         });
     }
 
+    /**
+     * 댓글 삭제
+     * @param boardType
+     * @param commentNo
+     * @param articleNo
+     * @param areaNo
+     */
+    public void deleteComment(String boardType, int commentNo, int articleNo, int areaNo){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommonResponse> call = apiService.deleteComment(boardType, commentNo, articleNo, areaNo);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    Util.showToast(context, "댓글을 삭제하였습니다.");
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+
     public void loadComment(boolean refresh, int articleNo, final int commentNo, int areaNo, String boardType){
         if(refresh)
             commentModelArrayList.clear();

@@ -30,11 +30,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean isAll;
     private ArrayList<CommentModel> listItems;
     private Context context;
+    private CommentListener commentListener;
 
-    public CommentAdapter(Context context, ArrayList<CommentModel> listItems, boolean isAll) {
+    public CommentAdapter(Context context, ArrayList<CommentModel> listItems, boolean isAll, CommentListener commentListener) {
         this.context = context;
         this.listItems = listItems;
         this.isAll = isAll;
+        this.commentListener = commentListener;
+    }
+
+    public interface CommentListener{
+        public void deleteCommentEvent(int commentNo);
     }
 
     @Override
@@ -105,6 +111,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }else{
                                 onItemDismiss(position-1);
                             }
+                            commentListener.deleteCommentEvent(currentItem.getNo());
                         }
                     });
                     alert.setNegativeButton("아니오",

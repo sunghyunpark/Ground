@@ -102,7 +102,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         articleModel = new ArticleModel();
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
-        CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false);
+        CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
+            @Override
+            public void deleteCommentEvent(int commentNo) {
+                commentPresenter.deleteComment(boardType, commentNo, articleNo, areaNo);
+            }
+        });
         comment_recyclerView.setLayoutManager(lL);
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);

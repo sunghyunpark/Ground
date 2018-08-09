@@ -143,7 +143,9 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @Override
     public void goReview(){
-        Util.showToast(getContext(), "Review");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=" + getContext().getPackageName()));
+        startActivity(intent);
     }
 
     @Override

@@ -40,7 +40,7 @@
             android:textSize="15dp"
             android:textColor="@color/colorBlack"
             android:layout_toRightOf="@+id/match_state_tv"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:maxLines="1"
             android:ellipsize="end"

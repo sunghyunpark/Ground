@@ -72,7 +72,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
 
     private void init(){
         articleModelArrayList = new ArrayList<>();
-        recentBoardAdapter = new RecentBoardAdapter(getContext(), articleModelArrayList, 2);
+        recentBoardAdapter = new RecentBoardAdapter(getContext(), articleModelArrayList, 3);
 
         setListData();
     }

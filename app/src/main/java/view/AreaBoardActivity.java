@@ -89,7 +89,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3);
+        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType);
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 

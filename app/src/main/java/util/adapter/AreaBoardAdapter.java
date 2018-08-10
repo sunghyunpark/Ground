@@ -29,7 +29,7 @@ import view.DetailArticleActivity;
 public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-    private String area;    //지역명
+    private String area, boardType;    //지역명
     private ArrayList<ArticleModel> listItems;
     private Context context;
     private SessionManager sessionManager;
@@ -42,13 +42,14 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerThread thread = null;
     */
 
-    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount) {
+    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
         this.sessionManager = new SessionManager(context);
         this.bannerViewPagerAdapter = bannerViewPagerAdapter;
         this.bannerCount = bannerCount;
+        this.boardType = boardType;
     }
 
     @Override
@@ -104,6 +105,18 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 VHitem.new_iv.setVisibility(View.VISIBLE);
             }else{
                 VHitem.new_iv.setVisibility(View.INVISIBLE);
+            }
+
+            if(isMatchState(position)){
+                // 매칭 완료
+                VHitem.match_state_tv.setText("완료");
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape);
+            }else{
+                // 진행중
+                VHitem.match_state_tv.setText("진행중");
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape);
             }
 
         }else if(holder instanceof Header_Vh){
@@ -193,6 +206,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView created_at_tv;
         TextView view_cnt_tv;
         TextView comment_cnt_tv;
+        TextView match_state_tv;
 
         private Board_VH(View itemView){
             super(itemView);
@@ -203,8 +217,17 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             created_at_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             view_cnt_tv = (TextView)itemView.findViewById(R.id.view_cnt_tv);
             comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
+            match_state_tv = (TextView)itemView.findViewById(R.id.match_state_tv);
+
+            if(!boardType.equals("match")){
+                match_state_tv.setVisibility(View.GONE);
+            }
 
         }
+    }
+
+    private boolean isMatchState(int position){
+        return getItem(position).getMatchState().equals("Y");
     }
 
     private boolean hasNewArticle(int position){

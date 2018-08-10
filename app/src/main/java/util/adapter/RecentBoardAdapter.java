@@ -32,11 +32,18 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int RECRUIT_BOARD = 4;
     private int boardType;
 
+    private String[] matchArea, hireArea, recruitArea;
+
     public RecentBoardAdapter(Context context, ArrayList<ArticleModel> listItems, int boardType) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
         this.boardType = boardType;
+        Resources res = context.getResources();
+
+        matchArea = res.getStringArray(R.array.matching_board_list);
+        hireArea = res.getStringArray(R.array.hire_board_list);
+        recruitArea = res.getStringArray(R.array.recruit_board_list);
     }
 
     @Override
@@ -86,16 +93,22 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
+
+            if(isMatchState(position)){
+                // 매칭 완료
+                VHitem.match_state_tv.setText("완료");
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape);
+            }else{
+                // 진행중
+                VHitem.match_state_tv.setText("진행중");
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape);
+            }
         }
     }
 
     private String changeToAreaName(int areaNo){
-        String[] matchArea, hireArea, recruitArea;
-        Resources res = context.getResources();
-        matchArea = res.getStringArray(R.array.matching_board_list);
-        hireArea = res.getStringArray(R.array.hire_board_list);
-        recruitArea = res.getStringArray(R.array.recruit_board_list);
-
         if(boardType == MATCH_BOARD){
             return matchArea[areaNo];
         }else if(boardType == HIRE_BOARD){
@@ -117,6 +130,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView view_cnt_tv;
         TextView comment_cnt_tv;
         TextView area_tv;
+        TextView match_state_tv;
 
         private Board_VH(View itemView){
             super(itemView);
@@ -127,8 +141,17 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             view_cnt_tv = (TextView)itemView.findViewById(R.id.view_cnt_tv);
             comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
             area_tv = (TextView)itemView.findViewById(R.id.area_tv);
+            match_state_tv = (TextView)itemView.findViewById(R.id.match_state_tv);
+
+            if(boardType != MATCH_BOARD){
+                match_state_tv.setVisibility(View.GONE);
+            }
 
         }
+    }
+
+    private boolean isMatchState(int position){
+        return getItem(position).getMatchState().equals("Y");
     }
 
     private boolean hasNewArticle(int position){

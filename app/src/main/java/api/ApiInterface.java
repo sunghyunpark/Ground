@@ -72,6 +72,16 @@ public interface ApiInterface {
     Call<CommonResponse> deleteBoard(@Path("boardType") String boardType, @Path("no") int no, @Path("uid") String uid);
 
     /**
+     * change Match State
+     * @param areaNo
+     * @param articleNo
+     * @param state > Y/N
+     * @return
+     */
+    @PUT("api/boards/view/matchState/{areaNo}/{no}/{state}")
+    Call<CommonResponse> changeMatchState(@Path("areaNo") int areaNo, @Path("no") int articleNo, @Path("state") String state);
+
+    /**
      * get match area board List api
      * @param areaNo
      * @return

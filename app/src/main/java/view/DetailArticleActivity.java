@@ -168,11 +168,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         matching_state_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(matching_state_toggle.isChecked()){
-                    setMatchingState("Y");
-                }else{
-                    setMatchingState("N");
-                }
+                setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
+                detailArticlePresenter.changeMatchState(areaNo, articleNo, matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
     }

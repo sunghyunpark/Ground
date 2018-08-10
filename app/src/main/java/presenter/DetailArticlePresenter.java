@@ -236,4 +236,33 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         });
     }
 
+    public void changeMatchState(int areaNo, int articleNo, final String state){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommonResponse> call = apiService.changeMatchState(areaNo, articleNo, state);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    if(state.equals("Y")){
+                        Util.showToast(context,"완료 상태로 변경되었습니다.");
+                    }else{
+                        Util.showToast(context, "진행중 상태로 변경되었습니다.");
+                    }
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
 }

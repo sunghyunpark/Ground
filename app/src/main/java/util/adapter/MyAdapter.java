@@ -104,6 +104,18 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 
+            if(isMatchState(position)){
+                // 매칭 완료
+                VHitem.match_state_tv.setText("완료");
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape);
+            }else{
+                // 진행중
+                VHitem.match_state_tv.setText("진행중");
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape);
+            }
+
         }else if(holder instanceof CommentVH){
             //내가 작성한 댓글
             final CommentModel currentItem = getCommentItem(position);
@@ -182,6 +194,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView view_cnt_tv;
         TextView comment_cnt_tv;
         TextView area_tv;
+        TextView match_state_tv;
 
         private ArticleVH(View itemView){
             super(itemView);
@@ -192,7 +205,16 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             view_cnt_tv = (TextView)itemView.findViewById(R.id.view_cnt_tv);
             comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
             area_tv = (TextView)itemView.findViewById(R.id.area_tv);
+            match_state_tv = (TextView)itemView.findViewById(R.id.match_state_tv);
+
+            if(boardType != MATCH_BOARD){
+                match_state_tv.setVisibility(View.GONE);
+            }
         }
+    }
+
+    private boolean isMatchState(int position){
+        return getArticleItem(position).getMatchState().equals("Y");
     }
 
     private class CommentVH extends RecyclerView.ViewHolder{

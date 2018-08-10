@@ -153,7 +153,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @Override
-    public void setArticleData(ArticleModel articleModel){
+    public void setArticleData(final ArticleModel articleModel){
         this.articleModel = articleModel;
         title_tv.setText(articleModel.getTitle());
         nick_name_tv.setText(articleModel.getNickName());
@@ -163,6 +163,51 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         favoriteState = articleModel.getFavoriteState();
         setFavorite(favoriteState);
         setUserProfile(articleModel.getProfile());
+        initMatchingStateToggle();
+
+        matching_state_toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(matching_state_toggle.isChecked()){
+                    setMatchingState("Y");
+                }else{
+                    setMatchingState("N");
+                }
+            }
+        });
+    }
+
+    /**
+     * 토글 버튼 초기화
+     * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
+     */
+    private void initMatchingStateToggle(){
+        if(boardType.equals("match")){
+            setMatchingState(articleModel.getMatchState());
+            if(!articleModel.getWriterId().equals(UserModel.getInstance().getUid())){
+                matching_state_toggle.setEnabled(false);
+            }
+        }else{
+            matching_state_toggle.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 매칭 상태 토글 버튼 상태를 적용한다.
+     * @param state
+     */
+    private void setMatchingState(String state){
+        if(state.equals("Y")){
+            matching_state_toggle.setChecked(true);
+            matching_state_toggle.setBackgroundResource(R.drawable.matching_state_on_shape);
+            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorAccent));
+            matching_state_toggle.setText("완료");
+        }else{
+            matching_state_toggle.setChecked(false);
+            matching_state_toggle.setBackgroundResource(R.drawable.matching_state_off_shape);
+            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorMoreGray));
+            matching_state_toggle.setText("진행중");
+        }
     }
 
     /**
@@ -289,21 +334,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
         }else{
             showMessage("로그인을 해주세요.");
-        }
-    }
-
-    /**
-     * 타이틀 영역 매칭 진행중/완료 토글 버튼
-     */
-    @OnClick(R.id.matching_state_btn) void matchingStateToggle(){
-        if(matching_state_toggle.isChecked()){
-            //off -> on
-            matching_state_toggle.setBackgroundResource(R.drawable.matching_state_on_shape);
-            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorAccent));
-        }else{
-            //on -> off
-            matching_state_toggle.setBackgroundResource(R.drawable.matching_state_off_shape);
-            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorMoreGray));
         }
     }
 

@@ -17,6 +17,8 @@ public class ArticleModel {
     private String profileThumb;
     private String title;
     private String contents;
+    @SerializedName("match_state")
+    private String matchState;
     private String blocked;
     @SerializedName("view_cnt")
     private int viewCnt;
@@ -96,6 +98,14 @@ public class ArticleModel {
 
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    public String getMatchState() {
+        return matchState;
+    }
+
+    public void setMatchState(String matchState) {
+        this.matchState = matchState;
     }
 
     public String getBlocked() {

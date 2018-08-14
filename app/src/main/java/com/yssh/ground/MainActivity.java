@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,10 +40,6 @@ public class MainActivity extends BaseActivity implements LoginView{
     private FirebaseAuth mAuth;
     private int currentPage = R.id.tab_1;
     private LoginPresenter loginPresenter;
-
-    @BindView(R.id.tab_1) ViewGroup tabBtn1;
-    @BindView(R.id.tab_2) ViewGroup tabBtn2;
-    @BindView(R.id.tab_3) ViewGroup tabBtn3;
 
     @BindView(R.id.tab1_img) ImageView tab1_iv;
     @BindView(R.id.tab2_img) ImageView tab2_iv;

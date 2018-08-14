@@ -87,6 +87,16 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }else if(!NetworkUtils.isNetworkConnected(context)){
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
+                        /*
+                        이 부분을 articleModel 자체를 넘겨주고자함
+                        그리고 돌아올땐 articleModel 을 다시 돌려받고 notify 해주게되면
+                        article 에서 변경된 모든 것들을 바로 게시글 리스트에서 반영할 수 있을 듯 함.
+                        예상되는 효과로는 댓글의 갯수도 바로 갱신이 가능할듯함
+                        조회수도 바로 갱신 가능.
+                        상세화면 진입 시 다시 api 호출을 하지 않고 댓글 api만 호출하면된다.
+                        단, 게시글 리스트를 내려주는 api 에서 상세화면에 보여질 데이터들을 모두 받아둔 상태여야한다.
+                        게시글 상세화면에서 finish 처리가 되었을 때 onActivityResult 를 통해서 notify 해줘야한다.
+                         */
                         Intent intent = new Intent(context, DetailArticleActivity.class);
                         intent.putExtra("area", area);
                         intent.putExtra("areaNo", currentItem.getAreaNo());

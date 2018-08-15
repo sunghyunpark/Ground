@@ -1,5 +1,6 @@
 package api;
 
+import api.response.ArticleEtcResponse;
 import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
@@ -96,8 +97,8 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/{boardType}/view/{areaNo}/{no}/{uid}")
-    Call<ArticleModelListResponse> getDetailBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
-                                                  @Path("uid") String uid);
+    Call<ArticleEtcResponse> getArticleEtcData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
+                                               @Path("uid") String uid);
 
     /**
      * write Article Comment api

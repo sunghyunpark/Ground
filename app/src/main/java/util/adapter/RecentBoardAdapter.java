@@ -80,9 +80,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }else{
                         Intent intent = new Intent(context, DetailArticleActivity.class);
                         intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra("areaNo", currentItem.getAreaNo());
-                        intent.putExtra("no", currentItem.getNo());
-                        intent.putExtra("boardType", currentItem.getBoardType());
+                        intent.putExtra("articleModel", currentItem);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1

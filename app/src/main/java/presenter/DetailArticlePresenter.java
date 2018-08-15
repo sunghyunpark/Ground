@@ -2,12 +2,14 @@ package presenter;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import api.ApiClient;
 import api.ApiInterface;
+import api.response.ArticleEtcResponse;
 import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
@@ -24,9 +26,6 @@ import util.adapter.CommentAdapter;
 public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
 
     private Context context;
-    //Article Data
-    private ArticleModel articleModel;
-
     //Comment Data
     private ArrayList<CommentModel> commentModelArrayList;
     private CommentAdapter commentAdapter;
@@ -45,46 +44,24 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         this.commentAdapter = commentAdapter;
     }
 
-    /**
-     * Article
-     * @param context
-     * @param view
-     * @param articleModel
-     */
-    public DetailArticlePresenter(Context context, DetailArticleView view, ArticleModel articleModel){
-        super(view);
-        this.context = context;
-        this.articleModel = articleModel;
-    }
-
-    /**
-     * 게시글 관련 데이터를 받아온다.
-     * getView()를 통해 DetailArticleActivity 로 articleModel 을 넘겨주며 초기화한다.
-     * @param areaNo
-     * @param articleNo
-     */
-    public void loadDetailArticle(String boardType, int areaNo, int articleNo, String uid){
+    public void loadFavoriteState(final String boardType, final int areaNo, final int articleNo, final String uid){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getDetailBoard(boardType, areaNo, articleNo, uid);
-        call.enqueue(new Callback<ArticleModelListResponse>() {
+        Call<ArticleEtcResponse> call = apiService.getArticleEtcData(boardType, areaNo, articleNo, uid);
+        call.enqueue(new Callback<ArticleEtcResponse>() {
             @Override
-            public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
-                ArticleModelListResponse articleModelListResponse = response.body();
-                if(articleModelListResponse.getCode() == 200){
-                    articleModel = articleModelListResponse.getResult().get(0);
-                    getView().setArticleData(articleModel);
-                }else{
-                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+            public void onResponse(Call<ArticleEtcResponse> call, Response<ArticleEtcResponse> response) {
+                ArticleEtcResponse articleEtcResponse = response.body();
+                if(articleEtcResponse.getCode() == 200){
+                    getView().setFavoriteState(articleEtcResponse.getFavoriteState());
                 }
             }
 
             @Override
-            public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
+            public void onFailure(Call<ArticleEtcResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
-                getView().error();
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
             }
         });

@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -47,11 +48,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     private static final int REQUEST_PERMISSIONS = 10;
 
-    private String area, boardType;
-    private int articleNo, areaNo;
+    private String area;
     private ArticleModel articleModel;
     private DetailArticlePresenter commentPresenter;
-    private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
     @BindView(R.id.rootView) ViewGroup root_view;
@@ -74,7 +73,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         super.onDestroy();
         articleModel = null;
         commentPresenter = null;
-        detailArticlePresenter = null;
     }
 
     @Override
@@ -91,40 +89,35 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
         Intent intent = getIntent();
         area = intent.getExtras().getString("area");
-        articleNo = intent.getIntExtra("no", 0);
-        areaNo = intent.getIntExtra("areaNo", 0);
-        boardType = intent.getExtras().getString("boardType");
+        articleModel = new ArticleModel();
+        articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
 
         init();
     }
 
     private void init(){
-        articleModel = new ArticleModel();
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
             @Override
             public void deleteCommentEvent(int commentNo) {
-                commentPresenter.deleteComment(boardType, commentNo, articleNo, areaNo);
+                commentPresenter.deleteComment(articleModel.getBoardType(), commentNo, articleModel.getNo(), articleModel.getAreaNo());
             }
         });
         comment_recyclerView.setLayoutManager(lL);
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, articleModel);
-
         commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
     }
 
     private void initUI(){
         area_tv.setText(area);
+        setArticleData(articleModel);
 
         if(commentPresenter != null){
-            commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
-        }
-        if(detailArticlePresenter != null){
-            detailArticlePresenter.loadDetailArticle(boardType, areaNo, articleNo, UserModel.getInstance().getUid());
+            commentPresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid());
+            commentPresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
         }
     }
 
@@ -152,16 +145,23 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * 좋아요 상태를 presenter 에서 콜백받아와 초기화 한다.
+     * @param state
+     */
+    @Override
+    public void setFavoriteState(int state){
+        favoriteState = state;
+        setFavorite(favoriteState);
+    }
+
     @Override
     public void setArticleData(final ArticleModel articleModel){
-        this.articleModel = articleModel;
         title_tv.setText(articleModel.getTitle());
         nick_name_tv.setText(articleModel.getNickName());
         created_at_tv.setText(Util.parseTime(articleModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
         contents_tv.setText(articleModel.getContents());
-        favoriteState = articleModel.getFavoriteState();
-        setFavorite(favoriteState);
         setUserProfile(articleModel.getProfile());
         initMatchingStateToggle();
 
@@ -169,7 +169,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             @Override
             public void onClick(View view) {
                 setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
-                detailArticlePresenter.changeMatchState(areaNo, articleNo, matching_state_toggle.isChecked() ? "Y" : "N");
+                commentPresenter.changeMatchState(articleModel.getAreaNo(), articleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
     }
@@ -179,7 +179,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
      */
     private void initMatchingStateToggle(){
-        if(boardType.equals("match")){
+        if(articleModel.getBoardType().equals("match")){
             setMatchingState(articleModel.getMatchState());
             if(!articleModel.getWriterId().equals(UserModel.getInstance().getUid())){
                 matching_state_toggle.setEnabled(false);
@@ -231,20 +231,17 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         //this.getWindow().getDecorView().getWindowVisibleDisplayFrame(statusBar);
         return Bitmap.createBitmap(bit, 0, statusBar.top, bit.getWidth(), bit.getHeight() - statusBar.top, null, true);
     }
-    /**
-     *
-     * @param state 현재 상태값 > 1이면 0으로 되어야 한다.
-     */
+
     @Override
-    public void favoriteClick(int state){
+    public void favoriteClick(){
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(articleNo, UserModel.getInstance().getUid(), boardType, "N");
+            commentPresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "N");
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(articleNo, UserModel.getInstance().getUid(), boardType, "Y");
+            commentPresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "Y");
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -325,7 +322,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                commentPresenter.postComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, boardType);
+                commentPresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid(), commentStr, articleModel.getBoardType());
                 //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                   //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }
@@ -335,7 +332,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @OnClick({R.id.favorite_btn}) void favoriteBtnClicked(){
-        favoriteClick(favoriteState);
+        favoriteClick();
     }
 
     @OnClick(R.id.write_comment_btn) void writeCommentBtn(){

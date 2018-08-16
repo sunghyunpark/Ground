@@ -1,7 +1,6 @@
 package util.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import model.ArticleModel;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
-import view.DetailArticleActivity;
 
 /**
  * 임의의 지역 > 게시판 게시글 recyclerView Adapter
@@ -36,13 +34,15 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private int bannerCount;
 
+    private DetailArticleCallback goToDetailArticleListener;
+
     /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
     private Util.BannerHandler handler;
     private BannerThread thread = null;
     */
 
-    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType) {
+    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType, DetailArticleCallback goToDetailArticleListener) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
@@ -50,6 +50,11 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.bannerViewPagerAdapter = bannerViewPagerAdapter;
         this.bannerCount = bannerCount;
         this.boardType = boardType;
+        this.goToDetailArticleListener = goToDetailArticleListener;
+    }
+
+    public interface DetailArticleCallback{
+        public void goToDetailArticle(int position, String area, ArticleModel articleModel);
     }
 
     @Override
@@ -97,13 +102,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         단, 게시글 리스트를 내려주는 api 에서 상세화면에 보여질 데이터들을 모두 받아둔 상태여야한다.
                         게시글 상세화면에서 finish 처리가 되었을 때 onActivityResult 를 통해서 notify 해줘야한다.
                          */
-                        Intent intent = new Intent(context, DetailArticleActivity.class);
-                        intent.putExtra("area", area);
-                        intent.putExtra("articleModel", currentItem);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                        //클릭 시 해당 아이템 조회수 +1
-                        listItems.get(position-1).setViewCnt(getItem(position).getViewCnt()+1);
+                        goToDetailArticleListener.goToDetailArticle(position-1, area, currentItem);
                     }
                 }
             });

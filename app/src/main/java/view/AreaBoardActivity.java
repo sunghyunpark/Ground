@@ -28,6 +28,7 @@ import util.adapter.BannerViewPagerAdapter;
  */
 public class AreaBoardActivity extends BaseActivity implements AreaBoardView, SwipeRefreshLayout.OnRefreshListener{
 
+    private static final int REQUEST_DETAIL = 2000;
     private static final int LOAD_DATA_COUNT = 10;
     private static final int REQUEST_WRITE = 1000;
     private AreaBoardAdapter areaBoardAdapter;
@@ -36,6 +37,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private LinearLayoutManager linearLayoutManager;
     private String area, boardType;
     private int areaNo;
+    private int detailPosition;    //진입하고자 하는 상세 게시글의 리스트 position 값
 
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
@@ -89,7 +91,16 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType);
+        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.DetailArticleCallback() {
+            @Override
+            public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
+                detailPosition = position;
+                Intent intent = new Intent(getApplicationContext(), DetailArticleActivity.class);
+                intent.putExtra("area", area);
+                intent.putExtra("articleModel", articleModel);
+                startActivityForResult(intent, REQUEST_DETAIL);
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
@@ -127,6 +138,11 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 init(area);
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
+            }
+        }else if(requestCode == REQUEST_DETAIL){
+            if(resultCode == Activity.RESULT_OK){
+                articleModelArrayList.set(detailPosition, (ArticleModel)data.getExtras().getSerializable("articleModel"));
+                areaBoardAdapter.notifyDataSetChanged();
             }
         }
     }

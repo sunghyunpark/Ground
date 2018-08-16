@@ -1,6 +1,7 @@
 package view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,7 +13,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -47,6 +47,7 @@ import view.dialog.DetailMoreDialog;
 public class DetailArticleActivity extends BaseActivity implements DetailArticleView{
 
     private static final int REQUEST_PERMISSIONS = 10;
+    private static final int REQUEST_EDIT = 1000;
 
     private String area;
     private ArticleModel articleModel;
@@ -91,6 +92,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         area = intent.getExtras().getString("area");
         articleModel = new ArticleModel();
         articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
+        articleModel.setViewCnt(articleModel.getViewCnt()+1);
 
         init();
     }
@@ -169,6 +171,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             @Override
             public void onClick(View view) {
                 setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
+                articleModel.setMatchState(matching_state_toggle.isChecked() ? "Y" : "N");
                 commentPresenter.changeMatchState(articleModel.getAreaNo(), articleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
@@ -368,6 +371,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @OnClick(R.id.back_btn) void backBtn(){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("articleModel", articleModel);
+        setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 
@@ -376,6 +382,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             @Override
             public void deleteArticleEvent() {
                 finish();
+            }
+            @Override
+            public void editArticleEvent(){
+                Intent intent = new Intent(getApplicationContext(), EditBoardActivity.class);
+                intent.putExtra("area", area);
+                intent.putExtra("articleModel", articleModel);
+                startActivityForResult(intent, REQUEST_EDIT);
             }
         });
         detailMoreDialog.show();
@@ -396,4 +409,25 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_EDIT) {
+            if(resultCode == Activity.RESULT_OK){
+                articleModel = (ArticleModel)data.getExtras().getSerializable("articleModel");
+                setArticleData(articleModel);
+            }else if (resultCode == Activity.RESULT_CANCELED) {
+                //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("articleModel", articleModel);
+        setResult(Activity.RESULT_OK, returnIntent);
+        super.onBackPressed();
+    }
+
 }

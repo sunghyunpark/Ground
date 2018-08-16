@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +25,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.Util;
-import view.EditBoardActivity;
 
 public class DetailMoreDialog extends Dialog {
 
@@ -49,6 +47,7 @@ public class DetailMoreDialog extends Dialog {
 
     public interface DetailMoreDialogListener{
         public void deleteArticleEvent();
+        public void editArticleEvent();
     }
 
     @Override
@@ -103,14 +102,7 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.edit_article_tv) void editBtn(){
-        Intent intent = new Intent(getContext(), EditBoardActivity.class);
-        intent.putExtra("boardType", articleModel.getBoardType());
-        intent.putExtra("area", area);
-        intent.putExtra("areaNo", articleModel.getAreaNo());
-        intent.putExtra("title", articleModel.getTitle());
-        intent.putExtra("contents", articleModel.getContents());
-        intent.putExtra("articleNo", articleModel.getNo());
-        getContext().startActivity(intent);
+        detailMoreDialogListener.editArticleEvent();
         dismiss();
     }
 

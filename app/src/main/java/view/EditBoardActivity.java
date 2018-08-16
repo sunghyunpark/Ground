@@ -15,14 +15,15 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.ArticleModel;
 import presenter.EditBoardPresenter;
 import presenter.view.EditBoardView;
 import util.Util;
 
 public class EditBoardActivity extends BaseActivity implements EditBoardView, TextWatcher {
 
-    private String boardType, area, titleStr, contentsStr;
-    private int areaNo, articleNo;
+    private String area;
+    private ArticleModel articleModel;
     private String beforeStr;
     private EditBoardPresenter editBoardPresenter;
 
@@ -39,12 +40,10 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString("boardType");
         area = intent.getExtras().getString("area");
-        areaNo = intent.getIntExtra("areaNo",0);
-        titleStr = intent.getExtras().getString("title");
-        contentsStr = intent.getExtras().getString("contents");
-        articleNo = intent.getIntExtra("articleNo", 0);
+        articleModel = new ArticleModel();
+        articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
+
 
         init();
     }
@@ -53,8 +52,8 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         editBoardPresenter = new EditBoardPresenter(this, getApplicationContext());
         board_title_et.addTextChangedListener(this);
         area_tv.setText(area);
-        board_title_et.setText(titleStr);
-        board_contents_et.setText(contentsStr);
+        board_title_et.setText(articleModel.getTitle());
+        board_contents_et.setText(articleModel.getContents());
     }
 
     @Override
@@ -66,8 +65,11 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             //writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
-            editBoardPresenter.EditBoard(boardType, areaNo, articleNo, titleStr, contentsStr);
+            articleModel.setTitle(titleStr);
+            articleModel.setContents(contentsStr);
+            editBoardPresenter.EditBoard(articleModel);
             Intent returnIntent = new Intent();
+            returnIntent.putExtra("articleModel", articleModel);
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }

@@ -48,6 +48,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     private static final int REQUEST_PERMISSIONS = 10;
     private static final int REQUEST_EDIT = 1000;
+    private static final int RESULT_DELETE = 3000;
 
     private String area;
     private ArticleModel articleModel;
@@ -381,6 +382,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, area, articleModel, new DetailMoreDialog.DetailMoreDialogListener() {
             @Override
             public void deleteArticleEvent() {
+                Intent returnIntent = new Intent();
+                setResult(RESULT_DELETE, returnIntent);
                 finish();
             }
             @Override

@@ -170,6 +170,12 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    public void onItemDismiss(int position){
+        listItems.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
     /* 메모리 관련 이슈때문에 잠시 주석처리
     public void stopBannerThread(){
         thread.stopThread();

@@ -28,6 +28,7 @@ import util.adapter.BannerViewPagerAdapter;
  */
 public class AreaBoardActivity extends BaseActivity implements AreaBoardView, SwipeRefreshLayout.OnRefreshListener{
 
+    private static final int RESULT_DELETE = 3000;
     private static final int REQUEST_DETAIL = 2000;
     private static final int LOAD_DATA_COUNT = 10;
     private static final int REQUEST_WRITE = 1000;
@@ -131,6 +132,13 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
     }
 
+    /**
+     * 글쓰기 후 돌아왔을 때 다시 초기화 한다
+     * 게시글 상세 화면 진입 후 돌아올 때 ArticleModel 을 다시 받아와 갱신한다.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_WRITE) {
@@ -143,6 +151,8 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             if(resultCode == Activity.RESULT_OK){
                 articleModelArrayList.set(detailPosition, (ArticleModel)data.getExtras().getSerializable("articleModel"));
                 areaBoardAdapter.notifyDataSetChanged();
+            }else if(resultCode == RESULT_DELETE){
+                areaBoardAdapter.onItemDismiss(detailPosition);
             }
         }
     }

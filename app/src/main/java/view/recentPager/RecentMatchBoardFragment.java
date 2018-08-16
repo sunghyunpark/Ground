@@ -48,6 +48,8 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
         super.onResume();
         //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
         //돌아왔을 때 변경된 것을 갱신하기 위함.
+        init();
+        initUI();
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -56,7 +58,6 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        init();
     }
 
     @Override
@@ -66,7 +67,6 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
         View v = inflater.inflate(R.layout.fragment_recent_match_board, container, false);
         ButterKnife.bind(this, v);
 
-        initUI();
         return v;
     }
 

@@ -76,7 +76,7 @@ public class RecruitFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_recruit, container, false);
         ButterKnife.bind(this, v);
-        
+
         return v;
     }
 

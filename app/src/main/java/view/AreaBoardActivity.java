@@ -91,6 +91,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
+        articleModelArrayList.clear();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.DetailArticleCallback() {
             @Override
@@ -178,5 +179,13 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
     @OnClick(R.id.back_btn) void backBtn(){
         finish();
+    }
+
+    @OnClick(R.id.refresh_btn) void refreshBtn(){
+        if(!isNetworkConnected()){
+            showMessage("네트워크 연결상태를 확인해주세요.");
+        }else{
+            init(area);
+        }
     }
 }

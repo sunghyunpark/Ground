@@ -86,18 +86,14 @@
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold"/>
 
-                <Button
-                    android:id="@+id/recent_more_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageButton
+                    android:id="@+id/recent_refresh_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:textSize="13dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:text="더보기"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold"/>
+                    android:layout_marginRight="20dp"
+                    android:background="@mipmap/refresh_img"
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 

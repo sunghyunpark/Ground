@@ -1,6 +1,8 @@
 package view;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +18,10 @@ import java.util.ArrayList;
 import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import model.BannerModel;
 import presenter.view.HomeView;
+import util.Util;
 import util.adapter.BannerViewPagerAdapter;
 import util.adapter.GroundUtilAdapter;
 import util.adapter.RecentBoardViewPagerAdapter;
@@ -28,11 +32,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private ArrayList<BannerModel> bannerModelArrayList;
 
-    /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
     private Handler handler;
     private BannerThread thread;
-    */
+
 
     @BindView(R.id.banner_pager) ViewPager banner_pager;
     @BindView(R.id.recent_tab_layout) TabLayout recent_tabLayout;
@@ -42,19 +45,18 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @Override
     public void onDestroy(){
         super.onDestroy();
-        /* 메모리 관련 이슈때문에 잠시 주석처리
         if(thread != null){
             thread.stopThread();
             this.handler.removeMessages(0);
         }
-        */
+
+        pagerAdapter = null;
+        bannerViewPagerAdapter = null;
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        pagerAdapter = null;
-        bannerViewPagerAdapter = null;
     }
 
     @Override
@@ -137,14 +139,22 @@ public class HomeFragment extends BaseFragment implements HomeView{
             }
         });
 
-        /*메모리 관련 이슈때문에 잠시 주석처리
+
         handler = new Util.BannerHandler(this, banner_pager, 3);
         thread = new BannerThread();
         thread.start();
-        */
+
     }
 
-    /* 메모리 관련 이슈때문에 잠시 주석처리
+    @OnClick(R.id.recent_refresh_btn) void recentRefreshBtn(){
+        if(!isNetworkConnected()){
+            showMessage("네트워크 연결상태를 확인해주세요.");
+        }else{
+            setRecentArticlePager();
+        }
+    }
+
+
     private class BannerThread extends java.lang.Thread{
         boolean stopped = false;
 
@@ -160,17 +170,17 @@ public class HomeFragment extends BaseFragment implements HomeView{
         public void run(){
             super.run();
             while (!stopped){
-                Message message = handler.obtainMessage();
-                message.what = SEND_RUNNING;
-                handler.sendMessage(message);
                 try{
                     sleep(5000);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
+                Message message = handler.obtainMessage();
+                message.what = SEND_RUNNING;
+                handler.sendMessage(message);
             }
         }
     }
-    */
+
 
 }

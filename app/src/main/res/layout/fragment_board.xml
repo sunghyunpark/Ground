@@ -11,7 +11,7 @@
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorWhite"
+        android:background="@color/colorPrimary"
         android:layout_alignParentTop="true">
         <TextView
             android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
             android:text="@string/board_fragment_title"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
 
         <Button
@@ -30,15 +30,16 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:text="MY"
+            android:textColor="@color/colorWhite"
             android:textSize="15dp"/>
     </RelativeLayout>
-    <!--구분선-->
+    <!--
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0.5dp"
         android:orientation="horizontal"
         android:background="#9E9E9E"></LinearLayout>
-
+-->
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"

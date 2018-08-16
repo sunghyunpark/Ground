@@ -61,6 +61,8 @@ public class MatchFragment extends Fragment {
         super.onResume();
         //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
         //돌아왔을 때 변경된 것을 갱신하기 위함.
+        init();
+        initUI();
         if(myAdapter != null)
             myAdapter.notifyDataSetChanged();
     }
@@ -71,7 +73,7 @@ public class MatchFragment extends Fragment {
         if (getArguments() != null) {
             type = getArguments().getString("type");
         }
-        init();
+
     }
 
     @Override
@@ -80,8 +82,6 @@ public class MatchFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_match, container, false);
         ButterKnife.bind(this, v);
-
-        initUI();
 
         return v;
     }

@@ -16,16 +16,15 @@ import util.Util;
 public class WriteBoardPresenter extends BasePresenter<WriteBoardView> {
 
     private Context context;
+    private ApiInterface apiService;
 
     public WriteBoardPresenter(WriteBoardView view, Context context){
         super(view);
         this.context = context;
+        apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     public void postBoard(int areaNo, String uid, String title, String contents, String boardType){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.writeBoard(areaNo, uid, title, contents, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override

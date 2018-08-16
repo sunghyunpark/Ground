@@ -29,6 +29,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
     //Comment Data
     private ArrayList<CommentModel> commentModelArrayList;
     private CommentAdapter commentAdapter;
+    private ApiInterface apiService;
 
     /**
      * Comment
@@ -42,12 +43,10 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         this.context = context;
         this.commentModelArrayList = commentModelArrayList;
         this.commentAdapter = commentAdapter;
+        apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     public void loadFavoriteState(final String boardType, final int areaNo, final int articleNo, final String uid){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<ArticleEtcResponse> call = apiService.getArticleEtcData(boardType, areaNo, articleNo, uid);
         call.enqueue(new Callback<ArticleEtcResponse>() {
             @Override
@@ -77,9 +76,6 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
     public void loadComment(boolean refresh, int articleNo, final int commentNo, int areaNo, String boardType){
         if(refresh)
             commentModelArrayList.clear();
-
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
 
         Call<CommentListResponse> call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
         call.enqueue(new Callback<CommentListResponse>() {
@@ -120,9 +116,6 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param boardType
      */
     public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
@@ -153,9 +146,6 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param areaNo
      */
     public void deleteComment(String boardType, int commentNo, int articleNo, int areaNo){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.deleteComment(boardType, commentNo, articleNo, areaNo);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
@@ -185,9 +175,6 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param state
      */
     public void postFavoriteState(int articleNo, String uid, String boardType, final String state){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.postFavoriteState(state, articleNo, uid, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
@@ -214,9 +201,6 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
     }
 
     public void changeMatchState(int areaNo, int articleNo, final String state){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.changeMatchState(areaNo, articleNo, state);
         call.enqueue(new Callback<CommonResponse>() {
             @Override

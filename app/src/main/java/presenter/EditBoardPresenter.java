@@ -17,16 +17,15 @@ import util.Util;
 public class EditBoardPresenter extends BasePresenter<EditBoardView> {
 
     private Context context;
+    private ApiInterface apiService;
 
     public EditBoardPresenter(EditBoardView view, Context context){
         super(view);
         this.context = context;
+        this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     public void EditBoard(ArticleModel articleModel){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.editBoard(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), articleModel.getTitle(), articleModel.getContents());
         call.enqueue(new Callback<CommonResponse>() {
             @Override

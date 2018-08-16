@@ -24,18 +24,17 @@ public class CommentPresenter extends BasePresenter<CommentView> {
     private Context context;
     private ArrayList<CommentModel> commentModelArrayList;
     private CommentAdapter commentAdapter;
+    private ApiInterface apiService;
 
     public CommentPresenter(CommentView view, Context context, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
         super(view);
         this.context = context;
         this.commentModelArrayList = commentModelArrayList;
         this.commentAdapter = commentAdapter;
+        this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
@@ -66,9 +65,6 @@ public class CommentPresenter extends BasePresenter<CommentView> {
      * @param areaNo
      */
     public void deleteComment(String boardType, int commentNo, int articleNo, int areaNo){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<CommonResponse> call = apiService.deleteComment(boardType, commentNo, articleNo, areaNo);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
@@ -95,8 +91,6 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         if(refresh)
             commentModelArrayList.clear();
 
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
         Call<CommentListResponse> call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
@@ -132,8 +126,6 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         if(refresh)
             commentModelArrayList.clear();
 
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
         Call<CommentListResponse> call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
         call.enqueue(new Callback<CommentListResponse>() {
             @Override

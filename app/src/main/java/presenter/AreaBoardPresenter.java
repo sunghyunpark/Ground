@@ -23,12 +23,14 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
     private Context context;
     private AreaBoardAdapter adapter;
     private ArrayList<ArticleModel> articleModelArrayList;
+    private ApiInterface apiService;
 
     public AreaBoardPresenter(Context context, AreaBoardView view, AreaBoardAdapter adapter, ArrayList<ArticleModel> articleModelArrayList){
         super(view);
         this.context = context;
         this.adapter = adapter;
         this.articleModelArrayList = articleModelArrayList;
+        this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
     /**
      * 게시판 리스트
@@ -38,9 +40,6 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
     public void loadArticleList(boolean refresh, int areaNo, int articleNo, String boardType){
         if(refresh)
             articleModelArrayList.clear();
-
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
 
         Call<ArticleModelListResponse> call = apiService.getAreaBoardList(boardType, areaNo, articleNo);
         call.enqueue(new Callback<ArticleModelListResponse>() {

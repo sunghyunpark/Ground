@@ -28,6 +28,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     private Realm realm;
     private RealmConfig realmConfig;
     private SessionManager sessionManager;
+    private ApiInterface apiService;
 
     public LoginPresenter(LoginView view, Context context){
         super(view);
@@ -35,6 +36,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         this.mAuth = FirebaseAuth.getInstance();
         this.realmConfig = new RealmConfig();
         this.sessionManager = new SessionManager(context);
+        apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     public void RealmDestroy(){
@@ -50,9 +52,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param nickName -> user nick_name
      */
     public void postUserDataForRegister(String uid, String loginType, String nickName, final String email){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<LoginResponse> call = apiService.registerAPI(uid, loginType, nickName);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -95,9 +94,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param email
      */
     public void getUserDataForLogin(String uid, final String email){
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
         Call<LoginResponse> call = apiService.loginApi(uid);
         call.enqueue(new Callback<LoginResponse>() {
             @Override

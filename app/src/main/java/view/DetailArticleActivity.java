@@ -83,6 +83,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         initUI();
     }
 
+    /**
+     * ArticleModel 객체 생성 후 전 화면에서 넘겨받은 ArticleModel 을 할당한다.
+     * 상세 게시글 진입 시 articleModel 내의 viewCnt 를 +1 해준다.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +103,10 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         init();
     }
 
+    /**
+     * 댓글 recyclerView 초기화 및 CommentPresenter 를 초기화한다.
+     * CommentAdapter 내에서 댓글 삭제 부분은 Callback 을 통해 통신한다.
+     */
     private void init(){
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
@@ -114,6 +123,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
     }
 
+    /**
+     * 상단 타이틀 명 초기화(지역명)
+     * articleModel 내의 데이터를 각 뷰에 넣어준다.
+     * commentPresenter 를 통해 해당 게시글의 좋아요 상태를 초기화 해준다.
+     * commentPresenter 를 통해 해당 게시글의 댓글 리스트들을 api 로 받아온다.
+     */
     private void initUI(){
         area_tv.setText(area);
         setArticleData(articleModel);
@@ -124,6 +139,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * 사용자 프로필 이미지를 초기화해준다.
+     * 현재는 별도의 프로필 스펙을 적용하지 않은 상태라 디폴트 이미지만 보여준다.
+     * @param urlPath
+     */
     private void setUserProfile(String urlPath){
         //Glide Options
         RequestOptions requestOptions = new RequestOptions();
@@ -137,6 +157,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 .into(user_profile_iv);
     }
 
+    /**
+     * commentPresenter 를 통해 받아온 댓글 리스트 중 commentList 의 size 를 통해
+     * 댓글이 있는지 없는지 판별을 한 뒤에 initComment 를 통해 Gone 처리 여부 수행한다.
+     * @param hasCommentItem
+     */
     @Override
     public void initComment(boolean hasCommentItem){
         if(hasCommentItem){
@@ -158,6 +183,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         setFavorite(favoriteState);
     }
 
+    /**
+     * articleModel 을 통해 상세 게시글 내의 view 들에 데이터를 넣어준다.
+     * 매칭 상태 토글 버튼 초기화
+     * @param articleModel
+     */
     @Override
     public void setArticleData(final ArticleModel articleModel){
         title_tv.setText(articleModel.getTitle());
@@ -228,6 +258,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * 공유하기 시 현재 보여지는 화면을 bitmap 으로 만들어준다.
+     * @param rootView
+     * @return
+     */
     private Bitmap takeScreenshot(View rootView) {
         rootView.setDrawingCacheEnabled(true);
         Bitmap bit = rootView.getDrawingCache();
@@ -236,6 +271,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         return Bitmap.createBitmap(bit, 0, statusBar.top, bit.getWidth(), bit.getHeight() - statusBar.top, null, true);
     }
 
+    /**
+     * 관심 버튼 이벤트
+     */
     @Override
     public void favoriteClick(){
         if(favoriteState == 1){
@@ -262,6 +300,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         finish();
     }
 
+    /**
+     * 댓글 화면 진입
+     */
     @Override
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
@@ -318,6 +359,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     }
 
+    /**
+     * 댓글 입력 버튼 이벤트
+     */
     @Override
     public void writeComment(){
         String commentStr = comment_et.getText().toString().trim();
@@ -371,6 +415,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * 좌측 상단 뒤로가기 버튼 탭 이벤트
+     * 게시글 리스트 화면으로 돌아갈때 Result 값을 반환한다.
+     * 반환된 result 값을 통해 리스트 내에서 해당 item 을 갱신한다.
+     */
     @OnClick(R.id.back_btn) void backBtn(){
         Intent returnIntent = new Intent();
         returnIntent.putExtra("articleModel", articleModel);
@@ -378,6 +427,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         finish();
     }
 
+    /**
+     * 우측 상단 더보기 버튼 이벤트
+     * 탭 시 DetailMoreDialog 가 노출된다.
+     * 이때 DetailMoreDialog 와 상세 게시글 화면간의 통신을 위해 Callback 함수를 통해 데이터를 주고 전달받는다.
+     * - 게시글 삭제
+     * - 게시글 수정
+     */
     @OnClick(R.id.detail_more_btn) void moreBtn(){
         DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, area, articleModel, new DetailMoreDialog.DetailMoreDialogListener() {
             @Override
@@ -413,6 +469,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * 게시글 수정을 하고 난 뒤 다시 게시글 상세 화면으로 돌아왔을 때 result 값을 통해
+     * 다시 articleModel 을 가지고 데이터를 갱신해준다.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT) {
@@ -425,6 +488,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         }
     }
 
+    /**
+     * 하드웨어 back 버튼으로 뒤로가기 시 게시글 리스트 화면에 articleModel 과 함께 result 값을 돌려준다.
+     */
     @Override
     public void onBackPressed() {
         Intent returnIntent = new Intent();

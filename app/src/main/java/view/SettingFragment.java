@@ -138,7 +138,7 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @Override
     public void goProfile(){
-        Util.showToast(getContext(), "Profile");
+
     }
 
     @Override

@@ -36,7 +36,7 @@
         <activity android:name="view.MyActivity" />
         <activity android:name="view.OpenSourceActivity" />
         <activity android:name="view.EditBoardActivity" />
-        <activity android:name="view.FormationActivity"></activity>
+        <activity android:name="view.FormationActivity" />
     </application>
 
 </manifest>

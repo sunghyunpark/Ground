@@ -77,6 +77,10 @@
     <!-- Formation Activity -->
     <string name="formation_activity_title">전술판</string>
 
+    <!-- Edit Profile Activity -->
+    <string name="edit_profile_activity_title">프로필</string>
+    <string name="edit_profile_activity_name_hint">이름(별명)</string>
+
     <string-array name="matching_board_list">
         <item>서울</item>
         <item>도봉/노원/강북/중랑</item>

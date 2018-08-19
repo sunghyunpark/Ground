@@ -26,6 +26,7 @@ import presenter.view.SettingView;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
+import view.dialog.EditProfileDialog;
 
 public class SettingFragment extends BaseFragment implements LoginView, SettingView {
 
@@ -138,6 +139,14 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @Override
     public void goProfile(){
+        EditProfileDialog editProfileDialog = new EditProfileDialog(getContext(), new EditProfileDialog.EditProfileDialogListener() {
+            @Override
+            public void editUserNameEvent() {
+                user_nickName_tv.setText(UserModel.getInstance().getNickName());
+            }
+        });
+
+        editProfileDialog.show();
 
     }
 

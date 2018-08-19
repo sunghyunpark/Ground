@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -144,7 +145,7 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
 
         // Create the URI from the media
         File media = new File(mediaPath);
-        Uri uri = Uri.fromFile(media);
+        Uri uri = FileProvider.getUriForFile(getApplicationContext(), "com.yssh.ground.fileProvider", media);
 
         // Add the URI to the Intent.
         share.putExtra(Intent.EXTRA_STREAM, uri);

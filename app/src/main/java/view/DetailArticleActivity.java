@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -346,7 +347,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
         // Create the URI from the media
         File media = new File(mediaPath);
-        Uri uri = Uri.fromFile(media);
+        Uri uri = FileProvider.getUriForFile(getApplicationContext(), "com.yssh.ground.fileProvider", media);
 
         // Add the URI to the Intent.
         share.putExtra(Intent.EXTRA_STREAM, uri);

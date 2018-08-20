@@ -14,6 +14,7 @@ import com.yssh.ground.R;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.CommonResponse;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,6 +33,7 @@ public class EditProfileDialog extends Dialog implements LoginView{
     private ApiInterface apiService;
 
     @BindView(R.id.user_name_et) EditText user_name_et;
+    @BindString(R.string.error_not_exist_input_txt) String notExistErrorStr;
 
     public EditProfileDialog(Context context, EditProfileDialogListener editProfileDialogListener){
         super(context);
@@ -98,6 +100,8 @@ public class EditProfileDialog extends Dialog implements LoginView{
     @OnClick(R.id.save_btn) void saveBtn(){
         if(user_name_et.getText().toString().length() > 10){
             Toast.makeText(getContext(), "이름(별명)은 최대 10자까지 입니다.", Toast.LENGTH_SHORT).show();
+        }else if(user_name_et.getText().toString().trim().equals("")) {
+            Toast.makeText(getContext(), notExistErrorStr, Toast.LENGTH_SHORT).show();
         }else{
             editProfile(user_name_et.getText().toString());
         }

@@ -136,7 +136,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param profileThumb
      * @param createdAt
      */
-    private void insertUserData(String uid, String loginType, String email, String nickName, String profile, String profileThumb, String createdAt){
+    public void insertUserData(String uid, String loginType, String email, String nickName, String profile, String profileThumb, String createdAt){
         realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
         realm.beginTransaction();
 

@@ -37,6 +37,15 @@ public interface ApiInterface {
     Call<LoginResponse> loginApi(@Path("uid") String uid);
 
     /**
+     * edit profile(nickName) api
+     * @param uid
+     * @param userName
+     * @return
+     */
+    @PUT("api/users/profile/{uid}/{userName}")
+    Call<CommonResponse> editProfile(@Path("uid") String uid, @Path("userName") String userName);
+
+    /**
      * write match/hire/recruit board api
      * @param areaNo
      * @param uid

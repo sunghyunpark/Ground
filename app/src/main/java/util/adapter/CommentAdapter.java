@@ -43,7 +43,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface CommentListener{
         public void deleteCommentEvent(int commentNo);
-        public void reportCommentEvent(String boardType, int commentNo);
+        public void reportCommentEvent(int commentNo);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             VHitem.report_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    commentListener.reportCommentEvent(currentItem.getBoardType(), currentItem.getNo());
+                    commentListener.reportCommentEvent(currentItem.getNo());
                 }
             });
 

@@ -118,8 +118,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 detailArticlePresenter.deleteComment(articleModel.getBoardType(), commentNo, articleModel.getNo(), articleModel.getAreaNo());
             }
             @Override
-            public void reportCommentEvent(String boardType, int commentNo){
-                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", boardType, articleModel.getNo(), commentNo);
+            public void reportCommentEvent(int commentNo){
+                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", articleModel.getBoardType(), articleModel.getNo(), commentNo);
                 reportDialog.show();
             }
         });

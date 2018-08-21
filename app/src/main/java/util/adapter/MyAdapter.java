@@ -233,6 +233,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             comment_tv = (TextView)itemView.findViewById(R.id.comment_tv);
             createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
             report_tv = (TextView)itemView.findViewById(R.id.report_tv);
+            report_tv.setVisibility(View.GONE);
             new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
             delete_tv = (TextView)itemView.findViewById(R.id.delete_btn);
             new_iv.setVisibility(View.GONE);

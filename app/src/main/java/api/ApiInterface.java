@@ -199,4 +199,18 @@ public interface ApiInterface {
      */
     @GET("api/my/favorite/{boardType}/{uid}/{no}")
     Call<ArticleModelListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+
+    /**
+     * report article or comment
+     * @param serviceName -> article / comment
+     * @param serviceNo -> articleNo / commentNo
+     * @param boardType
+     * @param uid
+     * @param contents
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/support/report/{serviceName}/{serviceNo}/{boardType}/{uid}/{contents}")
+    Call<CommonResponse> postReportContents(@Field("serviceName") String serviceName, @Field("serviceNo") int serviceNo, @Field("boardType") String boardType,
+                                            @Field("uid") String uid, @Field("contents") String contents);
 }

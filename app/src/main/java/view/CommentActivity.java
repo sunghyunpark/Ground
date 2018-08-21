@@ -70,7 +70,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
                 commentPresenter.deleteComment(boardType, commentNo, articleNo, areaNo);
             }
             @Override
-            public void reportCommentEvent(String boardType, int commentNo){
+            public void reportCommentEvent(int commentNo){
                 ReportDialog reportDialog = new ReportDialog(CommentActivity.this, "comment", boardType, articleNo, commentNo);
                 reportDialog.show();
             }

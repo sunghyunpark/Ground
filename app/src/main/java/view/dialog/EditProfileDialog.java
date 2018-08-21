@@ -77,7 +77,7 @@ public class EditProfileDialog extends Dialog implements LoginView{
                     UserModel.getInstance().setNickName(user_name_et.getText().toString());
                     editProfileDialogListener.editUserNameEvent();
                     loginPresenter.insertUserData(UserModel.getInstance().getUid(), UserModel.getInstance().getLoginType(), UserModel.getInstance().getEmail(), user_name_et.getText().toString(), UserModel.getInstance().getProfile(),
-                            UserModel.getInstance().getProfileThumb(), UserModel.getInstance().getCreatedAt());
+                            UserModel.getInstance().getProfileThumb(), UserModel.getInstance().getFcmToken(), UserModel.getInstance().getCreatedAt());
                     dismiss();
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");

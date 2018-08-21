@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.yssh.ground.MainActivity;
 import com.yssh.ground.R;
 
@@ -75,7 +76,9 @@ public class RegisterActivity extends BaseActivity implements LoginView {
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
                             Log.d(TAG, mAuth.getCurrentUser().getUid());
-                            loginPresenter.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName, email);
+                            String fcmToken = FirebaseInstanceId.getInstance().getToken();
+                            Log.d("fcmToken",fcmToken);
+                            loginPresenter.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName, email, fcmToken);
                         }else{
                             hideLoading();
                             Toast.makeText(getApplicationContext(), "이미 동일한 계정이 존재합니다.",

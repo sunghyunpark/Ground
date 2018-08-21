@@ -51,8 +51,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param loginType -> email
      * @param nickName -> user nick_name
      */
-    public void postUserDataForRegister(String uid, String loginType, String nickName, final String email){
-        Call<LoginResponse> call = apiService.registerAPI(uid, loginType, nickName);
+    public void postUserDataForRegister(String uid, String loginType, String nickName, final String email, String fcmToken){
+        Call<LoginResponse> call = apiService.registerAPI(uid, loginType, nickName, fcmToken);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -66,11 +66,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             "message : "+ loginResponse.getMessage()+"\n"+
                             "uid : "+ loginResponse.getResult().getUid()+"\n"+
                             "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
-                            "nickName : "+ loginResponse.getResult().getNickName());
+                            "fcmToken : "+ loginResponse.getResult().getFcmToken());
 
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
-                            loginResponse.getResult().getCreatedAt());
+                            loginResponse.getResult().getFcmToken(), loginResponse.getResult().getCreatedAt());
 
                     getView().goMainActivity();
                 }else{
@@ -105,11 +105,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             "message : "+ loginResponse.getMessage()+"\n"+
                             "uid : "+ loginResponse.getResult().getUid()+"\n"+
                             "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
-                            "nickName : "+ loginResponse.getResult().getNickName());
+                            "fcmToken : "+ loginResponse.getResult().getFcmToken());
 
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
-                            loginResponse.getResult().getCreatedAt());
+                            loginResponse.getResult().getFcmToken(), loginResponse.getResult().getCreatedAt());
 
                     getView().goMainActivity();
                 }else{
@@ -136,7 +136,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param profileThumb
      * @param createdAt
      */
-    public void insertUserData(String uid, String loginType, String email, String nickName, String profile, String profileThumb, String createdAt){
+    public void insertUserData(String uid, String loginType, String email, String nickName, String profile, String profileThumb, String fcmToken, String createdAt){
         realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
         realm.beginTransaction();
 
@@ -147,6 +147,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         userVO.setNickName(nickName);
         userVO.setProfile(profile);
         userVO.setProfileThumb(profileThumb);
+        userVO.setFcmToken(fcmToken);
         userVO.setCreatedAt(createdAt);
 
         realm.copyToRealmOrUpdate(userVO);
@@ -169,6 +170,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         UserModel.getInstance().setNickName(userVO.getNickName());
         UserModel.getInstance().setProfile(userVO.getProfile());
         UserModel.getInstance().setProfileThumb(userVO.getProfileThumb());
+        UserModel.getInstance().setFcmToken(userVO.getFcmToken());
         UserModel.getInstance().setCreatedAt(userVO.getCreatedAt());
     }
 

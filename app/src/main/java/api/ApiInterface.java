@@ -26,7 +26,7 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @POST("api/users")
-    Call<LoginResponse> registerAPI(@Field("uid") String uid, @Field("loginType") String loginType, @Field("nickName") String nickName);
+    Call<LoginResponse> registerAPI(@Field("uid") String uid, @Field("loginType") String loginType, @Field("nickName") String nickName, @Field("fcmToken") String fcmToken);
 
     /**
      * login api

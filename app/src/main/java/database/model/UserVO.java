@@ -11,6 +11,7 @@ public class UserVO extends RealmObject {
     private String nickName;
     private String profile;
     private String profileThumb;
+    private String fcmToken;
     private String createdAt;
 
     public String getUid() {
@@ -60,6 +61,15 @@ public class UserVO extends RealmObject {
     public void setProfileThumb(String profileThumb) {
         this.profileThumb = profileThumb;
     }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
+
 
     public String getCreatedAt() {
         return createdAt;

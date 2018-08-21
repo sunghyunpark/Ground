@@ -15,6 +15,8 @@ public class UserModel {
     private String profile;
     @SerializedName("profile_thumb")
     private String profileThumb;
+    @SerializedName("fcm_token")
+    private String fcmToken;
     @SerializedName("created_at")
     private String createdAt;
 
@@ -75,6 +77,14 @@ public class UserModel {
 
     public void setProfileThumb(String profileThumb) {
         this.profileThumb = profileThumb;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     public String getCreatedAt() {

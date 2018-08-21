@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.yssh.ground.GroundApplication;
 import com.yssh.ground.R;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import presenter.view.CommentView;
 import util.EndlessRecyclerOnScrollListener;
 import util.Util;
 import util.adapter.CommentAdapter;
+import view.dialog.ReportDialog;
 
 public class CommentActivity extends BaseActivity implements CommentView{
 
@@ -66,6 +68,11 @@ public class CommentActivity extends BaseActivity implements CommentView{
             @Override
             public void deleteCommentEvent(int commentNo) {
                 commentPresenter.deleteComment(boardType, commentNo, articleNo, areaNo);
+            }
+            @Override
+            public void reportCommentEvent(String boardType, int commentNo){
+                ReportDialog reportDialog = new ReportDialog(CommentActivity.this, "comment", boardType, articleNo, commentNo);
+                reportDialog.show();
             }
         });
         commentRecyclerView.setAdapter(commentAdapter);

@@ -44,6 +44,7 @@ import util.ShareArticleTask;
 import util.Util;
 import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
+import view.dialog.ReportDialog;
 
 public class DetailArticleActivity extends BaseActivity implements DetailArticleView{
 
@@ -53,7 +54,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     private String area;
     private ArticleModel articleModel;
-    private DetailArticlePresenter commentPresenter;
+    private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
     @BindView(R.id.rootView) ViewGroup root_view;
@@ -75,7 +76,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     public void onDestroy(){
         super.onDestroy();
         articleModel = null;
-        commentPresenter = null;
+        detailArticlePresenter = null;
     }
 
     @Override
@@ -114,14 +115,19 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
             @Override
             public void deleteCommentEvent(int commentNo) {
-                commentPresenter.deleteComment(articleModel.getBoardType(), commentNo, articleModel.getNo(), articleModel.getAreaNo());
+                detailArticlePresenter.deleteComment(articleModel.getBoardType(), commentNo, articleModel.getNo(), articleModel.getAreaNo());
+            }
+            @Override
+            public void reportCommentEvent(String boardType, int commentNo){
+                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", boardType, articleModel.getNo(), commentNo);
+                reportDialog.show();
             }
         });
         comment_recyclerView.setLayoutManager(lL);
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        commentPresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
+        detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
     }
 
     /**
@@ -134,9 +140,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         area_tv.setText(area);
         setArticleData(articleModel);
 
-        if(commentPresenter != null){
-            commentPresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid());
-            commentPresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
+        if(detailArticlePresenter != null){
+            detailArticlePresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid());
+            detailArticlePresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
         }
     }
 
@@ -204,7 +210,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             public void onClick(View view) {
                 setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
                 articleModel.setMatchState(matching_state_toggle.isChecked() ? "Y" : "N");
-                commentPresenter.changeMatchState(articleModel.getAreaNo(), articleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
+                detailArticlePresenter.changeMatchState(articleModel.getAreaNo(), articleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
     }
@@ -280,11 +286,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            commentPresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "N");
+            detailArticlePresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "N");
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            commentPresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "Y");
+            detailArticlePresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "Y");
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -371,7 +377,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                commentPresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid(), commentStr, articleModel.getBoardType());
+                detailArticlePresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid(), commentStr, articleModel.getBoardType());
                 //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                   //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }

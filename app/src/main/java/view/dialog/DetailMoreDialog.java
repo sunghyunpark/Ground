@@ -127,5 +127,8 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.report_tv) void reportBtn(){
+        ReportDialog reportDialog = new ReportDialog(getContext(), "article", articleModel.getBoardType(), articleModel.getNo(), 0);
+        reportDialog.show();
+        dismiss();
     }
 }

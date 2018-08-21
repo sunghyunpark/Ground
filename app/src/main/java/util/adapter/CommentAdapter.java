@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,6 +24,7 @@ import java.util.Locale;
 import model.CommentModel;
 import model.UserModel;
 import util.Util;
+import view.dialog.ReportDialog;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -41,6 +43,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface CommentListener{
         public void deleteCommentEvent(int commentNo);
+        public void reportCommentEvent(String boardType, int commentNo);
     }
 
     @Override
@@ -122,6 +125,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 }
                             });
                     alert.show();
+                }
+            });
+
+            VHitem.report_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    commentListener.reportCommentEvent(currentItem.getBoardType(), currentItem.getNo());
                 }
             });
 

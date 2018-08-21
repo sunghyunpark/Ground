@@ -1,6 +1,7 @@
 package com.yssh.ground;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.DisplayMetrics;
 
 public class GroundApplication extends Application{
@@ -25,5 +26,4 @@ public class GroundApplication extends Application{
         DISPLAY_HEIGHT = displayMetrics.heightPixels;
         DISPLAY_WIDTH = displayMetrics.widthPixels;
     }
-
 }

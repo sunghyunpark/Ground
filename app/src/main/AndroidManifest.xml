@@ -26,26 +26,38 @@
         </provider>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppThemeNoTitle">
+            android:theme="@style/AppThemeNoTitle"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="view.IntroActivity" />
-        <activity android:name="view.RegisterActivity" />
-        <activity android:name="view.LoginActivity" />
-        <activity android:name="view.AreaBoardActivity" />
+        <activity android:name="view.IntroActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.AreaBoardActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="view.WriteBoardActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name="view.DetailArticleActivity" />
-        <activity android:name="view.CommentActivity" />
-        <activity android:name="view.MyActivity" />
-        <activity android:name="view.OpenSourceActivity" />
-        <activity android:name="view.EditBoardActivity" />
-        <activity android:name="view.FormationActivity" />
+        <activity android:name="view.DetailArticleActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.CommentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.MyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.OpenSourceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.EditBoardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="view.FormationActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

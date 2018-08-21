@@ -37,7 +37,6 @@ public class CommentActivity extends BaseActivity implements CommentView{
     @BindView(R.id.empty_comment_tv) TextView empty_tv;
     @BindView(R.id.comment_recyclerView) RecyclerView commentRecyclerView;
     @BindView(R.id.comment_et) EditText comment_et;
-    @BindView(R.id.title_tv) TextView title_tv;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override

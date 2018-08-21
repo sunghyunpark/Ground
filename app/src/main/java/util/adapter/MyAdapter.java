@@ -88,6 +88,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                         Intent intent = new Intent(context, DetailArticleActivity.class);
                         intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
                         intent.putExtra("articleModel", currentItem);
+                        intent.putExtra("hasArticleModel", true);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1
@@ -143,9 +144,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                         //login
                         Intent intent = new Intent(context, DetailArticleActivity.class);
                         intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra("hasArticleModel", false);
                         intent.putExtra("areaNo", currentItem.getAreaNo());
-                        intent.putExtra("no", currentItem.getArticleNo());
-                        intent.putExtra("boardType", currentItem.getBoardType());intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("articleNo", currentItem.getArticleNo());
+                        intent.putExtra("boardType", currentItem.getBoardType());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }else{
                         //not login

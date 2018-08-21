@@ -117,6 +117,30 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/kakao_chatbot_btn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/setting_fragment_kakao_chatbot_txt"/>
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/arrow_right_img"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/review_btn"
         android:layout_width="match_parent"
         android:layout_height="55dp"

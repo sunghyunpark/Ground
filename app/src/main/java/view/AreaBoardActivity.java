@@ -100,6 +100,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 Intent intent = new Intent(getApplicationContext(), DetailArticleActivity.class);
                 intent.putExtra("area", area);
                 intent.putExtra("articleModel", articleModel);
+                intent.putExtra("hasArticleModel", true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
         });

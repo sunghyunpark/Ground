@@ -15,6 +15,8 @@ public interface DetailArticleView extends BasePresenterView{
 
     void setArticleData(ArticleModel articleModel);
 
+    void loadArticleData(ArticleModel articleModel);
+
     void setFavoriteState(int state);
 
     void initComment(boolean hasComment);

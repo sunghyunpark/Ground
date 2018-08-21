@@ -46,6 +46,26 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
         apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
+    public void loadArticleData(String boardType, int areaNo, int articleNo, String uid){
+        Call<ArticleModelListResponse> call = apiService.getArticleData(boardType, areaNo, articleNo, uid);
+        call.enqueue(new Callback<ArticleModelListResponse>() {
+            @Override
+            public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
+                ArticleModelListResponse articleModelListResponse = response.body();
+                if(articleModelListResponse.getCode() == 200){
+                    getView().loadArticleData(articleModelListResponse.getResult().get(0));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleModelListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
     public void loadFavoriteState(final String boardType, final int areaNo, final int articleNo, final String uid){
         Call<ArticleEtcResponse> call = apiService.getArticleEtcData(boardType, areaNo, articleNo, uid);
         call.enqueue(new Callback<ArticleEtcResponse>() {

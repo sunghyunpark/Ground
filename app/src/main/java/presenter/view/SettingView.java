@@ -8,6 +8,8 @@ public interface SettingView extends BasePresenterView{
 
     void goProfile();
 
+    void goKakaoChatbot();
+
     void goReview();
 
     void goOpenSource();

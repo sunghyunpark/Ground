@@ -53,6 +53,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private static final int RESULT_DELETE = 3000;
 
     private String area;
+    private boolean hasArticleModel;
+    private String boardType;    // api 호출로 새로 불러올때 사용될 변수
+    private int areaNo, articleNo;    // api 호출로 새로 불러올때 사용될 변수
     private ArticleModel articleModel;
     private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
@@ -98,9 +101,16 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
         Intent intent = getIntent();
         area = intent.getExtras().getString("area");
+        hasArticleModel = intent.getExtras().getBoolean("hasArticleModel");
         articleModel = new ArticleModel();
-        articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
-        articleModel.setViewCnt(articleModel.getViewCnt()+1);
+        if(hasArticleModel){
+            articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
+            articleModel.setViewCnt(articleModel.getViewCnt()+1);
+        }else{
+            boardType = intent.getExtras().getString("boardType");
+            areaNo = intent.getIntExtra("areaNo", 0);
+            articleNo = intent.getIntExtra("articleNo", 0);
+        }
 
         init();
     }
@@ -138,11 +148,10 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      */
     private void initUI(){
         area_tv.setText(area);
-        setArticleData(articleModel);
-
-        if(detailArticlePresenter != null){
-            detailArticlePresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid());
-            detailArticlePresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
+        if(hasArticleModel){
+            setArticleData(articleModel);
+        }else{
+            detailArticlePresenter.loadArticleData(boardType, areaNo, articleNo, UserModel.getInstance().getUid());
         }
     }
 
@@ -190,6 +199,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         setFavorite(favoriteState);
     }
 
+    @Override
+    public void loadArticleData(ArticleModel articleData){
+        articleModel = articleData;
+        setArticleData(articleModel);
+    }
+
     /**
      * articleModel 을 통해 상세 게시글 내의 view 들에 데이터를 넣어준다.
      * 매칭 상태 토글 버튼 초기화
@@ -213,6 +228,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 detailArticlePresenter.changeMatchState(articleModel.getAreaNo(), articleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
+
+        if(detailArticlePresenter != null){
+            detailArticlePresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid());
+            detailArticlePresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
+        }
     }
 
     /**

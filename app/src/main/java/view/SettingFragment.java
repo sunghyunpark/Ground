@@ -147,7 +147,13 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         });
 
         editProfileDialog.show();
+    }
 
+    @Override
+    public void goKakaoChatbot(){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://pf.kakao.com/_xkYIIj"));
+        startActivity(intent);
     }
 
     @Override
@@ -185,6 +191,10 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @OnClick(R.id.profile_btn) void profileBtn(){
         goProfile();
+    }
+
+    @OnClick(R.id.kakao_chatbot_btn) void kakaoChatBotBtn(){
+        goKakaoChatbot();
     }
 
     @OnClick(R.id.review_btn) void reviewBtn(){

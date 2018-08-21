@@ -100,7 +100,7 @@ public interface ApiInterface {
     Call<ArticleModelListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
 
     /**
-     * get Article view api
+     * get Article's favorite state api
      * @param areaNo
      * @param no
      * @return
@@ -108,6 +108,17 @@ public interface ApiInterface {
     @GET("api/boards/{boardType}/view/{areaNo}/{no}/{uid}")
     Call<ArticleEtcResponse> getArticleEtcData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
                                                @Path("uid") String uid);
+
+    /**
+     * get Article data api
+     * @param areaNo
+     * @param no
+     * @return
+     */
+    @GET("api/boards/{boardType}/detailView/{areaNo}/{no}/{uid}")
+    Call<ArticleModelListResponse> getArticleData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
+                                               @Path("uid") String uid);
+
 
     /**
      * write Article Comment api

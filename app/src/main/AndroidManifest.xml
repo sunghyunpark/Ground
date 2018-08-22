@@ -59,7 +59,7 @@
         <activity
             android:name="view.WriteBoardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name="view.DetailArticleActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="view.CommentActivity"

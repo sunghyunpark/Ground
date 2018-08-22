@@ -52,9 +52,9 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
-        if(boardType.equals("match")){
-            board_contents_et.setText(matchDefaultStr);
-        }
+//        if(boardType.equals("match")){
+//            board_contents_et.setText(matchDefaultStr);
+//        }
     }
 
     @Override

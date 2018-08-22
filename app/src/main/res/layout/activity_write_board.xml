@@ -45,7 +45,7 @@
         android:layout_height="0.5dp"
         android:orientation="horizontal"
         android:background="#9E9E9E"></LinearLayout>
-    
+
     <TextView
         android:id="@+id/area_tv"
         android:layout_width="wrap_content"
@@ -70,36 +70,82 @@
         android:id="@+id/board_title_et"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@null"
+        android:background="@drawable/comment_shape"
         android:maxLines="1"
+        android:inputType="text"
         android:hint="제목"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:textSize="15dp"
+        android:paddingLeft="10dp"
         android:textColor="@color/colorBlack"/>
 
-    <!--구분선-->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="#9E9E9E"></LinearLayout>
+    <RelativeLayout
+        android:id="@+id/matching_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/matching_date_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/matching_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/matching_date_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:hint="시합 날짜를 선택해주세요."/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/age_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/age_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/age_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/age_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:hint="평균 연령을 선택해주세요."/>
+    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@null">
-    <EditText
-        android:id="@+id/board_contents_et"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:hint="내용"
-        android:textSize="15dp"
-        android:gravity="top"
-        android:padding="15dp"/>
+        android:layout_margin="15dp"
+        android:background="@drawable/comment_shape">
+        <EditText
+            android:id="@+id/board_contents_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:background="@null"
+            android:hint="@string/write_board_default_txt"
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:gravity="top" />
     </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

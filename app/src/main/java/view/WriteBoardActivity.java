@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +31,11 @@ import util.Util;
 
 public class WriteBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
+    private static final int MATCH_MODE = 1;
+    private static final int HIRE_MODE = 2;
+    private static final int RECRUIT_MODE = 3;
+    private int boardMode;
+
     private String area, boardType;
     private int areaNo;
     private String beforeStr;
@@ -40,6 +47,8 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     @BindView(R.id.board_contents_et) EditText board_contents_et;
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindView(R.id.matching_date_tv) TextView matchingDateTv;
+    @BindView(R.id.matching_date_layout) ViewGroup matchingDateLayout;
+    @BindView(R.id.age_layout) ViewGroup ageLayout;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
     @BindString(R.string.write_board_default_txt) String matchDefaultStr;
 
@@ -58,16 +67,34 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     }
 
     private void init(){
+        initMode(boardType);
+
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
 //        if(boardType.equals("match")){
 //            board_contents_et.setText(matchDefaultStr);
 //        }
+        // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
+        if(boardMode != MATCH_MODE){
+            matchingDateLayout.setVisibility(View.GONE);
+            ageLayout.setVisibility(View.GONE);
+        }
         Calendar cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH)+1;
         day = cal.get(Calendar.DATE);
+    }
+
+    // boardType 에 따른 MODE 초기화
+    private void initMode(String  boardType){
+        if(boardType.equals("match")){
+            boardMode = MATCH_MODE;
+        }else if(boardType.equals("hire")){
+            boardMode = HIRE_MODE;
+        }else{
+            boardMode = RECRUIT_MODE;
+        }
     }
 
     @Override

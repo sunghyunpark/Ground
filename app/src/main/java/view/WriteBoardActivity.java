@@ -28,6 +28,7 @@ import model.UserModel;
 import presenter.WriteBoardPresenter;
 import presenter.view.WriteBoardView;
 import util.Util;
+import view.dialog.AgeSelectDialog;
 
 public class WriteBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
@@ -48,6 +49,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindView(R.id.matching_date_tv) TextView matchingDateTv;
     @BindView(R.id.matching_date_layout) ViewGroup matchingDateLayout;
+    @BindView(R.id.age_tv) TextView ageTv;
     @BindView(R.id.age_layout) ViewGroup ageLayout;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
     @BindString(R.string.write_board_default_txt) String matchDefaultStr;
@@ -101,10 +103,13 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     public void writeBoard(){
         String titleStr = board_title_et.getText().toString().trim();
         String contentsStr = board_contents_et.getText().toString().trim();
+        String matchDateStr = matchingDateTv.getText().toString().trim();
+        String ageStr = ageTv.getText().toString().trim();
 
-        if(titleStr.equals("") || contentsStr.equals("")){
+        if(titleStr.equals("") || contentsStr.equals("") || matchDateStr.equals("") || ageStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
+            showMessage(ageStr.replace("대", ""));
             writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK, returnIntent);
@@ -146,6 +151,16 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
             matchingDateTv.setText(strAfterFormat);
         }
     };
+
+    @OnClick(R.id.age_layout) void ageClick(){
+        AgeSelectDialog ageSelectDialog = new AgeSelectDialog(this, new AgeSelectDialog.ageSelectDialogListener() {
+            @Override
+            public void ageSelectEvent(int age) {
+                ageTv.setText(String.valueOf(age)+"대");
+            }
+        });
+        ageSelectDialog.show();
+    }
 
     @Override
     public void afterTextChanged(Editable s) {

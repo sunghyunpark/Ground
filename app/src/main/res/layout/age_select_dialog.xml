@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_round_shape"
+    android:gravity="center"
+    android:padding="5dp">
+    
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/age_10_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="10대"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="15dp"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/age_20_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="20대"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorWhite"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/age_30_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="30대"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorWhite"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/age_40_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="40대"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorWhite"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/age_50_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="50대 이상"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorWhite"
+            android:textSize="15dp"
+            android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+
+</LinearLayout>

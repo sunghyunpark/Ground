@@ -9,4 +9,6 @@ public interface HomeView extends BasePresenterView{
 
     void setGroundRecyclerView();    // 그라운드 유틸 가로 리사이클러뷰
 
+    void setTodayMatchBoard();    // 오늘의 시합
+
 }

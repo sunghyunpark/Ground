@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.BannerModel;
+import presenter.HomePresenter;
 import presenter.view.HomeView;
 import util.Util;
 import util.adapter.BannerViewPagerAdapter;
@@ -31,6 +32,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private ArrayList<BannerModel> bannerModelArrayList;
+    private HomePresenter homePresenter;
 
     private static final int SEND_RUNNING = 1000;
     private Handler handler;
@@ -78,6 +80,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     private void init(){
+        homePresenter = new HomePresenter(this, getContext());
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
     }
@@ -143,6 +146,11 @@ public class HomeFragment extends BaseFragment implements HomeView{
         handler = new Util.BannerHandler(this, banner_pager, 3);
         thread = new BannerThread();
         thread.start();
+
+    }
+
+    @Override
+    public void setTodayMatchBoard(){
 
     }
 

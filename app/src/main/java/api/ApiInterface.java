@@ -167,7 +167,7 @@ public interface ApiInterface {
      * get recent Board List LIMIT 5 API
      * @return
      */
-    @GET("api/boards/recent/{boardType}/{no}/{limit}")
+    @GET("api/home/recent/{boardType}/{no}/{limit}")
     Call<ArticleModelListResponse> getRecentArticleList(@Path("boardType") String boardType, @Path("no") int no, @Path("limit") int limit);
 
     /**

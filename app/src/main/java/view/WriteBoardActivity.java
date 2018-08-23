@@ -1,14 +1,21 @@
 package view;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yssh.ground.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import base.BaseActivity;
 import butterknife.BindString;
@@ -26,11 +33,13 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     private int areaNo;
     private String beforeStr;
     private WriteBoardPresenter writeBoardPresenter;
+    private int year, month, day;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
     @BindView(R.id.board_contents_et) EditText board_contents_et;
     @BindView(R.id.title_length_tv) TextView title_length_tv;
+    @BindView(R.id.matching_date_tv) TextView matchingDateTv;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
     @BindString(R.string.write_board_default_txt) String matchDefaultStr;
 
@@ -55,6 +64,10 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
 //        if(boardType.equals("match")){
 //            board_contents_et.setText(matchDefaultStr);
 //        }
+        Calendar cal = Calendar.getInstance();
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH)+1;
+        day = cal.get(Calendar.DATE);
     }
 
     @Override
@@ -81,6 +94,31 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         setResult(Activity.RESULT_CANCELED, returnIntent);
         finish();
     }
+
+    @OnClick(R.id.matching_date_layout) void matchingDateClick(){
+        DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, year, month-1, day);
+
+        dialog.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-M-dd");
+        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String strBeforeFormat = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
+            String strAfterFormat = "";
+            try {
+                Date originDate = originFormat.parse(strBeforeFormat);
+
+                strAfterFormat = newFormat.format(originDate);
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+            matchingDateTv.setText(strAfterFormat);
+        }
+    };
 
     @Override
     public void afterTextChanged(Editable s) {

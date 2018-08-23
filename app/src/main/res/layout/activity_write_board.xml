@@ -56,6 +56,57 @@
         android:textStyle="bold"
         android:textSize="15dp"/>
 
+    <RelativeLayout
+        android:id="@+id/matching_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/matching_date_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/matching_date_img"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/matching_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/matching_date_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:hint="시합 날짜를 선택해주세요."/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/age_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/age_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/age_img"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/age_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/age_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:hint="평균 연령을 선택해주세요."/>
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/title_length_tv"
         android:layout_width="wrap_content"
@@ -79,57 +130,6 @@
         android:textSize="15dp"
         android:paddingLeft="10dp"
         android:textColor="@color/colorBlack"/>
-
-    <RelativeLayout
-        android:id="@+id/matching_date_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp">
-
-        <ImageView
-            android:id="@+id/matching_date_iv"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"
-            android:layout_marginLeft="15dp"/>
-
-        <TextView
-            android:id="@+id/matching_date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/matching_date_iv"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:textSize="15dp"
-            android:hint="시합 날짜를 선택해주세요."/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/age_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
-
-        <ImageView
-            android:id="@+id/age_iv"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"
-            android:layout_marginLeft="15dp"/>
-
-        <TextView
-            android:id="@+id/age_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/age_iv"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:textSize="15dp"
-            android:hint="평균 연령을 선택해주세요."/>
-    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

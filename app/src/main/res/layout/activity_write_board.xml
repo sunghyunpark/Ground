@@ -129,6 +129,7 @@
         android:layout_marginLeft="15dp"
         android:textSize="15dp"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:textColor="@color/colorBlack"/>
 
     <android.support.v4.widget.NestedScrollView

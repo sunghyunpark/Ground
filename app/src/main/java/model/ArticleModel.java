@@ -21,6 +21,10 @@ public class ArticleModel implements Serializable {
     private String contents;
     @SerializedName("match_state")
     private String matchState;
+    @SerializedName("match_date")
+    private String matchDate;
+    @SerializedName("average_age")
+    private String averageAge;
     private String blocked;
     @SerializedName("view_cnt")
     private int viewCnt;
@@ -107,6 +111,22 @@ public class ArticleModel implements Serializable {
 
     public void setMatchState(String matchState) {
         this.matchState = matchState;
+    }
+
+    public String getMatchDate() {
+        return matchDate;
+    }
+
+    public void setMatchDate(String matchDate) {
+        this.matchDate = matchDate;
+    }
+
+    public String getAverageAge() {
+        return averageAge;
+    }
+
+    public void setAverageAge(String averageAge) {
+        this.averageAge = averageAge;
     }
 
     public String getBlocked() {

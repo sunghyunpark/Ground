@@ -24,8 +24,8 @@ public class WriteBoardPresenter extends BasePresenter<WriteBoardView> {
         apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
-    public void postBoard(int areaNo, String uid, String title, String contents, String boardType){
-        Call<CommonResponse> call = apiService.writeBoard(areaNo, uid, title, contents, boardType);
+    public void postBoard(int areaNo, String uid, String title, String contents, String boardType, String matchDate, String averageAge){
+        Call<CommonResponse> call = apiService.writeBoard(areaNo, uid, title, contents, boardType, matchDate, averageAge);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

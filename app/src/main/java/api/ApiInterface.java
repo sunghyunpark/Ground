@@ -56,7 +56,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/boards/")
     Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
-                                    @Field("contents") String contents, @Field("boardType") String boardType);
+                                    @Field("contents") String contents, @Field("boardType") String boardType, @Field("matchDate") String matchDate,
+                                    @Field("averageAge") String averageAge);
 
     /**
      * edit match/hire/recruit board api
@@ -67,9 +68,10 @@ public interface ApiInterface {
      * @param contents
      * @return
      */
-    @PUT("api/boards/edit/{boardType}/{areaNo}/{no}/{title}/{contents}")
+    @PUT("api/boards/edit/{boardType}/{areaNo}/{no}/{title}/{contents}/{matchDate}/{averageAge}")
     Call<CommonResponse> editBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
-                                   @Path("title") String title, @Path("contents") String contents);
+                                   @Path("title") String title, @Path("contents") String contents, @Path("matchDate") String matchDate,
+                                   @Path("averageAge") String averageAge);
 
     /**
      * delete match/hire/recruit board api

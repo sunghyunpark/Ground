@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -52,6 +53,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private static final int REQUEST_EDIT = 1000;
     private static final int RESULT_DELETE = 3000;
 
+    private static final int MATCH_MODE = 1;
+    private static final int HIRE_MODE = 2;
+    private static final int RECRUIT_MODE = 3;
+    private int boardMode;
+
     private String area;
     private boolean hasArticleModel;
     private String boardType;    // api 호출로 새로 불러올때 사용될 변수
@@ -73,6 +79,10 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @BindView(R.id.empty_comment_tv) TextView empty_comment_tv;
     @BindView(R.id.favorite_tb) ImageView favorite_tb;
     @BindView(R.id.matching_state_btn) ToggleButton matching_state_toggle;
+    @BindView(R.id.matching_date_tv) TextView match_date_tv;
+    @BindView(R.id.matching_date_layout) ViewGroup match_date_layout;
+    @BindView(R.id.age_tv) TextView age_tv;
+    @BindView(R.id.age_layout) ViewGroup age_layout;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -106,10 +116,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(hasArticleModel){
             articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
             articleModel.setViewCnt(articleModel.getViewCnt()+1);
+            initMode(articleModel.getBoardType());
         }else{
             boardType = intent.getExtras().getString("boardType");
             areaNo = intent.getIntExtra("areaNo", 0);
             articleNo = intent.getIntExtra("articleNo", 0);
+            initMode(boardType);
         }
 
         init();
@@ -138,6 +150,17 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         comment_recyclerView.setNestedScrollingEnabled(false);
 
         detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
+    }
+
+    // boardType 에 따른 MODE 초기화
+    private void initMode(String  boardType){
+        if(boardType.equals("match")){
+            boardMode = MATCH_MODE;
+        }else if(boardType.equals("hire")){
+            boardMode = HIRE_MODE;
+        }else{
+            boardMode = RECRUIT_MODE;
+        }
     }
 
     /**
@@ -216,6 +239,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         nick_name_tv.setText(articleModel.getNickName());
         created_at_tv.setText(Util.parseTime(articleModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
+        if(boardMode == MATCH_MODE){
+            match_date_tv.setText(articleModel.getMatchDate());
+            age_tv.setText(articleModel.getAverageAge()+"대");
+        }else{
+            match_date_layout.setVisibility(View.GONE);
+            age_layout.setVisibility(View.GONE);
+        }
         contents_tv.setText(articleModel.getContents());
         setUserProfile(articleModel.getProfile());
         initMatchingStateToggle();

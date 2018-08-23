@@ -109,8 +109,8 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         if(titleStr.equals("") || contentsStr.equals("") || matchDateStr.equals("") || ageStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-            showMessage(ageStr.replace("대", ""));
-            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType);
+            String age = ageStr.replace("대", "");
+            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType, matchDateStr, age);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK, returnIntent);
             finish();

@@ -169,6 +169,14 @@
 
         </RelativeLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/colorWhite"
+            android:text="더보기"
+            android:textColor="@color/colorCyan"
+            android:textSize="15dp"/>
+
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

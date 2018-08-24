@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yssh.ground.R;
 
@@ -19,6 +20,7 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.ArticleModel;
 import model.BannerModel;
 import presenter.HomePresenter;
 import presenter.view.HomeView;
@@ -26,12 +28,15 @@ import util.Util;
 import util.adapter.BannerViewPagerAdapter;
 import util.adapter.GroundUtilAdapter;
 import util.adapter.RecentBoardViewPagerAdapter;
+import util.adapter.TodayMatchAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
 
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
+    private TodayMatchAdapter todayMatchAdapter;
     private ArrayList<BannerModel> bannerModelArrayList;
+    private ArrayList<ArticleModel> todayArticleModelArrayList;
     private HomePresenter homePresenter;
 
     private static final int SEND_RUNNING = 1000;
@@ -43,6 +48,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.recent_tab_layout) TabLayout recent_tabLayout;
     @BindView(R.id.recent_pager) ViewPager recent_pager;
     @BindView(R.id.ground_util_recyclerView) RecyclerView groundUtilRecyclerView;
+    @BindView(R.id.today_match_recyclerView) RecyclerView todayMatchRecyclerView;
+    @BindView(R.id.today_match_empty_tv) TextView todayMatchEmptyTv;
 
     @Override
     public void onDestroy(){
@@ -59,6 +66,12 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @Override
     public void onPause(){
         super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        homePresenter.loadTodayMatchList();
     }
 
     @Override
@@ -80,15 +93,18 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     private void init(){
-        homePresenter = new HomePresenter(this, getContext());
+        todayArticleModelArrayList = new ArrayList<ArticleModel>();
+        homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList);
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
+        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayArticleModelArrayList);
     }
 
     private void initUI(){
         setRecentArticlePager();
         setBannerPager();
         setGroundRecyclerView();
+        setTodayMatchBoard();
     }
 
     /**
@@ -149,9 +165,30 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     }
 
+    /**
+     * 오늘의 시합
+     */
     @Override
     public void setTodayMatchBoard(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        todayMatchRecyclerView.setLayoutManager(linearLayoutManager);
+        todayMatchRecyclerView.setAdapter(todayMatchAdapter);
+        todayMatchRecyclerView.setNestedScrollingEnabled(false);
+    }
 
+    /**
+     * 받아온 오늘의 시합 데이터를 갱신한다.
+     */
+    @Override
+    public void notifyTodayMatchArticle(boolean hasData){
+        if(hasData){
+            todayMatchAdapter.notifyDataSetChanged();
+            todayMatchEmptyTv.setVisibility(View.GONE);
+            todayMatchRecyclerView.setVisibility(View.VISIBLE);
+        }else{
+            todayMatchEmptyTv.setVisibility(View.VISIBLE);
+            todayMatchRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.recent_refresh_btn) void recentRefreshBtn(){
@@ -159,6 +196,14 @@ public class HomeFragment extends BaseFragment implements HomeView{
             showMessage("네트워크 연결상태를 확인해주세요.");
         }else{
             setRecentArticlePager();
+        }
+    }
+
+    @OnClick(R.id.today_match_refresh_btn) void todayMatchRefreshBtn(){
+        if(!isNetworkConnected()){
+            showMessage("네트워크 연결상태를 확인해주세요.");
+        }else{
+            homePresenter.loadTodayMatchList();
         }
     }
 

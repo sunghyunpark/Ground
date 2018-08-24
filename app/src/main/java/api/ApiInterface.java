@@ -171,6 +171,15 @@ public interface ApiInterface {
     Call<ArticleModelListResponse> getRecentArticleList(@Path("boardType") String boardType, @Path("no") int no, @Path("limit") int limit);
 
     /**
+     * get Today Match Article List LIMIT 5 API
+     * @param articleNo
+     * @param limit
+     * @return
+     */
+    @GET("api/home/today/{no}/{limit}")
+    Call<ArticleModelListResponse> getTodayMatchArticleList(@Path("no") int articleNo, @Path("limit") int limit);
+
+    /**
      * get my Article List API
      * @param boardType
      * @param uid

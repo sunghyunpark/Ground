@@ -11,4 +11,6 @@ public interface HomeView extends BasePresenterView{
 
     void setTodayMatchBoard();    // 오늘의 시합
 
+    void notifyTodayMatchArticle(boolean hasData);    // 오늘의 시합 데이터를 받은 뒤 갱신한다.
+
 }

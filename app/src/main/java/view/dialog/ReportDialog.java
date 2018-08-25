@@ -9,7 +9,7 @@ import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import api.ApiClient;
 import api.ApiInterface;

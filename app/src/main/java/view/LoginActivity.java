@@ -9,8 +9,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.yssh.ground.MainActivity;
-import com.yssh.ground.R;
+import com.groundmobile.ground.MainActivity;
+import com.groundmobile.ground.R;
 
 import base.BaseActivity;
 import butterknife.BindString;

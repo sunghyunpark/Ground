@@ -1,4 +1,4 @@
-package com.yssh.ground;
+package com.groundmobile.ground;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

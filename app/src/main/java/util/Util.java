@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yssh.ground.GroundApplication;
-import com.yssh.ground.R;
+import com.groundmobile.ground.GroundApplication;
+import com.groundmobile.ground.R;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;

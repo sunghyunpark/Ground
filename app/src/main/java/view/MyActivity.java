@@ -6,8 +6,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
-import com.yssh.ground.GroundApplication;
-import com.yssh.ground.R;
+import com.groundmobile.ground.GroundApplication;
+import com.groundmobile.ground.R;
 
 import base.BaseActivity;
 import butterknife.BindView;

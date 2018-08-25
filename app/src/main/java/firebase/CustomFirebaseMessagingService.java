@@ -11,8 +11,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.yssh.ground.MainActivity;
-import com.yssh.ground.R;
+import com.groundmobile.ground.MainActivity;
+import com.groundmobile.ground.R;
 
 import java.util.Map;
 

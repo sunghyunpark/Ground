@@ -1,4 +1,4 @@
-package com.yssh.ground;
+package com.groundmobile.ground;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

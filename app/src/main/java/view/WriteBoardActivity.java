@@ -12,7 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

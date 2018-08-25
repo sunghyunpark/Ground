@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.yssh.ground.GroundApplication;
-import com.yssh.ground.R;
+import com.groundmobile.ground.GroundApplication;
+import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

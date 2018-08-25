@@ -1,4 +1,4 @@
-package com.yssh.ground;
+package com.groundmobile.ground;
 
 import android.app.Application;
 import android.content.Context;

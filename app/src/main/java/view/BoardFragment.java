@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import base.BaseFragment;
 import butterknife.BindView;

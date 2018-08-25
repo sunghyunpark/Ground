@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import api.ApiClient;
 import api.ApiInterface;

@@ -4,7 +4,7 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.yssh.ground"
+        applicationId "com.groundmobile.ground"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1

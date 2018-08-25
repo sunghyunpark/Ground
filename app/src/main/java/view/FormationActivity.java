@@ -20,8 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.yssh.ground.GroundApplication;
-import com.yssh.ground.R;
+import com.groundmobile.ground.GroundApplication;
+import com.groundmobile.ground.R;
 
 import java.io.File;
 import java.util.ArrayList;

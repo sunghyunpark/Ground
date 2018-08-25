@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

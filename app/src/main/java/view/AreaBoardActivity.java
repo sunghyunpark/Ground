@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
 

@@ -7,8 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.yssh.ground.GroundApplication;
-import com.yssh.ground.R;
+import com.groundmobile.ground.GroundApplication;
+import com.groundmobile.ground.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

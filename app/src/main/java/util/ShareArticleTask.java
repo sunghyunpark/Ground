@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
 
-import com.yssh.ground.GroundApplication;
+import com.groundmobile.ground.GroundApplication;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.yssh.ground.R;
+import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

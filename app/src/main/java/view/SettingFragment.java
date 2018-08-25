@@ -176,6 +176,20 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
     }
 
     @Override
+    public void goRecommend(){
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        //String subject = "문자의 제목";
+        String text = "https://play.google.com/store/apps/details?id="+getContext().getPackageName();
+        //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+
+        // Title of intent
+        Intent chooser = Intent.createChooser(intent, "친구에게 공유하기");
+        startActivity(chooser);
+    }
+
+    @Override
     public void loginClick(){
 
     }
@@ -207,5 +221,9 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @OnClick(R.id.report_issue_btn) void reportIssueBtn(){
         goReportBug();
+    }
+
+    @OnClick(R.id.recommend_btn) void recommendBtn(){
+        goRecommend();
     }
 }

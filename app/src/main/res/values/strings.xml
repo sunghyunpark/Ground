@@ -39,12 +39,13 @@
     <string name="setting_fragment_title">설정</string>
     <string name="setting_fragment_login_txt">로그인 정보</string>
     <string name="setting_fragment_login_default_txt">로그인하세요</string>
-    <string name="setting_fragment_version_txt">버전 정보</string>
+    <string name="setting_fragment_version_txt">버전정보</string>
     <string name="setting_fragment_profile_txt">프로필</string>
     <string name="setting_fragment_kakao_chatbot_txt">GROUND 챗봇</string>
-    <string name="setting_fragment_review_txt">리뷰 쓰기</string>
+    <string name="setting_fragment_review_txt">리뷰쓰기</string>
+    <string name="setting_fragment_recommend_txt">추천하기</string>
     <string name="setting_fragment_license_txt">라이선스</string>
-    <string name="setting_fragment_report_issue_txt">버그 신고</string>
+    <string name="setting_fragment_report_issue_txt">버그신고</string>
 
     <!-- About Article Activity -->
     <string name="about_article_activity_favorite_btn">관심</string>

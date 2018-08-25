@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,8 +17,11 @@ import com.groundmobile.ground.R;
 
 import java.util.Map;
 
+import view.DetailArticleActivity;
+
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
+    private String[] areaNameArray;
     /**
      * Called when message is received.
      *
@@ -26,21 +30,33 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Resources res = getResources();
+        areaNameArray = res.getStringArray(R.array.matching_board_list);
         Map<String, String> pushDataMap = remoteMessage.getData();
         sendNotification(pushDataMap);
     }
 
     private void sendNotification(Map<String, String> dataMap) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent;
+        if(dataMap.get("type").equals("comment")){
+            intent = new Intent(this, DetailArticleActivity.class);
+            intent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
+            intent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
+            intent.putExtra("hasArticleModel", false);
+            intent.putExtra("boardType", dataMap.get("boardType"));
+            intent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
+        }else{
+            intent = new Intent(this, MainActivity.class);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ground_app_icon_72)
                 .setContentTitle(dataMap.get("title"))
-                .setContentText(dataMap.get("msg"))
+                .setContentText(dataMap.get("message"))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setVibrate(new long[]{1000, 1000})

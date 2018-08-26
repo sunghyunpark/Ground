@@ -115,9 +115,16 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/recent_pager"
                 android:layout_width="match_parent"
-                android:layout_height="370dp"/>
+                android:layout_height="350dp"/>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/recommend_banner_iv"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:src="@drawable/recommend_app_banner_img"
+            android:scaleType="centerCrop"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

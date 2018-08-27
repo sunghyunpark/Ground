@@ -161,7 +161,8 @@
             <TextView
                 android:id="@+id/today_match_empty_tv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
+                android:gravity="center_horizontal|center_vertical"
                 android:textSize="15dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -177,6 +178,7 @@
         </RelativeLayout>
 
         <Button
+            android:id="@+id/today_match_more_btn"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/colorWhite"

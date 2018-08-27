@@ -48,9 +48,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
                         for(ArticleModel am : articleModelListResponse.getResult()){
                             Collections.addAll(todayArticleModelArrayList, am);
                         }
-                        getView().notifyTodayMatchArticle(true);
+                        getView().notifyTodayMatchArticle(true, size);
                     }else{
-                        getView().notifyTodayMatchArticle(false);
+                        getView().notifyTodayMatchArticle(false, 0);
                     }
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");

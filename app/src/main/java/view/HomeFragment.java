@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.groundmobile.ground.R;
@@ -50,6 +51,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.ground_util_recyclerView) RecyclerView groundUtilRecyclerView;
     @BindView(R.id.today_match_recyclerView) RecyclerView todayMatchRecyclerView;
     @BindView(R.id.today_match_empty_tv) TextView todayMatchEmptyTv;
+    @BindView(R.id.today_match_more_btn) Button todayMatchMoreBtn;
 
     @Override
     public void onDestroy(){
@@ -180,12 +182,18 @@ public class HomeFragment extends BaseFragment implements HomeView{
      * 받아온 오늘의 시합 데이터를 갱신한다.
      */
     @Override
-    public void notifyTodayMatchArticle(boolean hasData){
+    public void notifyTodayMatchArticle(boolean hasData, int listSize){
         if(hasData){
             todayMatchAdapter.notifyDataSetChanged();
             todayMatchEmptyTv.setVisibility(View.GONE);
             todayMatchRecyclerView.setVisibility(View.VISIBLE);
+            if(listSize >= 5){
+                todayMatchMoreBtn.setVisibility(View.VISIBLE);
+            }else{
+                todayMatchMoreBtn.setVisibility(View.GONE);
+            }
         }else{
+            todayMatchMoreBtn.setVisibility(View.GONE);
             todayMatchEmptyTv.setVisibility(View.VISIBLE);
             todayMatchRecyclerView.setVisibility(View.GONE);
         }

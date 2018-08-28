@@ -145,7 +145,7 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
 
         // Create the URI from the media
         File media = new File(mediaPath);
-        Uri uri = FileProvider.getUriForFile(getApplicationContext(), "com.yssh.ground.fileProvider", media);
+        Uri uri = FileProvider.getUriForFile(getApplicationContext(), "com.groundmobile.ground.fileProvider", media);
 
         // Add the URI to the Intent.
         share.putExtra(Intent.EXTRA_STREAM, uri);

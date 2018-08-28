@@ -2,6 +2,7 @@ package firebase;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -12,7 +13,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.groundmobile.ground.MainActivity;
 import com.groundmobile.ground.R;
 
 import java.util.Map;
@@ -37,6 +37,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(Map<String, String> dataMap) {
+        /*
         Intent intent;
         if(dataMap.get("type").equals("comment")){
             intent = new Intent(this, DetailArticleActivity.class);
@@ -51,6 +52,22 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        */
+
+        Intent resultIntent = new Intent(this, DetailArticleActivity.class);
+        if(dataMap.get("type").equals("comment")){
+            resultIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
+            resultIntent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
+            resultIntent.putExtra("hasArticleModel", false);
+            resultIntent.putExtra("boardType", dataMap.get("boardType"));
+            resultIntent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
+        }
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
@@ -61,7 +78,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri)
                 .setVibrate(new long[]{1000, 1000})
                 .setLights(Color.WHITE, 1500, 1500)
-                .setContentIntent(contentIntent);
+                .setContentIntent(resultPendingIntent);
 
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.notify(0 /* ID of notification */, nBuilder.build());

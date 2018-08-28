@@ -14,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -25,7 +24,6 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.GroundApplication;
-import com.groundmobile.ground.MainActivity;
 import com.groundmobile.ground.R;
 
 import java.io.File;
@@ -124,6 +122,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             articleNo = intent.getIntExtra("articleNo", 0);
             initMode(boardType);
         }
+
+        showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
 
         init();
     }

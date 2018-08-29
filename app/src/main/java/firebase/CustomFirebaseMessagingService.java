@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.groundmobile.ground.MainActivity;
 import com.groundmobile.ground.R;
 
 import java.util.Map;
@@ -54,17 +55,20 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         */
 
-        Intent resultIntent = new Intent(this, DetailArticleActivity.class);
+        Intent detailIntent = new Intent(this, DetailArticleActivity.class);
         if(dataMap.get("type").equals("comment")){
-            resultIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
-            resultIntent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
-            resultIntent.putExtra("hasArticleModel", false);
-            resultIntent.putExtra("boardType", dataMap.get("boardType"));
-            resultIntent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
+            detailIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
+            detailIntent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
+            detailIntent.putExtra("hasArticleModel", false);
+            detailIntent.putExtra("boardType", dataMap.get("boardType"));
+            detailIntent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
         }
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        //detailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        //stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(mainIntent);
+        stackBuilder.addNextIntent(detailIntent);
 
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 

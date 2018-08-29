@@ -5,6 +5,14 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import api.ApiClient;
+import api.ApiInterface;
+import api.response.CommonResponse;
+import model.UserModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "FirebaseIDService";
@@ -35,8 +43,23 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
      * maintained by your application.
      *
      * @param token The new token.
+     * 로그인 시 토큰 갱신하기 위함.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(final String token) {
         // TODO: Implement this method to send token to your app server.
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<CommonResponse> call = apiService.updateFcmToken(token, UserModel.getInstance().getUid());
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                UserModel.getInstance().setFcmToken(token);
+            }
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+
+            }
+        });
     }
 }

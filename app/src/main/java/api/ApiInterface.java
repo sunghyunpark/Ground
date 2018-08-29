@@ -46,6 +46,15 @@ public interface ApiInterface {
     Call<CommonResponse> editProfile(@Path("uid") String uid, @Path("userName") String userName);
 
     /**
+     * update user's fcmToken 로그인 시
+     * @param fcmToken
+     * @param uid
+     * @return
+     */
+    @PUT("api/users/profile/fcmToken/{fcmToken}/{uid}")
+    Call<CommonResponse> updateFcmToken(@Path("fcmToken") String fcmToken, @Path("uid") String uid);
+
+    /**
      * write match/hire/recruit board api
      * @param areaNo
      * @param uid

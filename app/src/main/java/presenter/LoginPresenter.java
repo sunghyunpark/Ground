@@ -12,6 +12,7 @@ import api.response.LoginResponse;
 import base.presenter.BasePresenter;
 import database.RealmConfig;
 import database.model.UserVO;
+import firebase.FirebaseInstanceIDService;
 import io.realm.Realm;
 import model.UserModel;
 import presenter.view.LoginView;
@@ -110,6 +111,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
                             loginResponse.getResult().getFcmToken(), loginResponse.getResult().getCreatedAt());
+                    //로그인 시 fcm 토큰 갱신
+                    FirebaseInstanceIDService firebaseInstanceIDService = new FirebaseInstanceIDService();
+                    firebaseInstanceIDService.onTokenRefresh();
 
                     getView().goMainActivity();
                 }else{

@@ -80,7 +80,7 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
             background_layout.addView(imageView);
         }
 
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.formation_background_img1);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.formation_background_img);
         resized = Bitmap.createScaledBitmap(bitmap, GroundApplication.DISPLAY_WIDTH, GroundApplication.DISPLAY_HEIGHT, true);
 
         d = new BitmapDrawable(getResources(), resized);
@@ -109,8 +109,8 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
     private ImageView getImageView(){
         imageView = new ImageView(this);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(
-                GroundApplication.DISPLAY_HEIGHT/16,
-                GroundApplication.DISPLAY_HEIGHT/16));
+                GroundApplication.DISPLAY_HEIGHT/18,
+                GroundApplication.DISPLAY_HEIGHT/18));
         imageView.setBackgroundResource(R.drawable.formation_circle_shape);
         imageView.setOnTouchListener(this);
         return imageView;

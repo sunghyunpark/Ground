@@ -61,7 +61,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity android:name="view.DetailArticleActivity"
-            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"/>
         <activity android:name="view.CommentActivity"
             android:screenOrientation="portrait"/>

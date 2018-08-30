@@ -64,11 +64,11 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
             detailIntent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
         }
         Intent mainIntent = new Intent(this, MainActivity.class);
-        //detailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        //stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(mainIntent);
         stackBuilder.addNextIntent(detailIntent);
+        stackBuilder.addParentStack(MainActivity.class);
 
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -38,25 +38,9 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(Map<String, String> dataMap) {
-        /*
-        Intent intent;
-        if(dataMap.get("type").equals("comment")){
-            intent = new Intent(this, DetailArticleActivity.class);
-            intent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
-            intent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
-            intent.putExtra("hasArticleModel", false);
-            intent.putExtra("boardType", dataMap.get("boardType"));
-            intent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
-        }else{
-            intent = new Intent(this, MainActivity.class);
-        }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-        */
-
         Intent detailIntent = new Intent(this, DetailArticleActivity.class);
         if(dataMap.get("type").equals("comment")){
+            detailIntent.putExtra("uid", dataMap.get("uid"));
             detailIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
             detailIntent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
             detailIntent.putExtra("hasArticleModel", false);

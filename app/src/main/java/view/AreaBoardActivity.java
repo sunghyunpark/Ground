@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
+import model.UserModel;
 import presenter.AreaBoardPresenter;
 import presenter.view.AreaBoardView;
 import util.EndlessRecyclerOnScrollListener;
@@ -98,6 +99,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailArticleActivity.class);
+                intent.putExtra("uid", UserModel.getInstance().getUid());
                 intent.putExtra("area", area);
                 intent.putExtra("articleModel", articleModel);
                 intent.putExtra("hasArticleModel", true);

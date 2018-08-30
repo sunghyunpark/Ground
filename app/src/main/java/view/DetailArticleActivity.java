@@ -57,7 +57,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private static final int RECRUIT_MODE = 3;
     private int boardMode;
 
-    private String area;
+    private String area, uid;
     private boolean hasArticleModel;
     private String boardType;    // api 호출로 새로 불러올때 사용될 변수
     private int areaNo, articleNo;    // api 호출로 새로 불러올때 사용될 변수
@@ -111,6 +111,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         Intent intent = getIntent();
         area = intent.getExtras().getString("area");
         hasArticleModel = intent.getExtras().getBoolean("hasArticleModel");
+        uid = intent.getExtras().getString("uid");
+        UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
         articleModel = new ArticleModel();
         if(hasArticleModel){
             articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
@@ -175,7 +177,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(hasArticleModel){
             setArticleData(articleModel);
         }else{
-            detailArticlePresenter.loadArticleData(boardType, areaNo, articleNo, UserModel.getInstance().getUid());
+            detailArticlePresenter.loadArticleData(boardType, areaNo, articleNo, uid);
         }
     }
 
@@ -261,7 +263,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         });
 
         if(detailArticlePresenter != null){
-            detailArticlePresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid());
+            detailArticlePresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), uid);
             detailArticlePresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
         }
     }
@@ -273,7 +275,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private void initMatchingStateToggle(){
         if(articleModel.getBoardType().equals("match")){
             setMatchingState(articleModel.getMatchState());
-            if(!articleModel.getWriterId().equals(UserModel.getInstance().getUid())){
+            if(!articleModel.getWriterId().equals(uid)){
                 matching_state_toggle.setEnabled(false);
             }
         }else{
@@ -337,11 +339,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "N");
+            detailArticlePresenter.postFavoriteState(articleModel.getNo(), uid, articleModel.getBoardType(), "N");
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(articleModel.getNo(), UserModel.getInstance().getUid(), articleModel.getBoardType(), "Y");
+            detailArticlePresenter.postFavoriteState(articleModel.getNo(), uid, articleModel.getBoardType(), "Y");
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -428,7 +430,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                detailArticlePresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), UserModel.getInstance().getUid(), commentStr, articleModel.getBoardType());
+                detailArticlePresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), uid, commentStr, articleModel.getBoardType());
                 //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
                   //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }

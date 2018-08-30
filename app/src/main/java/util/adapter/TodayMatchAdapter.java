@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import model.ArticleModel;
+import model.UserModel;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
@@ -75,6 +76,7 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
                         intent.putExtra("articleModel", currentItem);
                         intent.putExtra("hasArticleModel", true);
+                        intent.putExtra("uid", UserModel.getInstance().getUid());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1

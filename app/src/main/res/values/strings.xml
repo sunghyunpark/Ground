@@ -31,6 +31,7 @@
 
     <!-- Error -->
     <string name="register_error_input_email_txt">올바른 이메일 형식이 아닙니다.</string>
+    <string name="register_error_input_name_txt">이름은 10자까지만 입력 가능합니다.</string>
     <string name="error_not_exist_input_txt">정보를 입력해주세요.</string>
     <string name="register_error_input_pw_txt">비밀번호가 너무 짧습니다.</string>
     <string name="please_login_txt">로그인을 해주세요.</string>

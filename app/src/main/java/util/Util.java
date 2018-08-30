@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -22,8 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import util.adapter.AreaBoardAdapter;
 
 public class Util {
 
@@ -73,6 +70,17 @@ public class Util {
         }
 
         return msg;
+    }
+
+    public static String ellipseStr(String str){
+        String resultStr;
+
+        if(str.length() > 7){
+            resultStr = str.substring(0,6)+"...";
+        }else{
+            return str;
+        }
+        return resultStr;
     }
 
     public static ProgressDialog showLoadingDialog(Context context) {

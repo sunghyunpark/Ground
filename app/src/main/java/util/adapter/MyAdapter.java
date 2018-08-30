@@ -76,7 +76,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             final ArticleVH VHitem = (ArticleVH) holder;
 
             VHitem.title_tv.setText(currentItem.getTitle());
-            VHitem.nick_name_tv.setText(currentItem.getNickName());
+            VHitem.nick_name_tv.setText(Util.ellipseStr(currentItem.getNickName()));
             VHitem.view_cnt_tv.setText(currentItem.getViewCnt()+"");
             VHitem.comment_cnt_tv.setText(currentItem.getCommentCnt());
 

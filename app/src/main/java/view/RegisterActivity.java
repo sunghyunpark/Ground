@@ -32,6 +32,7 @@ public class RegisterActivity extends BaseActivity implements LoginView {
     @BindString(R.string.error_not_exist_input_txt) String notExistErrorStr;
     @BindString(R.string.register_error_input_email_txt) String inputEmailErrorStr;
     @BindString(R.string.register_error_input_pw_txt) String inputPwErrorStr;
+    @BindString(R.string.register_error_input_name_txt) String inputNameErrorStr;
 
     private final static String TAG = "RegisterActivity";
     private FirebaseAuth mAuth;
@@ -99,6 +100,8 @@ public class RegisterActivity extends BaseActivity implements LoginView {
             Toast.makeText(getApplicationContext(), notExistErrorStr, Toast.LENGTH_SHORT).show();
         }else if(!emailStr.contains("@") || !emailStr.contains(".com")){
             Toast.makeText(getApplicationContext(), inputEmailErrorStr,Toast.LENGTH_SHORT).show();
+        }else if(nameStr.length()>10) {
+            Toast.makeText(getApplicationContext(), inputNameErrorStr, Toast.LENGTH_SHORT).show();
         }else if(pwStr.length()<6){
             Toast.makeText(getApplicationContext(), inputPwErrorStr, Toast.LENGTH_SHORT).show();
         }else{

@@ -80,7 +80,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Board_VH VHitem = (Board_VH)holder;
 
             VHitem.title_tv.setText(currentItem.getTitle());
-            VHitem.nick_name_tv.setText(currentItem.getNickName());
+            VHitem.nick_name_tv.setText(Util.ellipseStr(currentItem.getNickName()));
             VHitem.view_cnt_tv.setText(currentItem.getViewCnt()+"");
             VHitem.comment_cnt_tv.setText(currentItem.getCommentCnt());
 

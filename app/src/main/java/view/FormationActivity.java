@@ -80,7 +80,7 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
             background_layout.addView(imageView);
         }
 
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.formation_background_img);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.formation_background_img3);
         resized = Bitmap.createScaledBitmap(bitmap, GroundApplication.DISPLAY_WIDTH, GroundApplication.DISPLAY_HEIGHT, true);
 
         d = new BitmapDrawable(getResources(), resized);

@@ -16,62 +16,71 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:authorities="com.groundmobile.ground.fileProvider"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.groundmobile.ground.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path"/>
+                android:resource="@xml/file_path" />
         </provider>
-        <service
-            android:name="firebase.CustomFirebaseMessagingService">
+
+        <service android:name="firebase.CustomFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service
-            android:name="firebase.FirebaseInstanceIDService">
+        <service android:name="firebase.FirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppThemeNoTitle"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="view.IntroActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.AreaBoardActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="view.IntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.AreaBoardActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="view.WriteBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name="view.DetailArticleActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.CommentActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.MyActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.OpenSourceActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.EditBoardActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.FormationActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="view.DetailArticleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.CommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.MyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.OpenSourceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.EditBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.FormationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="view.AppPushActivity"></activity>
     </application>
 
 </manifest>

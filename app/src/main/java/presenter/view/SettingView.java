@@ -18,4 +18,6 @@ public interface SettingView extends BasePresenterView{
 
     void goReportBug();
 
+    void goAppPush();
+
 }

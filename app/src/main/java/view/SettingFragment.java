@@ -190,6 +190,12 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
     }
 
     @Override
+    public void goAppPush(){
+        Intent intent = new Intent(getContext(), AppPushActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public void loginClick(){
 
     }
@@ -225,5 +231,9 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @OnClick(R.id.recommend_btn) void recommendBtn(){
         goRecommend();
+    }
+
+    @OnClick(R.id.app_push_btn) void appPushBtn(){
+        goAppPush();
     }
 }

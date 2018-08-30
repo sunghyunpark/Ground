@@ -42,6 +42,7 @@
     <string name="setting_fragment_login_default_txt">로그인하세요</string>
     <string name="setting_fragment_version_txt">버전정보</string>
     <string name="setting_fragment_profile_txt">프로필</string>
+    <string name="setting_fragment_app_push_txt">푸시 알림</string>
     <string name="setting_fragment_kakao_chatbot_txt">GROUND 챗봇</string>
     <string name="setting_fragment_review_txt">리뷰쓰기</string>
     <string name="setting_fragment_recommend_txt">추천하기</string>
@@ -54,6 +55,9 @@
     <string name="about_article_activity_share_btn">공유</string>
     <string name="about_article_activity_comment_hint">댓글을 입력해주세요.</string>
     <string name="about_article_activity_write_comment_btn">댓글 입력</string>
+
+    <!-- App Push Activity -->
+    <string name="app_push_activity_title">푸시알림</string>
 
     <!-- Comment Activity -->
     <string name="comment_activity_title">댓글</string>

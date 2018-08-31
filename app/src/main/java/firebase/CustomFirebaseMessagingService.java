@@ -18,11 +18,13 @@ import com.groundmobile.ground.R;
 
 import java.util.Map;
 
+import util.SessionManager;
 import view.DetailArticleActivity;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     private String[] areaNameArray;
+    private SessionManager sessionManager;
     /**
      * Called when message is received.
      *
@@ -33,8 +35,30 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Resources res = getResources();
         areaNameArray = res.getStringArray(R.array.matching_board_list);
+        sessionManager = new SessionManager(getApplicationContext());
         Map<String, String> pushDataMap = remoteMessage.getData();
-        sendNotification(pushDataMap);
+
+        switch (pushDataMap.get("type")){
+            case "comment":
+                if(sessionManager.isCommentPushOn()){
+                    sendNotification(pushDataMap);
+                }
+                break;
+            case "match":
+                if(sessionManager.isMatchPushOn()){
+                    sendNotification(pushDataMap);
+                }
+                break;
+            case "event":
+                if(sessionManager.isEventPushOn()){
+                    sendNotification(pushDataMap);
+                }
+                break;
+                default:
+                    sendNotification(pushDataMap);
+                    break;
+        }
+
     }
 
     private void sendNotification(Map<String, String> dataMap) {

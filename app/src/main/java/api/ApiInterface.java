@@ -51,8 +51,8 @@ public interface ApiInterface {
      * @param uid
      * @return
      */
-    @PUT("api/users/profile/fcmToken/{fcmToken}/{uid}")
-    Call<CommonResponse> updateFcmToken(@Path("fcmToken") String fcmToken, @Path("uid") String uid);
+    @PUT("api/users/profile/fcmToken/{uid}/{fcmToken}")
+    Call<CommonResponse> updateFcmToken(@Path("uid") String uid, @Path("fcmToken") String fcmToken);
 
     /**
      * write match/hire/recruit board api

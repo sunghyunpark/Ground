@@ -48,11 +48,12 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     private void sendRegistrationToServer(final String token) {
         // TODO: Implement this method to send token to your app server.
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<CommonResponse> call = apiService.updateFcmToken(token, UserModel.getInstance().getUid());
+        Call<CommonResponse> call = apiService.updateFcmToken(UserModel.getInstance().getUid(), token);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 UserModel.getInstance().setFcmToken(token);
+                Log.d("logintoken", token);
             }
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {

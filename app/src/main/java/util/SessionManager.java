@@ -9,17 +9,20 @@ public class SessionManager {
     private static String TAG = SessionManager.class.getSimpleName();
 
     // Shared Preferences
-    SharedPreferences pref;
+    private SharedPreferences pref;
 
-    SharedPreferences.Editor editor;
-    Context _context;
+    private SharedPreferences.Editor editor;
+    private Context _context;
 
     // Shared pref mode
-    int PRIVATE_MODE = 0;
+    private int PRIVATE_MODE = 0;
 
     // Shared preferences file name
     private static final String PREF_NAME = "ground";
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
+    private static final String KEY_COMMENT_PUSH = "isOn";
+    private static final String KEY_MATCH_PUSH = "isMatch";
+    private static final String KEY_EVENT_PUSH = "isEvent";
 
 
     public SessionManager(Context context) {
@@ -41,4 +44,33 @@ public class SessionManager {
     public boolean isLoggedIn(){
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
+
+    public void setCommentPush(boolean isOn){
+        editor.putBoolean(KEY_COMMENT_PUSH, isOn);
+        editor.commit();
+    }
+
+    public boolean isCommentPushOn(){
+        return pref.getBoolean(KEY_COMMENT_PUSH, true);
+    }
+
+    public void setMatchPush(boolean isOn){
+        editor.putBoolean(KEY_MATCH_PUSH, isOn);
+        editor.commit();
+    }
+
+    public boolean isMatchPushOn(){
+        return pref.getBoolean(KEY_MATCH_PUSH, true);
+    }
+
+    public void setEventPush(boolean isOn){
+        editor.putBoolean(KEY_EVENT_PUSH, isOn);
+        editor.commit();
+    }
+
+    public boolean isEventPushOn(){
+        return pref.getBoolean(KEY_EVENT_PUSH, true);
+    }
+
+
 }

@@ -27,6 +27,7 @@ import util.Util;
 public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private static final int TYPE_EMPTY = 2;
     private String area, boardType;    //지역명
     private ArrayList<ArticleModel> listItems;
     private Context context;
@@ -67,6 +68,9 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }else if(viewType == TYPE_HEADER){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_about_area_about_header, parent, false);
             return new Header_Vh(v);
+        }else if(viewType == TYPE_EMPTY){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_about_area_board_empty_item, parent, false);
+            return new Empty_Vh(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
@@ -147,6 +151,17 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     areaBoardAdapterListener.dateSort();
                 }
             });
+        }else if(holder instanceof Empty_Vh){
+            final Empty_Vh Vhitem = (Empty_Vh)holder;
+
+        }
+    }
+
+    private class Empty_Vh extends RecyclerView.ViewHolder{
+        TextView empty_tv;
+        private Empty_Vh(View itemView){
+            super(itemView);
+            empty_tv = (TextView) itemView.findViewById(R.id.empty_tv);
         }
     }
 
@@ -286,10 +301,23 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }else{
             return TYPE_ITEM;
         }
+        /*
+        if(isPositionHeader(position)){
+            return TYPE_HEADER;
+        }else{
+            return (listItems.size() > 0) ? TYPE_ITEM : TYPE_EMPTY;
+        }*/
     }
     //increasing getItemcount to 1. This will be the row of header.
     @Override
     public int getItemCount() {
         return listItems.size()+1;
+
+        /*
+        if(listItems.size() > 0){
+            return listItems.size()+1;
+        }else{
+            return TYPE_EMPTY;
+        }*/
     }
 }

@@ -1,16 +1,22 @@
 package view;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import base.BaseActivity;
 import butterknife.BindView;
@@ -88,13 +94,13 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         init(area);
     }
 
-    private void init(String area){
+    private void init(final String area){
         ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
         articleModelArrayList.clear();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.DetailArticleCallback() {
+        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
                 detailPosition = position;
@@ -104,6 +110,15 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 intent.putExtra("articleModel", articleModel);
                 intent.putExtra("hasArticleModel", true);
                 startActivityForResult(intent, REQUEST_DETAIL);
+            }
+            @Override
+            public void allSort(){
+                init(area);
+            }
+            @Override
+            public void dateSort(){
+                DatePickerDialog dialog = new DatePickerDialog(AreaBoardActivity.this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
+                dialog.show();
             }
         });
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -119,6 +134,25 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
     }
+
+    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-M-dd");
+        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String strBeforeFormat = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
+            String strAfterFormat = "";
+            try {
+                Date originDate = originFormat.parse(strBeforeFormat);
+
+                strAfterFormat = newFormat.format(originDate);
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+            showMessage(strAfterFormat);
+        }
+    };
 
     @Override
     public void loadMoreArticle(LinearLayoutManager linearLayoutManager){

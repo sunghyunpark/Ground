@@ -7,4 +7,37 @@
         android:id="@+id/banner_pager"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
+
+    <RelativeLayout
+        android:id="@+id/sort_layout"
+        android:layout_below="@+id/banner_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/colorMoreGray"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="날짜순"/>
+
+        <TextView
+            android:id="@+id/all_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:layout_toLeftOf="@+id/date_tv"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"/>
+
+    </RelativeLayout>
 </RelativeLayout>

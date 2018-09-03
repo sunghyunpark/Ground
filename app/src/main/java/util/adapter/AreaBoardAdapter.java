@@ -34,7 +34,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private int bannerCount;
 
-    private DetailArticleCallback goToDetailArticleListener;
+    private AreaBoardAdapterListener areaBoardAdapterListener;
 
     /* 메모리 관련 이슈때문에 잠시 주석처리
     private static final int SEND_RUNNING = 1000;
@@ -42,7 +42,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerThread thread = null;
     */
 
-    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType, DetailArticleCallback goToDetailArticleListener) {
+    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
@@ -50,11 +50,13 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.bannerViewPagerAdapter = bannerViewPagerAdapter;
         this.bannerCount = bannerCount;
         this.boardType = boardType;
-        this.goToDetailArticleListener = goToDetailArticleListener;
+        this.areaBoardAdapterListener = areaBoardAdapterListener;
     }
 
-    public interface DetailArticleCallback{
+    public interface AreaBoardAdapterListener{
         public void goToDetailArticle(int position, String area, ArticleModel articleModel);
+        public void allSort();
+        public void dateSort();
     }
 
     @Override
@@ -102,7 +104,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         단, 게시글 리스트를 내려주는 api 에서 상세화면에 보여질 데이터들을 모두 받아둔 상태여야한다.
                         게시글 상세화면에서 finish 처리가 되었을 때 onActivityResult 를 통해서 notify 해줘야한다.
                          */
-                        goToDetailArticleListener.goToDetailArticle(position-1, area, currentItem);
+                        areaBoardAdapterListener.goToDetailArticle(position-1, area, currentItem);
                     }
                 }
             });
@@ -131,16 +133,36 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             VHitem.banner_pager.setAdapter(bannerViewPagerAdapter);
             VHitem.banner_pager.setCurrentItem(bannerCount);
+
+            VHitem.all_sort_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    areaBoardAdapterListener.allSort();
+                }
+            });
+
+            VHitem.date_sort_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    areaBoardAdapterListener.dateSort();
+                }
+            });
         }
     }
 
     //상단 헤더
     private class Header_Vh extends RecyclerView.ViewHolder{
         ViewPager banner_pager;
+        ViewGroup sort_layout;
+        TextView all_sort_tv;
+        TextView date_sort_tv;
 
         private Header_Vh(View itemView){
             super(itemView);
             banner_pager = (ViewPager) itemView.findViewById(R.id.banner_pager);
+            sort_layout = (ViewGroup) itemView.findViewById(R.id.sort_layout);
+            all_sort_tv = (TextView) itemView.findViewById(R.id.all_tv);
+            date_sort_tv = (TextView) itemView.findViewById(R.id.date_tv);
 
             banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -161,6 +183,10 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
             });
+
+            if(!boardType.equals("match")){
+                sort_layout.setVisibility(View.GONE);
+            }
 
             /*메모리 관련 이슈때문에 잠시 주석처리
             handler = new Util.BannerHandler(this, banner_pager, bannerCount);

@@ -12,11 +12,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import base.BaseActivity;
@@ -41,7 +41,6 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     private int areaNo;
     private String beforeStr;
     private WriteBoardPresenter writeBoardPresenter;
-    private int year, month, day;
 
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
@@ -82,10 +81,6 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
             matchingDateLayout.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
         }
-        Calendar cal = Calendar.getInstance();
-        year = cal.get(Calendar.YEAR);
-        month = cal.get(Calendar.MONTH)+1;
-        day = cal.get(Calendar.DATE);
     }
 
     // boardType 에 따른 MODE 초기화
@@ -128,8 +123,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     }
 
     @OnClick(R.id.matching_date_layout) void matchingDateClick(){
-        DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, year, month-1, day);
-
+        DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
         dialog.show();
     }
 

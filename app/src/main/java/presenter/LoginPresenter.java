@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import api.ApiClient;
 import api.ApiInterface;
+import api.response.CommonResponse;
 import api.response.LoginResponse;
 import base.presenter.BasePresenter;
 import database.RealmConfig;
@@ -182,13 +183,26 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * Firebase Logout
      * @param uid
      */
-    public void logOut(String uid){
-        mAuth.signOut();
-        realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
-        UserVO userVO = realm.where(UserVO.class).equalTo("uid",uid).findFirst();
-        realm.beginTransaction();
-        userVO.deleteFromRealm();
-        realm.commitTransaction();
-    }
+    public void logOut(final String uid){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<CommonResponse> call = apiService.updateFcmToken(uid, "N");
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                UserModel.getInstance().setFcmToken("N");
+                mAuth.signOut();
+                realm = Realm.getInstance(realmConfig.UserRealmVersion(context));
+                UserVO userVO = realm.where(UserVO.class).equalTo("uid",uid).findFirst();
+                realm.beginTransaction();
+                userVO.deleteFromRealm();
+                realm.commitTransaction();
+            }
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
 
+            }
+        });
+    }
 }

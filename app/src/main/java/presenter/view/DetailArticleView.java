@@ -11,8 +11,6 @@ public interface DetailArticleView extends BasePresenterView{
 
     void captureClick();
 
-    void shareClick();
-
     void writeComment();
 
     void setArticleData(ArticleModel articleModel);

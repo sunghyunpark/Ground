@@ -308,13 +308,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private void setFavorite(int state){
         if(state == 0){
             //not like
-            favorite_tb.setBackgroundResource(R.mipmap.favorite_img);
+            favorite_tb.setImageResource(R.mipmap.favorite_img);
         }else if(state == 1){
             //like
-            favorite_tb.setBackgroundResource(R.mipmap.favorite_selected_img);
+            favorite_tb.setImageResource(R.mipmap.favorite_selected_img);
         }else{
             // favoriteState is null
-            favorite_tb.setBackgroundResource(R.mipmap.favorite_img);
+            favorite_tb.setImageResource(R.mipmap.favorite_img);
         }
     }
 
@@ -389,11 +389,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
         });
         shareArticleTask.execute(takeScreenshot(root_view));
-    }
-
-    @Override
-    public void shareClick(){
-
     }
 
     /**
@@ -478,10 +473,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         } else {
             captureClick();
         }
-    }
-
-    @OnClick(R.id.share_btn) void shareBtn(){
-        shareClick();
     }
 
     /**

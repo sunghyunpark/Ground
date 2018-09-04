@@ -373,11 +373,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     /**
-     * 공유 버튼 클릭 후 AsyncTask 로 로컬에 캡쳐한 비트맵을 저장
+     * 캡쳐 버튼 클릭 후 AsyncTask 로 로컬에 캡쳐한 비트맵을 저장
      * ShareArticleTask 의 interface 를 통해 콜백을 받아온다.
      */
     @Override
-    public void shareClick(){
+    public void captureClick(){
         showLoading();
         ShareArticleTask shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
             @Override
@@ -389,6 +389,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
         });
         shareArticleTask.execute(takeScreenshot(root_view));
+    }
+
+    @Override
+    public void shareClick(){
+
     }
 
     /**
@@ -451,7 +456,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         commentClick();
     }
 
-    @OnClick(R.id.share_btn) void shareBtn(){
+    @OnClick(R.id.capture_btn) void captureBtn(){
         if (ContextCompat.checkSelfPermission(DetailArticleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
                 .checkSelfPermission(DetailArticleActivity.this,
@@ -471,8 +476,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                         REQUEST_PERMISSIONS);
             }
         } else {
-            shareClick();
+            captureClick();
         }
+    }
+
+    @OnClick(R.id.share_btn) void shareBtn(){
+        shareClick();
     }
 
     /**
@@ -519,7 +528,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             case REQUEST_PERMISSIONS:
                 //권한이 있는 경우
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    shareClick();
+                    captureClick();
                 }
                 //권한이 없는 경우
                 else {

@@ -141,23 +141,22 @@
                         android:layout_marginTop="0.5dp"
                         android:layout_marginRight="0.5dp"
                         android:layout_weight="1">
-                        <TextView
-                            android:id="@+id/favorite_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:text="@string/about_article_activity_favorite_btn"
-                            android:layout_centerVertical="true"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorMoreGray"/>
-
                         <ImageView
                             android:id="@+id/favorite_tb"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:layout_toLeftOf="@+id/favorite_tv"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_centerVertical="true"/>
+                        <TextView
+                            android:id="@+id/favorite_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_article_activity_favorite_btn"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/favorite_tb"
+                            android:layout_centerVertical="true"
+                            android:textSize="15dp"
+                            android:textColor="@color/colorMoreGray"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/comment_btn"
@@ -166,22 +165,47 @@
                         android:layout_marginTop="0.5dp"
                         android:background="@color/colorWhite"
                         android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/comment_iv"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/comment_img"/>
                         <TextView
-                            android:id="@+id/comment_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_article_activity_comment_btn"
-                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/comment_iv"
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
                             android:textColor="@color/colorMoreGray"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/capture_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorWhite"
+                        android:layout_marginTop="0.5dp"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1">
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_toLeftOf="@+id/comment_tv"
-                            android:layout_marginRight="5dp"
+                            android:id="@+id/capture_iv"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/comment_img"/>
+                            android:src="@mipmap/capture_img"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="캡쳐"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/capture_iv"
+                            android:layout_centerVertical="true"
+                            android:textSize="15dp"
+                            android:textColor="@color/colorMoreGray"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/share_btn"
@@ -191,22 +215,22 @@
                         android:layout_marginTop="0.5dp"
                         android:layout_marginLeft="0.5dp"
                         android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/share_iv"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/share_img"/>
                         <TextView
-                            android:id="@+id/share_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_article_activity_share_btn"
-                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/share_iv"
                             android:layout_centerVertical="true"
                             android:textSize="15dp"
                             android:textColor="@color/colorMoreGray"/>
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_toLeftOf="@+id/share_tv"
-                            android:layout_marginRight="5dp"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/share_img"/>
                     </RelativeLayout>
 
                 </LinearLayout>

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void goToDetailArticle(int position, String area, ArticleModel articleModel);
         public void allSort();
         public void dateSort();
+        public void writeArticle();
     }
 
     @Override
@@ -154,14 +156,23 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }else if(holder instanceof Empty_Vh){
             final Empty_Vh Vhitem = (Empty_Vh)holder;
 
+            Vhitem.write_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    areaBoardAdapterListener.writeArticle();
+                }
+            });
+
         }
     }
 
     private class Empty_Vh extends RecyclerView.ViewHolder{
         TextView empty_tv;
+        Button write_btn;
         private Empty_Vh(View itemView){
             super(itemView);
             empty_tv = (TextView) itemView.findViewById(R.id.empty_tv);
+            write_btn = (Button) itemView.findViewById(R.id.write_btn);
         }
     }
 
@@ -296,28 +307,21 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if(isPositionHeader(position)){
-            return TYPE_HEADER;
-        }else{
-            return TYPE_ITEM;
-        }
-        /*
+
         if(isPositionHeader(position)){
             return TYPE_HEADER;
         }else{
             return (listItems.size() > 0) ? TYPE_ITEM : TYPE_EMPTY;
-        }*/
+        }
     }
     //increasing getItemcount to 1. This will be the row of header.
     @Override
     public int getItemCount() {
-        return listItems.size()+1;
-
-        /*
         if(listItems.size() > 0){
             return listItems.size()+1;
         }else{
+            // TYPE_EMPTY = 2 > 상단 배너는 항상 노출이므로 1+1(getItemViewType 에 position 값이 들어가야하므로 +1을 더해준 값)
             return TYPE_EMPTY;
-        }*/
+        }
     }
 }

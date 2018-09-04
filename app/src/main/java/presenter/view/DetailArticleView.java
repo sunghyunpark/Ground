@@ -9,6 +9,8 @@ public interface DetailArticleView extends BasePresenterView{
 
     void commentClick();
 
+    void captureClick();
+
     void shareClick();
 
     void writeComment();

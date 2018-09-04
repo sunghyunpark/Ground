@@ -120,6 +120,10 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 DatePickerDialog dialog = new DatePickerDialog(AreaBoardActivity.this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
                 dialog.show();
             }
+            @Override
+            public void writeArticle(){
+                onWriteClick();
+            }
         });
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);

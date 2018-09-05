@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
@@ -80,10 +81,10 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
                         Intent intent = new Intent(context, DetailArticleActivity.class);
-                        intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra("articleModel", currentItem);
-                        intent.putExtra("hasArticleModel", true);
-                        intent.putExtra("uid", UserModel.getInstance().getUid());
+                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
+                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1

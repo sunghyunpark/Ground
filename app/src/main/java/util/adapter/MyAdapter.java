@@ -87,10 +87,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     if(sessionManager.isLoggedIn()){
                         //login
                         Intent intent = new Intent(context, DetailArticleActivity.class);
-                        intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra("articleModel", currentItem);
-                        intent.putExtra("hasArticleModel", true);
-                        intent.putExtra("uid", UserModel.getInstance().getUid());
+                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
+                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1
@@ -145,12 +145,12 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     if(sessionManager.isLoggedIn()){
                         //login
                         Intent intent = new Intent(context, DetailArticleActivity.class);
-                        intent.putExtra("area", changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra("uid", UserModel.getInstance().getUid());
-                        intent.putExtra("hasArticleModel", false);
-                        intent.putExtra("areaNo", currentItem.getAreaNo());
-                        intent.putExtra("articleNo", currentItem.getArticleNo());
-                        intent.putExtra("boardType", currentItem.getBoardType());
+                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
+                        intent.putExtra(GroundApplication.EXTRA_AREA_NO, currentItem.getAreaNo());
+                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, currentItem.getArticleNo());
+                        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, currentItem.getBoardType());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }else{

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.ArticleModel;
 import util.NetworkUtils;
 import util.SessionManager;
@@ -167,28 +169,24 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private class Empty_Vh extends RecyclerView.ViewHolder{
-        TextView empty_tv;
-        Button write_btn;
+        @BindView(R.id.write_btn) Button write_btn;
+
         private Empty_Vh(View itemView){
             super(itemView);
-            empty_tv = (TextView) itemView.findViewById(R.id.empty_tv);
-            write_btn = (Button) itemView.findViewById(R.id.write_btn);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     //상단 헤더
     private class Header_Vh extends RecyclerView.ViewHolder{
-        ViewPager banner_pager;
-        ViewGroup sort_layout;
-        TextView all_sort_tv;
-        TextView date_sort_tv;
+        @BindView(R.id.banner_pager) ViewPager banner_pager;
+        @BindView(R.id.sort_layout) ViewGroup sort_layout;
+        @BindView(R.id.all_tv) TextView all_sort_tv;
+        @BindView(R.id.date_tv) TextView date_sort_tv;
 
         private Header_Vh(View itemView){
             super(itemView);
-            banner_pager = (ViewPager) itemView.findViewById(R.id.banner_pager);
-            sort_layout = (ViewGroup) itemView.findViewById(R.id.sort_layout);
-            all_sort_tv = (TextView) itemView.findViewById(R.id.all_tv);
-            date_sort_tv = (TextView) itemView.findViewById(R.id.date_tv);
+            ButterKnife.bind(this, itemView);
 
             banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -264,25 +262,18 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //게시판 item
     private class Board_VH extends RecyclerView.ViewHolder{
-        ViewGroup item_layout;
-        ImageView new_iv;
-        TextView title_tv;
-        TextView nick_name_tv;
-        TextView created_at_tv;
-        TextView view_cnt_tv;
-        TextView comment_cnt_tv;
-        TextView match_state_tv;
+        @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.new_iv) ImageView new_iv;
+        @BindView(R.id.nick_name_tv) TextView nick_name_tv;
+        @BindView(R.id.title_tv) TextView title_tv;
+        @BindView(R.id.created_at_tv) TextView created_at_tv;
+        @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
+        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
+        @BindView(R.id.match_state_tv) TextView match_state_tv;
 
         private Board_VH(View itemView){
             super(itemView);
-            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
-            new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
-            title_tv = (TextView)itemView.findViewById(R.id.title_tv);
-            nick_name_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
-            created_at_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
-            view_cnt_tv = (TextView)itemView.findViewById(R.id.view_cnt_tv);
-            comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
-            match_state_tv = (TextView)itemView.findViewById(R.id.match_state_tv);
+            ButterKnife.bind(this, itemView);
 
             if(!boardType.equals("match")){
                 match_state_tv.setVisibility(View.GONE);

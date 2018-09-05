@@ -12,6 +12,7 @@ public class GroundApplication extends Application{
     public static int DISPLAY_WIDTH;    //단말기 너비
 
     public static final String DEFAULT_TIME_FORMAT = "0000-00-00";
+    //MY
     public static final String MY_ARTICLE_TYPE = "myArticle";
     public static final String MY_COMMENT_TYPE = "myComment";
     public static final String MY_FAVORITE_TYPE = "myFavorite";
@@ -24,6 +25,16 @@ public class GroundApplication extends Application{
     public static int TODAY_YEAR;
     public static int TODAY_MONTH;
     public static int TODAY_DAY;
+
+    //KEY
+    public static final String EXTRA_USER_ID = "uid";
+    public static final String EXTRA_BOARD_TYPE = "boardType";
+    public static final String EXTRA_AREA_NAME = "area";
+    public static final String EXTRA_AREA_NO = "areaNo";
+    public static final String EXTRA_ARTICLE_NO = "articleNo";
+    public static final String EXTRA_EXIST_ARTICLE_MODEL = "hasArticleModel";
+    public static final String EXTRA_ARTICLE_MODEL = "articleModel";
+    public static final String EXTRA_MY_TYPE = "myType";
 
     @Override
     public void onCreate() {

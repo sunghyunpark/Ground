@@ -14,7 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import presenter.view.MyView;
-import util.Util;
 import util.adapter.MyViewPagerAdapter;
 
 public class MyActivity extends BaseActivity implements MyView{
@@ -33,7 +32,7 @@ public class MyActivity extends BaseActivity implements MyView{
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        type = intent.getExtras().getString("type");
+        type = intent.getExtras().getString(GroundApplication.EXTRA_MY_TYPE);
 
         init();
     }

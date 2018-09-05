@@ -109,23 +109,23 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        area = intent.getExtras().getString("area");
-        hasArticleModel = intent.getExtras().getBoolean("hasArticleModel");
-        uid = intent.getExtras().getString("uid");
+        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
+        hasArticleModel = intent.getExtras().getBoolean(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL);
+        uid = intent.getExtras().getString(GroundApplication.EXTRA_USER_ID);
         UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
         articleModel = new ArticleModel();
         if(hasArticleModel){
-            articleModel = (ArticleModel)intent.getExtras().getSerializable("articleModel");
+            articleModel = (ArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
             articleModel.setViewCnt(articleModel.getViewCnt()+1);
             initMode(articleModel.getBoardType());
+            showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+articleModel.getBoardType()+"\nareaNo : "+articleModel.getAreaNo()+"\narticleNo : "+articleModel.getNo());
         }else{
-            boardType = intent.getExtras().getString("boardType");
-            areaNo = intent.getIntExtra("areaNo", 0);
-            articleNo = intent.getIntExtra("articleNo", 0);
+            boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+            areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
+            articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
             initMode(boardType);
+            showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
         }
-
-        showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
 
         init();
     }
@@ -366,9 +366,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
-        intent.putExtra("areaNo", articleModel.getAreaNo());
-        intent.putExtra("articleNo", articleModel.getNo());
-        intent.putExtra("boardType", articleModel.getBoardType());
+        intent.putExtra(GroundApplication.EXTRA_AREA_NO, articleModel.getAreaNo());
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, articleModel.getNo());
+        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, articleModel.getBoardType());
         startActivity(intent);
     }
 
@@ -482,7 +482,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      */
     @OnClick(R.id.back_btn) void backBtn(){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("articleModel", articleModel);
+        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -505,8 +505,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             @Override
             public void editArticleEvent(){
                 Intent intent = new Intent(getApplicationContext(), EditBoardActivity.class);
-                intent.putExtra("area", area);
-                intent.putExtra("articleModel", articleModel);
+                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
+                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
                 startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -540,7 +540,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT) {
             if(resultCode == Activity.RESULT_OK){
-                articleModel = (ArticleModel)data.getExtras().getSerializable("articleModel");
+                articleModel = (ArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
                 setArticleData(articleModel);
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
@@ -554,7 +554,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     public void onBackPressed() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("articleModel", articleModel);
+        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
         setResult(Activity.RESULT_OK, returnIntent);
         super.onBackPressed();
     }

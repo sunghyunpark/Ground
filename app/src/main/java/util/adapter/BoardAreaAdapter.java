@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
@@ -105,9 +106,9 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private void goAreaBoardActivity(AreaModel currentItem, String boardType){
         Intent intent = new Intent(context, AreaBoardActivity.class);
-        intent.putExtra("boardType", boardType);
-        intent.putExtra("area", currentItem.getAreaName());
-        intent.putExtra("areaNo", currentItem.getAreaNo());
+        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, boardType);
+        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, currentItem.getAreaName());
+        intent.putExtra(GroundApplication.EXTRA_AREA_NO, currentItem.getAreaNo());
         context.startActivity(intent);
     }
 

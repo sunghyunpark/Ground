@@ -26,7 +26,7 @@
             android:textStyle="bold"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:text="날짜순"/>
+            android:text="시합날짜"/>
 
         <TextView
             android:id="@+id/all_tv"

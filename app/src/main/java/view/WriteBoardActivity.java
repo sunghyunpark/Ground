@@ -60,9 +60,9 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString("boardType");
-        area = intent.getExtras().getString("area");
-        areaNo = intent.getIntExtra("areaNo",0);
+        boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
+        areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO,0);
 
         init();
     }

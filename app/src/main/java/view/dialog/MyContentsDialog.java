@@ -12,7 +12,6 @@ import com.groundmobile.ground.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import util.Util;
 import view.MyActivity;
 
 public class MyContentsDialog extends Dialog{
@@ -33,21 +32,21 @@ public class MyContentsDialog extends Dialog{
 
     @OnClick(R.id.my_contents_tv) void goToMyContentsListPage(){
         Intent intent = new Intent(getContext(), MyActivity.class);
-        intent.putExtra("type", GroundApplication.MY_ARTICLE_TYPE);
+        intent.putExtra(GroundApplication.EXTRA_MY_TYPE, GroundApplication.MY_ARTICLE_TYPE);
         getContext().startActivity(intent);
         this.cancel();
     }
 
     @OnClick(R.id.my_comments_tv) void goToMyCommentsListPage(){
         Intent intent = new Intent(getContext(), MyActivity.class);
-        intent.putExtra("type", GroundApplication.MY_COMMENT_TYPE);
+        intent.putExtra(GroundApplication.EXTRA_MY_TYPE, GroundApplication.MY_COMMENT_TYPE);
         getContext().startActivity(intent);
         this.cancel();
     }
 
     @OnClick(R.id.my_favorite_tv) void goToMyFavoriteListPage(){
         Intent intent = new Intent(getContext(), MyActivity.class);
-        intent.putExtra("type", GroundApplication.MY_FAVORITE_TYPE);
+        intent.putExtra(GroundApplication.EXTRA_MY_TYPE, GroundApplication.MY_FAVORITE_TYPE);
         getContext().startActivity(intent);
         this.cancel();
     }

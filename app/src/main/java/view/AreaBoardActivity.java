@@ -1,22 +1,17 @@
 package view;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import base.BaseActivity;
 import butterknife.BindView;
@@ -87,9 +82,9 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString("boardType");
-        area = intent.getExtras().getString("area");
-        areaNo = intent.getIntExtra("areaNo", 0);
+        boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
+        areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
 
         init(area);
     }
@@ -100,7 +95,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         articleModelArrayList = new ArrayList<>();
         articleModelArrayList.clear();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(getApplicationContext(), articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
+        areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
                 detailPosition = position;
@@ -116,9 +111,8 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 init(area);
             }
             @Override
-            public void dateSort(){
-                DatePickerDialog dialog = new DatePickerDialog(AreaBoardActivity.this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
-                dialog.show();
+            public void dateSort(String matchDateStr){
+                showMessage(matchDateStr);
             }
             @Override
             public void writeArticle(){
@@ -138,25 +132,6 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaBoardAdapter);
     }
-
-    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-M-dd");
-        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String strBeforeFormat = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
-            String strAfterFormat = "";
-            try {
-                Date originDate = originFormat.parse(strBeforeFormat);
-
-                strAfterFormat = newFormat.format(originDate);
-            }catch (ParseException e){
-                e.printStackTrace();
-            }
-            showMessage(strAfterFormat);
-        }
-    };
 
     @Override
     public void loadMoreArticle(LinearLayoutManager linearLayoutManager){
@@ -204,9 +179,9 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         if(isLogin()){
             //login
             Intent intent = new Intent(getApplicationContext(), WriteBoardActivity.class);
-            intent.putExtra("boardType", boardType);
-            intent.putExtra("area", area);
-            intent.putExtra("areaNo", areaNo);
+            intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, boardType);
+            intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
+            intent.putExtra(GroundApplication.EXTRA_AREA_NO, areaNo);
             startActivityForResult(intent, REQUEST_WRITE);
         }else{
             //not login

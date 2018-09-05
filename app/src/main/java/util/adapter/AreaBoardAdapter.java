@@ -1,17 +1,22 @@
 package util.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +24,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import model.ArticleModel;
 import util.NetworkUtils;
 import util.SessionManager;
@@ -33,7 +39,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_EMPTY = 2;
     private String area, boardType;    //지역명
     private ArrayList<ArticleModel> listItems;
-    private Context context;
+    private Activity context;
     private SessionManager sessionManager;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private int bannerCount;
@@ -46,7 +52,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerThread thread = null;
     */
 
-    public AreaBoardAdapter(Context context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
+    public AreaBoardAdapter(Activity context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
@@ -58,10 +64,10 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface AreaBoardAdapterListener{
-        public void goToDetailArticle(int position, String area, ArticleModel articleModel);
-        public void allSort();
-        public void dateSort();
-        public void writeArticle();
+        void goToDetailArticle(int position, String area, ArticleModel articleModel);
+        void allSort();
+        void dateSort(String matchDateStr);
+        void writeArticle();
     }
 
     @Override
@@ -102,16 +108,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }else if(!NetworkUtils.isNetworkConnected(context)){
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
-                        /*
-                        이 부분을 articleModel 자체를 넘겨주고자함
-                        그리고 돌아올땐 articleModel 을 다시 돌려받고 notify 해주게되면
-                        article 에서 변경된 모든 것들을 바로 게시글 리스트에서 반영할 수 있을 듯 함.
-                        예상되는 효과로는 댓글의 갯수도 바로 갱신이 가능할듯함
-                        조회수도 바로 갱신 가능.
-                        상세화면 진입 시 다시 api 호출을 하지 않고 댓글 api만 호출하면된다.
-                        단, 게시글 리스트를 내려주는 api 에서 상세화면에 보여질 데이터들을 모두 받아둔 상태여야한다.
-                        게시글 상세화면에서 finish 처리가 되었을 때 onActivityResult 를 통해서 notify 해줘야한다.
-                         */
                         areaBoardAdapterListener.goToDetailArticle(position-1, area, currentItem);
                     }
                 }
@@ -142,19 +138,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHitem.banner_pager.setAdapter(bannerViewPagerAdapter);
             VHitem.banner_pager.setCurrentItem(bannerCount);
 
-            VHitem.all_sort_tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    areaBoardAdapterListener.allSort();
-                }
-            });
-
-            VHitem.date_sort_tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    areaBoardAdapterListener.dateSort();
-                }
-            });
         }else if(holder instanceof Empty_Vh){
             final Empty_Vh Vhitem = (Empty_Vh)holder;
 
@@ -168,7 +151,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    private class Empty_Vh extends RecyclerView.ViewHolder{
+    public class Empty_Vh extends RecyclerView.ViewHolder{
         @BindView(R.id.write_btn) Button write_btn;
 
         private Empty_Vh(View itemView){
@@ -178,15 +161,18 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     //상단 헤더
-    private class Header_Vh extends RecyclerView.ViewHolder{
+    public class Header_Vh extends RecyclerView.ViewHolder{
         @BindView(R.id.banner_pager) ViewPager banner_pager;
         @BindView(R.id.sort_layout) ViewGroup sort_layout;
         @BindView(R.id.all_tv) TextView all_sort_tv;
         @BindView(R.id.date_tv) TextView date_sort_tv;
+        DatePickerDialog datePickerDialog;
 
         private Header_Vh(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            datePickerDialog = new DatePickerDialog(context, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
 
             banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -217,6 +203,59 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             thread = new BannerThread();
             thread.start();
             */
+        }
+
+        @OnClick(R.id.all_tv) void allSortBtn(){
+            date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
+            all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            areaBoardAdapterListener.allSort();
+        }
+
+        @OnClick(R.id.date_tv) void dateSortBtn(){
+            datePickerDialog.show();
+        }
+
+        private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-M-dd");
+            SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                String strBeforeFormat = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
+                String strAfterFormat = "";
+                try {
+                    Date originDate = originFormat.parse(strBeforeFormat);
+
+                    strAfterFormat = newFormat.format(originDate);
+                }catch (ParseException e){
+                    e.printStackTrace();
+                }
+                date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
+                areaBoardAdapterListener.dateSort(strAfterFormat);
+            }
+        };
+    }
+
+    //게시판 item
+    public class Board_VH extends RecyclerView.ViewHolder{
+        @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.new_iv) ImageView new_iv;
+        @BindView(R.id.nick_name_tv) TextView nick_name_tv;
+        @BindView(R.id.title_tv) TextView title_tv;
+        @BindView(R.id.created_at_tv) TextView created_at_tv;
+        @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
+        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
+        @BindView(R.id.match_state_tv) TextView match_state_tv;
+
+        private Board_VH(View itemView){
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+            if(!boardType.equals("match")){
+                match_state_tv.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -260,28 +299,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     */
 
-    //게시판 item
-    private class Board_VH extends RecyclerView.ViewHolder{
-        @BindView(R.id.item_layout) ViewGroup item_layout;
-        @BindView(R.id.new_iv) ImageView new_iv;
-        @BindView(R.id.nick_name_tv) TextView nick_name_tv;
-        @BindView(R.id.title_tv) TextView title_tv;
-        @BindView(R.id.created_at_tv) TextView created_at_tv;
-        @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
-        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
-        @BindView(R.id.match_state_tv) TextView match_state_tv;
-
-        private Board_VH(View itemView){
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-
-            if(!boardType.equals("match")){
-                match_state_tv.setVisibility(View.GONE);
-            }
-
-        }
-    }
-
     private boolean isMatchState(int position){
         return getItem(position).getMatchState().equals("Y");
     }
@@ -298,7 +315,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-
         if(isPositionHeader(position)){
             return TYPE_HEADER;
         }else{

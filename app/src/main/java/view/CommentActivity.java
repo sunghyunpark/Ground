@@ -49,9 +49,9 @@ public class CommentActivity extends BaseActivity implements CommentView{
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        areaNo = intent.getIntExtra("areaNo", 0);
-        articleNo = intent.getIntExtra("articleNo", 0);
-        boardType = intent.getExtras().getString("boardType");
+        areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
+        articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
+        boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
 
         init();
     }

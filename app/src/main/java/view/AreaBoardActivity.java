@@ -38,6 +38,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private static final String SORT_ALL = "all";
     private static final String SORT_MATCH_DATE = "matchDate";
     private static final String SORT_NOT_MATCH_STATE = "matchState";
+    private String matchDate = GroundApplication.TODAY_YEAR+"-"+GroundApplication.TODAY_MONTH+"-"+GroundApplication.TODAY_DAY;
     private String sortMode;
 
     private AreaBoardAdapter areaBoardAdapter;
@@ -55,7 +56,8 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
-        init(area);
+        sortMode = SORT_ALL;
+        init(area, sortMode);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -92,35 +94,38 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
         areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
 
-        init(area);
+        sortMode = SORT_ALL;
+        init(area, sortMode);    //정렬 초기화
     }
 
-    private void init(final String area){
-        sortMode = SORT_ALL;    //정렬 초기화
+    private void init(final String area, String sortType){
+        sortMode = sortType;    //정렬 초기화
         ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
-        articleModelArrayList.clear();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailArticleActivity.class);
-                intent.putExtra("uid", UserModel.getInstance().getUid());
-                intent.putExtra("area", area);
-                intent.putExtra("articleModel", articleModel);
-                intent.putExtra("hasArticleModel", true);
+                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
+                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
+                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
             @Override
             public void allSort(){
-                init(area);
+                sortMode = SORT_ALL;
+                init(area, sortMode);
+
             }
             @Override
             public void dateSort(String matchDateStr){
                 sortMode = SORT_MATCH_DATE;
-                showMessage(matchDateStr);
+                matchDate = matchDateStr;
+                init(area, sortMode);
             }
             @Override
             public void writeArticle(){
@@ -146,11 +151,12 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
+                showMessage("loadMore");
                 // do something...
                 try{
-                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode);
+                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode, matchDate);
                 }catch (IndexOutOfBoundsException ie){
-                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode);
+                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
                 }
             }
         });
@@ -168,7 +174,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_WRITE) {
             if(resultCode == Activity.RESULT_OK){
-                init(area);
+                init(area, sortMode);
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
             }
@@ -209,7 +215,8 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         if(!isNetworkConnected()){
             showMessage("네트워크 연결상태를 확인해주세요.");
         }else{
-            init(area);
+            sortMode = SORT_ALL;
+            init(area, sortMode);
         }
     }
 }

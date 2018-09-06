@@ -37,11 +37,11 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
      * @param areaNo
      * @param articleNo
      */
-    public void loadArticleList(boolean refresh, int areaNo, int articleNo, String boardType, String order){
+    public void loadArticleList(boolean refresh, int areaNo, int articleNo, String boardType, String order, String matchDate){
         if(refresh)
             articleModelArrayList.clear();
 
-        Call<ArticleModelListResponse> call = apiService.getAreaBoardList(boardType, areaNo, articleNo, order);
+        Call<ArticleModelListResponse> call = apiService.getAreaBoardList(boardType, areaNo, articleNo, order, matchDate);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

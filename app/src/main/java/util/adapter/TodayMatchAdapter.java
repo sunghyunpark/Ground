@@ -107,7 +107,7 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     //게시판 item
-    private class Board_VH extends RecyclerView.ViewHolder{
+    public class Board_VH extends RecyclerView.ViewHolder{
         @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.title_tv) TextView title_tv;
         @BindView(R.id.nick_name_tv) TextView nick_name_tv;

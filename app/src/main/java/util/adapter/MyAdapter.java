@@ -192,7 +192,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         notifyDataSetChanged();
     }
 
-    private class ArticleVH extends RecyclerView.ViewHolder{
+    public class ArticleVH extends RecyclerView.ViewHolder{
         @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.title_tv) TextView title_tv;
         @BindView(R.id.nick_name_tv) TextView nick_name_tv;
@@ -216,7 +216,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         return getArticleItem(position).getMatchState().equals("Y");
     }
 
-    private class CommentVH extends RecyclerView.ViewHolder{
+    public class CommentVH extends RecyclerView.ViewHolder{
         @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.user_profile_iv) ImageView userProfile_iv;
         @BindView(R.id.nick_name_tv) TextView nickName_tv;

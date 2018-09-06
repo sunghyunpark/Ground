@@ -34,6 +34,12 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private static final int REQUEST_DETAIL = 2000;
     private static final int LOAD_DATA_COUNT = 10;
     private static final int REQUEST_WRITE = 1000;
+
+    private static final String SORT_ALL = "all";
+    private static final String SORT_MATCH_DATE = "matchDate";
+    private static final String SORT_NOT_MATCH_STATE = "matchState";
+    private String sortMode;
+
     private AreaBoardAdapter areaBoardAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
@@ -90,6 +96,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     }
 
     private void init(final String area){
+        sortMode = SORT_ALL;    //정렬 초기화
         ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
         BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
         articleModelArrayList = new ArrayList<>();
@@ -112,6 +119,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
             @Override
             public void dateSort(String matchDateStr){
+                sortMode = SORT_MATCH_DATE;
                 showMessage(matchDateStr);
             }
             @Override
@@ -140,9 +148,9 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             public void onLoadMore(int current_page) {
                 // do something...
                 try{
-                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType);
+                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode);
                 }catch (IndexOutOfBoundsException ie){
-                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType);
+                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode);
                 }
             }
         });

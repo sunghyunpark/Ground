@@ -107,8 +107,8 @@ public interface ApiInterface {
      * @param areaNo
      * @return
      */
-    @GET("api/boards/{boardType}/{areaNo}/{no}")
-    Call<ArticleModelListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no);
+    @GET("api/boards/{boardType}/{areaNo}/{no}/{order}")
+    Call<ArticleModelListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no, @Path("order") String order);
 
     /**
      * get Article's favorite state api

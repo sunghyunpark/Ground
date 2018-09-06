@@ -19,6 +19,8 @@ import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.ArticleModel;
 import model.CommentModel;
 import model.UserModel;
@@ -191,25 +193,18 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     }
 
     private class ArticleVH extends RecyclerView.ViewHolder{
-        ViewGroup item_layout;
-        TextView title_tv;
-        TextView nick_name_tv;
-        TextView created_at_tv;
-        TextView view_cnt_tv;
-        TextView comment_cnt_tv;
-        TextView area_tv;
-        TextView match_state_tv;
+        @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.title_tv) TextView title_tv;
+        @BindView(R.id.nick_name_tv) TextView nick_name_tv;
+        @BindView(R.id.created_at_tv) TextView created_at_tv;
+        @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
+        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
+        @BindView(R.id.area_tv) TextView area_tv;
+        @BindView(R.id.match_state_tv) TextView match_state_tv;
 
         private ArticleVH(View itemView){
             super(itemView);
-            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
-            title_tv = (TextView)itemView.findViewById(R.id.title_tv);
-            nick_name_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
-            created_at_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
-            view_cnt_tv = (TextView)itemView.findViewById(R.id.view_cnt_tv);
-            comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
-            area_tv = (TextView)itemView.findViewById(R.id.area_tv);
-            match_state_tv = (TextView)itemView.findViewById(R.id.match_state_tv);
+            ButterKnife.bind(this, itemView);
 
             if(boardType != MATCH_BOARD){
                 match_state_tv.setVisibility(View.GONE);
@@ -222,26 +217,20 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     }
 
     private class CommentVH extends RecyclerView.ViewHolder{
-        ViewGroup item_layout;
-        ImageView userProfile_iv;
-        TextView nickName_tv;
-        TextView comment_tv;
-        TextView createdAt_tv;
-        TextView report_tv;
-        ImageView new_iv;
-        TextView delete_tv;
+        @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.user_profile_iv) ImageView userProfile_iv;
+        @BindView(R.id.nick_name_tv) TextView nickName_tv;
+        @BindView(R.id.comment_tv) TextView comment_tv;
+        @BindView(R.id.created_at_tv) TextView createdAt_tv;
+        @BindView(R.id.report_tv) TextView report_tv;
+        @BindView(R.id.new_iv) ImageView new_iv;
+        @BindView(R.id.delete_btn) TextView delete_tv;
 
         private CommentVH(View itemView){
             super(itemView);
-            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
-            userProfile_iv = (ImageView)itemView.findViewById(R.id.user_profile_iv);
-            nickName_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
-            comment_tv = (TextView)itemView.findViewById(R.id.comment_tv);
-            createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
-            report_tv = (TextView)itemView.findViewById(R.id.report_tv);
+            ButterKnife.bind(this, itemView);
+
             report_tv.setVisibility(View.GONE);
-            new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
-            delete_tv = (TextView)itemView.findViewById(R.id.delete_btn);
             new_iv.setVisibility(View.GONE);
         }
     }

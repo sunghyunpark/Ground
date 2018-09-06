@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import view.FormationActivity;
 import view.dialog.GroundUtilWeatherDialog;
 
@@ -86,16 +88,15 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    private class Util_VH extends RecyclerView.ViewHolder{
-        ViewGroup item_layout;
-        TextView util_tv;
-        ImageView util_iv;
+    public class Util_VH extends RecyclerView.ViewHolder{
+        @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.util_tv) TextView util_tv;
+        @BindView(R.id.util_iv) ImageView util_iv;
 
         private Util_VH(View itemView){
             super(itemView);
-            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
-            util_iv = (ImageView)itemView.findViewById(R.id.util_iv);
-            util_tv = (TextView)itemView.findViewById(R.id.util_tv);
+            ButterKnife.bind(this, itemView);
+
         }
     }
 

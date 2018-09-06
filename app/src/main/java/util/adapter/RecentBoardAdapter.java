@@ -12,11 +12,10 @@ import android.widget.TextView;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.ArticleModel;
 import model.UserModel;
 import util.NetworkUtils;
@@ -125,41 +124,27 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     //게시판 item
     private class Board_VH extends RecyclerView.ViewHolder{
-        ViewGroup item_layout;
-        TextView title_tv;
-        TextView nick_name_tv;
-        TextView created_at_tv;
-        TextView view_cnt_tv;
-        TextView comment_cnt_tv;
-        TextView area_tv;
-        TextView match_state_tv;
+        @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.title_tv) TextView title_tv;
+        @BindView(R.id.nick_name_tv) TextView nick_name_tv;
+        @BindView(R.id.created_at_tv) TextView created_at_tv;
+        @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
+        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
+        @BindView(R.id.area_tv) TextView area_tv;
+        @BindView(R.id.match_state_tv) TextView match_state_tv;
 
         private Board_VH(View itemView){
             super(itemView);
-            item_layout = (ViewGroup)itemView.findViewById(R.id.item_layout);
-            title_tv = (TextView)itemView.findViewById(R.id.title_tv);
-            nick_name_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
-            created_at_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
-            view_cnt_tv = (TextView)itemView.findViewById(R.id.view_cnt_tv);
-            comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
-            area_tv = (TextView)itemView.findViewById(R.id.area_tv);
-            match_state_tv = (TextView)itemView.findViewById(R.id.match_state_tv);
+            ButterKnife.bind(this, itemView);
 
             if(boardType != MATCH_BOARD){
                 match_state_tv.setVisibility(View.GONE);
             }
-
         }
     }
 
     private boolean isMatchState(int position){
         return getItem(position).getMatchState().equals("Y");
-    }
-
-    private boolean hasNewArticle(int position){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-        String todayStr = df.format(new Date());
-        return getItem(position).getCreatedAt().contains(todayStr);
     }
 
     @Override

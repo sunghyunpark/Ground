@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -21,10 +20,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.CommentModel;
 import model.UserModel;
 import util.Util;
-import view.dialog.ReportDialog;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -163,34 +163,28 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return getItem(position).getWriterId().equals(UserModel.getInstance().getUid());
     }
 
-    //게시판 item
-    private class Comment_VH extends RecyclerView.ViewHolder{
-        ImageView userProfile_iv;
-        TextView nickName_tv;
-        TextView comment_tv;
-        TextView createdAt_tv;
-        TextView report_tv;
-        ImageView new_iv;
-        TextView delete_tv;
+    //댓글 item
+    public class Comment_VH extends RecyclerView.ViewHolder{
+        @BindView(R.id.user_profile_iv) ImageView userProfile_iv;
+        @BindView(R.id.nick_name_tv) TextView nickName_tv;
+        @BindView(R.id.comment_tv) TextView comment_tv;
+        @BindView(R.id.created_at_tv) TextView createdAt_tv;
+        @BindView(R.id.report_tv) TextView report_tv;
+        @BindView(R.id.new_iv) ImageView new_iv;
+        @BindView(R.id.delete_btn) TextView delete_tv;
 
         private Comment_VH(View itemView){
             super(itemView);
-            userProfile_iv = (ImageView)itemView.findViewById(R.id.user_profile_iv);
-            nickName_tv = (TextView)itemView.findViewById(R.id.nick_name_tv);
-            comment_tv = (TextView)itemView.findViewById(R.id.comment_tv);
-            createdAt_tv = (TextView)itemView.findViewById(R.id.created_at_tv);
-            report_tv = (TextView)itemView.findViewById(R.id.report_tv);
-            new_iv = (ImageView)itemView.findViewById(R.id.new_iv);
-            delete_tv = (TextView)itemView.findViewById(R.id.delete_btn);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    private class Comment_Header extends RecyclerView.ViewHolder{
-        TextView comment_cnt_tv;
+    public class Comment_Header extends RecyclerView.ViewHolder{
+        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
 
         private Comment_Header(View itemView){
             super(itemView);
-            comment_cnt_tv = (TextView)itemView.findViewById(R.id.comment_cnt_tv);
+            ButterKnife.bind(this, itemView);
         }
     }
 

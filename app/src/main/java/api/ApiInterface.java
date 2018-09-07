@@ -117,7 +117,7 @@ public interface ApiInterface {
      * @param no
      * @return
      */
-    @GET("api/boards/{boardType}/view/{areaNo}/{no}/{uid}")
+    @GET("api/boards/{boardType}/detailView/favorite/{areaNo}/{no}/{uid}")
     Call<ArticleEtcResponse> getArticleEtcData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
                                                @Path("uid") String uid);
 
@@ -141,7 +141,7 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/boards/view/comment")
+    @POST("api/comment/view/comment")
     Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("articleNo") int articleNo, @Field("writer_id") String writer_id, @Field("comment") String comment, @Field("boardType") String boardType);
 
     /**
@@ -151,7 +151,7 @@ public interface ApiInterface {
      * @param commentNo
      * @return
      */
-    @GET("api/boards/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
+    @GET("api/comment/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
     Call<CommentListResponse> getCommentList(@Path("boardType") String boardType, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
 
     /**
@@ -162,7 +162,7 @@ public interface ApiInterface {
      * @param areaNo
      * @return
      */
-    @DELETE("api/boards/view/comment/delete/{boardType}/{no}/{articleNo}/{areaNo}")
+    @DELETE("api/comment/view/comment/delete/{boardType}/{no}/{articleNo}/{areaNo}")
     Call<CommonResponse> deleteComment(@Path("boardType") String boardType, @Path("no") int commentNo, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo);
 
     /**

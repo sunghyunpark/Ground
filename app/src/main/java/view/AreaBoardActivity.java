@@ -139,6 +139,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
+                showMessage("LoadMore");
                 if(articleModelArrayList.isEmpty()){
                     areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
                 }else{

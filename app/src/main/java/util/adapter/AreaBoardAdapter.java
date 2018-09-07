@@ -166,6 +166,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.sort_layout) ViewGroup sort_layout;
         @BindView(R.id.all_tv) TextView all_sort_tv;
         @BindView(R.id.date_tv) TextView date_sort_tv;
+        @BindView(R.id.match_date_tv) TextView match_date_tv;
         DatePickerDialog datePickerDialog;
 
         private Header_Vh(View itemView){
@@ -209,6 +210,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
             all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             areaBoardAdapterListener.allSort();
+            match_date_tv.setVisibility(View.GONE);
         }
 
         @OnClick(R.id.date_tv) void dateSortBtn(){
@@ -233,6 +235,8 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
                 areaBoardAdapterListener.dateSort(strAfterFormat);
+                match_date_tv.setVisibility(View.VISIBLE);
+                match_date_tv.setText(strAfterFormat);
             }
         };
     }

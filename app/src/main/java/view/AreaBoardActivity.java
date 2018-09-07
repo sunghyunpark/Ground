@@ -45,6 +45,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
     private LinearLayoutManager linearLayoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private String area, boardType;
     private int areaNo;
     private int detailPosition;    //진입하고자 하는 상세 게시글의 리스트 position 값
@@ -117,15 +118,14 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
             @Override
             public void allSort(){
-                sortMode = SORT_ALL;
-                init(area, sortMode);
-
+                resetArticleData();
             }
             @Override
             public void dateSort(String matchDateStr){
                 sortMode = SORT_MATCH_DATE;
                 matchDate = matchDateStr;
-                init(area, sortMode);
+                endlessRecyclerOnScrollListener.reset(0, true);
+                areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
             }
             @Override
             public void writeArticle(){
@@ -135,7 +135,18 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
-        loadMoreArticle(linearLayoutManager);
+        //리스너 등록
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if(articleModelArrayList.isEmpty()){
+                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
+                }else{
+                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode, matchDate);
+                }
+            }
+        };
+        boardRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
 
         initView();
     }
@@ -146,21 +157,13 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         boardRecyclerView.setAdapter(areaBoardAdapter);
     }
 
-    @Override
-    public void loadMoreArticle(LinearLayoutManager linearLayoutManager){
-        boardRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
-            @Override
-            public void onLoadMore(int current_page) {
-                showMessage("loadMore");
-                // do something...
-                try{
-                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode, matchDate);
-                }catch (IndexOutOfBoundsException ie){
-                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
-                }
-            }
-        });
-
+    /**
+     * 게시글 목록 데이터를 다시 새로 불러온다(sort > all)
+     */
+    private void resetArticleData(){
+        sortMode = SORT_ALL;
+        endlessRecyclerOnScrollListener.reset(0, true);
+        areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
     }
 
     /**
@@ -174,6 +177,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_WRITE) {
             if(resultCode == Activity.RESULT_OK){
+                sortMode = SORT_ALL;
                 init(area, sortMode);
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.

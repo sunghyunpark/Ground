@@ -116,14 +116,23 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
+            //전체 정렬
             @Override
             public void allSort(){
                 resetArticleData();
             }
+            //시합날짜 정렬
             @Override
             public void dateSort(String matchDateStr){
                 sortMode = SORT_MATCH_DATE;
                 matchDate = matchDateStr;
+                endlessRecyclerOnScrollListener.reset(0, true);
+                areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
+            }
+            //진행중 정렬
+            @Override
+            public void matchStateSort(){
+                sortMode = SORT_NOT_MATCH_STATE;
                 endlessRecyclerOnScrollListener.reset(0, true);
                 areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
             }
@@ -135,14 +144,13 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
 
-        //리스너 등록
+        //최초로 게시글 데이터들을 받아온다.
+        areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
+        //LoadMore 리스너 등록
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
-                showMessage("LoadMore");
-                if(articleModelArrayList.isEmpty()){
-                    areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
-                }else{
+                if(!articleModelArrayList.isEmpty()){
                     areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode, matchDate);
                 }
             }

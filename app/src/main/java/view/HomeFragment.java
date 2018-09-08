@@ -215,10 +215,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
         }
     }
 
-    @OnClick(R.id.push_btn) void pushBtn(){
-
-    }
-
     private class BannerThread extends java.lang.Thread{
         boolean stopped = false;
 

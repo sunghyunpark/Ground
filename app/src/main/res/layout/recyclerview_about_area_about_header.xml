@@ -21,23 +21,12 @@
             android:id="@+id/match_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="15dp"
             android:visibility="gone"
-            android:layout_marginLeft="15dp"
-            android:textColor="@color/colorBlack"/>
-
-        <TextView
-            android:id="@+id/date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textColor="@color/colorMoreGray"
-            android:textStyle="bold"
-            android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:text="시합날짜"/>
+            android:textColor="@color/colorBlack"/>
 
         <TextView
             android:id="@+id/all_tv"
@@ -46,9 +35,31 @@
             android:text="전체"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
-            android:layout_toLeftOf="@+id/date_tv"
-            android:layout_marginRight="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
             android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/colorMoreGray"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/all_tv"
+            android:layout_marginLeft="15dp"
+            android:text="시합날짜"/>
+
+        <TextView
+            android:id="@+id/match_state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/colorMoreGray"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/date_tv"
+            android:layout_marginLeft="15dp"
+            android:text="진행중"/>
 
     </RelativeLayout>
 </RelativeLayout>

@@ -118,13 +118,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             articleModel = (ArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
             articleModel.setViewCnt(articleModel.getViewCnt()+1);
             initMode(articleModel.getBoardType());
-            showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+articleModel.getBoardType()+"\nareaNo : "+articleModel.getAreaNo()+"\narticleNo : "+articleModel.getNo());
+            //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+articleModel.getBoardType()+"\nareaNo : "+articleModel.getAreaNo()+"\narticleNo : "+articleModel.getNo());
         }else{
             boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
             areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
             articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
             initMode(boardType);
-            showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
+            //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
         }
 
         init();

@@ -131,6 +131,7 @@
             android:layout_marginTop="40dp">
 
             <TextView
+                android:id="@+id/today_match_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="23dp"
@@ -139,6 +140,17 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="@color/colorCyan"
+                android:layout_below="@+id/today_match_title_tv"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="45dp"
+                android:text="@string/today_match_sub_tv"/>
 
             <ImageButton
                 android:id="@+id/today_match_refresh_btn"

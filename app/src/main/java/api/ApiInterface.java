@@ -117,7 +117,7 @@ public interface ApiInterface {
      * @param no
      * @return
      */
-    @GET("api/boards/{boardType}/detailView/favorite/{areaNo}/{no}/{uid}")
+    @GET("api/boards/list/detailView/favorite/{boardType}/{areaNo}/{no}/{uid}")
     Call<ArticleEtcResponse> getArticleEtcData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
                                                @Path("uid") String uid);
 
@@ -127,7 +127,7 @@ public interface ApiInterface {
      * @param no
      * @return
      */
-    @GET("api/boards/{boardType}/detailView/{areaNo}/{no}/{uid}")
+    @GET("api/boards/list/detailView/{boardType}/{areaNo}/{no}/{uid}")
     Call<ArticleModelListResponse> getArticleData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
                                                @Path("uid") String uid);
 
@@ -170,7 +170,7 @@ public interface ApiInterface {
      * boardType > match / hire / recruit
      * @return
      */
-    @GET("api/boards/{boardType}/updated")
+    @GET("api/boards/updated/{boardType}")
     Call<UpdateTimeResponse> getUpdateTimeList(@Path("boardType") String boardType);
 
     /**

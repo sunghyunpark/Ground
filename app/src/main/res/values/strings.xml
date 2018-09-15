@@ -70,7 +70,7 @@
 
     <!-- Write Board Activity -->
     <string name="write_board_title">글 쓰기</string>
-    <string name="write_board_default_txt">날짜 및 시간 : \n\n\n장소 : \n\n\n경기방식 : \n\n\n비용 : \n\n\n팀 소개 : \n\n\n기타 : \n\n\n</string>
+    <string name="write_board_default_txt">장소 : \n\n\n경기방식 : \n\n\n비용 : \n\n\n팀 소개 : \n\n\n기타 : \n\n\n</string>
 
     <!-- Edit Board Activity -->
     <string name="edit_board_title">글 수정</string>

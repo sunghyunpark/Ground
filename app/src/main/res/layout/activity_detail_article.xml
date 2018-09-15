@@ -272,6 +272,7 @@
                     android:textSize="15dp"/>
             </LinearLayout>
 
+            <!--
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -282,13 +283,14 @@
                 android:textSize="15dp"
                 android:text="내용 : "
                 android:layout_marginLeft="15dp"/>
-
+            -->
             <TextView
                 android:id="@+id/contents_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="200dp"
                 android:textSize="15dp"
+                android:layout_marginTop="15dp"
                 android:padding="15dp"/>
 
             <!--구분선-->

@@ -242,7 +242,7 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/support/report/{serviceName}/{serviceNo}/{boardType}/{uid}/{contents}")
+    @POST("api/support/report")
     Call<CommonResponse> postReportContents(@Field("serviceName") String serviceName, @Field("serviceNo") int serviceNo, @Field("boardType") String boardType,
                                             @Field("uid") String uid, @Field("contents") String contents);
 }

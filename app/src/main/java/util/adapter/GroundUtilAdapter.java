@@ -26,7 +26,7 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_ITEM = 0;
     private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img,
     R.mipmap.ground_util_market_img};
-    private String [] textArray = {"전술판", "날씨", "YouTube", "용품 마켓"};
+    private String [] textArray = {"전술판", "날씨", "YouTube"};
     private Context context;
     private GroundUtilWeatherDialog groundUtilWeatherDialog;
 
@@ -77,9 +77,6 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             break;
                         case 2:
                             goToYouTubeAPP();
-                            break;
-                        case 3:
-                            Toast.makeText(context,"준비중입니다.", Toast.LENGTH_SHORT).show();
                             break;
 
                     }

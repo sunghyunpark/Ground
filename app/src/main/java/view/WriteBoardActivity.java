@@ -73,9 +73,9 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
-//        if(boardType.equals("match")){
-//            board_contents_et.setText(matchDefaultStr);
-//        }
+        if(boardType.equals("match")){
+            board_contents_et.setText(matchDefaultStr);
+        }
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
         if(boardMode != MATCH_MODE){
             matchingDateLayout.setVisibility(View.GONE);

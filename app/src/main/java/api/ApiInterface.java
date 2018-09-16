@@ -26,7 +26,10 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @POST("api/users")
-    Call<LoginResponse> registerAPI(@Field("uid") String uid, @Field("loginType") String loginType, @Field("nickName") String nickName, @Field("fcmToken") String fcmToken);
+    Call<LoginResponse> registerAPI(@Field("uid") String uid,
+                                    @Field("loginType") String loginType,
+                                    @Field("nickName") String nickName,
+                                    @Field("fcmToken") String fcmToken);
 
     /**
      * 로그인 API
@@ -44,7 +47,8 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @PUT("api/users/profile/")
-    Call<CommonResponse> editProfile(@Field("uid") String uid, @Field("userName") String userName);
+    Call<CommonResponse> editProfile(@Field("uid") String uid,
+                                     @Field("userName") String userName);
 
     /**
      * User FCM 토큰 갱신 API
@@ -53,7 +57,8 @@ public interface ApiInterface {
      * @return
      */
     @PUT("api/users/profile/fcmToken/{uid}/{fcmToken}")
-    Call<CommonResponse> updateFcmToken(@Path("uid") String uid, @Path("fcmToken") String fcmToken);
+    Call<CommonResponse> updateFcmToken(@Path("uid") String uid,
+                                        @Path("fcmToken") String fcmToken);
 
     /**
      * 글 쓰기 API
@@ -65,8 +70,12 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @POST("api/boards/")
-    Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo, @Field("uid") String uid, @Field("title") String title,
-                                    @Field("contents") String contents, @Field("boardType") String boardType, @Field("matchDate") String matchDate,
+    Call<CommonResponse> writeBoard(@Field("areaNo") int areaNo,
+                                    @Field("uid") String uid,
+                                    @Field("title") String title,
+                                    @Field("contents") String contents,
+                                    @Field("boardType") String boardType,
+                                    @Field("matchDate") String matchDate,
                                     @Field("averageAge") String averageAge);
 
     /**
@@ -80,8 +89,12 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @PUT("api/boards/edit/")
-    Call<CommonResponse> editBoard(@Field("boardType") String boardType, @Field("areaNo") int areaNo, @Field("no") int no,
-                                   @Field("title") String title, @Field("contents") String contents, @Field("matchDate") String matchDate,
+    Call<CommonResponse> editBoard(@Field("boardType") String boardType,
+                                   @Field("areaNo") int areaNo,
+                                   @Field("no") int no,
+                                   @Field("title") String title,
+                                   @Field("contents") String contents,
+                                   @Field("matchDate") String matchDate,
                                    @Field("averageAge") String averageAge);
 
     /**
@@ -92,7 +105,9 @@ public interface ApiInterface {
      * @return
      */
     @DELETE("api/boards/delete/{boardType}/{no}/{uid}")
-    Call<CommonResponse> deleteBoard(@Path("boardType") String boardType, @Path("no") int no, @Path("uid") String uid);
+    Call<CommonResponse> deleteBoard(@Path("boardType") String boardType,
+                                     @Path("no") int no,
+                                     @Path("uid") String uid);
 
     /**
      * 매칭 상태 변경 API
@@ -103,7 +118,9 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @PUT("api/boards/view/matchState/")
-    Call<CommonResponse> changeMatchState(@Field("areaNo") int areaNo, @Field("no") int articleNo, @Field("state") String state);
+    Call<CommonResponse> changeMatchState(@Field("areaNo") int areaNo,
+                                          @Field("no") int articleNo,
+                                          @Field("state") String state);
 
     /**
      * 게시글 리스트 API
@@ -111,7 +128,10 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/{boardType}/{areaNo}/{no}/{order}/{matchDate}")
-    Call<ArticleModelListResponse> getAreaBoardList(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no, @Path("order") String order,
+    Call<ArticleModelListResponse> getAreaBoardList(@Path("boardType") String boardType,
+                                                    @Path("areaNo") int areaNo,
+                                                    @Path("no") int no,
+                                                    @Path("order") String order,
                                                     @Path("matchDate") String matchDate);
 
     /**
@@ -121,7 +141,9 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/list/detailView/favorite/{boardType}/{areaNo}/{no}/{uid}")
-    Call<ArticleEtcResponse> getArticleEtcData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
+    Call<ArticleEtcResponse> getArticleEtcData(@Path("boardType") String boardType,
+                                               @Path("areaNo") int areaNo,
+                                               @Path("no") int no,
                                                @Path("uid") String uid);
 
     /**
@@ -131,8 +153,10 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/boards/list/detailView/{boardType}/{areaNo}/{no}/{uid}")
-    Call<ArticleModelListResponse> getArticleData(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
-                                               @Path("uid") String uid);
+    Call<ArticleModelListResponse> getArticleData(@Path("boardType") String boardType,
+                                                  @Path("areaNo") int areaNo,
+                                                  @Path("no") int no,
+                                                  @Path("uid") String uid);
 
 
     /**
@@ -145,7 +169,11 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @POST("api/comment/view/comment")
-    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("articleNo") int articleNo, @Field("writer_id") String writer_id, @Field("comment") String comment, @Field("boardType") String boardType);
+    Call<CommonResponse> writeComment(@Field("areaNo") int areaNo,
+                                      @Field("articleNo") int articleNo,
+                                      @Field("writer_id") String writer_id,
+                                      @Field("comment") String comment,
+                                      @Field("boardType") String boardType);
 
     /**
      * 게시글 댓글 리스트 API
@@ -155,7 +183,10 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/comment/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
-    Call<CommentListResponse> getCommentList(@Path("boardType") String boardType, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
+    Call<CommentListResponse> getCommentList(@Path("boardType") String boardType,
+                                             @Path("articleNo") int articleNo,
+                                             @Path("areaNo") int areaNo,
+                                             @Path("commentNo") int commentNo);
 
     /**
      * 게시글 댓글 삭제 API
@@ -166,7 +197,10 @@ public interface ApiInterface {
      * @return
      */
     @DELETE("api/comment/view/comment/delete/{boardType}/{no}/{articleNo}/{areaNo}")
-    Call<CommonResponse> deleteComment(@Path("boardType") String boardType, @Path("no") int commentNo, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo);
+    Call<CommonResponse> deleteComment(@Path("boardType") String boardType,
+                                       @Path("no") int commentNo,
+                                       @Path("articleNo") int articleNo,
+                                       @Path("areaNo") int areaNo);
 
     /**
      * 지역별 게시판 업데이트 시간 API
@@ -181,7 +215,9 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/home/recent/{boardType}/{no}/{limit}")
-    Call<ArticleModelListResponse> getRecentArticleList(@Path("boardType") String boardType, @Path("no") int no, @Path("limit") int limit);
+    Call<ArticleModelListResponse> getRecentArticleList(@Path("boardType") String boardType,
+                                                        @Path("no") int no,
+                                                        @Path("limit") int limit);
 
     /**
      * 오늘의 시합 API
@@ -190,7 +226,8 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/home/today/{no}/{limit}")
-    Call<ArticleModelListResponse> getTodayMatchArticleList(@Path("no") int articleNo, @Path("limit") int limit);
+    Call<ArticleModelListResponse> getTodayMatchArticleList(@Path("no") int articleNo,
+                                                            @Path("limit") int limit);
 
     /**
      * MY > 내 게시글 API
@@ -200,7 +237,9 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/my/article/{boardType}/{uid}/{no}")
-    Call<ArticleModelListResponse> getMyArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+    Call<ArticleModelListResponse> getMyArticleList(@Path("boardType") String boardType,
+                                                    @Path("uid") String uid,
+                                                    @Path("no") int no);
 
     /**
      * MY > 내 댓글 API
@@ -210,7 +249,9 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/my/comment/{boardType}/{uid}/{no}")
-    Call<CommentListResponse> getMyCommentList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+    Call<CommentListResponse> getMyCommentList(@Path("boardType") String boardType,
+                                               @Path("uid") String uid,
+                                               @Path("no") int no);
 
     /**
      * 게시글 좋아요 API
@@ -222,7 +263,9 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @POST("api/boards/favorite")
-    Call<CommonResponse> postFavoriteState(@Field("favoriteState") String state, @Field("articleNo") int articleNo, @Field("uid") String uid,
+    Call<CommonResponse> postFavoriteState(@Field("favoriteState") String state,
+                                           @Field("articleNo") int articleNo,
+                                           @Field("uid") String uid,
                                            @Field("boardType") String boardType);
 
     /**
@@ -233,7 +276,9 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/my/favorite/{boardType}/{uid}/{no}")
-    Call<ArticleModelListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
+    Call<ArticleModelListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType,
+                                                            @Path("uid") String uid,
+                                                            @Path("no") int no);
 
     /**
      * 게시글 or 댓글 신고하기 API
@@ -246,6 +291,9 @@ public interface ApiInterface {
      */
     @FormUrlEncoded
     @POST("api/support/report")
-    Call<CommonResponse> postReportContents(@Field("serviceName") String serviceName, @Field("serviceNo") int serviceNo, @Field("boardType") String boardType,
-                                            @Field("uid") String uid, @Field("contents") String contents);
+    Call<CommonResponse> postReportContents(@Field("serviceName") String serviceName,
+                                            @Field("serviceNo") int serviceNo,
+                                            @Field("boardType") String boardType,
+                                            @Field("uid") String uid,
+                                            @Field("contents") String contents);
 }

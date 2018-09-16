@@ -18,7 +18,7 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     /**
-     * register api
+     * 회원가입 API
      * @param uid -> user uid
      * @param loginType -> email
      * @param nickName -> user nick name
@@ -29,7 +29,7 @@ public interface ApiInterface {
     Call<LoginResponse> registerAPI(@Field("uid") String uid, @Field("loginType") String loginType, @Field("nickName") String nickName, @Field("fcmToken") String fcmToken);
 
     /**
-     * login api
+     * 로그인 API
      * @param uid
      * @return
      */
@@ -37,16 +37,17 @@ public interface ApiInterface {
     Call<LoginResponse> loginApi(@Path("uid") String uid);
 
     /**
-     * edit profile(nickName) api
+     * 프로필 수정(닉네임) API
      * @param uid
      * @param userName
      * @return
      */
-    @PUT("api/users/profile/{uid}/{userName}")
-    Call<CommonResponse> editProfile(@Path("uid") String uid, @Path("userName") String userName);
+    @FormUrlEncoded
+    @PUT("api/users/profile/")
+    Call<CommonResponse> editProfile(@Field("uid") String uid, @Field("userName") String userName);
 
     /**
-     * update user's fcmToken 로그인 시
+     * User FCM 토큰 갱신 API
      * @param fcmToken
      * @param uid
      * @return
@@ -55,7 +56,7 @@ public interface ApiInterface {
     Call<CommonResponse> updateFcmToken(@Path("uid") String uid, @Path("fcmToken") String fcmToken);
 
     /**
-     * write match/hire/recruit board api
+     * 글 쓰기 API
      * @param areaNo
      * @param uid
      * @param title
@@ -69,7 +70,7 @@ public interface ApiInterface {
                                     @Field("averageAge") String averageAge);
 
     /**
-     * edit match/hire/recruit board api
+     * 글 수정 API
      * @param boardType
      * @param areaNo
      * @param no
@@ -77,13 +78,14 @@ public interface ApiInterface {
      * @param contents
      * @return
      */
-    @PUT("api/boards/edit/{boardType}/{areaNo}/{no}/{title}/{contents}/{matchDate}/{averageAge}")
-    Call<CommonResponse> editBoard(@Path("boardType") String boardType, @Path("areaNo") int areaNo, @Path("no") int no,
-                                   @Path("title") String title, @Path("contents") String contents, @Path("matchDate") String matchDate,
-                                   @Path("averageAge") String averageAge);
+    @FormUrlEncoded
+    @PUT("api/boards/edit/")
+    Call<CommonResponse> editBoard(@Field("boardType") String boardType, @Field("areaNo") int areaNo, @Field("no") int no,
+                                   @Field("title") String title, @Field("contents") String contents, @Field("matchDate") String matchDate,
+                                   @Field("averageAge") String averageAge);
 
     /**
-     * delete match/hire/recruit board api
+     * 글 삭제 API
      * @param boardType
      * @param no
      * @param uid
@@ -93,17 +95,18 @@ public interface ApiInterface {
     Call<CommonResponse> deleteBoard(@Path("boardType") String boardType, @Path("no") int no, @Path("uid") String uid);
 
     /**
-     * change Match State
+     * 매칭 상태 변경 API
      * @param areaNo
      * @param articleNo
      * @param state > Y/N
      * @return
      */
-    @PUT("api/boards/view/matchState/{areaNo}/{no}/{state}")
-    Call<CommonResponse> changeMatchState(@Path("areaNo") int areaNo, @Path("no") int articleNo, @Path("state") String state);
+    @FormUrlEncoded
+    @PUT("api/boards/view/matchState/")
+    Call<CommonResponse> changeMatchState(@Field("areaNo") int areaNo, @Field("no") int articleNo, @Field("state") String state);
 
     /**
-     * get match area board List api
+     * 게시글 리스트 API
      * @param areaNo
      * @return
      */
@@ -112,7 +115,7 @@ public interface ApiInterface {
                                                     @Path("matchDate") String matchDate);
 
     /**
-     * get Article's favorite state api
+     * 게시글의 좋아요 상태 API
      * @param areaNo
      * @param no
      * @return
@@ -122,7 +125,7 @@ public interface ApiInterface {
                                                @Path("uid") String uid);
 
     /**
-     * get Article data api
+     * 게시글 데이터 API
      * @param areaNo
      * @param no
      * @return
@@ -133,7 +136,7 @@ public interface ApiInterface {
 
 
     /**
-     * write Article Comment api
+     * 게시글 댓글 작성 API
      * @param areaNo
      * @param articleNo
      * @param writer_id
@@ -145,7 +148,7 @@ public interface ApiInterface {
     Call<CommonResponse> writeComment(@Field("areaNo") int areaNo, @Field("articleNo") int articleNo, @Field("writer_id") String writer_id, @Field("comment") String comment, @Field("boardType") String boardType);
 
     /**
-     * get Article Comment List api
+     * 게시글 댓글 리스트 API
      * @param articleNo
      * @param areaNo
      * @param commentNo
@@ -155,7 +158,7 @@ public interface ApiInterface {
     Call<CommentListResponse> getCommentList(@Path("boardType") String boardType, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo, @Path("commentNo") int commentNo);
 
     /**
-     * delete comment api
+     * 게시글 댓글 삭제 API
      * @param boardType
      * @param commentNo
      * @param articleNo
@@ -166,7 +169,7 @@ public interface ApiInterface {
     Call<CommonResponse> deleteComment(@Path("boardType") String boardType, @Path("no") int commentNo, @Path("articleNo") int articleNo, @Path("areaNo") int areaNo);
 
     /**
-     * get area Board updated_at
+     * 지역별 게시판 업데이트 시간 API
      * boardType > match / hire / recruit
      * @return
      */
@@ -174,14 +177,14 @@ public interface ApiInterface {
     Call<UpdateTimeResponse> getUpdateTimeList(@Path("boardType") String boardType);
 
     /**
-     * get recent Board List LIMIT 5 API
+     * 최신 게시글 API
      * @return
      */
     @GET("api/home/recent/{boardType}/{no}/{limit}")
     Call<ArticleModelListResponse> getRecentArticleList(@Path("boardType") String boardType, @Path("no") int no, @Path("limit") int limit);
 
     /**
-     * get Today Match Article List LIMIT 5 API
+     * 오늘의 시합 API
      * @param articleNo
      * @param limit
      * @return
@@ -190,7 +193,7 @@ public interface ApiInterface {
     Call<ArticleModelListResponse> getTodayMatchArticleList(@Path("no") int articleNo, @Path("limit") int limit);
 
     /**
-     * get my Article List API
+     * MY > 내 게시글 API
      * @param boardType
      * @param uid
      * @param no
@@ -200,7 +203,7 @@ public interface ApiInterface {
     Call<ArticleModelListResponse> getMyArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 
     /**
-     * get my Comment List API
+     * MY > 내 댓글 API
      * @param boardType
      * @param uid
      * @param no
@@ -210,7 +213,7 @@ public interface ApiInterface {
     Call<CommentListResponse> getMyCommentList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 
     /**
-     * post Favorite Article state api
+     * 게시글 좋아요 API
      * @param state
      * @param articleNo
      * @param uid
@@ -223,7 +226,7 @@ public interface ApiInterface {
                                            @Field("boardType") String boardType);
 
     /**
-     * get My Favorite Article List API
+     * MY > 관심있는 게시글 API
      * @param boardType
      * @param uid
      * @param no
@@ -233,7 +236,7 @@ public interface ApiInterface {
     Call<ArticleModelListResponse> getMyFavoriteArticleList(@Path("boardType") String boardType, @Path("uid") String uid, @Path("no") int no);
 
     /**
-     * report article or comment
+     * 게시글 or 댓글 신고하기 API
      * @param serviceName -> article / comment
      * @param serviceNo -> articleNo / commentNo
      * @param boardType

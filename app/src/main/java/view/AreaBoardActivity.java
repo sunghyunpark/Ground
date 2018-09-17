@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
+import model.BannerModel;
 import model.UserModel;
 import presenter.AreaBoardPresenter;
 import presenter.view.AreaBoardView;
@@ -42,8 +43,10 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private String sortMode;
 
     private AreaBoardAdapter areaBoardAdapter;
+    private BannerViewPagerAdapter bannerViewPagerAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<ArticleModel> articleModelArrayList;
+    private ArrayList<BannerModel> bannerModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private String area, boardType;
@@ -101,11 +104,12 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
     private void init(final String area, String sortType){
         sortMode = sortType;    //정렬 초기화
-        ArrayList bannerModelArrayList = new ArrayList<>();    //banner List
-        BannerViewPagerAdapter bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList, 3);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
+        bannerModelArrayList = new ArrayList<>();    //banner List
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
+
         articleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, articleModelArrayList, area, bannerViewPagerAdapter, 3, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
+        areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, articleModelArrayList, area, bannerViewPagerAdapter, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
                 detailPosition = position;
@@ -142,7 +146,10 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
         });
         swipeRefreshLayout.setOnRefreshListener(this);
-        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList);
+        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList, bannerModelArrayList);
+
+        //배너 데이터를 받아온다.
+        areaBoardPresenter.loadTopBannerList();
 
         //최초로 게시글 데이터들을 받아온다.
         areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
@@ -199,6 +206,11 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
                 areaBoardAdapter.onItemDismiss(detailPosition);
             }
         }
+    }
+
+    @Override
+    public void setBannerList(){
+        bannerViewPagerAdapter.notifyDataSetChanged();
     }
 
     @Override

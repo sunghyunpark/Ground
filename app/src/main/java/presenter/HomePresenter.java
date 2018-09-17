@@ -9,8 +9,10 @@ import java.util.Collections;
 import api.ApiClient;
 import api.ApiInterface;
 import api.response.ArticleModelListResponse;
+import api.response.BannerListResponse;
 import base.presenter.BasePresenter;
 import model.ArticleModel;
+import model.BannerModel;
 import presenter.view.HomeView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,12 +24,40 @@ public class HomePresenter extends BasePresenter<HomeView> {
     private Context context;
     private ApiInterface apiService;
     private ArrayList<ArticleModel> todayArticleModelArrayList;
+    private ArrayList<BannerModel> bannerModelArrayList;
 
-    public HomePresenter(HomeView view, Context context, ArrayList<ArticleModel> todayArticleModelArrayList){
+    public HomePresenter(HomeView view, Context context, ArrayList<ArticleModel> todayArticleModelArrayList, ArrayList<BannerModel> bannerModelArrayList){
         super(view);
         this.context = context;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
         this.todayArticleModelArrayList = todayArticleModelArrayList;
+        this.bannerModelArrayList = bannerModelArrayList;
+    }
+
+    /**
+     * HOME > 상단 배너 리스트 데이터를 받아온다.
+     */
+    public void loadTopBannerList(){
+        Call<BannerListResponse> call = apiService.getHomeBanner();
+        call.enqueue(new Callback<BannerListResponse>() {
+            @Override
+            public void onResponse(Call<BannerListResponse> call, Response<BannerListResponse> response) {
+                BannerListResponse bannerListResponse = response.body();
+                if(bannerListResponse.getResult().size() > 0) {
+                    for(BannerModel bm : bannerListResponse.getResult()){
+                        Collections.addAll(bannerModelArrayList, bm);
+                    }
+                    getView().setBannerPager();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BannerListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
     }
 
     /**

@@ -42,7 +42,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Activity context;
     private SessionManager sessionManager;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
-    private int bannerCount;
 
     private AreaBoardAdapterListener areaBoardAdapterListener;
 
@@ -52,13 +51,12 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerThread thread = null;
     */
 
-    public AreaBoardAdapter(Activity context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, int bannerCount, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
+    public AreaBoardAdapter(Activity context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
         this.sessionManager = new SessionManager(context);
         this.bannerViewPagerAdapter = bannerViewPagerAdapter;
-        this.bannerCount = bannerCount;
         this.boardType = boardType;
         this.areaBoardAdapterListener = areaBoardAdapterListener;
     }
@@ -137,7 +135,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Header_Vh VHitem = (Header_Vh)holder;
 
             VHitem.banner_pager.setAdapter(bannerViewPagerAdapter);
-            VHitem.banner_pager.setCurrentItem(bannerCount);
+            VHitem.banner_pager.setCurrentItem(bannerViewPagerAdapter.getCount() / 3);
 
         }else if(holder instanceof Empty_Vh){
             final Empty_Vh Vhitem = (Empty_Vh)holder;
@@ -185,10 +183,10 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void onPageSelected(int position) {
-                    if(position < bannerCount)        //1번째 아이템에서 마지막 아이템으로 이동하면
-                        banner_pager.setCurrentItem(position+bannerCount, false); //이동 애니메이션을 제거 해야 한다
-                    else if(position >= bannerCount*2)     //마지막 아이템에서 1번째 아이템으로 이동하면
-                        banner_pager.setCurrentItem(position - bannerCount, false);
+                    if(position < (bannerViewPagerAdapter.getCount() / 3))        //1번째 아이템에서 마지막 아이템으로 이동하면
+                        banner_pager.setCurrentItem(position+(bannerViewPagerAdapter.getCount() / 3), false); //이동 애니메이션을 제거 해야 한다
+                    else if(position >= (bannerViewPagerAdapter.getCount() / 3)*2)     //마지막 아이템에서 1번째 아이템으로 이동하면
+                        banner_pager.setCurrentItem(position - (bannerViewPagerAdapter.getCount() / 3), false);
                 }
 
                 @Override

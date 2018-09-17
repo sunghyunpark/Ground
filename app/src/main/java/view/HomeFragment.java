@@ -96,15 +96,15 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     private void init(){
         todayArticleModelArrayList = new ArrayList<ArticleModel>();
-        homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList);
+        bannerModelArrayList = new ArrayList<BannerModel>();
+        homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList, bannerModelArrayList);
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
-        bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList, 3);
+        homePresenter.loadTopBannerList();
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayArticleModelArrayList);
     }
 
     private void initUI(){
         setRecentArticlePager();
-        setBannerPager();
         setGroundRecyclerView();
         setTodayMatchBoard();
     }
@@ -139,6 +139,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setBannerPager(){
+
+        final int listSize = bannerModelArrayList.size();
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
+
         banner_pager.setAdapter(bannerViewPagerAdapter);
         banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -148,10 +152,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
             @Override
             public void onPageSelected(int position) {
-                if(position < 3)        //1번째 아이템에서 마지막 아이템으로 이동하면
-                    banner_pager.setCurrentItem(position+3, false); //이동 애니메이션을 제거 해야 한다
-                else if(position >= 3*2)     //마지막 아이템에서 1번째 아이템으로 이동하면
-                    banner_pager.setCurrentItem(position - 3, false);
+                if(position < listSize)        //1번째 아이템에서 마지막 아이템으로 이동하면
+                    banner_pager.setCurrentItem(position+listSize, false); //이동 애니메이션을 제거 해야 한다
+                else if(position >= listSize*2)     //마지막 아이템에서 1번째 아이템으로 이동하면
+                    banner_pager.setCurrentItem(position - listSize, false);
             }
 
             @Override
@@ -161,7 +165,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         });
 
 
-        handler = new Util.BannerHandler(this, banner_pager, 3);
+        handler = new Util.BannerHandler(this, banner_pager, listSize);
         thread = new BannerThread();
         thread.start();
 

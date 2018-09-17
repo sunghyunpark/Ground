@@ -2,6 +2,7 @@ package api;
 
 import api.response.ArticleEtcResponse;
 import api.response.ArticleModelListResponse;
+import api.response.BannerListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import api.response.LoginResponse;
@@ -59,6 +60,20 @@ public interface ApiInterface {
     @PUT("api/users/profile/fcmToken/{uid}/{fcmToken}")
     Call<CommonResponse> updateFcmToken(@Path("uid") String uid,
                                         @Path("fcmToken") String fcmToken);
+
+    /**
+     * HOME > 상단 배너 API
+     * @return
+     */
+    @GET("api/banner/ad/home/")
+    Call<BannerListResponse> getHomeBanner();
+
+    /**
+     * HOME > 상단 배너 API
+     * @return
+     */
+    @GET("api/banner/ad/board/")
+    Call<BannerListResponse> getBoardBanner();
 
     /**
      * 글 쓰기 API

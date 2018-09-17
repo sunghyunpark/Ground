@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -18,6 +19,9 @@ import com.groundmobile.ground.R;
 
 import java.util.Map;
 
+import database.RealmConfig;
+import database.model.UserVO;
+import io.realm.Realm;
 import util.SessionManager;
 import view.DetailArticleActivity;
 
@@ -61,10 +65,22 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
+    /**
+     * 로컬 DB에서 uid를 가져온다
+     * @return
+     */
+    private String getUserId(){
+        RealmConfig realmConfig = new RealmConfig();
+        Realm realm = Realm.getInstance(realmConfig.UserRealmVersion(getApplicationContext()));
+        UserVO userVO = realm.where(UserVO.class).findFirst();
+
+        return userVO.getUid();
+    }
+
     private void sendNotification(Map<String, String> dataMap) {
         Intent detailIntent = new Intent(this, DetailArticleActivity.class);
         if(dataMap.get("type").equals("comment")){
-            detailIntent.putExtra("uid", dataMap.get("uid"));
+            detailIntent.putExtra("uid", getUserId());
             detailIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
             detailIntent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
             detailIntent.putExtra("hasArticleModel", false);

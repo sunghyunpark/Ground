@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -98,10 +99,10 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
     public void writeBoard(){
         String titleStr = board_title_et.getText().toString().trim();
         String contentsStr = board_contents_et.getText().toString().trim();
-        String matchDateStr = matchingDateTv.getText().toString().trim();
-        String ageStr = ageTv.getText().toString().trim();
+        String matchDateStr = (matchingDateTv.getVisibility() == View.GONE) ? "" : matchingDateTv.getText().toString().trim();
+        String ageStr = (ageTv.getVisibility() == View.GONE) ? "" : ageTv.getText().toString().trim();
 
-        if(titleStr.equals("") || contentsStr.equals("") || matchDateStr.equals("") || ageStr.equals("")){
+        if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && (matchDateStr.equals("") || ageStr.equals("")))){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             String age = ageStr.replace("대", "");

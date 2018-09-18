@@ -1,5 +1,6 @@
 package view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -201,6 +202,19 @@ public class HomeFragment extends BaseFragment implements HomeView{
             todayMatchEmptyTv.setVisibility(View.VISIBLE);
             todayMatchRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @OnClick(R.id.recommend_banner_iv) void recommendBannerBtn(){
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        //String subject = "문자의 제목";
+        String text = "https://play.google.com/store/apps/details?id="+getContext().getPackageName();
+        //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+
+        // Title of intent
+        Intent chooser = Intent.createChooser(intent, "친구에게 공유하기");
+        startActivity(chooser);
     }
 
     @OnClick(R.id.recent_refresh_btn) void recentRefreshBtn(){

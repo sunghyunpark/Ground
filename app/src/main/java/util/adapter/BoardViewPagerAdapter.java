@@ -9,7 +9,7 @@ import view.boardPager.MatchBoardFragment;
 import view.boardPager.RecruitBoardFragment;
 
 public class BoardViewPagerAdapter extends FragmentPagerAdapter {
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 4;
 
     public BoardViewPagerAdapter(FragmentManager fm){
         super(fm);
@@ -23,6 +23,8 @@ public class BoardViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return HireBoardFragment.newInstance();
             case 2:
+                return RecruitBoardFragment.newInstance();
+            case 3:
                 return RecruitBoardFragment.newInstance();
             default:
                 return null;
@@ -43,6 +45,8 @@ public class BoardViewPagerAdapter extends FragmentPagerAdapter {
                 return "용병";
             case 2:
                 return "모집";
+            case 3:
+                return "자유";
             default:
                 return null;
         }

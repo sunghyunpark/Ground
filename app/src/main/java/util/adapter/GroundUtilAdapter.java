@@ -25,7 +25,7 @@ import view.dialog.GroundUtilWeatherDialog;
 public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     private static final int TYPE_ITEM = 0;
-    private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.ic_launcher, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img};
+    private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.comment_img2, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img};
     private String [] textArray = {"전술판", "자유게시판", "날씨", "YouTube"};
     private Context context;
     private GroundUtilWeatherDialog groundUtilWeatherDialog;

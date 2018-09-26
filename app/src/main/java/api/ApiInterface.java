@@ -5,6 +5,7 @@ import api.response.ArticleModelListResponse;
 import api.response.BannerListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
+import api.response.FreeArticleModelListResponse;
 import api.response.LoginResponse;
 import api.response.UpdateTimeResponse;
 import retrofit2.Call;
@@ -311,4 +312,24 @@ public interface ApiInterface {
                                             @Field("boardType") String boardType,
                                             @Field("uid") String uid,
                                             @Field("contents") String contents);
+
+    /**
+     * 자유 게시판 글 쓰기 API
+     * @param uid
+     * @param title
+     * @param contents
+     * @param photo
+     * @param photoThumb
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/community/free")
+    Call<CommonResponse> writeFreeArticle(@Field("uid") String uid,
+                                         @Field("title") String title,
+                                         @Field("contents") String contents,
+                                         @Field("photo") String photo,
+                                         @Field("photoThumb") String photoThumb);
+
+    @GET("api/community/free/{no}")
+    Call<FreeArticleModelListResponse> getFreeArticleList(@Path("no") int no);
 }

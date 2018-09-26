@@ -18,15 +18,15 @@ import com.groundmobile.ground.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import view.FormationActivity;
+import view.FreeBoardActivity;
 import view.dialog.GroundUtilWeatherDialog;
 
 
 public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     private static final int TYPE_ITEM = 0;
-    private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img,
-    R.mipmap.ground_util_market_img};
-    private String [] textArray = {"전술판", "날씨", "YouTube"};
+    private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.ic_launcher, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img};
+    private String [] textArray = {"전술판", "자유게시판", "날씨", "YouTube"};
     private Context context;
     private GroundUtilWeatherDialog groundUtilWeatherDialog;
 
@@ -73,9 +73,12 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             goToFormationActivity();
                             break;
                         case 1:
-                            goToWeatherDialog();
+                            goToFreeBoardActivity();
                             break;
                         case 2:
+                            goToWeatherDialog();
+                            break;
+                        case 3:
                             goToYouTubeAPP();
                             break;
 
@@ -95,6 +98,11 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ButterKnife.bind(this, itemView);
 
         }
+    }
+
+    private void goToFreeBoardActivity(){
+        Intent intent = new Intent(context, FreeBoardActivity.class);
+        context.startActivity(intent);
     }
 
     private void goToFormationActivity(){

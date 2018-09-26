@@ -66,13 +66,14 @@
             android:name="view.DetailArticleActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="detail_article"
-                    android:scheme="ground"/>
+                    android:scheme="ground" />
             </intent-filter>
         </activity>
         <activity
@@ -90,8 +91,13 @@
         <activity
             android:name="view.FormationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="view.AppPushActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="view.AppPushActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.FreeBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="view.WriteFreeBoardActivity"></activity>
     </application>
 
 </manifest>

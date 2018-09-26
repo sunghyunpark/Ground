@@ -100,6 +100,9 @@
     <string name="report_checkbox_txt_1">부적절한 홍보 게시물</string>
     <string name="report_checkbox_txt_2">음란성 또는 욕설 내용</string>
 
+    <!-- Free Board Activity -->
+    <string name="free_board_activity_title">자유 게시판</string>
+
     <string-array name="matching_board_list">
         <item>서울</item>
         <item>도봉/노원/강북/중랑</item>

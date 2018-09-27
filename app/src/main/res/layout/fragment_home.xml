@@ -65,6 +65,15 @@
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"/>
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorMoreGray"></LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ground_util_recyclerView"
                 android:layout_width="match_parent"
@@ -105,16 +114,29 @@
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorMoreGray"></LinearLayout>
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/recent_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
                 app:tabIndicatorColor="@color/colorBlack"></android.support.design.widget.TabLayout>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/recent_pager"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"/>
+                android:layout_height="350dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"/>
 
         </LinearLayout>
 
@@ -163,10 +185,21 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorMoreGray"></LinearLayout>
+
         <RelativeLayout
             android:id="@+id/today_match_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="15dp">
 
             <TextView
@@ -194,6 +227,8 @@
             android:layout_height="45dp"
             android:background="@color/colorWhite"
             android:text="더보기"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:textColor="@color/colorCyan"
             android:textSize="15dp"/>
 

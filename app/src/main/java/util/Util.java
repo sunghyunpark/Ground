@@ -43,6 +43,7 @@ public class Util {
         public static final int DAY = 30;
         public static final int MONTH = 12;
     }
+
     public static String formatTimeString(Date tempDate) {
 
         long curTime = System.currentTimeMillis();
@@ -106,7 +107,7 @@ public class Util {
         }
     }
 
-    private static Date getDate(String dateStr) {
+    public static Date getDate(String dateStr) {
         SimpleDateFormat s;
         if (dateStr.endsWith("Z")) {
             s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000Z'", Locale.getDefault());

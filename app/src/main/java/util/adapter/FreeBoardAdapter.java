@@ -9,7 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groundmobile.ground.R;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,13 +53,19 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             VHitem.title_tv.setText(currentItem.getTitle());
 
-            VHitem.nick_name_tv.setText(currentItem.getNickName());
+            VHitem.nick_name_tv.setText(Util.ellipseStr(currentItem.getNickName()));
 
-            //VHitem.view_cnt_tv.setText(currentItem.getViewCnt());
+            VHitem.view_cnt_tv.setText(currentItem.getViewCnt()+"");
 
-            VHitem.comment_cnt_tv.setText("123");
+            VHitem.comment_cnt_tv.setText(currentItem.getCommentCnt()+"");
 
-            VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+            VHitem.created_at_tv.setText(Util.formatTimeString(Util.getDate(currentItem.getCreatedAt())));
+
+            if(hasNewArticle(position)){
+                VHitem.new_iv.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.new_iv.setVisibility(View.INVISIBLE);
+            }
 
         }
     }
@@ -74,6 +84,12 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ButterKnife.bind(this, itemView);
 
         }
+    }
+
+    private boolean hasNewArticle(int position){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String todayStr = df.format(new Date());
+        return Util.parseTime(getItem(position).getCreatedAt()).contains(todayStr);
     }
 
     @Override

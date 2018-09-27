@@ -38,6 +38,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
+        freeBoardPresenter.loadFreeBoardData(true, 0);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -51,6 +52,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
     }
 
     private void init(){
+        swipeRefreshLayout.setOnRefreshListener(this);
         freeArticleModelArrayList = new ArrayList<FreeArticleModel>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         freeBoardAdapter = new FreeBoardAdapter(getApplicationContext(), freeArticleModelArrayList);

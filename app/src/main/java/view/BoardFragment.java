@@ -2,7 +2,6 @@ package view;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import util.SessionManager;
-import util.Util;
 import util.adapter.BoardViewPagerAdapter;
 import view.dialog.MyContentsDialog;
 
@@ -61,7 +58,6 @@ public class BoardFragment extends BaseFragment {
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
     }
-
 
     @OnClick(R.id.my_btn) void myBtn(){
         if(isLogin()){

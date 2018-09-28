@@ -32,6 +32,14 @@
             android:text="MY"
             android:textColor="@color/colorWhite"
             android:textSize="15dp"/>
+
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/search_img"/>
     </RelativeLayout>
     <!--
     <LinearLayout

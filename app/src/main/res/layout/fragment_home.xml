@@ -145,7 +145,7 @@
             android:id="@+id/recommend_banner_iv"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:src="@drawable/recommend_app_banner_img"
+            android:src="@drawable/recommend_app_banner_img2"
             android:scaleType="centerCrop"/>
 
         <RelativeLayout

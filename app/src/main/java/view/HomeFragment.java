@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,7 +202,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
                 .setDefaultRequestOptions(requestOptions)
                 .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
                 .into(chatbotBanner_iv);
-        Log.d("todayBanner",GroundApplication.GROUND_DEV_API+TBBanner.getImgPath());
     }
 
     /**

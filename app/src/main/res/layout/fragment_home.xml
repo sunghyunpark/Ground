@@ -145,7 +145,6 @@
             android:id="@+id/recommend_banner_iv"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:src="@drawable/recommend_app_banner_img2"
             android:scaleType="centerCrop"/>
 
         <RelativeLayout
@@ -238,7 +237,6 @@
             android:id="@+id/chatbot_banner_iv"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:src="@drawable/chatbot_banner_img2"
             android:scaleType="centerCrop"/>
 
     </LinearLayout>

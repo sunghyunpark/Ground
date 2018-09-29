@@ -1,8 +1,17 @@
 package model;
 
 public class BannerModel {
+    private String type;    // app / web
     private String imgPath;
     private String url;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getImgPath() {
         return imgPath;

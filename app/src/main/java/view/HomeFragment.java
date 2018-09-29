@@ -8,12 +8,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -37,7 +42,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private TodayMatchAdapter todayMatchAdapter;
-    private ArrayList<BannerModel> bannerModelArrayList;
+    private ArrayList<BannerModel> mainBannerList;
     private ArrayList<ArticleModel> todayArticleModelArrayList;
     private HomePresenter homePresenter;
 
@@ -53,6 +58,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.today_match_recyclerView) RecyclerView todayMatchRecyclerView;
     @BindView(R.id.today_match_empty_tv) TextView todayMatchEmptyTv;
     @BindView(R.id.today_match_more_btn) Button todayMatchMoreBtn;
+    @BindView(R.id.recommend_banner_iv) ImageView recommendBanner_iv;
+    @BindView(R.id.chatbot_banner_iv) ImageView chatbotBanner_iv;
 
     @Override
     public void onDestroy(){
@@ -97,10 +104,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     private void init(){
         todayArticleModelArrayList = new ArrayList<ArticleModel>();
-        bannerModelArrayList = new ArrayList<BannerModel>();
-        homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList, bannerModelArrayList);
+        mainBannerList = new ArrayList<BannerModel>();
+        homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList);
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
-        homePresenter.loadTopBannerList();
+        homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayArticleModelArrayList);
     }
 
@@ -136,11 +143,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     /**
-     * 최상단 배너 영역
+     * 최상단 배너 영역, 최신글 하단, 오늘의 시합 하단 띠배너
      */
     @Override
-    public void setBannerPager(){
-
+    public void setBanner(ArrayList<BannerModel> bannerModelArrayList, BannerModel RBBanner, BannerModel TBBanner){
         final int listSize = bannerModelArrayList.size();
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
 
@@ -165,11 +171,39 @@ public class HomeFragment extends BaseFragment implements HomeView{
             }
         });
 
-
         handler = new Util.BannerHandler(this, banner_pager, listSize);
         thread = new BannerThread();
         thread.start();
 
+        setRecentBoardBanner(RBBanner);
+
+        setTodayMatchBoardBanner(TBBanner);
+
+    }
+
+    /**
+     * 최신글 하단 띠 배너
+     */
+    private void setRecentBoardBanner(BannerModel RBBanner){
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
+        Glide.with(getContext())
+                .setDefaultRequestOptions(requestOptions)
+                .load(GroundApplication.GROUND_DEV_API+RBBanner.getImgPath())
+                .into(recommendBanner_iv);
+    }
+
+    /**
+     * 오늘의 시합 하단 띠 배너
+     */
+    private void setTodayMatchBoardBanner(BannerModel TBBanner){
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
+        Glide.with(getContext())
+                .setDefaultRequestOptions(requestOptions)
+                .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
+                .into(chatbotBanner_iv);
+        Log.d("todayBanner",GroundApplication.GROUND_DEV_API+TBBanner.getImgPath());
     }
 
     /**

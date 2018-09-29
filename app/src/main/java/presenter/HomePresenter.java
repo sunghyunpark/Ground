@@ -24,31 +24,30 @@ public class HomePresenter extends BasePresenter<HomeView> {
     private Context context;
     private ApiInterface apiService;
     private ArrayList<ArticleModel> todayArticleModelArrayList;
-    private ArrayList<BannerModel> bannerModelArrayList;
 
-    public HomePresenter(HomeView view, Context context, ArrayList<ArticleModel> todayArticleModelArrayList, ArrayList<BannerModel> bannerModelArrayList){
+
+    public HomePresenter(HomeView view, Context context, ArrayList<ArticleModel> todayArticleModelArrayList){
         super(view);
         this.context = context;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
         this.todayArticleModelArrayList = todayArticleModelArrayList;
-        this.bannerModelArrayList = bannerModelArrayList;
     }
 
     /**
      * HOME > 상단 배너 리스트 데이터를 받아온다.
      */
-    public void loadTopBannerList(){
+    public void loadMainBannerList(final ArrayList<BannerModel> bannerModelArrayList){
         Call<BannerListResponse> call = apiService.getHomeBanner();
         call.enqueue(new Callback<BannerListResponse>() {
             @Override
             public void onResponse(Call<BannerListResponse> call, Response<BannerListResponse> response) {
                 BannerListResponse bannerListResponse = response.body();
-                if(bannerListResponse.getResult().size() > 0) {
-                    for(BannerModel bm : bannerListResponse.getResult()){
+                if(bannerListResponse.getMainBanner().size() > 0) {
+                    for(BannerModel bm : bannerListResponse.getMainBanner()){
                         Collections.addAll(bannerModelArrayList, bm);
                     }
-                    getView().setBannerPager();
                 }
+                getView().setBanner(bannerModelArrayList, bannerListResponse.getRBBanner(), bannerListResponse.getTBBanner());
             }
 
             @Override

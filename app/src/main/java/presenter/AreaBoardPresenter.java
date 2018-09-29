@@ -46,8 +46,8 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
             @Override
             public void onResponse(Call<BannerListResponse> call, Response<BannerListResponse> response) {
                 BannerListResponse bannerListResponse = response.body();
-                if(bannerListResponse.getResult().size() > 0) {
-                    for(BannerModel bm : bannerListResponse.getResult()){
+                if(bannerListResponse.getMainBanner().size() > 0) {
+                    for(BannerModel bm : bannerListResponse.getMainBanner()){
                         Collections.addAll(bannerModelArrayList, bm);
                     }
                     getView().setBannerList();

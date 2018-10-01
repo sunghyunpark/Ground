@@ -1,6 +1,7 @@
 package view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -195,13 +196,22 @@ public class HomeFragment extends BaseFragment implements HomeView{
     /**
      * 오늘의 시합 하단 띠 배너
      */
-    private void setTodayMatchBoardBanner(BannerModel TBBanner){
+    private void setTodayMatchBoardBanner(final BannerModel TBBanner){
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
         Glide.with(getContext())
                 .setDefaultRequestOptions(requestOptions)
                 .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
                 .into(chatbotBanner_iv);
+
+        chatbotBanner_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(TBBanner.getUrl()));
+                startActivity(intent);
+            }
+        });
     }
 
     /**

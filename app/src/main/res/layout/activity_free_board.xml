@@ -11,7 +11,7 @@
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorWhite"
+        android:background="@color/colorPrimary"
         android:layout_alignParentTop="true">
 
         <ImageButton
@@ -20,14 +20,14 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
-            android:background="@mipmap/back_img"/>
+            android:background="@mipmap/back_img_white"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/free_board_activity_title"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
 
         <ImageButton
@@ -37,7 +37,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/write_btn"/>
+            android:background="@mipmap/write_img_white"/>
     </RelativeLayout>
     <!--구분선-->
     <LinearLayout

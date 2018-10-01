@@ -13,11 +13,19 @@
         android:layout_marginBottom="0.5dp"
         android:layout_weight="1.5">
 
+        <ImageView
+            android:id="@+id/new_iv"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/new_circle_shape"/>
+
         <TextView
             android:id="@+id/area_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="13dp"
             android:layout_marginTop="3dp"
             android:textColor="@color/colorAccent"
             android:textSize="12dp"/>

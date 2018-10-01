@@ -7,12 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +69,12 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof Board_VH) {
             final ArticleModel currentItem = getItem(position);
             final Board_VH VHitem = (Board_VH)holder;
+
+            if(hasNewArticle(position)){
+                VHitem.new_iv.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.new_iv.setVisibility(View.INVISIBLE);
+            }
 
             VHitem.title_tv.setText(currentItem.getTitle());
             VHitem.nick_name_tv.setText(Util.ellipseStr(currentItem.getNickName()));
@@ -124,6 +134,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     //게시판 item
     public class Board_VH extends RecyclerView.ViewHolder{
+        @BindView(R.id.new_iv) ImageView new_iv;
         @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.title_tv) TextView title_tv;
         @BindView(R.id.nick_name_tv) TextView nick_name_tv;
@@ -145,6 +156,12 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private boolean isMatchState(int position){
         return getItem(position).getMatchState().equals("Y");
+    }
+
+    private boolean hasNewArticle(int position){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String todayStr = df.format(new Date());
+        return Util.parseTime(getItem(position).getCreatedAt()).contains(todayStr);
     }
 
     @Override

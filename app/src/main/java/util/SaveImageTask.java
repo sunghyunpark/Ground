@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ShareArticleTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
+public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
 
     private String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private String imageName = Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/" + timeStamp + GroundApplication.IMG_NAME;
@@ -23,7 +23,7 @@ public class ShareArticleTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
     private callbackListener callbackListener;
     private String type;    // share / save
 
-    public ShareArticleTask(callbackListener callbackListener, String type){
+    public SaveImageTask(callbackListener callbackListener, String type){
         this.callbackListener = callbackListener;
         this.type = type;
     }

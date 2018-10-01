@@ -84,8 +84,12 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
     }
 
     @OnClick(R.id.write_btn) void writeBtn(){
-        Intent intent = new Intent(getApplicationContext(), WriteFreeBoardActivity.class);
-        startActivityForResult(intent, REQUEST_WRITE);
+        if(isLogin()){
+            Intent intent = new Intent(getApplicationContext(), WriteFreeBoardActivity.class);
+            startActivityForResult(intent, REQUEST_WRITE);
+        }else{
+            showMessage("로그인을 해주세요.");
+        }
     }
 
     @OnClick(R.id.back_btn) void backBtn(){

@@ -40,7 +40,7 @@ import model.UserModel;
 import presenter.DetailArticlePresenter;
 import presenter.view.DetailArticleView;
 import util.JMediaScanner;
-import util.ShareArticleTask;
+import util.SaveImageTask;
 import util.Util;
 import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
@@ -374,15 +374,15 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     /**
      * 캡쳐 버튼 클릭 후 AsyncTask 로 로컬에 캡쳐한 비트맵을 저장
-     * ShareArticleTask 의 interface 를 통해 콜백을 받아온다.
+     * SaveImageTask 의 interface 를 통해 콜백을 받아온다.
      */
     @Override
     public void captureClick(){
         showLoading();
-        ShareArticleTask shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
+        SaveImageTask saveImageTask = new SaveImageTask(new SaveImageTask.callbackListener() {
             @Override
             public void openChooserCallback(String mediaPath, String timeStamp) {
-                //ShareArticleTask 의 interface
+                //SaveImageTask 의 interface
                 hideLoading();
                 showMessage("게시글을 캡쳐했습니다.");
                 openShareChooser(mediaPath, timeStamp);
@@ -393,13 +393,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
             }
         },"share");
-        shareArticleTask.execute(takeScreenshot(root_view));
+        saveImageTask.execute(takeScreenshot(root_view));
     }
 
     /**
      * 츄져 노출
-     * @param mediaPath -> 이미지 경로 (ShareArticleTask)
-     * @param timeStamp -> 이미지 생성 시간 (ShareArticleTask)
+     * @param mediaPath -> 이미지 경로 (SaveImageTask)
+     * @param timeStamp -> 이미지 생성 시간 (SaveImageTask)
      */
     private void openShareChooser(String mediaPath, String timeStamp){
         String type = "image/*";

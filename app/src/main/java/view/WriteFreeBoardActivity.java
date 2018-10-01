@@ -29,7 +29,7 @@ import butterknife.OnClick;
 import model.UserModel;
 import presenter.WriteFreeBoardPresenter;
 import presenter.view.WriteFreeBoardView;
-import util.ShareArticleTask;
+import util.SaveImageTask;
 
 public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoardView{
 
@@ -104,7 +104,7 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }else{
-                ShareArticleTask shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
+                SaveImageTask saveImageTask = new SaveImageTask(new SaveImageTask.callbackListener() {
                     @Override
                     public void openChooserCallback(String imageName, String timeStamp) {
 
@@ -118,7 +118,7 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
                         finish();
                     }
                 }, "save");
-                shareArticleTask.execute(resized);
+                saveImageTask.execute(resized);
             }
         }
     }

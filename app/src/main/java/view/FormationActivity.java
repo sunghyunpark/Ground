@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.JMediaScanner;
-import util.ShareArticleTask;
+import util.SaveImageTask;
 
 /**
  * Formation 화면
@@ -118,10 +118,10 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
 
     private void saveClick(){
         showLoading();
-        ShareArticleTask shareArticleTask = new ShareArticleTask(new ShareArticleTask.callbackListener() {
+        SaveImageTask saveImageTask = new SaveImageTask(new SaveImageTask.callbackListener() {
             @Override
             public void openChooserCallback(String mediaPath, String timeStamp) {
-                //ShareArticleTask 의 interface
+                //SaveImageTask 의 interface
                 hideLoading();
                 showMessage("전술판을 캡쳐했습니다.");
                 openShareChooser(mediaPath, timeStamp);
@@ -131,13 +131,13 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
 
             }
         }, "share");
-        shareArticleTask.execute(takeScreenshot(background_layout));
+        saveImageTask.execute(takeScreenshot(background_layout));
     }
 
     /**
      * 츄져 노출
-     * @param mediaPath -> 이미지 경로 (ShareArticleTask)
-     * @param timeStamp -> 이미지 생성 시간 (ShareArticleTask)
+     * @param mediaPath -> 이미지 경로 (SaveImageTask)
+     * @param timeStamp -> 이미지 생성 시간 (SaveImageTask)
      */
     private void openShareChooser(String mediaPath, String timeStamp){
         String type = "image/*";

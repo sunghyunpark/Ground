@@ -387,7 +387,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 showMessage("게시글을 캡쳐했습니다.");
                 openShareChooser(mediaPath, timeStamp);
             }
-        });
+
+            @Override
+            public void saveImageCallback(String imgPath){
+
+            }
+        },"share");
         shareArticleTask.execute(takeScreenshot(root_view));
     }
 

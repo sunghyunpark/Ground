@@ -126,7 +126,11 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
                 showMessage("전술판을 캡쳐했습니다.");
                 openShareChooser(mediaPath, timeStamp);
             }
-        });
+            @Override
+            public void saveImageCallback(String imageName){
+
+            }
+        }, "share");
         shareArticleTask.execute(takeScreenshot(background_layout));
     }
 

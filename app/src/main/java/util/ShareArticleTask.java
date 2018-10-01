@@ -21,13 +21,16 @@ public class ShareArticleTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
     private File folder_path = new File(Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/");
 
     private callbackListener callbackListener;
+    private String type;    // share / save
 
-    public ShareArticleTask(callbackListener callbackListener){
+    public ShareArticleTask(callbackListener callbackListener, String type){
         this.callbackListener = callbackListener;
+        this.type = type;
     }
 
     public interface callbackListener{
         public void openChooserCallback(String imageName, String timeStamp);
+        public void saveImageCallback(String imageName);
     }
 
     @Override
@@ -67,7 +70,11 @@ public class ShareArticleTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
         if (res != null) {
             res.recycle();
         }
-        callbackListener.openChooserCallback(imageName, timeStamp);
+        if(type.equals("share")){
+            callbackListener.openChooserCallback(imageName, timeStamp);
+        }else if(type.equals("save")){
+            callbackListener.saveImageCallback(imageName);
+        }
     }
 
 }

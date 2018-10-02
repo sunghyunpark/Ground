@@ -8,13 +8,17 @@ import api.response.CommonResponse;
 import api.response.FreeArticleModelListResponse;
 import api.response.LoginResponse;
 import api.response.UpdateTimeResponse;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiInterface {
@@ -319,16 +323,14 @@ public interface ApiInterface {
      * @param title
      * @param contents
      * @param photo
-     * @param photoThumb
      * @return
      */
-    @FormUrlEncoded
+    @Multipart
     @POST("api/community/free")
-    Call<CommonResponse> writeFreeArticle(@Field("uid") String uid,
-                                         @Field("title") String title,
-                                         @Field("contents") String contents,
-                                         @Field("photo") String photo,
-                                         @Field("photoThumb") String photoThumb);
+    Call<CommonResponse> writeFreeArticle(@Part("uid") RequestBody uid,
+                                          @Part("title") RequestBody title,
+                                          @Part("contents") RequestBody contents,
+                                          @Part MultipartBody.Part photo);
 
     @GET("api/community/free/{no}")
     Call<FreeArticleModelListResponse> getFreeArticleList(@Path("no") int no);

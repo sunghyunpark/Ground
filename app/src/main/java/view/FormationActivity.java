@@ -127,7 +127,7 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
                 openShareChooser(mediaPath, timeStamp);
             }
             @Override
-            public void saveImageCallback(String imageName){
+            public void saveImageCallback(String imagePath, String imageName){
 
             }
         }, "share");

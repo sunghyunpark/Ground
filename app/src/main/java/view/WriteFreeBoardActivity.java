@@ -111,8 +111,8 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
                     }
 
                     @Override
-                    public void saveImageCallback(String imagePath) {
-                        writeFreeBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, "N", "N");
+                    public void saveImageCallback(String imagePath, String imageName) {
+                        writeFreeBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, imagePath, imageName);
                         Intent returnIntent = new Intent();
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();

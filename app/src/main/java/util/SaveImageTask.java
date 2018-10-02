@@ -17,7 +17,8 @@ import java.util.Date;
 public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
 
     private String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-    private String imageName = Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/" + timeStamp + GroundApplication.IMG_NAME;
+    private String imageFullPath = Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/" + timeStamp + GroundApplication.IMG_NAME;
+    private String imageName = timeStamp+GroundApplication.IMG_NAME;
     private File folder_path = new File(Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/");
 
     private callbackListener callbackListener;
@@ -30,7 +31,7 @@ public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
 
     public interface callbackListener{
         public void openChooserCallback(String imageName, String timeStamp);
-        public void saveImageCallback(String imageName);
+        public void saveImageCallback(String imageFullPath, String imageName);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
         }
         //로컬에 저장
         OutputStream outStream = null;
-        File file = new File(imageName);
+        File file = new File(imageFullPath);
 
         try {
             outStream = new FileOutputStream(file);
@@ -71,9 +72,9 @@ public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
             res.recycle();
         }
         if(type.equals("share")){
-            callbackListener.openChooserCallback(imageName, timeStamp);
+            callbackListener.openChooserCallback(imageFullPath, timeStamp);
         }else if(type.equals("save")){
-            callbackListener.saveImageCallback(imageName);
+            callbackListener.saveImageCallback(imageFullPath, imageName);
         }
     }
 

@@ -389,7 +389,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }
 
             @Override
-            public void saveImageCallback(String imgPath){
+            public void saveImageCallback(String imgPath, String imageName){
 
             }
         },"share");

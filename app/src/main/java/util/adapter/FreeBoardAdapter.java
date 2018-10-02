@@ -17,19 +17,18 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.ArticleModel;
-import model.FreeArticleModel;
+import model.CommunityArticleModel;
 import util.Util;
 
 
 public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 1;
-    private ArrayList<FreeArticleModel> articleModelArrayList;
+    private ArrayList<CommunityArticleModel> articleModelArrayList;
     private Context context;
 
-    public FreeBoardAdapter(Context context, ArrayList<FreeArticleModel> freeArticleModelArrayList) {
+    public FreeBoardAdapter(Context context, ArrayList<CommunityArticleModel> communityArticleModelArrayList) {
         this.context = context;
-        this.articleModelArrayList = freeArticleModelArrayList;
+        this.articleModelArrayList = communityArticleModelArrayList;
     }
 
     @Override
@@ -41,14 +40,14 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private FreeArticleModel getItem(int position) {
+    private CommunityArticleModel getItem(int position) {
         return articleModelArrayList.get(position);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof Article_VH) {
-            final FreeArticleModel currentItem = getItem(position);
+            final CommunityArticleModel currentItem = getItem(position);
             final Article_VH VHitem = (Article_VH)holder;
 
             VHitem.title_tv.setText(currentItem.getTitle());

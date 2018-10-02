@@ -15,7 +15,7 @@ import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.FreeArticleModel;
+import model.CommunityArticleModel;
 import presenter.FreeBoardPresenter;
 import presenter.view.FreeBoardView;
 import util.EndlessRecyclerOnScrollListener;
@@ -26,7 +26,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
     private static final int REQUEST_WRITE = 1000;
 
     private FreeBoardAdapter freeBoardAdapter;
-    private ArrayList<FreeArticleModel> freeArticleModelArrayList;
+    private ArrayList<CommunityArticleModel> communityArticleModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
@@ -53,10 +53,10 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
     private void init(){
         swipeRefreshLayout.setOnRefreshListener(this);
-        freeArticleModelArrayList = new ArrayList<FreeArticleModel>();
+        communityArticleModelArrayList = new ArrayList<CommunityArticleModel>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        freeBoardAdapter = new FreeBoardAdapter(getApplicationContext(), freeArticleModelArrayList);
-        freeBoardPresenter = new FreeBoardPresenter(this, getApplicationContext(), freeArticleModelArrayList);
+        freeBoardAdapter = new FreeBoardAdapter(getApplicationContext(), communityArticleModelArrayList);
+        freeBoardPresenter = new FreeBoardPresenter(this, getApplicationContext(), communityArticleModelArrayList);
         initView();
 
         freeBoardPresenter.loadFreeBoardData(true, 0);

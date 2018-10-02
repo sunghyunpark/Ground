@@ -2,7 +2,10 @@ package model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FreeArticleModel {
+/**
+ * 자유게시판 및 추후 생성될 커뮤니티(게시판) Model
+ */
+public class CommunityArticleModel {
     private int no;
     @SerializedName("writer_id")
     private String writerId;

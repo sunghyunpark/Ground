@@ -8,11 +8,9 @@ import java.util.Collections;
 
 import api.ApiClient;
 import api.ApiInterface;
-import api.response.BannerListResponse;
 import api.response.FreeArticleModelListResponse;
 import base.presenter.BasePresenter;
-import model.BannerModel;
-import model.FreeArticleModel;
+import model.CommunityArticleModel;
 import presenter.view.FreeBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,18 +21,18 @@ public class FreeBoardPresenter extends BasePresenter<FreeBoardView> {
 
     private Context context;
     private ApiInterface apiService;
-    private ArrayList<FreeArticleModel> freeArticleModelArrayList;
+    private ArrayList<CommunityArticleModel> communityArticleModelArrayList;
 
-    public FreeBoardPresenter(FreeBoardView view, Context context, ArrayList<FreeArticleModel> freeArticleModelArrayList){
+    public FreeBoardPresenter(FreeBoardView view, Context context, ArrayList<CommunityArticleModel> communityArticleModelArrayList){
         super(view);
         this.context = context;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
-        this.freeArticleModelArrayList = freeArticleModelArrayList;
+        this.communityArticleModelArrayList = communityArticleModelArrayList;
     }
 
     public void loadFreeBoardData(boolean refresh, int no){
         if(refresh)
-            freeArticleModelArrayList.clear();
+            communityArticleModelArrayList.clear();
 
         Call<FreeArticleModelListResponse> call = apiService.getFreeArticleList(no);
         call.enqueue(new Callback<FreeArticleModelListResponse>() {
@@ -42,8 +40,8 @@ public class FreeBoardPresenter extends BasePresenter<FreeBoardView> {
             public void onResponse(Call<FreeArticleModelListResponse> call, Response<FreeArticleModelListResponse> response) {
                 FreeArticleModelListResponse freeArticleModelListResponse = response.body();
                 if(freeArticleModelListResponse.getResult().size() > 0) {
-                    for(FreeArticleModel bm : freeArticleModelListResponse.getResult()){
-                        Collections.addAll(freeArticleModelArrayList, bm);
+                    for(CommunityArticleModel bm : freeArticleModelListResponse.getResult()){
+                        Collections.addAll(communityArticleModelArrayList, bm);
                     }
                     getView().setFreeBoardList();
                 }

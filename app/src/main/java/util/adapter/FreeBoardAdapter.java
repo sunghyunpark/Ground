@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
@@ -65,6 +68,14 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }else{
                 VHitem.new_iv.setVisibility(View.INVISIBLE);
             }
+
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.centerCrop();
+
+            Glide.with(context)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(GroundApplication.GROUND_DEV_API+currentItem.getPhotoUrl())
+                    .into(VHitem.photo_thumb_iv);
 
         }
     }

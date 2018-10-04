@@ -170,7 +170,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     }
 
     @Override
-    public void setArticleData(CommunityModel communityModel){
+    public void setArticleData(final CommunityModel communityModel){
         title_tv.setText(communityModel.getTitle());
         nick_name_tv.setText(communityModel.getNickName());
         created_at_tv.setText(Util.parseTime(communityModel.getCreatedAt()));
@@ -191,6 +191,15 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         }else{
             photo_iv.setVisibility(View.GONE);
         }
+
+        photo_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ImageViewerActivity.class);
+                intent.putExtra(GroundApplication.EXTRA_BOARD_PHOTO_URL, communityModel.getPhotoUrl());
+                startActivity(intent);
+            }
+        });
 
         if(detailCommunityPresenter != null){
             detailCommunityPresenter.loadFavoriteState(communityModel.getNo(), uid);

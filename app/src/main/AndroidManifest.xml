@@ -97,10 +97,13 @@
         <activity
             android:name="view.FreeBoardActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="view.WriteFreeBoardActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="view.DetailCommunityActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="view.WriteFreeBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.DetailCommunityActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="view.ImageViewerActivity"></activity>
     </application>
 
 </manifest>

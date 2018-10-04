@@ -35,6 +35,7 @@ public class GroundApplication extends Application{
     public static final String EXTRA_EXIST_ARTICLE_MODEL = "hasArticleModel";
     public static final String EXTRA_ARTICLE_MODEL = "articleModel";
     public static final String EXTRA_MY_TYPE = "myType";
+    public static final String EXTRA_BOARD_PHOTO_URL = "photoUrl";
 
     @Override
     public void onCreate() {

@@ -121,6 +121,12 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    public void onItemDismiss(int position){
+        articleModelArrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
     private boolean hasNewArticle(int position){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         String todayStr = df.format(new Date());

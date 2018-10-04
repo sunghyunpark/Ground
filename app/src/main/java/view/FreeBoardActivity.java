@@ -27,6 +27,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
     private static final int REQUEST_WRITE = 1000;
     private static final int REQUEST_DETAIL = 2000;
+    private static final int RESULT_DELETE = 3000;
 
     private FreeBoardAdapter freeBoardAdapter;
     private ArrayList<CommunityModel> communityModelArrayList;
@@ -38,6 +39,15 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
+        //돌아왔을 때 변경된 것을 갱신하기 위함.
+        if(freeBoardAdapter != null)
+            freeBoardAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onRefresh() {
@@ -98,6 +108,13 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
                 init();
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
+            }
+        }else if(requestCode == REQUEST_DETAIL){
+            if(resultCode == Activity.RESULT_OK){
+                communityModelArrayList.set(detailPosition, (CommunityModel)data.getExtras().getSerializable("articleModel"));
+                freeBoardAdapter.notifyDataSetChanged();
+            }else if(resultCode == RESULT_DELETE){
+                freeBoardAdapter.onItemDismiss(detailPosition);
             }
         }
     }

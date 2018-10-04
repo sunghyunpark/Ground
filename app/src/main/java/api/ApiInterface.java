@@ -332,6 +332,27 @@ public interface ApiInterface {
                                           @Part("contents") RequestBody contents,
                                           @Part MultipartBody.Part photo);
 
+    /**
+     * 자유 게시판 글 목록 가져오기 API
+     * @param no
+     * @return
+     */
     @GET("api/community/free/{no}")
     Call<CommunityModelListResponse> getFreeArticleList(@Path("no") int no);
+
+    /**
+     * 자유 게시판 좋아요 상태 API
+     * @param no
+     * @param uid
+     * @return
+     */
+    @GET("api/community/free/detailView/favorite/{no}/{uid}")
+    Call<ArticleEtcResponse> getFreeArticleFavoriteState(@Path("no") int no,
+                                                         @Path("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("api/community/free/favorite")
+    Call<CommonResponse> postFavoriteStateFreeArticle(@Field("favoriteState") String favoriteState,
+                                                      @Field("articleNo") int articleNo,
+                                                      @Field("uid") String uid);
 }

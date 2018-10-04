@@ -20,18 +20,29 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.CommunityArticleModel;
+import model.CommunityModel;
+import util.NetworkUtils;
+import util.SessionManager;
 import util.Util;
 
 
 public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 1;
-    private ArrayList<CommunityArticleModel> articleModelArrayList;
+    private ArrayList<CommunityModel> articleModelArrayList;
     private Context context;
+    private FreeBoardAdapterListener freeBoardAdapterListener;
+    private SessionManager sessionManager;
 
-    public FreeBoardAdapter(Context context, ArrayList<CommunityArticleModel> communityArticleModelArrayList) {
+    public FreeBoardAdapter(Context context, ArrayList<CommunityModel> communityModelArrayList, FreeBoardAdapterListener freeBoardAdapterListener) {
         this.context = context;
-        this.articleModelArrayList = communityArticleModelArrayList;
+        this.articleModelArrayList = communityModelArrayList;
+        this.freeBoardAdapterListener = freeBoardAdapterListener;
+        this.sessionManager = new SessionManager(context);
+    }
+
+    public interface FreeBoardAdapterListener{
+        void goToDetailArticle(int position, CommunityModel communityModel);
+        void writeArticle();
     }
 
     @Override
@@ -43,15 +54,28 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private CommunityArticleModel getItem(int position) {
+    private CommunityModel getItem(int position) {
         return articleModelArrayList.get(position);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Article_VH) {
-            final CommunityArticleModel currentItem = getItem(position);
+            final CommunityModel currentItem = getItem(position);
             final Article_VH VHitem = (Article_VH)holder;
+
+            VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!sessionManager.isLoggedIn()){
+                        Util.showToast(context, "로그인을 해주세요.");
+                    }else if(!NetworkUtils.isNetworkConnected(context)){
+                        Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+                    }else{
+                        freeBoardAdapterListener.goToDetailArticle(position, currentItem);
+                    }
+                }
+            });
 
             VHitem.title_tv.setText(currentItem.getTitle());
 
@@ -81,6 +105,7 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class Article_VH extends RecyclerView.ViewHolder{
+        @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.new_iv) ImageView new_iv;
         @BindView(R.id.title_tv) TextView title_tv;
         @BindView(R.id.nick_name_tv) TextView nick_name_tv;

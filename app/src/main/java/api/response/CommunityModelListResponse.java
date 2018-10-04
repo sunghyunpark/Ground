@@ -2,12 +2,12 @@ package api.response;
 
 import java.util.ArrayList;
 
-import model.CommunityArticleModel;
+import model.CommunityModel;
 
-public class FreeArticleModelListResponse {
+public class CommunityModelListResponse {
     private int code;
     private String message;
-    private ArrayList<CommunityArticleModel> result;
+    private ArrayList<CommunityModel> result;
 
     public int getCode() {
         return code;
@@ -25,11 +25,11 @@ public class FreeArticleModelListResponse {
         this.message = message;
     }
 
-    public ArrayList<CommunityArticleModel> getResult() {
+    public ArrayList<CommunityModel> getResult() {
         return result;
     }
 
-    public void setResult(ArrayList<CommunityArticleModel> result) {
+    public void setResult(ArrayList<CommunityModel> result) {
         this.result = result;
     }
 }

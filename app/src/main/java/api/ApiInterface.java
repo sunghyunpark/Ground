@@ -5,7 +5,7 @@ import api.response.ArticleModelListResponse;
 import api.response.BannerListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
-import api.response.FreeArticleModelListResponse;
+import api.response.CommunityModelListResponse;
 import api.response.LoginResponse;
 import api.response.UpdateTimeResponse;
 import okhttp3.MultipartBody;
@@ -333,5 +333,5 @@ public interface ApiInterface {
                                           @Part MultipartBody.Part photo);
 
     @GET("api/community/free/{no}")
-    Call<FreeArticleModelListResponse> getFreeArticleList(@Path("no") int no);
+    Call<CommunityModelListResponse> getFreeArticleList(@Path("no") int no);
 }

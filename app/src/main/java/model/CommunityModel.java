@@ -2,10 +2,12 @@ package model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * 자유게시판 및 추후 생성될 커뮤니티(게시판) Model
  */
-public class CommunityArticleModel {
+public class CommunityModel implements Serializable {
     private int no;
     @SerializedName("writer_id")
     private String writerId;

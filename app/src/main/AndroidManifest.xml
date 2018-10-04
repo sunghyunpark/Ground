@@ -99,7 +99,7 @@
             android:screenOrientation="portrait" />
         <activity android:name="view.WriteFreeBoardActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="view.CommunityDetailActivity"
+        <activity android:name="view.DetailCommunityActivity"
             android:screenOrientation="portrait"/>
     </application>
 

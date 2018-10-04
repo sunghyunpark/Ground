@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -15,8 +16,9 @@ import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.CommunityArticleModel;
-import presenter.FreeBoardPresenter;
+import model.CommunityModel;
+import model.UserModel;
+import presenter.CommunityPresenter;
 import presenter.view.FreeBoardView;
 import util.EndlessRecyclerOnScrollListener;
 import util.adapter.FreeBoardAdapter;
@@ -24,13 +26,15 @@ import util.adapter.FreeBoardAdapter;
 public class FreeBoardActivity extends BaseActivity implements FreeBoardView, SwipeRefreshLayout.OnRefreshListener{
 
     private static final int REQUEST_WRITE = 1000;
+    private static final int REQUEST_DETAIL = 2000;
 
     private FreeBoardAdapter freeBoardAdapter;
-    private ArrayList<CommunityArticleModel> communityArticleModelArrayList;
+    private ArrayList<CommunityModel> communityModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-    private FreeBoardPresenter freeBoardPresenter;
+    private CommunityPresenter communityPresenter;
+    private int detailPosition;    //진입하고자 하는 상세 게시글의 리스트 position 값
 
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
@@ -38,7 +42,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
-        freeBoardPresenter.loadFreeBoardData(true, 0);
+        communityPresenter.loadFreeBoardData(true, 0);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -53,13 +57,28 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
     private void init(){
         swipeRefreshLayout.setOnRefreshListener(this);
-        communityArticleModelArrayList = new ArrayList<CommunityArticleModel>();
+        communityModelArrayList = new ArrayList<CommunityModel>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        freeBoardAdapter = new FreeBoardAdapter(getApplicationContext(), communityArticleModelArrayList);
-        freeBoardPresenter = new FreeBoardPresenter(this, getApplicationContext(), communityArticleModelArrayList);
+        freeBoardAdapter = new FreeBoardAdapter(getApplicationContext(), communityModelArrayList, new FreeBoardAdapter.FreeBoardAdapterListener() {
+            @Override
+            public void goToDetailArticle(int position, CommunityModel communityModel) {
+                detailPosition = position;
+                Intent intent = new Intent(getApplicationContext(), DetailCommunityActivity.class);
+                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, communityModel);
+                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                startActivityForResult(intent, REQUEST_DETAIL);
+            }
+
+            @Override
+            public void writeArticle() {
+
+            }
+        });
+        communityPresenter = new CommunityPresenter(this, getApplicationContext(), communityModelArrayList);
         initView();
 
-        freeBoardPresenter.loadFreeBoardData(true, 0);
+        communityPresenter.loadFreeBoardData(true, 0);
     }
 
     private void initView(){

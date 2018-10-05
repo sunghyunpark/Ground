@@ -7,12 +7,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +30,7 @@ import model.UserModel;
 import presenter.WriteFreeBoardPresenter;
 import presenter.view.WriteFreeBoardView;
 import util.SaveImageTask;
+import util.Util;
 
 public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoardView{
 
@@ -98,7 +99,7 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
         if(titleStr.equals("") || contentsStr.equals("")){
             showMessage(errorNotExistInputStr);
         }else{
-            if(resized == null){
+            if(bm == null){
                 writeFreeBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, "N", "N");
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
@@ -118,7 +119,7 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
                         finish();
                     }
                 }, "save");
-                saveImageTask.execute(resized);
+                saveImageTask.execute(bm);
             }
         }
     }
@@ -168,10 +169,41 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
         if (requestCode == GET_PICTURE_URI) {
             if (resultCode == RESULT_OK) {
                 try {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 2;
-                    bm = BitmapFactory.decodeFile(getPath(data.getData()), options);
-                    resized = Bitmap.createScaledBitmap(bm, bm.getWidth(), bm.getHeight(), true);
+                    //BitmapFactory.Options options = new BitmapFactory.Options();
+                    //options.inSampleSize = 2;
+                    bm = BitmapFactory.decodeFile(getPath(data.getData()));
+                    try{
+                        ExifInterface exif = new ExifInterface(getPath(data.getData()));
+                        int exifOrientation = exif.getAttributeInt(
+                                ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                        int exifDegree = Util.exifOrientationToDegrees(exifOrientation);
+                        bm = Util.rotate(bm, exifDegree);
+                    }catch (Exception e){
+
+                    }
+                    float size = 0;
+                    if( bm.getHeight() >= bm.getWidth() ) {
+                        size = bm.getHeight();
+                    } else if( bm.getHeight() < bm.getWidth() ) {
+                        size = bm.getWidth();
+                    }
+
+                    if(size > 1080){
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        //리사이징 과정에서 단말기 메모리 오류 방지
+                        if( size > 4320 ){
+                            options.inSampleSize = 8;
+                        } else if( size > 3240 ){
+                            options.inSampleSize = 4;
+                        } else if( size > 2160 ){
+                            options.inSampleSize = 2;
+                        } else {
+                            options.inSampleSize = 1;
+                        }
+                        bm = BitmapFactory.decodeFile(getPath(data.getData()), options);
+                        bm = Bitmap.createScaledBitmap(bm, bm.getWidth(), bm.getHeight(), true);
+                    }
+                    //resized = Bitmap.createScaledBitmap(bm, bm.getWidth(), bm.getHeight(), true);
                     //photoPath = "file://"+localBitmapPath;
                     photo_thumb_iv.setVisibility(View.VISIBLE);
                     RequestOptions requestOptions = new RequestOptions();
@@ -183,7 +215,6 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
                             .into(photo_thumb_iv);
 
                 } catch (Exception e) {
-                    Log.e("test", e.getMessage());
                 }
             }
         }

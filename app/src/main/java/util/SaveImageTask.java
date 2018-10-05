@@ -45,7 +45,7 @@ public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
             folder_path.mkdir();
         }
         //로컬에 저장
-        OutputStream outStream = null;
+        OutputStream outStream;
         File file = new File(imageFullPath);
 
         try {

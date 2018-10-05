@@ -25,6 +25,7 @@ import util.adapter.FreeBoardAdapter;
 
 public class FreeBoardActivity extends BaseActivity implements FreeBoardView, SwipeRefreshLayout.OnRefreshListener{
 
+    private static final int LOAD_DATA_COUNT = 10;
     private static final int REQUEST_WRITE = 1000;
     private static final int REQUEST_DETAIL = 2000;
     private static final int RESULT_DELETE = 3000;
@@ -52,6 +53,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
+        endlessRecyclerOnScrollListener.reset(0, true);
         communityPresenter.loadFreeBoardData(true, 0);
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -89,6 +91,17 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
         initView();
 
         communityPresenter.loadFreeBoardData(true, 0);
+
+        //LoadMore 리스너 등록
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if(!communityModelArrayList.isEmpty()){
+                    communityPresenter.loadFreeBoardData(false, communityModelArrayList.get(communityModelArrayList.size()-1).getNo());
+                }
+            }
+        };
+        boardRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     private void initView(){

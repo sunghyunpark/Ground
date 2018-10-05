@@ -12,6 +12,25 @@
         android:layout_height="30dp"
         android:layout_centerHorizontal="true"/>
 
+    <RelativeLayout
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/new_circle_shape"
+        android:layout_alignTop="@+id/util_iv"
+        android:layout_toLeftOf="@+id/util_iv">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="8dp"
+            android:textColor="@color/colorWhite"
+            android:text="N"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/util_tv"
         android:layout_width="wrap_content"

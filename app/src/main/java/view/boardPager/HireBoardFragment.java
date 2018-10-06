@@ -85,7 +85,6 @@ public class HireBoardFragment extends BaseFragment {
                     for(int i=0;i<size;i++){
                         updateTimeResponse.getResult().get(i).setAreaName(areaNameArray[i]);
                         areaModelArrayList.add(updateTimeResponse.getResult().get(i));
-                        Log.d("Hire_updateTime", updateTimeResponse.getResult().get(i).getUpdatedAt());
                     }
                     setRecyclerView(areaModelArrayList);
                 }else{

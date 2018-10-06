@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -30,14 +31,16 @@ import view.dialog.GroundUtilWeatherDialog;
 public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     private static final int TYPE_ITEM = 0;
-    private int[] imgArray = {R.mipmap.ground_util_formation_img, R.mipmap.comment_img2, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img};
-    private String [] textArray = {"전술판", "자유게시판", "날씨", "YouTube"};
+    private int[] imgArray = {R.mipmap.comment_img2, R.mipmap.ground_util_formation_img, R.mipmap.ground_util_weather_img, R.mipmap.ground_util_youtube_img};
+    private String [] textArray = {"자유게시판", "전술판", "날씨", "YouTube"};
+    private ArrayList<String> groundUtilUpdateList;
     private Context context;
     private GroundUtilWeatherDialog groundUtilWeatherDialog;
 
-    public GroundUtilAdapter(Context context){
+    public GroundUtilAdapter(Context context, ArrayList<String> groundUtilUpdateList){
         this.context = context;
         groundUtilWeatherDialog = new GroundUtilWeatherDialog(context);
+        this.groundUtilUpdateList = groundUtilUpdateList;
     }
 
     @Override
@@ -70,15 +73,21 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             VHitem.util_tv.setText(currentItem);
 
+            if(hasNewArticle(position)){
+                VHitem.new_layout.setVisibility(View.VISIBLE);
+            }else{
+                VHitem.new_layout.setVisibility(View.GONE);
+            }
+
             VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     switch (position){
                         case 0:
-                            goToFormationActivity();
+                            goToFreeBoardActivity();
                             break;
                         case 1:
-                            goToFreeBoardActivity();
+                            goToFormationActivity();
                             break;
                         case 2:
                             goToWeatherDialog();
@@ -104,6 +113,12 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ButterKnife.bind(this, itemView);
 
         }
+    }
+
+    private boolean hasNewArticle(int position){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String todayStr = df.format(new Date());
+        return Util.parseTime(groundUtilUpdateList.get(position)).contains(todayStr);
     }
 
     private void goToFreeBoardActivity(){

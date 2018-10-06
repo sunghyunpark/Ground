@@ -45,6 +45,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private TodayMatchAdapter todayMatchAdapter;
     private ArrayList<BannerModel> mainBannerList;
     private ArrayList<ArticleModel> todayArticleModelArrayList;
+    private ArrayList<String> groundUtilUpdateList;
     private HomePresenter homePresenter;
 
     private static final int SEND_RUNNING = 1000;
@@ -105,17 +106,23 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     private void init(){
         todayArticleModelArrayList = new ArrayList<ArticleModel>();
+        groundUtilUpdateList = new ArrayList<>();
         mainBannerList = new ArrayList<BannerModel>();
         homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList);
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayArticleModelArrayList);
 
+        // 일단 그라운드유틸 업데이트 시간을 모두 디폴트로 초기화한다.
+        for(int i=0;i<4;i++){
+            groundUtilUpdateList.add(GroundApplication.DEFAULT_TIME_FORMAT);
+        }
     }
 
     private void initUI(){
         setRecentArticlePager();
-        setGroundRecyclerView();
+        homePresenter.loadGroundUtilData(groundUtilUpdateList);
+        //setGroundRecyclerView();
         setTodayMatchBoard();
     }
 
@@ -133,12 +140,13 @@ public class HomeFragment extends BaseFragment implements HomeView{
     /**
      * 상단 그라운드 유틸 영역
      * 가로 리사이클러뷰
+     * HomePresenter 에서 그라운드유틸 데이터를 받아온뒤에 셋팅이된다.
      */
     @Override
     public void setGroundRecyclerView(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext());
+        GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext(), groundUtilUpdateList);
 
         groundUtilRecyclerView.setAdapter(groundUtilAdapter);
         groundUtilRecyclerView.setLayoutManager(linearLayoutManager);

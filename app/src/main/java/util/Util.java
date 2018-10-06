@@ -153,6 +153,16 @@ public class Util {
         }
     }
 
+    public static String parseTimeWithoutSec(String timeStr){
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        s.setTimeZone(TimeZone.getDefault());
+        try {
+            return s.format(getDate(timeStr));
+        }catch (NullPointerException e){
+            return GroundApplication.DEFAULT_TIME_FORMAT;
+        }
+    }
+
     public static Date getDate(String dateStr) {
         SimpleDateFormat s;
         if (dateStr.endsWith("Z")) {

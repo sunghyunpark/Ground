@@ -102,6 +102,7 @@
 
     <!-- Free Board Activity -->
     <string name="free_board_activity_title">자유 게시판</string>
+    <string name="free_board_activity_like_btn">좋아요</string>
 
     <string-array name="matching_board_list">
         <item>서울</item>

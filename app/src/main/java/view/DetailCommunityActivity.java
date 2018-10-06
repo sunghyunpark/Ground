@@ -173,7 +173,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     public void setArticleData(final CommunityModel communityModel){
         title_tv.setText(communityModel.getTitle());
         nick_name_tv.setText(communityModel.getNickName());
-        created_at_tv.setText(Util.parseTime(communityModel.getCreatedAt()));
+        created_at_tv.setText(Util.parseTimeWithoutSec(communityModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+communityModel.getViewCnt());
         contents_tv.setText(communityModel.getContents());
         setUserProfile(communityModel.getProfile());

@@ -74,7 +74,7 @@ public interface ApiInterface {
     Call<BannerListResponse> getHomeBanner();
 
     /**
-     * HOME > 상단 배너 API
+     * 지역별 게시판  > 상단 배너 API
      * @return
      */
     @GET("api/banner/ad/board/")
@@ -223,11 +223,11 @@ public interface ApiInterface {
                                        @Path("areaNo") int areaNo);
 
     /**
-     * 지역별 게시판 업데이트 시간 API
-     * boardType > match / hire / recruit
+     * 지역별 게시판 및 자유게시판 업데이트 시간 API
+     * boardType > match / hire / recruit / free
      * @return
      */
-    @GET("api/boards/updated/{boardType}")
+    @GET("api/updated/{boardType}")
     Call<UpdateTimeResponse> getUpdateTimeList(@Path("boardType") String boardType);
 
     /**

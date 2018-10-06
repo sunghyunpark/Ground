@@ -15,8 +15,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import util.Util;
 import view.FormationActivity;
 import view.FreeBoardActivity;
 import view.dialog.GroundUtilWeatherDialog;
@@ -90,6 +95,7 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class Util_VH extends RecyclerView.ViewHolder{
         @BindView(R.id.item_layout) ViewGroup item_layout;
+        @BindView(R.id.new_layout) ViewGroup new_layout;
         @BindView(R.id.util_tv) TextView util_tv;
         @BindView(R.id.util_iv) ImageView util_iv;
 

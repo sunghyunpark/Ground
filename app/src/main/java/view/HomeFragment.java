@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.ArticleModel;
 import model.BannerModel;
+import model.GroundUtilModel;
 import presenter.HomePresenter;
 import presenter.view.HomeView;
 import util.Util;
@@ -109,6 +110,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayArticleModelArrayList);
+
     }
 
     private void initUI(){

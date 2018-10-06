@@ -13,9 +13,11 @@
         android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
+        android:id="@+id/new_layout"
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:background="@drawable/new_circle_shape"
+        android:visibility="gone"
         android:layout_alignTop="@+id/util_iv"
         android:layout_toLeftOf="@+id/util_iv">
 

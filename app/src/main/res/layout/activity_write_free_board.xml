@@ -55,6 +55,15 @@
         android:orientation="horizontal"
         android:background="#9E9E9E"></LinearLayout>
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <TextView
         android:id="@+id/title_length_tv"
         android:layout_width="wrap_content"
@@ -82,29 +91,28 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="350dp"
         android:layout_margin="15dp"
         android:background="@drawable/comment_shape">
-        <LinearLayout
+        <EditText
+            android:id="@+id/board_contents_et"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <EditText
-                android:id="@+id/board_contents_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:background="@null"
-                android:textSize="15dp"
-                android:padding="15dp"
-                android:gravity="top" />
-            <ImageView
-                android:id="@+id/photo_thumb_iv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"/>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:minHeight="350dp"
+            android:inputType="textMultiLine"
+            android:background="@null"
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:gravity="top" />
     </android.support.v4.widget.NestedScrollView>
 
+    <ImageView
+        android:id="@+id/photo_thumb_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="left"
+        android:layout_marginLeft="15dp"
+        android:visibility="gone"/>
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

@@ -243,7 +243,8 @@
                     <EditText
                         android:id="@+id/comment_et"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="match_parent"
+                        android:minHeight="100dp"
                         android:inputType="textMultiLine"
                         android:background="@null"
                         android:padding="15dp"

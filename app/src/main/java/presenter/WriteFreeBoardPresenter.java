@@ -61,6 +61,7 @@ public class WriteFreeBoardPresenter extends BasePresenter<WriteFreeBoardView> {
                             photoFile.delete();
                         }
                     }catch (NullPointerException e){
+                        // 사진이 없는 경우
                         e.printStackTrace();
                     }
                 }else{

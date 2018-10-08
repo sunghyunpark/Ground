@@ -30,13 +30,24 @@ public class WriteFreeBoardPresenter extends BasePresenter<WriteFreeBoardView> {
     }
 
     public void writeFreeBoard(String uidStr, String titleStr, String contentsStr, String photoPathOfLocal, String photoName){
-        final File photoFile = new File(photoPathOfLocal);
+        final File photoFile;
+        RequestBody requestFile;
+        MultipartBody.Part photoBody;
+        if(photoPathOfLocal.equals("N")){
+            photoFile = null;
+            requestFile = null;
+            photoBody = null;
+        }else{
+            photoFile = new File(photoPathOfLocal);
+            requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoFile);
+            photoBody = MultipartBody.Part.createFormData("photo", photoName, requestFile);
+        }
 
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoFile);
+        //RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoFile);
         RequestBody uid = RequestBody.create(okhttp3.MultipartBody.FORM, uidStr);
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, titleStr);
         RequestBody contents = RequestBody.create(okhttp3.MultipartBody.FORM, contentsStr);
-        MultipartBody.Part photoBody = MultipartBody.Part.createFormData("photo", photoName, requestFile);
+        //MultipartBody.Part photoBody = MultipartBody.Part.createFormData("photo", photoName, requestFile);
 
         Call<CommonResponse> call = apiService.writeFreeArticle(uid, title, contents, photoBody);
         call.enqueue(new Callback<CommonResponse>() {
@@ -45,8 +56,12 @@ public class WriteFreeBoardPresenter extends BasePresenter<WriteFreeBoardView> {
                 CommonResponse commonResponse = response.body();
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "글을 작성하였습니다.");
-                    if(photoFile.exists()){
-                        photoFile.delete();
+                    try {
+                        if(photoFile.exists()){
+                            photoFile.delete();
+                        }
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                     }
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");

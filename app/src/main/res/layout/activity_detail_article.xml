@@ -288,6 +288,8 @@
                 android:id="@+id/contents_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:textIsSelectable="true"
                 android:minHeight="200dp"
                 android:textSize="15dp"
                 android:layout_marginTop="15dp"

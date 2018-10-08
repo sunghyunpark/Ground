@@ -192,6 +192,8 @@
                     android:layout_height="wrap_content"
                     android:minHeight="200dp"
                     android:textSize="15dp"
+                    android:autoLink="all"
+                    android:textIsSelectable="true"
                     android:layout_marginTop="15dp"
                     android:padding="15dp"/>
 

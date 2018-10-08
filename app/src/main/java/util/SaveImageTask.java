@@ -17,8 +17,8 @@ import java.util.Date;
 public class SaveImageTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
 
     private String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-    private String imageFullPath = Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/" + timeStamp + GroundApplication.IMG_NAME;
     private String imageName = timeStamp+GroundApplication.IMG_NAME;
+    private String imageFullPath = Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/" + imageName;
     private File folder_path = new File(Environment.getExternalStorageDirectory() + "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/");
 
     private callbackListener callbackListener;

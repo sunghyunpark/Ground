@@ -188,7 +188,7 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/comment/view/comment")
+    @POST("api/matchComment/view/comment")
     Call<CommonResponse> writeComment(@Field("areaNo") int areaNo,
                                       @Field("articleNo") int articleNo,
                                       @Field("writer_id") String writer_id,
@@ -202,7 +202,7 @@ public interface ApiInterface {
      * @param commentNo
      * @return
      */
-    @GET("api/comment/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
+    @GET("api/matchComment/{boardType}/view/{articleNo}/{areaNo}/commentList/{commentNo}")
     Call<CommentListResponse> getCommentList(@Path("boardType") String boardType,
                                              @Path("articleNo") int articleNo,
                                              @Path("areaNo") int areaNo,
@@ -216,7 +216,7 @@ public interface ApiInterface {
      * @param areaNo
      * @return
      */
-    @DELETE("api/comment/view/comment/delete/{boardType}/{no}/{articleNo}/{areaNo}")
+    @DELETE("api/matchComment/view/comment/delete/{boardType}/{no}/{articleNo}/{areaNo}")
     Call<CommonResponse> deleteComment(@Path("boardType") String boardType,
                                        @Path("no") int commentNo,
                                        @Path("articleNo") int articleNo,

@@ -117,7 +117,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(hasArticleModel){
             matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
             matchArticleModel.setViewCnt(matchArticleModel.getViewCnt()+1);
-            initMode(matchArticleModel.getBoardType());
+            initMode(matchArticleModel.getMatchBoardType());
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+matchArticleModel.getBoardType()+"\nareaNo : "+matchArticleModel.getAreaNo()+"\narticleNo : "+matchArticleModel.getNo());
         }else{
             boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
@@ -140,11 +140,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
             @Override
             public void deleteCommentEvent(int commentNo) {
-                detailArticlePresenter.deleteComment(matchArticleModel.getBoardType(), commentNo, matchArticleModel.getNo(), matchArticleModel.getAreaNo());
+                detailArticlePresenter.deleteComment(matchArticleModel.getMatchBoardType(), commentNo, matchArticleModel.getNo(), matchArticleModel.getAreaNo());
             }
             @Override
             public void reportCommentEvent(int commentNo){
-                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", matchArticleModel.getBoardType(), matchArticleModel.getNo(), commentNo);
+                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
                 reportDialog.show();
             }
         });
@@ -263,8 +263,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         });
 
         if(detailArticlePresenter != null){
-            detailArticlePresenter.loadFavoriteState(matchArticleModel.getBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid);
-            detailArticlePresenter.loadComment(true, matchArticleModel.getNo(), 0, matchArticleModel.getAreaNo(), matchArticleModel.getBoardType());
+            detailArticlePresenter.loadFavoriteState(matchArticleModel.getMatchBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid);
+            detailArticlePresenter.loadComment(true, matchArticleModel.getNo(), 0, matchArticleModel.getAreaNo(), matchArticleModel.getMatchBoardType());
         }
     }
 
@@ -273,7 +273,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
      */
     private void initMatchingStateToggle(){
-        if(matchArticleModel.getBoardType().equals("match")){
+        if(matchArticleModel.getMatchBoardType().equals("match")){
             setMatchingState(matchArticleModel.getMatchState());
             if(!matchArticleModel.getWriterId().equals(uid)){
                 matching_state_toggle.setEnabled(false);
@@ -339,11 +339,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getBoardType(), "N");
+            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getMatchBoardType(), "N");
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getBoardType(), "Y");
+            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getMatchBoardType(), "Y");
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -368,7 +368,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra(GroundApplication.EXTRA_AREA_NO, matchArticleModel.getAreaNo());
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, matchArticleModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, matchArticleModel.getBoardType());
+        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, matchArticleModel.getMatchBoardType());
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.ARTICLE_TYPE_MATCH);
         startActivity(intent);
     }
@@ -436,7 +436,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                detailArticlePresenter.postComment(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid, commentStr, matchArticleModel.getBoardType());
+                detailArticlePresenter.postComment(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid, commentStr, matchArticleModel.getMatchBoardType());
             }
         }else{
             showMessage("로그인을 해주세요.");

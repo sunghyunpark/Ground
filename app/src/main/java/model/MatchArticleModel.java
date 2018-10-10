@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class MatchArticleModel implements Serializable {
     private int no;
     @SerializedName("board_type")
-    private String boardType;
+    private String matchBoardType;
     @SerializedName("area_no")
     private int areaNo;
     @SerializedName("writer_id")
@@ -44,12 +44,12 @@ public class MatchArticleModel implements Serializable {
         this.no = no;
     }
 
-    public String getBoardType() {
-        return boardType;
+    public String getMatchBoardType() {
+        return matchBoardType;
     }
 
-    public void setBoardType(String boardType) {
-        this.boardType = boardType;
+    public void setMatchBoardType(String matchBoardType) {
+        this.matchBoardType = matchBoardType;
     }
 
     public int getAreaNo() {

@@ -110,7 +110,7 @@ public class DetailMoreDialog extends Dialog {
         alert.setMessage("정말 삭제 하시겠습니까?");
         alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                deleteBoard(matchArticleModel.getBoardType(), matchArticleModel.getNo(), UserModel.getInstance().getUid());
+                deleteBoard(matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), UserModel.getInstance().getUid());
             }
         });
         alert.setNegativeButton("아니오",
@@ -125,7 +125,7 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.report_tv) void reportBtn(){
-        ReportDialog reportDialog = new ReportDialog(getContext(), "article", matchArticleModel.getBoardType(), matchArticleModel.getNo(), 0);
+        ReportDialog reportDialog = new ReportDialog(getContext(), "article", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), 0);
         reportDialog.show();
         dismiss();
     }

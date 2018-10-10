@@ -70,7 +70,7 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     }
 
     private void init(){
-        initMode(matchArticleModel.getBoardType());
+        initMode(matchArticleModel.getMatchBoardType());
 
         editBoardPresenter = new EditBoardPresenter(this, getApplicationContext());
         board_title_et.addTextChangedListener(this);
@@ -82,22 +82,22 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         if(boardMode == MATCH_MODE){
             matchingDateTv.setText(matchArticleModel.getMatchDate());
             ageTv.setText(matchArticleModel.getAverageAge()+"대");
+            String [] matchDateArray;
+            try{
+                matchDateArray= matchArticleModel.getMatchDate().split("-");
+                year = Integer.parseInt(matchDateArray[0]);
+                month = Integer.parseInt(matchDateArray[1]);
+                day = Integer.parseInt(matchDateArray[2]);
+            }catch (NumberFormatException e){
+                //matchArticleModel 에 데이터가 없어 포맷 exception 이 발생하는 경우
+                Calendar cal = Calendar.getInstance();
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH)+1;
+                day = cal.get(Calendar.DATE);
+            }
         }else{
             matchingDateLayout.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
-        }
-        String [] matchDateArray;
-        try{
-            matchDateArray= matchArticleModel.getMatchDate().split("-");
-            year = Integer.parseInt(matchDateArray[0]);
-            month = Integer.parseInt(matchDateArray[1]);
-            day = Integer.parseInt(matchDateArray[2]);
-        }catch (NumberFormatException e){
-            //matchArticleModel 에 데이터가 없어 포맷 exception 이 발생하는 경우
-            Calendar cal = Calendar.getInstance();
-            year = cal.get(Calendar.YEAR);
-            month = cal.get(Calendar.MONTH)+1;
-            day = cal.get(Calendar.DATE);
         }
     }
 

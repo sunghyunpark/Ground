@@ -371,7 +371,7 @@ public interface ApiInterface {
      */
     @GET("api/communityComment/free/commentList/{articleNo}/{commentNo}")
     Call<CommentListResponse> getFreeArticleCommentList(@Path("articleNo") int articleNo,
-                                             @Path("commentNo") int commentNo);
+                                                        @Path("commentNo") int commentNo);
 
     /**
      * 자유게시판 댓글 작성 API
@@ -383,7 +383,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/communityComment/free/comment")
     Call<CommonResponse> writeFreeArticleComment(@Field("articleNo") int articleNo,
-                                      @Field("writer_id") String writer_id,
-                                      @Field("comment") String comment);
+                                                 @Field("writer_id") String writer_id,
+                                                 @Field("comment") String comment);
 
 }

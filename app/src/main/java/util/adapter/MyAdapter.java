@@ -26,7 +26,7 @@ import model.CommentModel;
 import model.UserModel;
 import util.SessionManager;
 import util.Util;
-import view.DetailMatchArticleActivity;
+import view.DetailMatchMatchArticleActivity;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     private static final int TYPE_ARTICLE = 0;
@@ -88,7 +88,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                 public void onClick(View view) {
                     if(sessionManager.isLoggedIn()){
                         //login
-                        Intent intent = new Intent(context, DetailMatchArticleActivity.class);
+                        Intent intent = new Intent(context, DetailMatchMatchArticleActivity.class);
                         intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
                         intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
                         intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
@@ -146,7 +146,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                 public void onClick(View view) {
                     if(sessionManager.isLoggedIn()){
                         //login
-                        Intent intent = new Intent(context, DetailMatchArticleActivity.class);
+                        Intent intent = new Intent(context, DetailMatchMatchArticleActivity.class);
                         intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
                         intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
                         intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);

@@ -38,7 +38,7 @@ import model.MatchArticleModel;
 import model.CommentModel;
 import model.UserModel;
 import presenter.DetailMatchArticlePresenter;
-import presenter.view.DetailArticleView;
+import presenter.view.DetailMatchArticleView;
 import util.JMediaScanner;
 import util.SaveImageTask;
 import util.Util;
@@ -46,7 +46,7 @@ import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
 import view.dialog.ReportDialog;
 
-public class DetailMatchArticleActivity extends BaseActivity implements DetailArticleView{
+public class DetailMatchMatchArticleActivity extends BaseActivity implements DetailMatchArticleView {
 
     private static final int REQUEST_PERMISSIONS = 10;
     private static final int REQUEST_EDIT = 1000;
@@ -144,7 +144,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailAr
             }
             @Override
             public void reportCommentEvent(int commentNo){
-                ReportDialog reportDialog = new ReportDialog(DetailMatchArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
+                ReportDialog reportDialog = new ReportDialog(DetailMatchMatchArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
                 reportDialog.show();
             }
         });
@@ -456,20 +456,20 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailAr
     }
 
     @OnClick(R.id.capture_btn) void captureBtn(){
-        if (ContextCompat.checkSelfPermission(DetailMatchArticleActivity.this,
+        if (ContextCompat.checkSelfPermission(DetailMatchMatchArticleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(DetailMatchArticleActivity.this,
+                .checkSelfPermission(DetailMatchMatchArticleActivity.this,
                         Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (DetailMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    (DetailMatchMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
+                ActivityCompat.requestPermissions(DetailMatchMatchArticleActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);
             } else {
-                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
+                ActivityCompat.requestPermissions(DetailMatchMatchArticleActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);

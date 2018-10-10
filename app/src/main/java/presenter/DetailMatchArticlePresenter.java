@@ -14,14 +14,14 @@ import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import base.presenter.BasePresenter;
 import model.CommentModel;
-import presenter.view.DetailArticleView;
+import presenter.view.DetailMatchArticleView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.Util;
 import util.adapter.CommentAdapter;
 
-public class DetailMatchArticlePresenter extends BasePresenter<DetailArticleView>{
+public class DetailMatchArticlePresenter extends BasePresenter<DetailMatchArticleView>{
 
     private Context context;
     //Comment Data
@@ -36,7 +36,7 @@ public class DetailMatchArticlePresenter extends BasePresenter<DetailArticleView
      * @param commentModelArrayList
      * @param commentAdapter
      */
-    public DetailMatchArticlePresenter(Context context, DetailArticleView view, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
+    public DetailMatchArticlePresenter(Context context, DetailMatchArticleView view, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
         super(view);
         this.context = context;
         this.commentModelArrayList = commentModelArrayList;

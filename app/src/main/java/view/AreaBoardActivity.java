@@ -113,7 +113,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
-                Intent intent = new Intent(getApplicationContext(), DetailMatchArticleActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DetailMatchMatchArticleActivity.class);
                 intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
                 intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
                 intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);

@@ -3,7 +3,7 @@ package presenter.view;
 import base.presenter.view.BasePresenterView;
 import model.MatchArticleModel;
 
-public interface DetailArticleView extends BasePresenterView{
+public interface DetailMatchArticleView extends BasePresenterView{
 
     void favoriteClick();
 

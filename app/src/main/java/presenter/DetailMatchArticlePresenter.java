@@ -21,7 +21,7 @@ import retrofit2.Response;
 import util.Util;
 import util.adapter.CommentAdapter;
 
-public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
+public class DetailMatchArticlePresenter extends BasePresenter<DetailArticleView>{
 
     private Context context;
     //Comment Data
@@ -36,7 +36,7 @@ public class DetailArticlePresenter extends BasePresenter<DetailArticleView>{
      * @param commentModelArrayList
      * @param commentAdapter
      */
-    public DetailArticlePresenter(Context context, DetailArticleView view, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
+    public DetailMatchArticlePresenter(Context context, DetailArticleView view, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
         super(view);
         this.context = context;
         this.commentModelArrayList = commentModelArrayList;

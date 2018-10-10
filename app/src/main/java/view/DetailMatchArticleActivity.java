@@ -37,7 +37,7 @@ import butterknife.OnClick;
 import model.MatchArticleModel;
 import model.CommentModel;
 import model.UserModel;
-import presenter.DetailArticlePresenter;
+import presenter.DetailMatchArticlePresenter;
 import presenter.view.DetailArticleView;
 import util.JMediaScanner;
 import util.SaveImageTask;
@@ -46,7 +46,7 @@ import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
 import view.dialog.ReportDialog;
 
-public class DetailArticleActivity extends BaseActivity implements DetailArticleView{
+public class DetailMatchArticleActivity extends BaseActivity implements DetailArticleView{
 
     private static final int REQUEST_PERMISSIONS = 10;
     private static final int REQUEST_EDIT = 1000;
@@ -62,7 +62,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private String boardType;    // api 호출로 새로 불러올때 사용될 변수
     private int areaNo, articleNo;    // api 호출로 새로 불러올때 사용될 변수
     private MatchArticleModel matchArticleModel;
-    private DetailArticlePresenter detailArticlePresenter;
+    private DetailMatchArticlePresenter detailMatchArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
     @BindView(R.id.rootView) ViewGroup root_view;
@@ -88,7 +88,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     public void onDestroy(){
         super.onDestroy();
         matchArticleModel = null;
-        detailArticlePresenter = null;
+        detailMatchArticlePresenter = null;
     }
 
     @Override
@@ -140,11 +140,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
             @Override
             public void deleteCommentEvent(int commentNo) {
-                detailArticlePresenter.deleteComment(matchArticleModel.getMatchBoardType(), commentNo, matchArticleModel.getNo(), matchArticleModel.getAreaNo());
+                detailMatchArticlePresenter.deleteComment(matchArticleModel.getMatchBoardType(), commentNo, matchArticleModel.getNo(), matchArticleModel.getAreaNo());
             }
             @Override
             public void reportCommentEvent(int commentNo){
-                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
+                ReportDialog reportDialog = new ReportDialog(DetailMatchArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
                 reportDialog.show();
             }
         });
@@ -152,7 +152,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         comment_recyclerView.setAdapter(commentAdapter);
         comment_recyclerView.setNestedScrollingEnabled(false);
 
-        detailArticlePresenter = new DetailArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
+        detailMatchArticlePresenter = new DetailMatchArticlePresenter(getApplicationContext(), this, commentModelArrayList, commentAdapter);
     }
 
     // boardType 에 따른 MODE 초기화
@@ -177,7 +177,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(hasArticleModel){
             setArticleData(matchArticleModel);
         }else{
-            detailArticlePresenter.loadArticleData(boardType, areaNo, articleNo, uid);
+            detailMatchArticlePresenter.loadArticleData(boardType, areaNo, articleNo, uid);
         }
     }
 
@@ -258,13 +258,13 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             public void onClick(View view) {
                 setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
                 matchArticleModel.setMatchState(matching_state_toggle.isChecked() ? "Y" : "N");
-                detailArticlePresenter.changeMatchState(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
+                detailMatchArticlePresenter.changeMatchState(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
 
-        if(detailArticlePresenter != null){
-            detailArticlePresenter.loadFavoriteState(matchArticleModel.getMatchBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid);
-            detailArticlePresenter.loadComment(true, matchArticleModel.getNo(), 0, matchArticleModel.getAreaNo(), matchArticleModel.getMatchBoardType());
+        if(detailMatchArticlePresenter != null){
+            detailMatchArticlePresenter.loadFavoriteState(matchArticleModel.getMatchBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid);
+            detailMatchArticlePresenter.loadComment(true, matchArticleModel.getNo(), 0, matchArticleModel.getAreaNo(), matchArticleModel.getMatchBoardType());
         }
     }
 
@@ -339,11 +339,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getMatchBoardType(), "N");
+            detailMatchArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getMatchBoardType(), "N");
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getMatchBoardType(), "Y");
+            detailMatchArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getMatchBoardType(), "Y");
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -436,7 +436,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                detailArticlePresenter.postComment(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid, commentStr, matchArticleModel.getMatchBoardType());
+                detailMatchArticlePresenter.postComment(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid, commentStr, matchArticleModel.getMatchBoardType());
             }
         }else{
             showMessage("로그인을 해주세요.");
@@ -456,20 +456,20 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @OnClick(R.id.capture_btn) void captureBtn(){
-        if (ContextCompat.checkSelfPermission(DetailArticleActivity.this,
+        if (ContextCompat.checkSelfPermission(DetailMatchArticleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(DetailArticleActivity.this,
+                .checkSelfPermission(DetailMatchArticleActivity.this,
                         Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (DetailArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    (DetailMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                ActivityCompat.requestPermissions(DetailArticleActivity.this,
+                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);
             } else {
-                ActivityCompat.requestPermissions(DetailArticleActivity.this,
+                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);

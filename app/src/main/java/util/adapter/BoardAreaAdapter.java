@@ -104,6 +104,11 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    /**
+     * 임의의 지역 게시판으로 이동
+     * @param currentItem
+     * @param boardType
+     */
     private void goAreaBoardActivity(AreaModel currentItem, String boardType){
         Intent intent = new Intent(context, AreaBoardActivity.class);
         intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, boardType);

@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -23,7 +22,7 @@ import database.RealmConfig;
 import database.model.UserVO;
 import io.realm.Realm;
 import util.SessionManager;
-import view.DetailArticleActivity;
+import view.DetailMatchArticleActivity;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -78,7 +77,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(Map<String, String> dataMap) {
-        Intent detailIntent = new Intent(this, DetailArticleActivity.class);
+        Intent detailIntent = new Intent(this, DetailMatchArticleActivity.class);
         if(dataMap.get("type").equals("comment")){
             detailIntent.putExtra("uid", getUserId());
             detailIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);

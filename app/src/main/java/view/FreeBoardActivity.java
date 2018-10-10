@@ -124,7 +124,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
             }
         }else if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                communityModelArrayList.set(detailPosition, (CommunityModel)data.getExtras().getSerializable("articleModel"));
+                communityModelArrayList.set(detailPosition, (CommunityModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
                 freeBoardAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
                 freeBoardAdapter.onItemDismiss(detailPosition);

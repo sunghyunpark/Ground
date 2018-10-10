@@ -200,7 +200,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
         }else if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable("articleModel"));
+                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
                 areaBoardAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
                 areaBoardAdapter.onItemDismiss(detailPosition);

@@ -50,9 +50,9 @@ public class CommentActivity extends BaseActivity implements CommentView{
 
         Intent intent = getIntent();
         articleType=  intent.getExtras().getString(GroundApplication.EXTRA_ARTICLE_TYPE);    // match(match / hire / recruit) / free
-        if(articleType.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+        if(articleType.equals(GroundApplication.BOARD_TYPE_MATCH)){
             areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
-            boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+            boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
         }
         articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
 

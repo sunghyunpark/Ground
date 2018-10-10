@@ -46,7 +46,7 @@ import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
 import view.dialog.ReportDialog;
 
-public class DetailMatchMatchArticleActivity extends BaseActivity implements DetailMatchArticleView {
+public class DetailMatchArticleActivity extends BaseActivity implements DetailMatchArticleView {
 
     private static final int REQUEST_PERMISSIONS = 10;
     private static final int REQUEST_EDIT = 1000;
@@ -120,7 +120,7 @@ public class DetailMatchMatchArticleActivity extends BaseActivity implements Det
             initMode(matchArticleModel.getMatchBoardType());
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+matchArticleModel.getBoardType()+"\nareaNo : "+matchArticleModel.getAreaNo()+"\narticleNo : "+matchArticleModel.getNo());
         }else{
-            boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+            boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
             areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
             articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
             initMode(boardType);
@@ -144,7 +144,7 @@ public class DetailMatchMatchArticleActivity extends BaseActivity implements Det
             }
             @Override
             public void reportCommentEvent(int commentNo){
-                ReportDialog reportDialog = new ReportDialog(DetailMatchMatchArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
+                ReportDialog reportDialog = new ReportDialog(DetailMatchArticleActivity.this, "comment", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), commentNo);
                 reportDialog.show();
             }
         });
@@ -368,8 +368,8 @@ public class DetailMatchMatchArticleActivity extends BaseActivity implements Det
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra(GroundApplication.EXTRA_AREA_NO, matchArticleModel.getAreaNo());
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, matchArticleModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, matchArticleModel.getMatchBoardType());
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.ARTICLE_TYPE_MATCH);
+        intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, matchArticleModel.getMatchBoardType());
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.BOARD_TYPE_MATCH);
         startActivity(intent);
     }
 
@@ -456,20 +456,20 @@ public class DetailMatchMatchArticleActivity extends BaseActivity implements Det
     }
 
     @OnClick(R.id.capture_btn) void captureBtn(){
-        if (ContextCompat.checkSelfPermission(DetailMatchMatchArticleActivity.this,
+        if (ContextCompat.checkSelfPermission(DetailMatchArticleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(DetailMatchMatchArticleActivity.this,
+                .checkSelfPermission(DetailMatchArticleActivity.this,
                         Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (DetailMatchMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    (DetailMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                ActivityCompat.requestPermissions(DetailMatchMatchArticleActivity.this,
+                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);
             } else {
-                ActivityCompat.requestPermissions(DetailMatchMatchArticleActivity.this,
+                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);

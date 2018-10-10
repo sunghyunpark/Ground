@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -61,7 +60,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+        boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
         area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
         areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO,0);
 

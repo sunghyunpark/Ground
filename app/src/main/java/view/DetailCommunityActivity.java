@@ -158,7 +158,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, communityModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.ARTICLE_TYPE_FREE);
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.BOARD_TYPE_FREE);
         startActivity(intent);
     }
 

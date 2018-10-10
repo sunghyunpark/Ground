@@ -25,7 +25,7 @@ import model.UserModel;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
-import view.DetailMatchMatchArticleActivity;
+import view.DetailMatchArticleActivity;
 
 public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 1;
@@ -89,7 +89,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }else if(!NetworkUtils.isNetworkConnected(context)){
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
-                        Intent intent = new Intent(context, DetailMatchMatchArticleActivity.class);
+                        Intent intent = new Intent(context, DetailMatchArticleActivity.class);
                         intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
                         intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
                         intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);

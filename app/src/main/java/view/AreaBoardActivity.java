@@ -94,7 +94,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+        boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
         area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
         areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
 
@@ -113,7 +113,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
-                Intent intent = new Intent(getApplicationContext(), DetailMatchMatchArticleActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DetailMatchArticleActivity.class);
                 intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
                 intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
                 intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
@@ -218,7 +218,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         if(isLogin()){
             //login
             Intent intent = new Intent(getApplicationContext(), WriteBoardActivity.class);
-            intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, boardType);
+            intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, boardType);
             intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
             intent.putExtra(GroundApplication.EXTRA_AREA_NO, areaNo);
             startActivityForResult(intent, REQUEST_WRITE);

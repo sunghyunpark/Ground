@@ -47,9 +47,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
     public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
         Call<CommonResponse> call = null;
 
-        if(type.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
             call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
-        }else if(type.equals(GroundApplication.ARTICLE_TYPE_FREE)){
+        }else if(type.equals(GroundApplication.BOARD_TYPE_FREE)){
             call = apiService.writeFreeArticleComment(articleNo, writerId, comment);
         }
         call.enqueue(new Callback<CommonResponse>() {
@@ -108,9 +108,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
             commentModelArrayList.clear();
         Call<CommentListResponse> call = null;
 
-        if(type.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
             call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
-        }else if(type.equals(GroundApplication.ARTICLE_TYPE_FREE)){
+        }else if(type.equals(GroundApplication.BOARD_TYPE_FREE)){
             call = apiService.getFreeArticleCommentList(articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {
@@ -147,9 +147,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         if(refresh)
             commentModelArrayList.clear();
         Call<CommentListResponse> call = null;
-        if(type.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
             call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
-        }else if(type.equals(GroundApplication.ARTICLE_TYPE_FREE)){
+        }else if(type.equals(GroundApplication.BOARD_TYPE_FREE)){
             call = apiService.getFreeArticleCommentList(articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {

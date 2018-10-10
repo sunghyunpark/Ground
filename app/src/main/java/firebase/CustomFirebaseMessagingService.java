@@ -22,7 +22,7 @@ import database.RealmConfig;
 import database.model.UserVO;
 import io.realm.Realm;
 import util.SessionManager;
-import view.DetailMatchMatchArticleActivity;
+import view.DetailMatchArticleActivity;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -77,7 +77,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(Map<String, String> dataMap) {
-        Intent detailIntent = new Intent(this, DetailMatchMatchArticleActivity.class);
+        Intent detailIntent = new Intent(this, DetailMatchArticleActivity.class);
         if(dataMap.get("type").equals("comment")){
             detailIntent.putExtra("uid", getUserId());
             detailIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);

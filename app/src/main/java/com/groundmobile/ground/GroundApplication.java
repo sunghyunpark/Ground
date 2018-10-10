@@ -28,7 +28,7 @@ public class GroundApplication extends Application{
 
     //KEY
     public static final String EXTRA_USER_ID = "uid";
-    public static final String EXTRA_BOARD_TYPE = "boardType";
+    public static final String EXTRA_MATCH_BOARD_TYPE = "boardType";    // match 게시판(match/hire/recruit)에만 사용된다. 분기처리용.
     public static final String EXTRA_AREA_NAME = "area";
     public static final String EXTRA_AREA_NO = "areaNo";
     public static final String EXTRA_ARTICLE_NO = "articleNo";
@@ -39,8 +39,8 @@ public class GroundApplication extends Application{
     public static final String EXTRA_ARTICLE_TYPE = "articleType";
 
     //ARTICLE TYPE 댓글 관련하여 match(match/hire/recruit) / free 를 구분할 때 사용
-    public static final String ARTICLE_TYPE_MATCH = "match";
-    public static final String ARTICLE_TYPE_FREE = "free";
+    public static final String BOARD_TYPE_MATCH = "match";    // match(match / hire / recruit)
+    public static final String BOARD_TYPE_FREE = "free";
 
     @Override
     public void onCreate() {

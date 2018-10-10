@@ -111,7 +111,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     private void goAreaBoardActivity(AreaModel currentItem, String boardType){
         Intent intent = new Intent(context, AreaBoardActivity.class);
-        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, boardType);
+        intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, boardType);
         intent.putExtra(GroundApplication.EXTRA_AREA_NAME, currentItem.getAreaName());
         intent.putExtra(GroundApplication.EXTRA_AREA_NO, currentItem.getAreaNo());
         context.startActivity(intent);

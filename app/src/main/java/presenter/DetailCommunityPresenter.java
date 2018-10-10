@@ -37,6 +37,10 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
         apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
+    /**
+     * DetailCommunity 화면 진입 시 data 가 없는 경우 (ex. 푸시를 타고 진입하는 경우) 에는 본 메소드를 통해 새롭게 data 를 받아온다.
+     * @param communityNo
+     */
     public void loadArticleData(int communityNo){
         Call<CommunityModelListResponse> call = apiService.getFreeArticleList(communityNo);
         call.enqueue(new Callback<CommunityModelListResponse>() {

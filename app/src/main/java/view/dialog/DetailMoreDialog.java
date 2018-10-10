@@ -29,7 +29,6 @@ import util.Util;
 public class DetailMoreDialog extends Dialog {
 
     private ArticleModel articleModel;
-    private String area;
 
     private DetailMoreDialogListener detailMoreDialogListener;
 
@@ -37,11 +36,10 @@ public class DetailMoreDialog extends Dialog {
     @BindView(R.id.delete_article_tv) TextView delete_tv;
     @BindView(R.id.report_tv) TextView report_tv;
 
-    public DetailMoreDialog(Context context, String area, ArticleModel articleModel,
+    public DetailMoreDialog(Context context, ArticleModel articleModel,
                             DetailMoreDialogListener detailMoreDialogListener){
         super(context);
         this.articleModel = articleModel;
-        this.area = area;
         this.detailMoreDialogListener = detailMoreDialogListener;
     }
 

@@ -499,7 +499,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      * - 게시글 수정
      */
     @OnClick(R.id.detail_more_btn) void moreBtn(){
-        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, area, articleModel, new DetailMoreDialog.DetailMoreDialogListener() {
+        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, articleModel, new DetailMoreDialog.DetailMoreDialogListener() {
             @Override
             public void deleteArticleEvent() {
                 Intent returnIntent = new Intent();

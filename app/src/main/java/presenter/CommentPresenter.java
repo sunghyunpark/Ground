@@ -22,6 +22,7 @@ import util.Util;
 import util.adapter.CommentAdapter;
 
 /**
+ * CommentActivity 에서 사용된다.
  * 댓글의 경우 매치(매치 / 용병 / 모집)와 커뮤니티(자유게시판)이 같아 공통적으로 사용하고자함.
  * 따라서 아래의 타입에 따라 분기처리하여 사용하도록함.
  * boardType -> match(match / hire / recruit) / free

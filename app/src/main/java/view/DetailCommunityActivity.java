@@ -220,9 +220,14 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         }
     }
 
+    /**
+     * 새롭게 받아온 community Data 를 init 한다.
+     * @param communityData
+     */
     @Override
-    public void loadArticleData(CommunityModel communityModel){
-
+    public void loadArticleData(CommunityModel communityData){
+        communityModel = communityData;
+        setArticleData(communityModel);
     }
 
     @Override

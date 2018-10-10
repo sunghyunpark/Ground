@@ -25,7 +25,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import presenter.EditBoardPresenter;
 import presenter.view.EditBoardView;
 import util.Util;
@@ -39,7 +39,7 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     private int boardMode;
 
     private String area;
-    private ArticleModel articleModel;
+    private MatchArticleModel matchArticleModel;
     private String beforeStr;
     private EditBoardPresenter editBoardPresenter;
 
@@ -63,37 +63,37 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
 
         Intent intent = getIntent();
         area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
-        articleModel = new ArticleModel();
-        articleModel = (ArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+        matchArticleModel = new MatchArticleModel();
+        matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
 
         init();
     }
 
     private void init(){
-        initMode(articleModel.getBoardType());
+        initMode(matchArticleModel.getBoardType());
 
         editBoardPresenter = new EditBoardPresenter(this, getApplicationContext());
         board_title_et.addTextChangedListener(this);
         area_tv.setText(area);
-        board_title_et.setText(articleModel.getTitle());
-        board_contents_et.setText(articleModel.getContents());
+        board_title_et.setText(matchArticleModel.getTitle());
+        board_contents_et.setText(matchArticleModel.getContents());
 
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
         if(boardMode == MATCH_MODE){
-            matchingDateTv.setText(articleModel.getMatchDate());
-            ageTv.setText(articleModel.getAverageAge()+"대");
+            matchingDateTv.setText(matchArticleModel.getMatchDate());
+            ageTv.setText(matchArticleModel.getAverageAge()+"대");
         }else{
             matchingDateLayout.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
         }
         String [] matchDateArray;
         try{
-            matchDateArray= articleModel.getMatchDate().split("-");
+            matchDateArray= matchArticleModel.getMatchDate().split("-");
             year = Integer.parseInt(matchDateArray[0]);
             month = Integer.parseInt(matchDateArray[1]);
             day = Integer.parseInt(matchDateArray[2]);
         }catch (NumberFormatException e){
-            //articleModel 에 데이터가 없어 포맷 exception 이 발생하는 경우
+            //matchArticleModel 에 데이터가 없어 포맷 exception 이 발생하는 경우
             Calendar cal = Calendar.getInstance();
             year = cal.get(Calendar.YEAR);
             month = cal.get(Calendar.MONTH)+1;
@@ -120,15 +120,15 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         if(titleStr.equals("") || contentsStr.equals("")){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-            articleModel.setTitle(titleStr);
-            articleModel.setContents(contentsStr);
+            matchArticleModel.setTitle(titleStr);
+            matchArticleModel.setContents(contentsStr);
             if(boardMode == MATCH_MODE){
-                articleModel.setMatchDate(matchingDateTv.getText().toString().trim());
-                articleModel.setAverageAge(ageTv.getText().toString().trim().replace("대", ""));
+                matchArticleModel.setMatchDate(matchingDateTv.getText().toString().trim());
+                matchArticleModel.setAverageAge(ageTv.getText().toString().trim().replace("대", ""));
             }
-            editBoardPresenter.EditBoard(articleModel);
+            editBoardPresenter.EditBoard(matchArticleModel);
             Intent returnIntent = new Intent();
-            returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
+            returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }

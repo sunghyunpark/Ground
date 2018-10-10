@@ -1,7 +1,7 @@
 package presenter.view;
 
 import base.presenter.view.BasePresenterView;
-import model.ArticleModel;
+import model.MatchArticleModel;
 
 public interface DetailArticleView extends BasePresenterView{
 
@@ -13,9 +13,9 @@ public interface DetailArticleView extends BasePresenterView{
 
     void writeComment();
 
-    void setArticleData(ArticleModel articleModel);
+    void setArticleData(MatchArticleModel matchArticleModel);
 
-    void loadArticleData(ArticleModel articleModel);
+    void loadArticleData(MatchArticleModel matchArticleModel);
 
     void setFavoriteState(int state);
 

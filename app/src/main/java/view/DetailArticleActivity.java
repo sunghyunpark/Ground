@@ -34,7 +34,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.CommentModel;
 import model.UserModel;
 import presenter.DetailArticlePresenter;
@@ -61,7 +61,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     private boolean hasArticleModel;
     private String boardType;    // api 호출로 새로 불러올때 사용될 변수
     private int areaNo, articleNo;    // api 호출로 새로 불러올때 사용될 변수
-    private ArticleModel articleModel;
+    private MatchArticleModel matchArticleModel;
     private DetailArticlePresenter detailArticlePresenter;
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
 
@@ -87,7 +87,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     public void onDestroy(){
         super.onDestroy();
-        articleModel = null;
+        matchArticleModel = null;
         detailArticlePresenter = null;
     }
 
@@ -98,8 +98,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     /**
-     * ArticleModel 객체 생성 후 전 화면에서 넘겨받은 ArticleModel 을 할당한다.
-     * 상세 게시글 진입 시 articleModel 내의 viewCnt 를 +1 해준다.
+     * MatchArticleModel 객체 생성 후 전 화면에서 넘겨받은 MatchArticleModel 을 할당한다.
+     * 상세 게시글 진입 시 matchArticleModel 내의 viewCnt 를 +1 해준다.
      * @param savedInstanceState
      */
     @Override
@@ -113,12 +113,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         hasArticleModel = intent.getExtras().getBoolean(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL);
         uid = intent.getExtras().getString(GroundApplication.EXTRA_USER_ID);
         UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
-        articleModel = new ArticleModel();
+        matchArticleModel = new MatchArticleModel();
         if(hasArticleModel){
-            articleModel = (ArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
-            articleModel.setViewCnt(articleModel.getViewCnt()+1);
-            initMode(articleModel.getBoardType());
-            //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+articleModel.getBoardType()+"\nareaNo : "+articleModel.getAreaNo()+"\narticleNo : "+articleModel.getNo());
+            matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+            matchArticleModel.setViewCnt(matchArticleModel.getViewCnt()+1);
+            initMode(matchArticleModel.getBoardType());
+            //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+matchArticleModel.getBoardType()+"\nareaNo : "+matchArticleModel.getAreaNo()+"\narticleNo : "+matchArticleModel.getNo());
         }else{
             boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
             areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
@@ -140,11 +140,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
             @Override
             public void deleteCommentEvent(int commentNo) {
-                detailArticlePresenter.deleteComment(articleModel.getBoardType(), commentNo, articleModel.getNo(), articleModel.getAreaNo());
+                detailArticlePresenter.deleteComment(matchArticleModel.getBoardType(), commentNo, matchArticleModel.getNo(), matchArticleModel.getAreaNo());
             }
             @Override
             public void reportCommentEvent(int commentNo){
-                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", articleModel.getBoardType(), articleModel.getNo(), commentNo);
+                ReportDialog reportDialog = new ReportDialog(DetailArticleActivity.this, "comment", matchArticleModel.getBoardType(), matchArticleModel.getNo(), commentNo);
                 reportDialog.show();
             }
         });
@@ -168,14 +168,14 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     /**
      * 상단 타이틀 명 초기화(지역명)
-     * articleModel 내의 데이터를 각 뷰에 넣어준다.
+     * matchArticleModel 내의 데이터를 각 뷰에 넣어준다.
      * commentPresenter 를 통해 해당 게시글의 좋아요 상태를 초기화 해준다.
      * commentPresenter 를 통해 해당 게시글의 댓글 리스트들을 api 로 받아온다.
      */
     private void initUI(){
         area_tv.setText(area);
         if(hasArticleModel){
-            setArticleData(articleModel);
+            setArticleData(matchArticleModel);
         }else{
             detailArticlePresenter.loadArticleData(boardType, areaNo, articleNo, uid);
         }
@@ -226,45 +226,45 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     @Override
-    public void loadArticleData(ArticleModel articleData){
-        articleModel = articleData;
-        setArticleData(articleModel);
+    public void loadArticleData(MatchArticleModel articleData){
+        matchArticleModel = articleData;
+        setArticleData(matchArticleModel);
     }
 
     /**
-     * articleModel 을 통해 상세 게시글 내의 view 들에 데이터를 넣어준다.
+     * matchArticleModel 을 통해 상세 게시글 내의 view 들에 데이터를 넣어준다.
      * 매칭 상태 토글 버튼 초기화
-     * @param articleModel
+     * @param matchArticleModel
      */
     @Override
-    public void setArticleData(final ArticleModel articleModel){
-        title_tv.setText(articleModel.getTitle());
-        nick_name_tv.setText(articleModel.getNickName());
-        created_at_tv.setText(Util.parseTime(articleModel.getCreatedAt()));
-        view_cnt_tv.setText("조회 "+articleModel.getViewCnt());
+    public void setArticleData(final MatchArticleModel matchArticleModel){
+        title_tv.setText(matchArticleModel.getTitle());
+        nick_name_tv.setText(matchArticleModel.getNickName());
+        created_at_tv.setText(Util.parseTime(matchArticleModel.getCreatedAt()));
+        view_cnt_tv.setText("조회 "+ matchArticleModel.getViewCnt());
         if(boardMode == MATCH_MODE){
-            match_date_tv.setText(articleModel.getMatchDate());
-            age_tv.setText(articleModel.getAverageAge()+"대");
+            match_date_tv.setText(matchArticleModel.getMatchDate());
+            age_tv.setText(matchArticleModel.getAverageAge()+"대");
         }else{
             match_date_layout.setVisibility(View.GONE);
             age_layout.setVisibility(View.GONE);
         }
-        contents_tv.setText(articleModel.getContents());
-        setUserProfile(articleModel.getProfile());
+        contents_tv.setText(matchArticleModel.getContents());
+        setUserProfile(matchArticleModel.getProfile());
         initMatchingStateToggle();
 
         matching_state_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
-                articleModel.setMatchState(matching_state_toggle.isChecked() ? "Y" : "N");
-                detailArticlePresenter.changeMatchState(articleModel.getAreaNo(), articleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
+                matchArticleModel.setMatchState(matching_state_toggle.isChecked() ? "Y" : "N");
+                detailArticlePresenter.changeMatchState(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
             }
         });
 
         if(detailArticlePresenter != null){
-            detailArticlePresenter.loadFavoriteState(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), uid);
-            detailArticlePresenter.loadComment(true, articleModel.getNo(), 0, articleModel.getAreaNo(), articleModel.getBoardType());
+            detailArticlePresenter.loadFavoriteState(matchArticleModel.getBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid);
+            detailArticlePresenter.loadComment(true, matchArticleModel.getNo(), 0, matchArticleModel.getAreaNo(), matchArticleModel.getBoardType());
         }
     }
 
@@ -273,9 +273,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
      */
     private void initMatchingStateToggle(){
-        if(articleModel.getBoardType().equals("match")){
-            setMatchingState(articleModel.getMatchState());
-            if(!articleModel.getWriterId().equals(uid)){
+        if(matchArticleModel.getBoardType().equals("match")){
+            setMatchingState(matchArticleModel.getMatchState());
+            if(!matchArticleModel.getWriterId().equals(uid)){
                 matching_state_toggle.setEnabled(false);
             }
         }else{
@@ -339,11 +339,11 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(articleModel.getNo(), uid, articleModel.getBoardType(), "N");
+            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getBoardType(), "N");
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            detailArticlePresenter.postFavoriteState(articleModel.getNo(), uid, articleModel.getBoardType(), "Y");
+            detailArticlePresenter.postFavoriteState(matchArticleModel.getNo(), uid, matchArticleModel.getBoardType(), "Y");
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -366,9 +366,9 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     @Override
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
-        intent.putExtra(GroundApplication.EXTRA_AREA_NO, articleModel.getAreaNo());
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, articleModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, articleModel.getBoardType());
+        intent.putExtra(GroundApplication.EXTRA_AREA_NO, matchArticleModel.getAreaNo());
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, matchArticleModel.getNo());
+        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, matchArticleModel.getBoardType());
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.ARTICLE_TYPE_MATCH);
         startActivity(intent);
     }
@@ -436,7 +436,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                detailArticlePresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), uid, commentStr, articleModel.getBoardType());
+                detailArticlePresenter.postComment(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), uid, commentStr, matchArticleModel.getBoardType());
             }
         }else{
             showMessage("로그인을 해주세요.");
@@ -486,7 +486,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      */
     @OnClick(R.id.back_btn) void backBtn(){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
+        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -499,7 +499,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
      * - 게시글 수정
      */
     @OnClick(R.id.detail_more_btn) void moreBtn(){
-        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, articleModel, new DetailMoreDialog.DetailMoreDialogListener() {
+        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, matchArticleModel, new DetailMoreDialog.DetailMoreDialogListener() {
             @Override
             public void deleteArticleEvent() {
                 Intent returnIntent = new Intent();
@@ -510,7 +510,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             public void editArticleEvent(){
                 Intent intent = new Intent(getApplicationContext(), EditBoardActivity.class);
                 intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
+                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
                 startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -535,7 +535,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
 
     /**
      * 게시글 수정을 하고 난 뒤 다시 게시글 상세 화면으로 돌아왔을 때 result 값을 통해
-     * 다시 articleModel 을 가지고 데이터를 갱신해준다.
+     * 다시 matchArticleModel 을 가지고 데이터를 갱신해준다.
      * @param requestCode
      * @param resultCode
      * @param data
@@ -544,8 +544,8 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT) {
             if(resultCode == Activity.RESULT_OK){
-                articleModel = (ArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
-                setArticleData(articleModel);
+                matchArticleModel = (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+                setArticleData(matchArticleModel);
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
             }
@@ -553,12 +553,12 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
     }
 
     /**
-     * 하드웨어 back 버튼으로 뒤로가기 시 게시글 리스트 화면에 articleModel 과 함께 result 값을 돌려준다.
+     * 하드웨어 back 버튼으로 뒤로가기 시 게시글 리스트 화면에 matchArticleModel 과 함께 result 값을 돌려준다.
      */
     @Override
     public void onBackPressed() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
+        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
         setResult(Activity.RESULT_OK, returnIntent);
         super.onBackPressed();
     }

@@ -18,7 +18,7 @@ import api.response.ArticleModelListResponse;
 import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import presenter.view.RecentBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +28,7 @@ import util.adapter.RecentBoardAdapter;
 
 public class RecentHireBoardFragment extends BaseFragment implements RecentBoardView {
 
-    private ArrayList<ArticleModel> articleModelArrayList;
+    private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private RecentBoardAdapter recentBoardAdapter;
 
     @BindView(R.id.hire_recyclerView) RecyclerView recyclerView;
@@ -70,8 +70,8 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
     }
 
     private void init(){
-        articleModelArrayList = new ArrayList<>();
-        recentBoardAdapter = new RecentBoardAdapter(getContext(), articleModelArrayList, 3);
+        matchArticleModelArrayList = new ArrayList<>();
+        recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 3);
 
         setListData();
     }
@@ -96,7 +96,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
                 if(articleModelListResponse.getCode() == 200){
                     int size = articleModelListResponse.getResult().size();
                     for(int i=0;i<size;i++){
-                        articleModelArrayList.add(articleModelListResponse.getResult().get(i));
+                        matchArticleModelArrayList.add(articleModelListResponse.getResult().get(i));
                         Log.d("ArticleLIst","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
                                 "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
                                 "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+

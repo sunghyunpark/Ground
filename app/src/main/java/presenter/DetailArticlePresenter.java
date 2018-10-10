@@ -2,7 +2,6 @@ package presenter;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +13,6 @@ import api.response.ArticleModelListResponse;
 import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import base.presenter.BasePresenter;
-import model.ArticleModel;
 import model.CommentModel;
 import presenter.view.DetailArticleView;
 import retrofit2.Call;

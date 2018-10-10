@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.CommentModel;
 import model.UserModel;
 import util.SessionManager;
@@ -63,8 +63,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private ArticleModel getArticleItem(int position){
-        return (ArticleModel)objectArrayList.get(position);
+    private MatchArticleModel getArticleItem(int position){
+        return (MatchArticleModel)objectArrayList.get(position);
     }
 
     private CommentModel getCommentItem(int position){
@@ -75,7 +75,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position){
         //내가 작성한 글 or 관심있는 글
         if (holder instanceof ArticleVH) {
-            final ArticleModel currentItem = getArticleItem(position);
+            final MatchArticleModel currentItem = getArticleItem(position);
             final ArticleVH VHitem = (ArticleVH) holder;
 
             VHitem.title_tv.setText(currentItem.getTitle());
@@ -96,7 +96,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1
-                        ((ArticleModel)objectArrayList.get(position)).setViewCnt(getArticleItem(position).getViewCnt()+1);
+                        ((MatchArticleModel)objectArrayList.get(position)).setViewCnt(getArticleItem(position).getViewCnt()+1);
                     }else{
                         //not login
                         Util.showToast(context, "로그인을 해주세요.");

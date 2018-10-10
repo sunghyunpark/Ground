@@ -2,7 +2,7 @@ package api.response;
 
 import java.util.ArrayList;
 
-import model.ArticleModel;
+import model.MatchArticleModel;
 
 /**
  * Article Model List Response
@@ -10,7 +10,7 @@ import model.ArticleModel;
 public class ArticleModelListResponse {
     private int code;
     private String message;
-    private ArrayList<ArticleModel> result;
+    private ArrayList<MatchArticleModel> result;
 
     public int getCode() {
         return code;
@@ -28,11 +28,11 @@ public class ArticleModelListResponse {
         this.message = message;
     }
 
-    public ArrayList<ArticleModel> getResult() {
+    public ArrayList<MatchArticleModel> getResult() {
         return result;
     }
 
-    public void setResult(ArrayList<ArticleModel> result) {
+    public void setResult(ArrayList<MatchArticleModel> result) {
         this.result = result;
     }
 }

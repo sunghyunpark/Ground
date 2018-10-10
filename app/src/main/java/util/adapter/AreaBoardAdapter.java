@@ -25,7 +25,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
@@ -38,7 +38,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_EMPTY = 2;
     private String area, boardType;    //지역명
-    private ArrayList<ArticleModel> listItems;
+    private ArrayList<MatchArticleModel> listItems;
     private Activity context;
     private SessionManager sessionManager;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
@@ -51,7 +51,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private BannerThread thread = null;
     */
 
-    public AreaBoardAdapter(Activity context, ArrayList<ArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
+    public AreaBoardAdapter(Activity context, ArrayList<MatchArticleModel> listItems, String area, BannerViewPagerAdapter bannerViewPagerAdapter, String boardType, AreaBoardAdapterListener areaBoardAdapterListener) {
         this.context = context;
         this.listItems = listItems;
         this.area = area;
@@ -62,7 +62,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface AreaBoardAdapterListener{
-        void goToDetailArticle(int position, String area, ArticleModel articleModel);
+        void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel);
         void allSort();
         void dateSort(String matchDateStr);
         void matchStateSort();
@@ -84,14 +84,14 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private ArticleModel getItem(int position) {
+    private MatchArticleModel getItem(int position) {
         return listItems.get(position-1);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Board_VH) {
-            final ArticleModel currentItem = getItem(position);
+            final MatchArticleModel currentItem = getItem(position);
             final Board_VH VHitem = (Board_VH)holder;
 
             VHitem.title_tv.setText(currentItem.getTitle());

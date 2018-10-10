@@ -7,7 +7,7 @@ import api.ApiClient;
 import api.ApiInterface;
 import api.response.CommonResponse;
 import base.presenter.BasePresenter;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import presenter.view.EditBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,9 +25,9 @@ public class EditBoardPresenter extends BasePresenter<EditBoardView> {
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
-    public void EditBoard(ArticleModel articleModel){
-        Call<CommonResponse> call = apiService.editBoard(articleModel.getBoardType(), articleModel.getAreaNo(), articleModel.getNo(), articleModel.getTitle(), articleModel.getContents(),
-                articleModel.getMatchDate(), articleModel.getAverageAge());
+    public void EditBoard(MatchArticleModel matchArticleModel){
+        Call<CommonResponse> call = apiService.editBoard(matchArticleModel.getBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matchArticleModel.getTitle(), matchArticleModel.getContents(),
+                matchArticleModel.getMatchDate(), matchArticleModel.getAverageAge());
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

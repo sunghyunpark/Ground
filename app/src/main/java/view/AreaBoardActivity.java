@@ -17,7 +17,7 @@ import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.BannerModel;
 import model.UserModel;
 import presenter.AreaBoardPresenter;
@@ -45,7 +45,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     private AreaBoardAdapter areaBoardAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private AreaBoardPresenter areaBoardPresenter;
-    private ArrayList<ArticleModel> articleModelArrayList;
+    private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private ArrayList<BannerModel> bannerModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -83,7 +83,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         */
         areaBoardAdapter = null;
         areaBoardPresenter = null;
-        articleModelArrayList = null;
+        matchArticleModelArrayList = null;
         linearLayoutManager = null;
     }
 
@@ -107,16 +107,16 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         bannerModelArrayList = new ArrayList<>();    //banner List
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
 
-        articleModelArrayList = new ArrayList<>();
+        matchArticleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, articleModelArrayList, area, bannerViewPagerAdapter, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
+        areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, matchArticleModelArrayList, area, bannerViewPagerAdapter, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
-            public void goToDetailArticle(int position, String area, ArticleModel articleModel) {
+            public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailArticleActivity.class);
                 intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
                 intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, articleModel);
+                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
                 intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
@@ -146,7 +146,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
         });
         swipeRefreshLayout.setOnRefreshListener(this);
-        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, articleModelArrayList, bannerModelArrayList);
+        areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, matchArticleModelArrayList, bannerModelArrayList);
 
         //배너 데이터를 받아온다.
         areaBoardPresenter.loadTopBannerList();
@@ -157,8 +157,8 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
-                if(!articleModelArrayList.isEmpty()){
-                    areaBoardPresenter.loadArticleList(false, areaNo, articleModelArrayList.get(articleModelArrayList.size()-1).getNo(), boardType, sortMode, matchDate);
+                if(!matchArticleModelArrayList.isEmpty()){
+                    areaBoardPresenter.loadArticleList(false, areaNo, matchArticleModelArrayList.get(matchArticleModelArrayList.size()-1).getNo(), boardType, sortMode, matchDate);
                 }
             }
         };
@@ -184,7 +184,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
     /**
      * 글쓰기 후 돌아왔을 때 다시 초기화 한다
-     * 게시글 상세 화면 진입 후 돌아올 때 ArticleModel 을 다시 받아와 갱신한다.
+     * 게시글 상세 화면 진입 후 돌아올 때 MatchArticleModel 을 다시 받아와 갱신한다.
      * @param requestCode
      * @param resultCode
      * @param data
@@ -200,7 +200,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
             }
         }else if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                articleModelArrayList.set(detailPosition, (ArticleModel)data.getExtras().getSerializable("articleModel"));
+                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable("articleModel"));
                 areaBoardAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
                 areaBoardAdapter.onItemDismiss(detailPosition);

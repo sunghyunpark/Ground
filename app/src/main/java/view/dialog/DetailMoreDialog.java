@@ -19,7 +19,7 @@ import api.response.CommonResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.UserModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +28,7 @@ import util.Util;
 
 public class DetailMoreDialog extends Dialog {
 
-    private ArticleModel articleModel;
+    private MatchArticleModel matchArticleModel;
 
     private DetailMoreDialogListener detailMoreDialogListener;
 
@@ -36,10 +36,10 @@ public class DetailMoreDialog extends Dialog {
     @BindView(R.id.delete_article_tv) TextView delete_tv;
     @BindView(R.id.report_tv) TextView report_tv;
 
-    public DetailMoreDialog(Context context, ArticleModel articleModel,
+    public DetailMoreDialog(Context context, MatchArticleModel matchArticleModel,
                             DetailMoreDialogListener detailMoreDialogListener){
         super(context);
-        this.articleModel = articleModel;
+        this.matchArticleModel = matchArticleModel;
         this.detailMoreDialogListener = detailMoreDialogListener;
     }
 
@@ -62,7 +62,7 @@ public class DetailMoreDialog extends Dialog {
     }
 
     private void init(){
-        if(UserModel.getInstance().getUid().equals(articleModel.getWriterId())){
+        if(UserModel.getInstance().getUid().equals(matchArticleModel.getWriterId())){
             //내 글
             report_tv.setVisibility(View.GONE);
         }else{
@@ -110,7 +110,7 @@ public class DetailMoreDialog extends Dialog {
         alert.setMessage("정말 삭제 하시겠습니까?");
         alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                deleteBoard(articleModel.getBoardType(), articleModel.getNo(), UserModel.getInstance().getUid());
+                deleteBoard(matchArticleModel.getBoardType(), matchArticleModel.getNo(), UserModel.getInstance().getUid());
             }
         });
         alert.setNegativeButton("아니오",
@@ -125,7 +125,7 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.report_tv) void reportBtn(){
-        ReportDialog reportDialog = new ReportDialog(getContext(), "article", articleModel.getBoardType(), articleModel.getNo(), 0);
+        ReportDialog reportDialog = new ReportDialog(getContext(), "article", matchArticleModel.getBoardType(), matchArticleModel.getNo(), 0);
         reportDialog.show();
         dismiss();
     }

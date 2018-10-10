@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Article Model 은 매칭/용병/모집 에만 적용된다.
+ * MatchArticle Model 은 매칭/용병/모집 에만 적용된다.
  */
-public class ArticleModel implements Serializable {
+public class MatchArticleModel implements Serializable {
     private int no;
     @SerializedName("board_type")
     private String boardType;

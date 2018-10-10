@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.UserModel;
 import util.NetworkUtils;
 import util.SessionManager;
@@ -29,7 +29,7 @@ import view.DetailArticleActivity;
 
 public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 1;
-    private ArrayList<ArticleModel> listItems;
+    private ArrayList<MatchArticleModel> listItems;
     private Context context;
     private SessionManager sessionManager;
     private static final int MATCH_BOARD = 2;
@@ -39,7 +39,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private String[] matchArea, hireArea, recruitArea;
 
-    public RecentBoardAdapter(Context context, ArrayList<ArticleModel> listItems, int boardType) {
+    public RecentBoardAdapter(Context context, ArrayList<MatchArticleModel> listItems, int boardType) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
@@ -60,14 +60,14 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    private ArticleModel getItem(int position) {
+    private MatchArticleModel getItem(int position) {
         return listItems.get(position);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Board_VH) {
-            final ArticleModel currentItem = getItem(position);
+            final MatchArticleModel currentItem = getItem(position);
             final Board_VH VHitem = (Board_VH)holder;
 
             if(hasNewArticle(position)){

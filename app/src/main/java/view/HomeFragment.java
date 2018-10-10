@@ -27,9 +27,8 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.BannerModel;
-import model.GroundUtilModel;
 import presenter.HomePresenter;
 import presenter.view.HomeView;
 import util.Util;
@@ -44,7 +43,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private TodayMatchAdapter todayMatchAdapter;
     private ArrayList<BannerModel> mainBannerList;
-    private ArrayList<ArticleModel> todayArticleModelArrayList;
+    private ArrayList<MatchArticleModel> todayMatchArticleModelArrayList;
     private ArrayList<String> groundUtilUpdateList;
     private HomePresenter homePresenter;
 
@@ -105,13 +104,13 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     private void init(){
-        todayArticleModelArrayList = new ArrayList<ArticleModel>();
+        todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
         groundUtilUpdateList = new ArrayList<>();
         mainBannerList = new ArrayList<BannerModel>();
-        homePresenter = new HomePresenter(this, getContext(), todayArticleModelArrayList);
+        homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
-        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayArticleModelArrayList);
+        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
 
         // 일단 그라운드유틸 업데이트 시간을 모두 디폴트로 초기화한다.
         for(int i=0;i<4;i++){

@@ -12,7 +12,7 @@ import api.response.ArticleModelListResponse;
 import api.response.BannerListResponse;
 import api.response.UpdateTimeResponse;
 import base.presenter.BasePresenter;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.BannerModel;
 import presenter.view.HomeView;
 import retrofit2.Call;
@@ -24,14 +24,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     private Context context;
     private ApiInterface apiService;
-    private ArrayList<ArticleModel> todayArticleModelArrayList;
+    private ArrayList<MatchArticleModel> todayMatchArticleModelArrayList;
 
 
-    public HomePresenter(HomeView view, Context context, ArrayList<ArticleModel> todayArticleModelArrayList){
+    public HomePresenter(HomeView view, Context context, ArrayList<MatchArticleModel> todayMatchArticleModelArrayList){
         super(view);
         this.context = context;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
-        this.todayArticleModelArrayList = todayArticleModelArrayList;
+        this.todayMatchArticleModelArrayList = todayMatchArticleModelArrayList;
     }
 
     /**
@@ -96,8 +96,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
      * 오늘의 시합 데이터를 받아온다.
      */
     public void loadTodayMatchList(){
-        if(todayArticleModelArrayList != null){
-            todayArticleModelArrayList.clear();
+        if(todayMatchArticleModelArrayList != null){
+            todayMatchArticleModelArrayList.clear();
         }
         Call<ArticleModelListResponse> call = apiService.getTodayMatchArticleList(0, 5);
         call.enqueue(new Callback<ArticleModelListResponse>() {
@@ -107,8 +107,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
                 if(articleModelListResponse.getCode() == 200){
                     int size = articleModelListResponse.getResult().size();
                     if(size > 0){
-                        for(ArticleModel am : articleModelListResponse.getResult()){
-                            Collections.addAll(todayArticleModelArrayList, am);
+                        for(MatchArticleModel am : articleModelListResponse.getResult()){
+                            Collections.addAll(todayMatchArticleModelArrayList, am);
                         }
                         getView().notifyTodayMatchArticle(true, size);
                     }else{

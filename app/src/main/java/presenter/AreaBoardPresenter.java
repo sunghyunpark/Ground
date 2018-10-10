@@ -11,7 +11,7 @@ import api.ApiInterface;
 import api.response.ArticleModelListResponse;
 import api.response.BannerListResponse;
 import base.presenter.BasePresenter;
-import model.ArticleModel;
+import model.MatchArticleModel;
 import model.BannerModel;
 import presenter.view.AreaBoardView;
 import retrofit2.Call;
@@ -24,15 +24,15 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
 
     private Context context;
     private AreaBoardAdapter adapter;
-    private ArrayList<ArticleModel> articleModelArrayList;
+    private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private ArrayList<BannerModel> bannerModelArrayList;
     private ApiInterface apiService;
 
-    public AreaBoardPresenter(Context context, AreaBoardView view, AreaBoardAdapter adapter, ArrayList<ArticleModel> articleModelArrayList, ArrayList<BannerModel> bannerModelArrayList){
+    public AreaBoardPresenter(Context context, AreaBoardView view, AreaBoardAdapter adapter, ArrayList<MatchArticleModel> matchArticleModelArrayList, ArrayList<BannerModel> bannerModelArrayList){
         super(view);
         this.context = context;
         this.adapter = adapter;
-        this.articleModelArrayList = articleModelArrayList;
+        this.matchArticleModelArrayList = matchArticleModelArrayList;
         this.bannerModelArrayList = bannerModelArrayList;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
@@ -69,7 +69,7 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
      */
     public void loadArticleList(boolean refresh, int areaNo, int articleNo, String boardType, String order, String matchDate){
         if(refresh)
-            articleModelArrayList.clear();
+            matchArticleModelArrayList.clear();
 
         Call<ArticleModelListResponse> call = apiService.getAreaBoardList(boardType, areaNo, articleNo, order, matchDate);
         call.enqueue(new Callback<ArticleModelListResponse>() {
@@ -77,8 +77,8 @@ public class AreaBoardPresenter extends BasePresenter<AreaBoardView> {
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
                 ArticleModelListResponse articleModelListResponse = response.body();
                 if(articleModelListResponse.getCode() == 200){
-                    for(ArticleModel am : articleModelListResponse.getResult()){
-                        Collections.addAll(articleModelArrayList, am);
+                    for(MatchArticleModel am : articleModelListResponse.getResult()){
+                        Collections.addAll(matchArticleModelArrayList, am);
                     }
                     adapter.notifyDataSetChanged();
                 }else{

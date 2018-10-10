@@ -369,6 +369,7 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
         intent.putExtra(GroundApplication.EXTRA_AREA_NO, articleModel.getAreaNo());
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, articleModel.getNo());
         intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, articleModel.getBoardType());
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.ARTICLE_TYPE_MATCH);
         startActivity(intent);
     }
 

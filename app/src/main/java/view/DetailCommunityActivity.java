@@ -156,7 +156,10 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     @Override
     public void commentClick(){
-
+        Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, communityModel.getNo());
+        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.ARTICLE_TYPE_FREE);
+        startActivity(intent);
     }
 
     @Override
@@ -274,6 +277,10 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     @OnClick(R.id.write_comment_btn) void writeCommentBtn(){
         writeComment();
+    }
+
+    @OnClick(R.id.comment_btn) void commentBtn(){
+        commentClick();
     }
 
     /**

@@ -32,7 +32,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
     private static final int LOAD_DATA_COUNT = 10;
     private ArrayList<CommentModel> commentModelArrayList;
     private int areaNo, articleNo;
-    private String boardType;
+    private String boardType, articleType;
     private CommentPresenter commentPresenter;
     private LinearLayoutManager linearLayoutManager;
 
@@ -49,9 +49,12 @@ public class CommentActivity extends BaseActivity implements CommentView{
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
+        articleType=  intent.getExtras().getString(GroundApplication.EXTRA_ARTICLE_TYPE);    // match(match / hire / recruit) / free
+        if(articleType.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+            areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
+            boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
+        }
         articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
-        boardType = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);
 
         init();
     }
@@ -78,7 +81,7 @@ public class CommentActivity extends BaseActivity implements CommentView{
         commentRecyclerView.setAdapter(commentAdapter);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
 
-        commentPresenter = new CommentPresenter(this, getApplicationContext(), commentModelArrayList, commentAdapter);
+        commentPresenter = new CommentPresenter(this, getApplicationContext(), commentModelArrayList, commentAdapter, articleType);
         commentPresenter.loadComment(true, articleNo, 0, areaNo, boardType);
     }
 

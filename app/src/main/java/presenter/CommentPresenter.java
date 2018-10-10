@@ -3,6 +3,8 @@ package presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.groundmobile.ground.GroundApplication;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,23 +21,36 @@ import retrofit2.Response;
 import util.Util;
 import util.adapter.CommentAdapter;
 
+/**
+ * 댓글의 경우 매치(매치 / 용병 / 모집)와 커뮤니티(자유게시판)이 같아 공통적으로 사용하고자함.
+ * 따라서 아래의 타입에 따라 분기처리하여 사용하도록함.
+ * boardType -> match(match / hire / recruit) / free
+ */
 public class CommentPresenter extends BasePresenter<CommentView> {
 
     private Context context;
     private ArrayList<CommentModel> commentModelArrayList;
     private CommentAdapter commentAdapter;
     private ApiInterface apiService;
+    private String type;    // match(match / hire / recruie) / free
 
-    public CommentPresenter(CommentView view, Context context, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter){
+    public CommentPresenter(CommentView view, Context context, ArrayList<CommentModel> commentModelArrayList, CommentAdapter commentAdapter, String type){
         super(view);
         this.context = context;
         this.commentModelArrayList = commentModelArrayList;
         this.commentAdapter = commentAdapter;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
+        this.type = type;
     }
 
     public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
-        Call<CommonResponse> call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
+        Call<CommonResponse> call = null;
+
+        if(type.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+            call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
+        }else if(type.equals(GroundApplication.ARTICLE_TYPE_FREE)){
+            call = apiService.writeFreeArticleComment(articleNo, writerId, comment);
+        }
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -90,8 +105,13 @@ public class CommentPresenter extends BasePresenter<CommentView> {
     public void loadComment(boolean refresh, int articleNo, final int commentNo, int areaNo, String boardType){
         if(refresh)
             commentModelArrayList.clear();
+        Call<CommentListResponse> call = null;
 
-        Call<CommentListResponse> call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
+        if(type.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+            call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
+        }else if(type.equals(GroundApplication.ARTICLE_TYPE_FREE)){
+            call = apiService.getFreeArticleCommentList(articleNo, commentNo);
+        }
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
@@ -125,14 +145,17 @@ public class CommentPresenter extends BasePresenter<CommentView> {
     public void loadCommentMore(boolean refresh, int articleNo, final int commentNo, int areaNo, String boardType){
         if(refresh)
             commentModelArrayList.clear();
-
-        Call<CommentListResponse> call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
+        Call<CommentListResponse> call = null;
+        if(type.equals(GroundApplication.ARTICLE_TYPE_MATCH)){
+            call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
+        }else if(type.equals(GroundApplication.ARTICLE_TYPE_FREE)){
+            call = apiService.getFreeArticleCommentList(articleNo, commentNo);
+        }
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
                 CommentListResponse commentListResponse = response.body();
                 if(commentListResponse.getCode() == 200){
-                    int size = commentListResponse.getResult().size();
                     for(CommentModel cm : commentListResponse.getResult()){
                         Collections.addAll(commentModelArrayList, cm);
                     }

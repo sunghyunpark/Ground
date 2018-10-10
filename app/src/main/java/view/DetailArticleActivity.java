@@ -436,8 +436,6 @@ public class DetailArticleActivity extends BaseActivity implements DetailArticle
             }else{
                 comment_et.setText(null);
                 detailArticlePresenter.postComment(articleModel.getAreaNo(), articleModel.getNo(), uid, commentStr, articleModel.getBoardType());
-                //boardManager.writerComment(areaNo, articleNo, UserModel.getInstance().getUid(), commentStr, comment_et, articleModel.getBoardType(),
-                  //      empty_comment_tv, comment_recyclerView, commentModelArrayList, commentAdapter);
             }
         }else{
             showMessage("로그인을 해주세요.");

@@ -166,7 +166,17 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     @Override
     public void writeComment(){
-
+        String commentStr = comment_et.getText().toString().trim();
+        if(isLogin()){
+            if(commentStr.equals("")){
+                Util.showToast(getApplicationContext(), errorNotExistInputStr);
+            }else{
+                comment_et.setText(null);
+                detailCommunityPresenter.postComment(communityModel.getNo(), uid, commentStr);
+            }
+        }else{
+            showMessage("로그인을 해주세요.");
+        }
     }
 
     @Override
@@ -203,7 +213,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
         if(detailCommunityPresenter != null){
             detailCommunityPresenter.loadFavoriteState(communityModel.getNo(), uid);
-            //detailCommunityPresenter.loadComment(true, communityModel.getNo(), 0, communityModel.getAreaNo(), communityModel.getBoardType());
+            detailCommunityPresenter.loadComment(true, communityModel.getNo(), 0);
         }
     }
 
@@ -260,6 +270,10 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, communityModel);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
+    }
+
+    @OnClick(R.id.write_comment_btn) void writeCommentBtn(){
+        writeComment();
     }
 
     /**

@@ -98,11 +98,6 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
                     int size = articleModelListResponse.getResult().size();
                     for(int i=0;i<size;i++){
                         matchArticleModelArrayList.add(articleModelListResponse.getResult().get(i));
-                        Log.d("ArticleLIst","boardData No : "+ articleModelListResponse.getResult().get(i).getNo()+"\n"+
-                                "boardData WriterId : "+ articleModelListResponse.getResult().get(i).getWriterId()+"\n"+
-                                "boardData title"+ articleModelListResponse.getResult().get(i).getTitle()+"\n"+
-                                "boardData contents : "+ articleModelListResponse.getResult().get(i).getContents()+"\n"+
-                                "boardData created_at : "+ articleModelListResponse.getResult().get(i).getCreatedAt());
                     }
                     recentBoardAdapter.notifyDataSetChanged();
                 }else{

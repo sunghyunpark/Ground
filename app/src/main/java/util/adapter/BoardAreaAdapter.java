@@ -79,11 +79,11 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
                         if(type == TYPE_MATCH){
-                            goAreaBoardActivity(currentItem, "match");
+                            goAreaBoardActivity(currentItem, GroundApplication.MATCH_OF_BOARD_TYPE_MATCH);
                         }else if(type == TYPE_HIRE){
-                            goAreaBoardActivity(currentItem, "hire");
+                            goAreaBoardActivity(currentItem, GroundApplication.HIRE_OF_BOARD_TYPE_MATCH);
                         }else if(type == TYPE_RECRUIT){
-                            goAreaBoardActivity(currentItem, "recruit");
+                            goAreaBoardActivity(currentItem, GroundApplication.RECRUIT_OF_BOARD_TYPE_MATCH);
                         }
                     }
                 }

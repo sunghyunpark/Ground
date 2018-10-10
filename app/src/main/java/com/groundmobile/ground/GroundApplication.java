@@ -41,6 +41,10 @@ public class GroundApplication extends Application{
     //ARTICLE TYPE 댓글 관련하여 match(match/hire/recruit) / free 를 구분할 때 사용
     public static final String BOARD_TYPE_MATCH = "match";    // match(match / hire / recruit)
     public static final String BOARD_TYPE_FREE = "free";
+    // 아래 3개의 변수는 match 게시판 내에서 분기처리가 필요한 경우 사용된다.
+    public static final String MATCH_OF_BOARD_TYPE_MATCH = "match";
+    public static final String HIRE_OF_BOARD_TYPE_MATCH = "hire";
+    public static final String RECRUIT_OF_BOARD_TYPE_MATCH = "recruit";
 
     @Override
     public void onCreate() {

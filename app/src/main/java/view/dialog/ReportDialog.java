@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.groundmobile.ground.R;
 
@@ -39,7 +38,6 @@ public class ReportDialog extends Dialog {
         super(context);
         this.serviceName = serviceName;
         this.boardType = boardType;
-        Log.d("ReportDialog", boardType+"123123");
         if(serviceName.equals("article")){
             serviceNo = articleNo;
         }else{

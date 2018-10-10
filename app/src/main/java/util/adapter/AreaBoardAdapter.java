@@ -195,7 +195,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            if(!boardType.equals("match")){
+            if(!boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
                 sort_layout.setVisibility(View.GONE);
             }
 
@@ -266,7 +266,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            if(!boardType.equals("match")){
+            if(!boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
                 match_state_tv.setVisibility(View.GONE);
             }
 

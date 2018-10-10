@@ -157,9 +157,9 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
 
     // boardType 에 따른 MODE 초기화
     private void initMode(String  boardType){
-        if(boardType.equals("match")){
+        if(boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
             boardMode = MATCH_MODE;
-        }else if(boardType.equals("hire")){
+        }else if(boardType.equals(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH)){
             boardMode = HIRE_MODE;
         }else{
             boardMode = RECRUIT_MODE;
@@ -273,7 +273,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
      */
     private void initMatchingStateToggle(){
-        if(matchArticleModel.getMatchBoardType().equals("match")){
+        if(matchArticleModel.getMatchBoardType().equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
             setMatchingState(matchArticleModel.getMatchState());
             if(!matchArticleModel.getWriterId().equals(uid)){
                 matching_state_toggle.setEnabled(false);

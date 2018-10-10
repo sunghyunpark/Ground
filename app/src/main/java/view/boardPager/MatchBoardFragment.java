@@ -75,7 +75,7 @@ public class MatchBoardFragment extends BaseFragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList("match");
+        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH);
         call.enqueue(new Callback<UpdateTimeResponse>() {
             @Override
             public void onResponse(Call<UpdateTimeResponse> call, Response<UpdateTimeResponse> response) {

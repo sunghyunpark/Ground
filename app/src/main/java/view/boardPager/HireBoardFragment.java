@@ -75,7 +75,7 @@ public class HireBoardFragment extends BaseFragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList("hire");
+        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH);
         call.enqueue(new Callback<UpdateTimeResponse>() {
             @Override
             public void onResponse(Call<UpdateTimeResponse> call, Response<UpdateTimeResponse> response) {

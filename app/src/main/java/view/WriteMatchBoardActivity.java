@@ -30,7 +30,7 @@ import presenter.view.WriteBoardView;
 import util.Util;
 import view.dialog.AgeSelectDialog;
 
-public class WriteBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
+public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
     private static final int MATCH_MODE = 1;
     private static final int HIRE_MODE = 2;
@@ -73,7 +73,7 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
-        if(boardType.equals("match")){
+        if(boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
             board_contents_et.setText(matchDefaultStr);
         }
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
@@ -85,9 +85,9 @@ public class WriteBoardActivity extends BaseActivity implements WriteBoardView, 
 
     // boardType 에 따른 MODE 초기화
     private void initMode(String  boardType){
-        if(boardType.equals("match")){
+        if(boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
             boardMode = MATCH_MODE;
-        }else if(boardType.equals("hire")){
+        }else if(boardType.equals(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH)){
             boardMode = HIRE_MODE;
         }else{
             boardMode = RECRUIT_MODE;

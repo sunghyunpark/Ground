@@ -217,7 +217,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
     public void onWriteClick(){
         if(isLogin()){
             //login
-            Intent intent = new Intent(getApplicationContext(), WriteBoardActivity.class);
+            Intent intent = new Intent(getApplicationContext(), WriteMatchBoardActivity.class);
             intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, boardType);
             intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
             intent.putExtra(GroundApplication.EXTRA_AREA_NO, areaNo);

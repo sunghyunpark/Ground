@@ -59,7 +59,7 @@
             android:name="view.AreaBoardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="view.WriteBoardActivity"
+            android:name="view.WriteMatchBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity

@@ -20,7 +20,7 @@ import java.util.Locale;
 import model.AreaModel;
 import util.NetworkUtils;
 import util.Util;
-import view.AreaBoardActivity;
+import view.MatchAreaBoardActivity;
 
 /**
  * 게시판 recyclerView Adapter
@@ -110,7 +110,7 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @param boardType
      */
     private void goAreaBoardActivity(AreaModel currentItem, String boardType){
-        Intent intent = new Intent(context, AreaBoardActivity.class);
+        Intent intent = new Intent(context, MatchAreaBoardActivity.class);
         intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, boardType);
         intent.putExtra(GroundApplication.EXTRA_AREA_NAME, currentItem.getAreaName());
         intent.putExtra(GroundApplication.EXTRA_AREA_NO, currentItem.getAreaNo());

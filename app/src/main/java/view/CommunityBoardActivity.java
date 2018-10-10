@@ -23,7 +23,7 @@ import presenter.view.FreeBoardView;
 import util.EndlessRecyclerOnScrollListener;
 import util.adapter.FreeBoardAdapter;
 
-public class FreeBoardActivity extends BaseActivity implements FreeBoardView, SwipeRefreshLayout.OnRefreshListener{
+public class CommunityBoardActivity extends BaseActivity implements FreeBoardView, SwipeRefreshLayout.OnRefreshListener{
 
     private static final int LOAD_DATA_COUNT = 10;
     private static final int REQUEST_WRITE = 1000;
@@ -37,6 +37,8 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
     private CommunityPresenter communityPresenter;
     private int detailPosition;    //진입하고자 하는 상세 게시글의 리스트 position 값
+
+    private String typeOfCommunity;
 
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
@@ -64,6 +66,9 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
         setContentView(R.layout.activity_free_board);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+
         init();
     }
 
@@ -87,7 +92,7 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
             }
         });
-        communityPresenter = new CommunityPresenter(this, getApplicationContext(), communityModelArrayList);
+        communityPresenter = new CommunityPresenter(this, getApplicationContext(), communityModelArrayList, typeOfCommunity);
         initView();
 
         communityPresenter.loadFreeBoardData(true, 0);
@@ -134,7 +139,8 @@ public class FreeBoardActivity extends BaseActivity implements FreeBoardView, Sw
 
     @OnClick(R.id.write_btn) void writeBtn(){
         if(isLogin()){
-            Intent intent = new Intent(getApplicationContext(), WriteFreeBoardActivity.class);
+            Intent intent = new Intent(getApplicationContext(), WriteCommunityBoardActivity.class);
+            intent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY);
             startActivityForResult(intent, REQUEST_WRITE);
         }else{
             showMessage("로그인을 해주세요.");

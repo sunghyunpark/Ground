@@ -18,18 +18,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import util.Util;
 
-public class WriteFreeBoardPresenter extends BasePresenter<WriteFreeBoardView> {
+public class WriteCommunityBoardPresenter extends BasePresenter<WriteFreeBoardView> {
 
     private Context context;
     private ApiInterface apiService;
 
-    public WriteFreeBoardPresenter(WriteFreeBoardView view, Context context){
+    public WriteCommunityBoardPresenter(WriteFreeBoardView view, Context context){
         super(view);
         this.context = context;
         apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
-    public void writeFreeBoard(String uidStr, String titleStr, String contentsStr, String photoPathOfLocal, String photoName){
+    public void writeFreeBoard(String uidStr, String titleStr, String contentsStr, String photoPathOfLocal, String photoName, String typeOfCommunityStr){
         final File photoFile;
         RequestBody requestFile;
         MultipartBody.Part photoBody;
@@ -47,9 +47,10 @@ public class WriteFreeBoardPresenter extends BasePresenter<WriteFreeBoardView> {
         RequestBody uid = RequestBody.create(okhttp3.MultipartBody.FORM, uidStr);
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, titleStr);
         RequestBody contents = RequestBody.create(okhttp3.MultipartBody.FORM, contentsStr);
+        RequestBody typeOfCommunity = RequestBody.create(okhttp3.MultipartBody.FORM, typeOfCommunityStr);
         //MultipartBody.Part photoBody = MultipartBody.Part.createFormData("photo", photoName, requestFile);
 
-        Call<CommonResponse> call = apiService.writeFreeArticle(uid, title, contents, photoBody);
+        Call<CommonResponse> call = apiService.writeCommunityArticle(uid, title, contents, typeOfCommunity, photoBody);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

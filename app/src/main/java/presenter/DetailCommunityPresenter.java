@@ -3,6 +3,8 @@ package presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.groundmobile.ground.GroundApplication;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,8 +43,12 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
      * DetailCommunity 화면 진입 시 data 가 없는 경우 (ex. 푸시를 타고 진입하는 경우) 에는 본 메소드를 통해 새롭게 data 를 받아온다.
      * @param communityNo
      */
-    public void loadArticleData(int communityNo){
-        Call<CommunityModelListResponse> call = apiService.getFreeArticleList(communityNo);
+    public void loadArticleData(int communityNo, String typeOfCommunity){
+        Call<CommunityModelListResponse> call = null;
+
+        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            call = apiService.getCommunityArticleList(typeOfCommunity, communityNo);
+        }
         call.enqueue(new Callback<CommunityModelListResponse>() {
             @Override
             public void onResponse(Call<CommunityModelListResponse> call, Response<CommunityModelListResponse> response) {
@@ -66,8 +72,11 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
      * @param articleNo
      * @param uid
      */
-    public void loadFavoriteState(final int articleNo, final String uid){
-        Call<ArticleEtcResponse> call = apiService.getFreeArticleFavoriteState(articleNo, uid);
+    public void loadFavoriteState(final int articleNo, final String uid, String typeOfCommunity){
+        Call<ArticleEtcResponse> call = null;
+        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            call = apiService.getCommunityArticleFavoriteState(typeOfCommunity, articleNo, uid);
+        }
         call.enqueue(new Callback<ArticleEtcResponse>() {
             @Override
             public void onResponse(Call<ArticleEtcResponse> call, Response<ArticleEtcResponse> response) {
@@ -92,8 +101,11 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
      * @param uid
      * @param state
      */
-    public void postFavoriteState(int articleNo, String uid, final String state){
-        Call<CommonResponse> call = apiService.postFavoriteStateFreeArticle(state, articleNo, uid);
+    public void postFavoriteState(int articleNo, String uid, final String state, String typeOfCommunity){
+        Call<CommonResponse> call = null;
+        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            call = apiService.postFavoriteStateCommunityArticle(state, articleNo, uid, typeOfCommunity);
+        }
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -118,11 +130,14 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
         });
     }
 
-    public void loadComment(boolean refresh, int articleNo, final int commentNo){
+    public void loadComment(boolean refresh, int articleNo, final int commentNo, String typeOfCommunity){
         if(refresh)
             commentModelArrayList.clear();
 
-        Call<CommentListResponse> call = apiService.getFreeArticleCommentList(articleNo, commentNo);
+        Call<CommentListResponse> call = null;
+        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            call = apiService.getCommunityArticleCommentList(typeOfCommunity, articleNo, commentNo);
+        }
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
             public void onResponse(Call<CommentListResponse> call, Response<CommentListResponse> response) {
@@ -152,15 +167,19 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
         });
     }
 
-    public void postComment(final int articleNo, String writerId, String comment){
-        Call<CommonResponse> call = apiService.writeFreeArticleComment(articleNo, writerId, comment);
+    public void postComment(final int articleNo, String writerId, String comment, final String typeOfCommunity){
+        Call<CommonResponse> call = null;
+
+        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            call = apiService.writeCommunityArticleComment(articleNo, typeOfCommunity, writerId, comment);
+        }
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse commonResponse = response.body();
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 작성하였습니다.");
-                    loadComment(true, articleNo, 0);
+                    loadComment(true, articleNo, 0, typeOfCommunity);
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

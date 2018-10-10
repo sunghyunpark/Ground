@@ -29,7 +29,7 @@ import util.adapter.BannerViewPagerAdapter;
 /**
  * 임의의 지역 > 게시판 리스트
  */
-public class AreaBoardActivity extends BaseActivity implements AreaBoardView, SwipeRefreshLayout.OnRefreshListener{
+public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardView, SwipeRefreshLayout.OnRefreshListener{
 
     private static final int RESULT_DELETE = 3000;
     private static final int REQUEST_DETAIL = 2000;
@@ -109,7 +109,7 @@ public class AreaBoardActivity extends BaseActivity implements AreaBoardView, Sw
 
         matchArticleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaBoardAdapter = new AreaBoardAdapter(AreaBoardActivity.this, matchArticleModelArrayList, area, bannerViewPagerAdapter, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
+        areaBoardAdapter = new AreaBoardAdapter(MatchAreaBoardActivity.this, matchArticleModelArrayList, area, bannerViewPagerAdapter, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;

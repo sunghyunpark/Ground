@@ -369,7 +369,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         intent.putExtra(GroundApplication.EXTRA_AREA_NO, matchArticleModel.getAreaNo());
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, matchArticleModel.getNo());
         intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, matchArticleModel.getMatchBoardType());
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.BOARD_TYPE_MATCH);
+        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, GroundApplication.BOARD_TYPE_MATCH);
         startActivity(intent);
     }
 

@@ -3,6 +3,8 @@ package presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.groundmobile.ground.GroundApplication;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -22,19 +24,24 @@ public class CommunityPresenter extends BasePresenter<FreeBoardView> {
     private Context context;
     private ApiInterface apiService;
     private ArrayList<CommunityModel> communityModelArrayList;
+    private String typeOfCommunity;
 
-    public CommunityPresenter(FreeBoardView view, Context context, ArrayList<CommunityModel> communityModelArrayList){
+    public CommunityPresenter(FreeBoardView view, Context context, ArrayList<CommunityModel> communityModelArrayList, String typeOfCommunity){
         super(view);
         this.context = context;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
         this.communityModelArrayList = communityModelArrayList;
+        this.typeOfCommunity = typeOfCommunity;
     }
 
     public void loadFreeBoardData(boolean refresh, int no){
         if(refresh)
             communityModelArrayList.clear();
-
-        Call<CommunityModelListResponse> call = apiService.getFreeArticleList(no);
+        Call<CommunityModelListResponse> call = null;
+        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            // 자유 게시판인 경우
+            call = apiService.getCommunityArticleList(typeOfCommunity, no);
+        }
         call.enqueue(new Callback<CommunityModelListResponse>() {
             @Override
             public void onResponse(Call<CommunityModelListResponse> call, Response<CommunityModelListResponse> response) {

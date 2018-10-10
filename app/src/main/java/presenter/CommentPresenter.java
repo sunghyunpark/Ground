@@ -49,8 +49,8 @@ public class CommentPresenter extends BasePresenter<CommentView> {
 
         if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
             call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_FREE)){
-            call = apiService.writeFreeArticleComment(articleNo, writerId, comment);
+        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+            call = apiService.writeCommunityArticleComment(articleNo, boardType, writerId, comment);
         }
         call.enqueue(new Callback<CommonResponse>() {
             @Override
@@ -110,8 +110,8 @@ public class CommentPresenter extends BasePresenter<CommentView> {
 
         if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
             call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_FREE)){
-            call = apiService.getFreeArticleCommentList(articleNo, commentNo);
+        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+            call = apiService.getCommunityArticleCommentList(boardType, articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {
             @Override
@@ -149,8 +149,8 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         Call<CommentListResponse> call = null;
         if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
             call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_FREE)){
-            call = apiService.getFreeArticleCommentList(articleNo, commentNo);
+        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+            call = apiService.getCommunityArticleCommentList(boardType, articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {
             @Override

@@ -13,6 +13,8 @@ public class CommunityModel implements Serializable {
     private String writerId;
     @SerializedName("nick_name")
     private String nickName;
+    @SerializedName("board_type")
+    private String boardType;    // free
     private String profile;
     @SerializedName("profile_thumb")
     private String profileThumb;
@@ -51,6 +53,14 @@ public class CommunityModel implements Serializable {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public String getBoardType() {
+        return boardType;
+    }
+
+    public void setBoardType(String boardType) {
+        this.boardType = boardType;
     }
 
     public String getProfile() {

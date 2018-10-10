@@ -56,7 +56,7 @@
             android:name="view.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="view.AreaBoardActivity"
+            android:name="view.MatchAreaBoardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="view.WriteMatchBoardActivity"
@@ -95,10 +95,10 @@
             android:name="view.AppPushActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="view.FreeBoardActivity"
+            android:name="view.CommunityBoardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="view.WriteFreeBoardActivity"
+            android:name="view.WriteCommunityBoardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="view.DetailCommunityActivity"

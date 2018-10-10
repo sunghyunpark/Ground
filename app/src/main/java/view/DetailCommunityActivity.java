@@ -34,13 +34,17 @@ import util.adapter.CommentAdapter;
 public class DetailCommunityActivity extends BaseActivity implements DetailCommunityView{
 
     private boolean hasArticleModel;
-    private String uid;
+    private String uid, typeOfCommunity;    // 일단 free
     private int communityNo;
     private CommunityModel communityModel;
 
     private DetailCommunityPresenter detailCommunityPresenter;
 
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
+    private int boardMode;
+
+    private static final int FREE_MODE = 1;
+
 
     @BindView(R.id.rootView) ViewGroup root_view;
     @BindView(R.id.board_type_tv) TextView board_type_tv;
@@ -80,10 +84,14 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
             // 데이터가 있는 경우
             communityModel = (CommunityModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
             communityModel.setViewCnt(communityModel.getViewCnt()+1);
+            typeOfCommunity = communityModel.getBoardType();
+            initMode(typeOfCommunity);
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+articleModel.getBoardType()+"\nareaNo : "+articleModel.getAreaNo()+"\narticleNo : "+articleModel.getNo());
         }else{
             // 데이터가 없어서 새로 불러와야 하는 경우
             communityNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
+            typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+            initMode(typeOfCommunity);
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
         }
 
@@ -111,12 +119,18 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         detailCommunityPresenter = new DetailCommunityPresenter(this, getApplicationContext(), commentModelArrayList, commentAdapter);
     }
 
+    private void initMode(String boardType){
+        if(boardType.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+            boardMode = FREE_MODE;
+        }
+    }
+
     private void initUI(){
         board_type_tv.setText("자유게시판");
         if(hasArticleModel){
             setArticleData(communityModel);
         }else{
-            detailCommunityPresenter.loadArticleData(communityNo);
+            detailCommunityPresenter.loadArticleData(communityNo, typeOfCommunity);
         }
     }
 
@@ -143,11 +157,11 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         if(favoriteState == 1){
             favoriteState = 0;
             setFavorite(favoriteState);
-            detailCommunityPresenter.postFavoriteState(communityModel.getNo(), uid,  "N");
+            detailCommunityPresenter.postFavoriteState(communityModel.getNo(), uid,  "N", typeOfCommunity);
         }else if(favoriteState == 0){
             favoriteState = 1;
             setFavorite(favoriteState);
-            detailCommunityPresenter.postFavoriteState(communityModel.getNo(), uid, "Y");
+            detailCommunityPresenter.postFavoriteState(communityModel.getNo(), uid, "Y", typeOfCommunity);
         }else{
             // favoriteState is null
             Util.showToast(getApplicationContext(), "네트워크 연결상태를 확인해주세요.");
@@ -158,7 +172,8 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
         intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, communityModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_TYPE, GroundApplication.BOARD_TYPE_FREE);
+        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, GroundApplication.BOARD_TYPE_COMMUNITY);    // 전체적인 타입은 community 타입
+        intent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY);    // community 타입 중 free 타입
         startActivity(intent);
     }
 
@@ -175,7 +190,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
                 Util.showToast(getApplicationContext(), errorNotExistInputStr);
             }else{
                 comment_et.setText(null);
-                detailCommunityPresenter.postComment(communityModel.getNo(), uid, commentStr);
+                detailCommunityPresenter.postComment(communityModel.getNo(), uid, commentStr,typeOfCommunity);
             }
         }else{
             showMessage("로그인을 해주세요.");
@@ -215,8 +230,8 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         });
 
         if(detailCommunityPresenter != null){
-            detailCommunityPresenter.loadFavoriteState(communityModel.getNo(), uid);
-            detailCommunityPresenter.loadComment(true, communityModel.getNo(), 0);
+            detailCommunityPresenter.loadFavoriteState(communityModel.getNo(), uid, typeOfCommunity);
+            detailCommunityPresenter.loadComment(true, communityModel.getNo(), 0, typeOfCommunity);
         }
     }
 

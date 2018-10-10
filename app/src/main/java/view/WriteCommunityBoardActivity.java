@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import base.BaseActivity;
@@ -27,17 +28,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.UserModel;
-import presenter.WriteFreeBoardPresenter;
+import presenter.WriteCommunityBoardPresenter;
 import presenter.view.WriteFreeBoardView;
 import util.SaveImageTask;
 import util.Util;
 
-public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoardView{
+public class WriteCommunityBoardActivity extends BaseActivity implements WriteFreeBoardView{
 
     private static final int REQUEST_PERMISSIONS = 10;
     private static final int GET_PICTURE_URI = 0;
 
-    private WriteFreeBoardPresenter writeFreeBoardPresenter;
+    private String typeOfCommunity;
+
+    private WriteCommunityBoardPresenter writeCommunityBoardPresenter;
     private Bitmap bm, resized;
 
     @BindView(R.id.board_title_et) EditText title_et;
@@ -62,11 +65,14 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
         setContentView(R.layout.activity_write_free_board);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+
         init();
     }
 
     private void init(){
-        writeFreeBoardPresenter = new WriteFreeBoardPresenter(this, getApplicationContext());
+        writeCommunityBoardPresenter = new WriteCommunityBoardPresenter(this, getApplicationContext());
     }
 
     /**
@@ -100,7 +106,7 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
             showMessage(errorNotExistInputStr);
         }else{
             if(bm == null){
-                writeFreeBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, "N", "N");
+                writeCommunityBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, "N", "N", typeOfCommunity);
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
@@ -113,7 +119,7 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
 
                     @Override
                     public void saveImageCallback(String imagePath, String imageName) {
-                        writeFreeBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, imagePath, imageName);
+                        writeCommunityBoardPresenter.writeFreeBoard(UserModel.getInstance().getUid(), titleStr, contentsStr, imagePath, imageName, typeOfCommunity);
                         Intent returnIntent = new Intent();
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
@@ -125,20 +131,20 @@ public class WriteFreeBoardActivity extends BaseActivity implements WriteFreeBoa
     }
 
     @OnClick(R.id.add_photo_btn) void addPhotoBtn(){
-        if (ContextCompat.checkSelfPermission(WriteFreeBoardActivity.this,
+        if (ContextCompat.checkSelfPermission(WriteCommunityBoardActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(WriteFreeBoardActivity.this,
+                .checkSelfPermission(WriteCommunityBoardActivity.this,
                         Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (WriteFreeBoardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    (WriteCommunityBoardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                ActivityCompat.requestPermissions(WriteFreeBoardActivity.this,
+                ActivityCompat.requestPermissions(WriteCommunityBoardActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);
             } else {
-                ActivityCompat.requestPermissions(WriteFreeBoardActivity.this,
+                ActivityCompat.requestPermissions(WriteCommunityBoardActivity.this,
                         new String[]{Manifest.permission
                                 .WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSIONS);

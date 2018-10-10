@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import util.Util;
 import view.FormationActivity;
-import view.FreeBoardActivity;
+import view.CommunityBoardActivity;
 import view.dialog.GroundUtilWeatherDialog;
 
 
@@ -122,7 +122,8 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void goToFreeBoardActivity(){
-        Intent intent = new Intent(context, FreeBoardActivity.class);
+        Intent intent = new Intent(context, CommunityBoardActivity.class);
+        intent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY);
         context.startActivity(intent);
     }
 

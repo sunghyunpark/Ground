@@ -326,10 +326,11 @@ public interface ApiInterface {
      * @return
      */
     @Multipart
-    @POST("api/community/free")
-    Call<CommonResponse> writeFreeArticle(@Part("uid") RequestBody uid,
+    @POST("api/community")
+    Call<CommonResponse> writeCommunityArticle(@Part("uid") RequestBody uid,
                                           @Part("title") RequestBody title,
                                           @Part("contents") RequestBody contents,
+                                          @Part("boardType") RequestBody typeOfCommunity,
                                           @Part MultipartBody.Part photo);
 
     /**
@@ -337,8 +338,9 @@ public interface ApiInterface {
      * @param no
      * @return
      */
-    @GET("api/community/free/{no}")
-    Call<CommunityModelListResponse> getFreeArticleList(@Path("no") int no);
+    @GET("api/community/{boardType}/{no}")
+    Call<CommunityModelListResponse> getCommunityArticleList(@Path("boardType") String typeOfCommunity,
+                                                             @Path("no") int no);
 
     /**
      * 자유 게시판 좋아요 상태 API
@@ -346,9 +348,10 @@ public interface ApiInterface {
      * @param uid
      * @return
      */
-    @GET("api/community/free/detailView/favorite/{no}/{uid}")
-    Call<ArticleEtcResponse> getFreeArticleFavoriteState(@Path("no") int no,
-                                                         @Path("uid") String uid);
+    @GET("api/community/detailView/favorite/{boardType}/{no}/{uid}")
+    Call<ArticleEtcResponse> getCommunityArticleFavoriteState(@Path("boardType") String typeOfCommunity,
+                                                              @Path("no") int no,
+                                                              @Path("uid") String uid);
 
     /**
      * 자유 게시판 좋아요 상태 변경 API
@@ -358,10 +361,11 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/community/free/favorite")
-    Call<CommonResponse> postFavoriteStateFreeArticle(@Field("favoriteState") String favoriteState,
-                                                      @Field("articleNo") int articleNo,
-                                                      @Field("uid") String uid);
+    @POST("api/community/favorite")
+    Call<CommonResponse> postFavoriteStateCommunityArticle(@Field("favoriteState") String favoriteState,
+                                                           @Field("articleNo") int articleNo,
+                                                           @Field("uid") String uid,
+                                                           @Field("boardType") String typeOfCommunity);
 
     /**
      * 자유게시판 댓글 리스트 API
@@ -369,9 +373,10 @@ public interface ApiInterface {
      * @param commentNo
      * @return
      */
-    @GET("api/communityComment/free/commentList/{articleNo}/{commentNo}")
-    Call<CommentListResponse> getFreeArticleCommentList(@Path("articleNo") int articleNo,
-                                                        @Path("commentNo") int commentNo);
+    @GET("api/communityComment/commentList/{boardType}/{articleNo}/{commentNo}")
+    Call<CommentListResponse> getCommunityArticleCommentList(@Path("boardType") String typeOfCommunity,
+                                                             @Path("articleNo") int articleNo,
+                                                             @Path("commentNo") int commentNo);
 
     /**
      * 자유게시판 댓글 작성 API
@@ -381,9 +386,10 @@ public interface ApiInterface {
      * @return
      */
     @FormUrlEncoded
-    @POST("api/communityComment/free/comment")
-    Call<CommonResponse> writeFreeArticleComment(@Field("articleNo") int articleNo,
-                                                 @Field("writer_id") String writer_id,
-                                                 @Field("comment") String comment);
+    @POST("api/communityComment/comment")
+    Call<CommonResponse> writeCommunityArticleComment(@Field("articleNo") int articleNo,
+                                                      @Field("boardType") String typeOfCommunity,
+                                                      @Field("writer_id") String writer_id,
+                                                      @Field("comment") String comment);
 
 }

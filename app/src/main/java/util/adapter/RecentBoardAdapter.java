@@ -101,7 +101,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 }
             });
-            VHitem.created_at_tv.setText(Util.parseTimeWithoutSec(currentItem.getCreatedAt()));
+            VHitem.created_at_tv.setText(Util.formatTimeString(Util.getDate(currentItem.getCreatedAt())));
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 

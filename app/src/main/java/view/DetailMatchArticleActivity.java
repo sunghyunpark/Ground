@@ -240,7 +240,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     public void setArticleData(final MatchArticleModel matchArticleModel){
         title_tv.setText(matchArticleModel.getTitle());
         nick_name_tv.setText(matchArticleModel.getNickName());
-        created_at_tv.setText(Util.parseTime(matchArticleModel.getCreatedAt()));
+        created_at_tv.setText(Util.parseTimeWithoutSec(matchArticleModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+ matchArticleModel.getViewCnt());
         if(boardMode == MATCH_MODE){
             match_date_tv.setText(matchArticleModel.getMatchDate());

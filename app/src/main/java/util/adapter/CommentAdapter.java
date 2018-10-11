@@ -87,7 +87,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             VHitem.comment_tv.setText(currentItem.getComment());
 
-            VHitem.createdAt_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+            VHitem.createdAt_tv.setText(Util.parseTimeWithoutSec(currentItem.getCreatedAt()));
 
             if(hasNewArticle(position)){
                 VHitem.new_iv.setVisibility(View.VISIBLE);

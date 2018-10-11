@@ -103,7 +103,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     }
                 }
             });
-            VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+            VHitem.created_at_tv.setText(Util.parseTimeWithoutSec(currentItem.getCreatedAt()));
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 
@@ -139,7 +139,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
             VHitem.comment_tv.setText(currentItem.getComment());
 
-            VHitem.createdAt_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+            VHitem.createdAt_tv.setText(Util.parseTimeWithoutSec(currentItem.getCreatedAt()));
 
             VHitem.item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override

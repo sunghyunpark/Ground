@@ -111,7 +111,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
             });
-            VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+            VHitem.created_at_tv.setText(Util.parseTimeWithoutSec(currentItem.getCreatedAt()));
 
             if(hasNewArticle(position)){
                 VHitem.new_iv.setVisibility(View.VISIBLE);

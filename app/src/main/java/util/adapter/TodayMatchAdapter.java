@@ -84,7 +84,7 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
-            VHitem.created_at_tv.setText(Util.parseTime(currentItem.getCreatedAt()));
+            VHitem.created_at_tv.setText(Util.parseTimeWithoutSec(currentItem.getCreatedAt()));
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 

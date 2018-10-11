@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorBlack"
             android:textSize="12dp"/>
 
         <TextView

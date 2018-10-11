@@ -122,7 +122,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if(isMatchState(position)){
                 // 매칭 완료
                 VHitem.match_state_tv.setText("완료");
-                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorRed));
                 VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape);
             }else{
                 // 진행중

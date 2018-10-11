@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#263238</color> <!-- status bar-->
     <color name="colorTitleBar">#263238</color>
     <color name="colorAccent">#00B0FF</color>
+    <color name="colorRed">#F20A0A</color>
+    <color name="colorGreen">#48D16A</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorTextHintGray">#BDBDBD</color>

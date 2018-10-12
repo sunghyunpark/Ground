@@ -30,9 +30,11 @@ import presenter.DetailCommunityPresenter;
 import presenter.view.DetailCommunityView;
 import util.Util;
 import util.adapter.CommentAdapter;
+import view.dialog.DetailMoreDialog;
 
 public class DetailCommunityActivity extends BaseActivity implements DetailCommunityView{
 
+    private static final int RESULT_DELETE = 3000;
     private boolean hasArticleModel;
     private String uid, typeOfCommunity;    // 일단 free
     private int communityNo;
@@ -301,6 +303,29 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     @OnClick(R.id.comment_btn) void commentBtn(){
         commentClick();
+    }
+
+    /**
+     * 우측 상단 더보기 버튼 이벤트
+     * 탭 시 DetailMoreDialog 가 노출된다.
+     * 이때 DetailMoreDialog 와 상세 게시글 화면간의 통신을 위해 Callback 함수를 통해 데이터를 주고 전달받는다.
+     * - 게시글 삭제
+     * - 게시글 수정
+     */
+    @OnClick(R.id.detail_more_btn) void moreBtn(){
+        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, communityModel, new DetailMoreDialog.DetailMoreDialogListener() {
+            @Override
+            public void deleteArticleEvent() {
+                Intent returnIntent = new Intent();
+                setResult(RESULT_DELETE, returnIntent);
+                finish();
+            }
+            @Override
+            public void editArticleEvent(){
+
+            }
+        });
+        detailMoreDialog.show();
     }
 
     /**

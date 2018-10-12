@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import api.ApiClient;
@@ -19,6 +20,7 @@ import api.response.CommonResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.CommunityModel;
 import model.MatchArticleModel;
 import model.UserModel;
 import retrofit2.Call;
@@ -28,19 +30,41 @@ import util.Util;
 
 public class DetailMoreDialog extends Dialog {
 
+    private String boardType;    //Match 게시판인지 Community 게시판인지 판별하기 위한 type  EXTRA_MATCH_BOARD_TYPE or EXTRA_COMMUNITY_BOARD_TYPE 로 받아온다.
     private MatchArticleModel matchArticleModel;
-
+    private CommunityModel communityModel;
     private DetailMoreDialogListener detailMoreDialogListener;
 
     @BindView(R.id.edit_article_tv) TextView edit_tv;
     @BindView(R.id.delete_article_tv) TextView delete_tv;
     @BindView(R.id.report_tv) TextView report_tv;
 
+    /**
+     * Match 게시판인 경우 생성자
+     * @param context
+     * @param matchArticleModel
+     * @param detailMoreDialogListener
+     */
     public DetailMoreDialog(Context context, MatchArticleModel matchArticleModel,
                             DetailMoreDialogListener detailMoreDialogListener){
         super(context);
         this.matchArticleModel = matchArticleModel;
         this.detailMoreDialogListener = detailMoreDialogListener;
+        this.boardType = GroundApplication.BOARD_TYPE_MATCH;
+    }
+
+    /**
+     * Community 게시판인 경우 생성자
+     * @param context
+     * @param communityModel
+     * @param detailMoreDialogListener
+     */
+    public DetailMoreDialog(Context context, CommunityModel communityModel,
+                            DetailMoreDialogListener detailMoreDialogListener){
+        super(context);
+        this.communityModel = communityModel;
+        this.detailMoreDialogListener = detailMoreDialogListener;
+        this.boardType = GroundApplication.BOARD_TYPE_COMMUNITY;
     }
 
     public interface DetailMoreDialogListener{
@@ -62,7 +86,9 @@ public class DetailMoreDialog extends Dialog {
     }
 
     private void init(){
-        if(UserModel.getInstance().getUid().equals(matchArticleModel.getWriterId())){
+        String writerId = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getWriterId() : communityModel.getWriterId();
+
+        if(UserModel.getInstance().getUid().equals(writerId)){
             //내 글
             report_tv.setVisibility(View.GONE);
         }else{
@@ -110,7 +136,9 @@ public class DetailMoreDialog extends Dialog {
         alert.setMessage("정말 삭제 하시겠습니까?");
         alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                deleteBoard(matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), UserModel.getInstance().getUid());
+                String boardTypeOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getMatchBoardType() : communityModel.getBoardType();
+                int noOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getNo() : communityModel.getNo();
+                deleteBoard(boardTypeOfArticle, noOfArticle, UserModel.getInstance().getUid());
             }
         });
         alert.setNegativeButton("아니오",

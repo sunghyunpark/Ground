@@ -28,6 +28,7 @@ public class GroundApplication extends Application{
 
     //KEY
     public static final String EXTRA_USER_ID = "uid";
+    public static final String EXTRA_BOARD_TYPE = "boardType";
     public static final String EXTRA_MATCH_BOARD_TYPE = "matchBoardType";    // match 게시판(match/hire/recruit)에만 사용된다. 분기처리용.
     public static final String EXTRA_COMMUNITY_BOARD_TYPE = "communityBoardType";    // community 게시판(free) 에만 사용된다. 분기처리용.
     public static final String EXTRA_AREA_NAME = "area";
@@ -37,7 +38,6 @@ public class GroundApplication extends Application{
     public static final String EXTRA_ARTICLE_MODEL = "articleModel";
     public static final String EXTRA_MY_TYPE = "myType";
     public static final String EXTRA_BOARD_PHOTO_URL = "photoUrl";
-    public static final String EXTRA_BOARD_TYPE = "boardType";
 
     //ARTICLE TYPE 댓글 관련하여 match(match/hire/recruit) / free 를 구분할 때 사용
     public static final String BOARD_TYPE_MATCH = "match";    // match(match / hire / recruit)

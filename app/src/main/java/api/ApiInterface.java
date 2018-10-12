@@ -334,6 +334,18 @@ public interface ApiInterface {
                                           @Part MultipartBody.Part photo);
 
     /**
+     * 커뮤니티 글 삭제 API
+     * @param boardType
+     * @param no
+     * @param uid
+     * @return
+     */
+    @DELETE("api/community/delete/{boardType}/{no}/{uid}")
+    Call<CommonResponse> deleteCommunityBoard(@Path("boardType") String boardType,
+                                              @Path("no") int no,
+                                              @Path("uid") String uid);
+
+    /**
      * 자유 게시판 글 목록 가져오기 API
      * @param no
      * @return

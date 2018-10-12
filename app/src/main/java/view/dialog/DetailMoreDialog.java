@@ -98,11 +98,16 @@ public class DetailMoreDialog extends Dialog {
         }
     }
 
-    private void deleteBoard(String boardType, int articleNo, String uid){
+    private void deleteBoard(String boardTypeOfArticle, int articleNo, String uid){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<CommonResponse> call = apiService.deleteBoard(boardType, articleNo, uid);
+        Call<CommonResponse> call = null;
+        if(boardType.equals(GroundApplication.BOARD_TYPE_MATCH)){
+            call = apiService.deleteBoard(boardTypeOfArticle, articleNo, uid);
+        }else if(boardType.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+            call = apiService.deleteCommunityBoard(boardTypeOfArticle, articleNo, uid);
+        }
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

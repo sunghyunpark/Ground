@@ -12,7 +12,7 @@
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorWhite"
+        android:background="@color/colorPrimary"
         android:focusableInTouchMode="true"
         android:layout_alignParentTop="true">
 
@@ -22,7 +22,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
-            android:background="@mipmap/back_img"/>
+            android:background="@mipmap/back_img_white"/>
         <TextView
             android:id="@+id/area_tv"
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_marginRight="100dp"
             android:layout_centerVertical="true"
             android:ellipsize="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
 
         <ImageButton
@@ -42,7 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/more_img"/>
+            android:background="@mipmap/more_img_white"/>
 
         <ToggleButton
             android:id="@+id/matching_state_btn"

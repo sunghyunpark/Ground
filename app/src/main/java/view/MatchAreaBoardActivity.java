@@ -60,8 +60,7 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
-        sortMode = SORT_ALL;
-        init(area, sortMode);
+        resetArticleData();
         swipeRefreshLayout.setRefreshing(false);
     }
 

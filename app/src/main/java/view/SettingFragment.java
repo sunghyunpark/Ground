@@ -139,14 +139,18 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @Override
     public void goProfile(){
-        EditProfileDialog editProfileDialog = new EditProfileDialog(getContext(), new EditProfileDialog.EditProfileDialogListener() {
-            @Override
-            public void editUserNameEvent() {
-                user_nickName_tv.setText(UserModel.getInstance().getNickName());
-            }
-        });
+        if(isLogin()){
+            EditProfileDialog editProfileDialog = new EditProfileDialog(getContext(), new EditProfileDialog.EditProfileDialogListener() {
+                @Override
+                public void editUserNameEvent() {
+                    user_nickName_tv.setText(UserModel.getInstance().getNickName());
+                }
+            });
 
-        editProfileDialog.show();
+            editProfileDialog.show();
+        }else{
+            showMessage("로그인을 해주세요.");
+        }
     }
 
     @Override

@@ -38,11 +38,7 @@ public class ReportDialog extends Dialog {
         super(context);
         this.serviceName = serviceName;
         this.boardType = boardType;
-        if(serviceName.equals("article")){
-            serviceNo = articleNo;
-        }else{
-            serviceNo = commentNo;
-        }
+        serviceNo = serviceName.equals("article") ? articleNo : commentNo;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 

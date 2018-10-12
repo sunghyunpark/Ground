@@ -153,7 +153,10 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.report_tv) void reportBtn(){
-        ReportDialog reportDialog = new ReportDialog(getContext(), "article", matchArticleModel.getMatchBoardType(), matchArticleModel.getNo(), 0);
+        String boardTypeOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getMatchBoardType() : communityModel.getBoardType();
+        int noOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getNo() : communityModel.getNo();
+
+        ReportDialog reportDialog = new ReportDialog(getContext(), "article", boardTypeOfArticle, noOfArticle, 0);
         reportDialog.show();
         dismiss();
     }

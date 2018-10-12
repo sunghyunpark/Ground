@@ -196,7 +196,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void setRecentBoardBanner(BannerModel RBBanner){
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
-        Glide.with(getContext())
+        Glide.with(GroundApplication.getAppContext())
                 .setDefaultRequestOptions(requestOptions)
                 .load(GroundApplication.GROUND_DEV_API+RBBanner.getImgPath())
                 .into(recommendBanner_iv);
@@ -208,7 +208,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void setTodayMatchBoardBanner(final BannerModel TBBanner){
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
-        Glide.with(getContext())
+        Glide.with(GroundApplication.getAppContext())
                 .setDefaultRequestOptions(requestOptions)
                 .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
                 .into(chatbotBanner_iv);

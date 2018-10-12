@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -48,8 +49,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         super.onResume();
         //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
         //돌아왔을 때 변경된 것을 갱신하기 위함.
-        init();
-        initUI();
+        setListData();
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -66,14 +66,15 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         View v = inflater.inflate(R.layout.fragment_recent_hire_board, container, false);
         ButterKnife.bind(this, v);
 
+        init();
+        initUI();
+
         return v;
     }
 
     private void init(){
         matchArticleModelArrayList = new ArrayList<>();
         recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 3);
-
-        setListData();
     }
 
     private void initUI(){
@@ -88,7 +89,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getRecentArticleList("hire", 0, 5);
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH, 0, 5);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

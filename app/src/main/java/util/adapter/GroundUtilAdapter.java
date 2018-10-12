@@ -35,11 +35,9 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private String [] textArray = {"자유게시판", "전술판", "날씨", "YouTube"};
     private ArrayList<String> groundUtilUpdateList;
     private Context context;
-    private GroundUtilWeatherDialog groundUtilWeatherDialog;
 
     public GroundUtilAdapter(Context context, ArrayList<String> groundUtilUpdateList){
         this.context = context;
-        groundUtilWeatherDialog = new GroundUtilWeatherDialog(context);
         this.groundUtilUpdateList = groundUtilUpdateList;
     }
 
@@ -133,6 +131,7 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void goToWeatherDialog(){
+        GroundUtilWeatherDialog groundUtilWeatherDialog = new GroundUtilWeatherDialog(context);
         groundUtilWeatherDialog.show();
     }
 

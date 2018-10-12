@@ -1,6 +1,7 @@
 package com.groundmobile.ground;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.DisplayMetrics;
 
 import java.util.Calendar;
@@ -49,9 +50,14 @@ public class GroundApplication extends Application{
     // 아래 1개의 변수는 community 게시판 내에서 분기처리가 필요한 경우 사용된다.
     public static final String FREE_OF_BOARD_TYPE_COMMUNITY = "free";
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        GroundApplication.context = getApplicationContext();
+
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         DISPLAY_HEIGHT = displayMetrics.heightPixels;
         DISPLAY_WIDTH = displayMetrics.widthPixels;
@@ -60,5 +66,9 @@ public class GroundApplication extends Application{
         TODAY_YEAR = cal.get(Calendar.YEAR);
         TODAY_MONTH = cal.get(Calendar.MONTH)+1;
         TODAY_DAY = cal.get(Calendar.DATE);
+    }
+
+    public static Context getAppContext() {
+        return GroundApplication.context;
     }
 }

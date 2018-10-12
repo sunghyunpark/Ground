@@ -31,6 +31,7 @@ import presenter.view.DetailCommunityView;
 import util.Util;
 import util.adapter.CommentAdapter;
 import view.dialog.DetailMoreDialog;
+import view.dialog.ReportDialog;
 
 public class DetailCommunityActivity extends BaseActivity implements DetailCommunityView{
 
@@ -106,12 +107,12 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
             @Override
             public void deleteCommentEvent(int commentNo) {
-                //detailArticlePresenter.deleteComment(articleModel.getBoardType(), commentNo, articleModel.getNo(), articleModel.getAreaNo());
+                detailCommunityPresenter.deleteComment(communityModel.getBoardType(), commentNo, communityModel.getNo());
             }
             @Override
             public void reportCommentEvent(int commentNo){
-                //ReportDialog reportDialog = new ReportDialog(DetailCommunityActivity.this, "comment", articleModel.getBoardType(), articleModel.getNo(), commentNo);
-                //reportDialog.show();
+                ReportDialog reportDialog = new ReportDialog(DetailCommunityActivity.this, "comment", communityModel.getBoardType(), communityModel.getNo(), commentNo);
+                reportDialog.show();
             }
         });
         comment_recyclerView.setLayoutManager(lL);

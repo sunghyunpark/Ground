@@ -392,4 +392,16 @@ public interface ApiInterface {
                                                       @Field("writer_id") String writer_id,
                                                       @Field("comment") String comment);
 
+    /**
+     * 커뮤니티 댓글 삭제 API
+     * @param boardType
+     * @param no
+     * @param articleNo
+     * @return
+     */
+    @DELETE("api/communityComment/delete/{boardType}/{no}/{articleNo}")
+    Call<CommonResponse> deleteCommunityComment(@Path("boardType") String boardType,
+                                                @Path("no") int no,
+                                                @Path("articleNo") int articleNo);
+
 }

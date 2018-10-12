@@ -81,7 +81,13 @@ public class CommentPresenter extends BasePresenter<CommentView> {
      * @param areaNo
      */
     public void deleteComment(String boardType, int commentNo, int articleNo, int areaNo){
-        Call<CommonResponse> call = apiService.deleteComment(boardType, commentNo, articleNo, areaNo);
+        Call<CommonResponse> call = null;
+
+        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
+            call = apiService.deleteComment(boardType, commentNo, articleNo, areaNo);
+        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+            call = apiService.deleteCommunityComment(boardType, commentNo, articleNo);
+        }
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

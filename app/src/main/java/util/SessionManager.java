@@ -23,6 +23,8 @@ public class SessionManager {
     private static final String KEY_COMMENT_PUSH = "isOn";
     private static final String KEY_MATCH_PUSH = "isMatch";
     private static final String KEY_EVENT_PUSH = "isEvent";
+    //Oreo Push Channel
+    private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";
 
 
     public SessionManager(Context context) {
@@ -72,5 +74,21 @@ public class SessionManager {
         return pref.getBoolean(KEY_EVENT_PUSH, true);
     }
 
+    /**
+     * Oreo 이상의 버전에서 알림 채널이 존재하지 않으면 생성 후 true 로 저장하여 보관한다.
+     * @param isExist
+     */
+    public void setPushChannelCommentOfMatch(boolean isExist){
+        editor.putBoolean(PUSH_CHANNEL_COMMENT_OF_MATCH, isExist);
+        editor.commit();
+    }
+
+    /**
+     * Oreo 이상의 버전에서 알림 채널이 존재하는지 안하는지 체크
+     * @return
+     */
+    public boolean isPushChannelCommentOfMatch(){
+        return pref.getBoolean(PUSH_CHANNEL_COMMENT_OF_MATCH, false);
+    }
 
 }

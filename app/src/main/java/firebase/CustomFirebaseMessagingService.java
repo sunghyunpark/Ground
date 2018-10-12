@@ -1,5 +1,6 @@
 package firebase;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -13,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.MainActivity;
 import com.groundmobile.ground.R;
 
@@ -26,6 +28,16 @@ import view.DetailMatchArticleActivity;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
+    //Oreo 푸시 채널 ID
+    private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";
+
+    //Oreo 푸시 채널명
+    private static final String PUSH_CHANNEL_NAME_COMMENT_OF_MATCH = "매치/용병/모집 댓글";
+
+    //푸시 타입
+    private static final String PUSH_TYPE_COMMENT = "comment";
+    private static final String PUSH_TYPE_MATCH = "match";
+    private static final String PUSH_TYPE_EVENT = "event";
     private String[] areaNameArray;
     private SessionManager sessionManager;
     /**
@@ -42,17 +54,17 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> pushDataMap = remoteMessage.getData();
 
         switch (pushDataMap.get("type")){
-            case "comment":
+            case PUSH_TYPE_COMMENT:
                 if(sessionManager.isCommentPushOn()){
                     sendNotification(pushDataMap);
                 }
                 break;
-            case "match":
+            case PUSH_TYPE_MATCH:
                 if(sessionManager.isMatchPushOn()){
                     sendNotification(pushDataMap);
                 }
                 break;
-            case "event":
+            case PUSH_TYPE_EVENT:
                 if(sessionManager.isEventPushOn()){
                     sendNotification(pushDataMap);
                 }
@@ -77,14 +89,18 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(Map<String, String> dataMap) {
+        String channelId = null;
+        String channelName = null;
+
         Intent detailIntent = new Intent(this, DetailMatchArticleActivity.class);
-        if(dataMap.get("type").equals("comment")){
-            detailIntent.putExtra("uid", getUserId());
-            detailIntent.putExtra("area", areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
-            detailIntent.putExtra("areaNo", Integer.parseInt(dataMap.get("areaNo")));
-            detailIntent.putExtra("hasArticleModel", false);
-            detailIntent.putExtra("boardType", dataMap.get("boardType"));
-            detailIntent.putExtra("articleNo", Integer.parseInt(dataMap.get("articleNo")));
+        if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){
+            channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+            detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
+            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get("areaNo")));
+            detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get("boardType"));
+            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get("articleNo")));
         }
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -97,7 +113,23 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this)
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){
+                if(!sessionManager.isPushChannelCommentOfMatch()){
+                    channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+                    channelName = PUSH_CHANNEL_NAME_COMMENT_OF_MATCH;
+                    NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                    nManager.createNotificationChannel(mChannel);
+                    sessionManager.setPushChannelCommentOfMatch(true);
+                }
+            }
+        }
+
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ground_app_icon_72)
                 .setContentTitle(dataMap.get("title"))
                 .setContentText(dataMap.get("message"))
@@ -107,7 +139,6 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 .setLights(Color.WHITE, 1500, 1500)
                 .setContentIntent(resultPendingIntent);
 
-        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.notify(0 /* ID of notification */, nBuilder.build());
     }
 }

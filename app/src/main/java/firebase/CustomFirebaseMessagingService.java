@@ -24,15 +24,18 @@ import database.RealmConfig;
 import database.model.UserVO;
 import io.realm.Realm;
 import util.SessionManager;
+import view.DetailCommunityActivity;
 import view.DetailMatchArticleActivity;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     //Oreo 푸시 채널 ID
     private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";
+    private static final String PUSH_CHANNEL_COMMENT_OF_COMMUNITY = "commentOfCommunity";
 
     //Oreo 푸시 채널명
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_MATCH = "매치/용병/모집 댓글";
+    private static final String PUSH_CHANNEL_NAME_COMMNET_OF_COMMUNITY = "자유게시판 댓글";
 
     //푸시 타입
     private static final String PUSH_TYPE_COMMENT = "comment";
@@ -92,14 +95,24 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         String channelId = null;
         String channelName = null;
 
-        Intent detailIntent = new Intent(this, DetailMatchArticleActivity.class);
+        Intent detailIntent = null;
         if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){
-            channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+            // 댓글 푸시인 경우
+            if(dataMap.get("boardType").equals(GroundApplication.BOARD_TYPE_MATCH)){
+                // Match(match/hire/recruit) 게시글 댓글인 경우
+                detailIntent = new Intent(this, DetailMatchArticleActivity.class);
+                channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
+                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get("areaNo")));
+                detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get("boardType"));
+            }else if(dataMap.get("boardType").equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+                // Community(free) 게시글 댓글인 경우
+                detailIntent = new Intent(this, DetailCommunityActivity.class);
+                detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get("boardType"));
+                channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
+            }
             detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
-            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
-            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get("areaNo")));
             detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
-            detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get("boardType"));
             detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get("articleNo")));
         }
         Intent mainIntent = new Intent(this, MainActivity.class);

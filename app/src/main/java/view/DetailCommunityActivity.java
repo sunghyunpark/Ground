@@ -95,7 +95,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
             communityNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
             typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
             initMode(typeOfCommunity);
-            //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
+            //showMessage("hasArticleModel : "+hasArticleModel+"\nboardType : "+typeOfCommunity+"\narticleNo : "+communityNo);
         }
 
         init();

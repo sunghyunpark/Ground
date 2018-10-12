@@ -100,6 +100,7 @@
             android:layout_height="match_parent"
             android:minHeight="350dp"
             android:inputType="textMultiLine"
+            android:hint="@string/free_board_activity_contents_hint"
             android:background="@null"
             android:textSize="15dp"
             android:padding="15dp"

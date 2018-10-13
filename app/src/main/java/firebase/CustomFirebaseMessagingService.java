@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -96,20 +97,20 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         String channelName = null;
 
         Intent detailIntent = null;
-        if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){
-            // 댓글 푸시인 경우
-            if(dataMap.get("boardType").equals(GroundApplication.BOARD_TYPE_MATCH)){
-                // Match(match/hire/recruit) 게시글 댓글인 경우
-                detailIntent = new Intent(this, DetailMatchArticleActivity.class);
+        if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){    // 댓글 푸시인 경우
+
+            if(dataMap.get("boardType").equals(GroundApplication.BOARD_TYPE_MATCH)){    // Match(match/hire/recruit) 게시글 댓글인 경우
                 channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+                detailIntent = new Intent(this, DetailMatchArticleActivity.class);
                 detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
                 detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get("areaNo")));
                 detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get("boardType"));
-            }else if(dataMap.get("boardType").equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
-                // Community(free) 게시글 댓글인 경우
+
+            }else if(dataMap.get("boardType").equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){    // Community(free) 게시글 댓글인 경우
+                channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
                 detailIntent = new Intent(this, DetailCommunityActivity.class);
                 detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get("boardType"));
-                channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
+
             }
             detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
             detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);

@@ -346,6 +346,16 @@ public interface ApiInterface {
                                               @Path("uid") String uid);
 
     /**
+     * 자유 게시판 상세 데이터 받아오기 API
+     * @param typeOfCommunity
+     * @param no
+     * @return
+     */
+    @GET("api/community/detailView/{boardType}/{no}")
+    Call<CommunityModelListResponse> getCommunityDetailView(@Path("boardType") String typeOfCommunity,
+                                                            @Path("no") int no);
+
+    /**
      * 자유 게시판 글 목록 가져오기 API
      * @param no
      * @return

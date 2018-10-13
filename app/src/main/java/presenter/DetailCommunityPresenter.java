@@ -47,7 +47,7 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
         Call<CommunityModelListResponse> call = null;
 
         if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
-            call = apiService.getCommunityArticleList(typeOfCommunity, communityNo);
+            call = apiService.getCommunityDetailView(typeOfCommunity, communityNo);
         }
         call.enqueue(new Callback<CommunityModelListResponse>() {
             @Override

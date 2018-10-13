@@ -59,22 +59,22 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> pushDataMap = remoteMessage.getData();
 
         switch (pushDataMap.get("type")){
-            case PUSH_TYPE_COMMENT_OF_MATCH:
+            case PUSH_TYPE_COMMENT_OF_MATCH:    // Match(match/hire/recruit) 게시글의 댓글
                 if(sessionManager.isPushCommentOfMatch()){
                     sendNotification(pushDataMap);
                 }
                 break;
-            case PUSH_TYPE_COMMENT_OF_FREE:
+            case PUSH_TYPE_COMMENT_OF_FREE:    // Free 게시글의 댓글
                 if(sessionManager.isPushCommentOfFree()){
                     sendNotification(pushDataMap);
                 }
                 break;
-            case PUSH_TYPE_MATCH:
+            case PUSH_TYPE_MATCH:    // Matching 게시글의 Matching 상태 푸시
                 if(sessionManager.isMatchPushOn()){
                     sendNotification(pushDataMap);
                 }
                 break;
-            case PUSH_TYPE_EVENT:
+            case PUSH_TYPE_EVENT:    // 이벤트 푸시
                 if(sessionManager.isEventPushOn()){
                     sendNotification(pushDataMap);
                 }

@@ -20,7 +20,8 @@ public class SessionManager {
     // Shared preferences file name
     private static final String PREF_NAME = "ground";
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
-    private static final String KEY_COMMENT_PUSH = "isOn";
+    private static final String KEY_PUSH_COMMENT_OF_MATCH = "commentOfMatch";
+    private static final String KEY_PUSH_COMMENT_OF_FREE = "commentOfFree";
     private static final String KEY_MATCH_PUSH = "isMatch";
     private static final String KEY_EVENT_PUSH = "isEvent";
     //Oreo Push Channel
@@ -48,13 +49,22 @@ public class SessionManager {
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
 
-    public void setCommentPush(boolean isOn){
-        editor.putBoolean(KEY_COMMENT_PUSH, isOn);
+    public void setPushCommentOfMatch(boolean commentOfMatch){
+        editor.putBoolean(KEY_PUSH_COMMENT_OF_MATCH, commentOfMatch);
         editor.commit();
     }
 
-    public boolean isCommentPushOn(){
-        return pref.getBoolean(KEY_COMMENT_PUSH, true);
+    public boolean isPushCommentOfMatch(){
+        return pref.getBoolean(KEY_PUSH_COMMENT_OF_MATCH, true);
+    }
+
+    public void setPushCommentOfFree(boolean commentOfFree){
+        editor.putBoolean(KEY_PUSH_COMMENT_OF_FREE, commentOfFree);
+        editor.commit();
+    }
+
+    public boolean isPushCommentOfFree(){
+        return pref.getBoolean(KEY_PUSH_COMMENT_OF_FREE, true);
     }
 
     public void setMatchPush(boolean isOn){

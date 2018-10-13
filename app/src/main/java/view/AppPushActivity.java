@@ -16,7 +16,8 @@ public class AppPushActivity extends BaseActivity {
 
     private SessionManager sessionManager;
 
-    @BindView(R.id.comment_push_toggle) ToggleButton commentPushToggle;
+    @BindView(R.id.match_comment_push_toggle) ToggleButton matchCommentPushToggle;
+    @BindView(R.id.free_comment_push_toggle) ToggleButton freeCommentPushToggle;
     @BindView(R.id.match_push_toggle) ToggleButton matchPushToggle;
     @BindView(R.id.event_push_toggle) ToggleButton eventPushToggle;
 
@@ -33,7 +34,8 @@ public class AppPushActivity extends BaseActivity {
     private void init(){
         sessionManager = new SessionManager(getApplicationContext());
 
-        setToggleState(commentPushToggle, sessionManager.isCommentPushOn());
+        setToggleState(matchCommentPushToggle, sessionManager.isPushCommentOfMatch());
+        setToggleState(freeCommentPushToggle, sessionManager.isPushCommentOfFree());
         setToggleState(matchPushToggle, sessionManager.isMatchPushOn());
         setToggleState(eventPushToggle, sessionManager.isEventPushOn());
 
@@ -49,16 +51,21 @@ public class AppPushActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.event_push_toggle, R.id.comment_push_toggle, R.id.match_push_toggle}) void toggleBtn(View v){
+    @OnClick({R.id.event_push_toggle, R.id.match_comment_push_toggle, R.id.free_comment_push_toggle, R.id.match_push_toggle}) void toggleBtn(View v){
         switch (v.getId()){
-            case R.id.comment_push_toggle:
-                setToggleState(commentPushToggle, commentPushToggle.isChecked());
-                sessionManager.setCommentPush(commentPushToggle.isChecked());
+            case R.id.match_comment_push_toggle:
+                setToggleState(matchCommentPushToggle, matchCommentPushToggle.isChecked());
+                sessionManager.setPushCommentOfMatch(matchCommentPushToggle.isChecked());
                 break;
 
             case R.id.match_push_toggle:
                 setToggleState(matchPushToggle, matchPushToggle.isChecked());
                 sessionManager.setMatchPush(matchPushToggle.isChecked());
+                break;
+
+            case R.id.free_comment_push_toggle:
+                setToggleState(freeCommentPushToggle, freeCommentPushToggle.isChecked());
+                sessionManager.setPushCommentOfFree(freeCommentPushToggle.isChecked());
                 break;
 
             case R.id.event_push_toggle:

@@ -36,10 +36,11 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     //Oreo 푸시 채널명
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_MATCH = "매치/용병/모집 댓글";
-    private static final String PUSH_CHANNEL_NAME_COMMNET_OF_COMMUNITY = "자유게시판 댓글";
+    private static final String PUSH_CHANNEL_NAME_COMMENT_OF_COMMUNITY = "자유게시판 댓글";
 
     //푸시 타입
-    private static final String PUSH_TYPE_COMMENT = "comment";
+    private static final String PUSH_TYPE_COMMENT_OF_MATCH = "commentOfMatch";    // 매치(match/hire/recruit) 게시판의 댓글
+    private static final String PUSH_TYPE_COMMENT_OF_FREE = "commentOfFree";    // 자유게시판 댓글
     private static final String PUSH_TYPE_MATCH = "match";
     private static final String PUSH_TYPE_EVENT = "event";
     private String[] areaNameArray;
@@ -58,8 +59,13 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> pushDataMap = remoteMessage.getData();
 
         switch (pushDataMap.get("type")){
-            case PUSH_TYPE_COMMENT:
-                if(sessionManager.isCommentPushOn()){
+            case PUSH_TYPE_COMMENT_OF_MATCH:
+                if(sessionManager.isPushCommentOfMatch()){
+                    sendNotification(pushDataMap);
+                }
+                break;
+            case PUSH_TYPE_COMMENT_OF_FREE:
+                if(sessionManager.isPushCommentOfFree()){
                     sendNotification(pushDataMap);
                 }
                 break;
@@ -73,9 +79,6 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                     sendNotification(pushDataMap);
                 }
                 break;
-                default:
-                    sendNotification(pushDataMap);
-                    break;
         }
 
     }
@@ -97,25 +100,24 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         String channelName = null;
 
         Intent detailIntent = null;
-        if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){    // 댓글 푸시인 경우
-
-            if(dataMap.get(GroundApplication.EXTRA_BOARD_TYPE).equals(GroundApplication.BOARD_TYPE_MATCH)){    // Match(match/hire/recruit) 게시글 댓글인 경우
-                channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
-                detailIntent = new Intent(this, DetailMatchArticleActivity.class);
-                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO))]);
-                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO)));
-                detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
-
-            }else if(dataMap.get(GroundApplication.EXTRA_BOARD_TYPE).equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){    // Community(free) 게시글 댓글인 경우
-                channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
-                detailIntent = new Intent(this, DetailCommunityActivity.class);
-                detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
-
-            }
+        if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_MATCH)){    // 댓글 푸시인 경우
+            channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+            detailIntent = new Intent(this, DetailMatchArticleActivity.class);
+            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO))]);
+            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO)));
+            detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
+            detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
+        }else if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_FREE)){
+            channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
+            detailIntent = new Intent(this, DetailCommunityActivity.class);
+            detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
             detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
             detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
             detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
         }
+
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -132,20 +134,21 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){
-                if(!sessionManager.isPushChannelCommentOfMatch()){    // 매치(match/hire/recruit) 게시판의 댓글
-                    channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
-                    channelName = PUSH_CHANNEL_NAME_COMMENT_OF_MATCH;
-                    NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
-                    nManager.createNotificationChannel(mChannel);
-                    sessionManager.setPushChannelCommentOfMatch(true);
-                }else if(!sessionManager.isPushChannelCommentOfCommunity()){    // 커뮤니티(자유게시판) 게시판의 댓글
-                    channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
-                    channelName = PUSH_CHANNEL_NAME_COMMNET_OF_COMMUNITY;
-                    NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
-                    nManager.createNotificationChannel(mChannel);
-                    sessionManager.setPushChannelCommentOfCommunity(true);
-                }
+
+            if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_MATCH) && !sessionManager.isPushChannelCommentOfMatch()){
+                // 매치(match/hire/recruit) 게시판의 댓글인 경우
+                channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
+                channelName = PUSH_CHANNEL_NAME_COMMENT_OF_MATCH;
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
+                sessionManager.setPushChannelCommentOfMatch(true);
+            }else if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_FREE) && !sessionManager.isPushChannelCommentOfCommunity()){
+                // 자유게시판의 댓글인 경우
+                channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
+                channelName = PUSH_CHANNEL_NAME_COMMENT_OF_COMMUNITY;
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
+                sessionManager.setPushChannelCommentOfCommunity(true);
             }
         }
 

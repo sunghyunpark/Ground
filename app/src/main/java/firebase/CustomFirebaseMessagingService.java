@@ -99,22 +99,22 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         Intent detailIntent = null;
         if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){    // 댓글 푸시인 경우
 
-            if(dataMap.get("boardType").equals(GroundApplication.BOARD_TYPE_MATCH)){    // Match(match/hire/recruit) 게시글 댓글인 경우
+            if(dataMap.get(GroundApplication.EXTRA_BOARD_TYPE).equals(GroundApplication.BOARD_TYPE_MATCH)){    // Match(match/hire/recruit) 게시글 댓글인 경우
                 channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
                 detailIntent = new Intent(this, DetailMatchArticleActivity.class);
-                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get("areaNo"))]);
-                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get("areaNo")));
-                detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get("boardType"));
+                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO))]);
+                detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO)));
+                detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
 
-            }else if(dataMap.get("boardType").equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){    // Community(free) 게시글 댓글인 경우
+            }else if(dataMap.get(GroundApplication.EXTRA_BOARD_TYPE).equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){    // Community(free) 게시글 댓글인 경우
                 channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
                 detailIntent = new Intent(this, DetailCommunityActivity.class);
-                detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get("boardType"));
+                detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
 
             }
             detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
             detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
-            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get("articleNo")));
+            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
         }
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -133,12 +133,18 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             if(dataMap.get("type").equals(PUSH_TYPE_COMMENT)){
-                if(!sessionManager.isPushChannelCommentOfMatch()){
+                if(!sessionManager.isPushChannelCommentOfMatch()){    // 매치(match/hire/recruit) 게시판의 댓글
                     channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
                     channelName = PUSH_CHANNEL_NAME_COMMENT_OF_MATCH;
                     NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
                     nManager.createNotificationChannel(mChannel);
                     sessionManager.setPushChannelCommentOfMatch(true);
+                }else if(!sessionManager.isPushChannelCommentOfCommunity()){    // 커뮤니티(자유게시판) 게시판의 댓글
+                    channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
+                    channelName = PUSH_CHANNEL_NAME_COMMNET_OF_COMMUNITY;
+                    NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                    nManager.createNotificationChannel(mChannel);
+                    sessionManager.setPushChannelCommentOfCommunity(true);
                 }
             }
         }

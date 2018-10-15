@@ -36,7 +36,7 @@ public class AppPushActivity extends BaseActivity {
 
         setToggleState(matchCommentPushToggle, sessionManager.isPushCommentOfMatch());
         setToggleState(freeCommentPushToggle, sessionManager.isPushCommentOfFree());
-        setToggleState(matchPushToggle, sessionManager.isMatchPushOn());
+        setToggleState(matchPushToggle, sessionManager.isMyFavoriteArticleMatchedOn());
         setToggleState(eventPushToggle, sessionManager.isEventPushOn());
 
     }
@@ -60,7 +60,7 @@ public class AppPushActivity extends BaseActivity {
 
             case R.id.match_push_toggle:
                 setToggleState(matchPushToggle, matchPushToggle.isChecked());
-                sessionManager.setMatchPush(matchPushToggle.isChecked());
+                sessionManager.setPushMyFavoriteArticleMatched(matchPushToggle.isChecked());
                 break;
 
             case R.id.free_comment_push_toggle:

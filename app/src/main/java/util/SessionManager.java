@@ -22,7 +22,7 @@ public class SessionManager {
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
     private static final String KEY_PUSH_COMMENT_OF_MATCH = "commentOfMatch";
     private static final String KEY_PUSH_COMMENT_OF_FREE = "commentOfFree";
-    private static final String KEY_MATCH_PUSH = "isMatch";
+    private static final String KEY_PUSH_MY_FAVORITE_ARTICLE_MATCHED = "myFavoriteArticleMatched";
     private static final String KEY_EVENT_PUSH = "isEvent";
     //Oreo Push Channel
     private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";
@@ -67,13 +67,13 @@ public class SessionManager {
         return pref.getBoolean(KEY_PUSH_COMMENT_OF_FREE, true);
     }
 
-    public void setMatchPush(boolean isOn){
-        editor.putBoolean(KEY_MATCH_PUSH, isOn);
+    public void setPushMyFavoriteArticleMatched(boolean isOn){
+        editor.putBoolean(KEY_PUSH_MY_FAVORITE_ARTICLE_MATCHED, isOn);
         editor.commit();
     }
 
-    public boolean isMatchPushOn(){
-        return pref.getBoolean(KEY_MATCH_PUSH, true);
+    public boolean isMyFavoriteArticleMatchedOn(){
+        return pref.getBoolean(KEY_PUSH_MY_FAVORITE_ARTICLE_MATCHED, true);
     }
 
     public void setEventPush(boolean isOn){

@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -31,17 +30,19 @@ import view.DetailMatchArticleActivity;
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     //Oreo 푸시 채널 ID
-    private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";
-    private static final String PUSH_CHANNEL_COMMENT_OF_COMMUNITY = "commentOfCommunity";
+    private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";    // 매치 게시판(match/hire/recruit)에 댓글이 달렸을 시
+    private static final String PUSH_CHANNEL_COMMENT_OF_COMMUNITY = "commentOfCommunity";    // 자유게시판에 댓글이 달렸을 시
+    private static final String PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED = "myFavoriteArticleMatched";    // 관심 매치게시판이 '완료'로 상태 변경되었을 때
 
     //Oreo 푸시 채널명
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_MATCH = "매치/용병/모집 댓글";
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_COMMUNITY = "자유게시판 댓글";
+    private static final String PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED = "관심 시합 게시글의 상태 변경";
 
     //푸시 타입
     private static final String PUSH_TYPE_COMMENT_OF_MATCH = "commentOfMatch";    // 매치(match/hire/recruit) 게시판의 댓글
     private static final String PUSH_TYPE_COMMENT_OF_FREE = "commentOfFree";    // 자유게시판 댓글
-    private static final String PUSH_TYPE_MATCH = "match";
+    private static final String PUSH_TYPE_MY_FAVORITE_ARTICLE_MATCHED = "match";
     private static final String PUSH_TYPE_EVENT = "event";
     private String[] areaNameArray;
     private SessionManager sessionManager;
@@ -69,8 +70,8 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                     sendNotification(pushDataMap);
                 }
                 break;
-            case PUSH_TYPE_MATCH:    // Matching 게시글의 Matching 상태 푸시
-                if(sessionManager.isMatchPushOn()){
+            case PUSH_TYPE_MY_FAVORITE_ARTICLE_MATCHED:    // Matching 게시글의 Matching 상태 푸시
+                if(sessionManager.isMyFavoriteArticleMatchedOn()){
                     sendNotification(pushDataMap);
                 }
                 break;
@@ -113,6 +114,15 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
             channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
             detailIntent = new Intent(this, DetailCommunityActivity.class);
             detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
+            detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
+        }else if(dataMap.get("type").equals(PUSH_TYPE_MY_FAVORITE_ARTICLE_MATCHED)){
+            channelId = PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED;
+            detailIntent = new Intent(this, DetailMatchArticleActivity.class);
+            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO))]);
+            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO)));
+            detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
             detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
             detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
             detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));

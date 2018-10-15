@@ -43,12 +43,10 @@ public class WriteCommunityBoardPresenter extends BasePresenter<WriteFreeBoardVi
             photoBody = MultipartBody.Part.createFormData("photo", photoName, requestFile);
         }
 
-        //RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), photoFile);
         RequestBody uid = RequestBody.create(okhttp3.MultipartBody.FORM, uidStr);
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, titleStr);
         RequestBody contents = RequestBody.create(okhttp3.MultipartBody.FORM, contentsStr);
         RequestBody typeOfCommunity = RequestBody.create(okhttp3.MultipartBody.FORM, typeOfCommunityStr);
-        //MultipartBody.Part photoBody = MultipartBody.Part.createFormData("photo", photoName, requestFile);
 
         Call<CommonResponse> call = apiService.writeCommunityArticle(uid, title, contents, typeOfCommunity, photoBody);
         call.enqueue(new Callback<CommonResponse>() {

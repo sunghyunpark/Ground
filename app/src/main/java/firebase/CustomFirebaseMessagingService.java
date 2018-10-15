@@ -159,6 +159,13 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
                 nManager.createNotificationChannel(mChannel);
                 sessionManager.setPushChannelCommentOfCommunity(true);
+            }else if(dataMap.get("type").equals(PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED) && !sessionManager.isPushChannelMyFavoriteArticleMatched()){
+                // 내가 관심 설정한 매치 게시글의 진행 상태가 '완료'로 변경된 경우
+                channelId = PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED;
+                channelName = PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED;
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
+                sessionManager.setPushChannelMyFavoriteArticleMatched(true);
             }
         }
 

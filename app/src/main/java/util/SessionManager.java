@@ -27,6 +27,7 @@ public class SessionManager {
     //Oreo Push Channel
     private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";
     private static final String PUSH_CHANNEL_COMMENT_OF_COMMUNITY = "commentOfCommunity";
+    private static final String PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED = "myFavoriteArticleMatched";
 
 
     public SessionManager(Context context) {
@@ -117,6 +118,23 @@ public class SessionManager {
      */
     public boolean isPushChannelCommentOfCommunity(){
         return pref.getBoolean(PUSH_CHANNEL_COMMENT_OF_COMMUNITY, false);
+    }
+
+    /**
+     * Oreo 이상의 버전에서 알림 채널이 존재하지 않으면 생성 후 true 로 저장하여 보관한다.
+     * @param isExist
+     */
+    public void setPushChannelMyFavoriteArticleMatched(boolean isExist){
+        editor.putBoolean(PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED, isExist);
+        editor.commit();
+    }
+
+    /**
+     * Oreo 이상의 버전에서 알림 채널이 존재하는지 안하는지 체크
+     * @return
+     */
+    public boolean isPushChannelMyFavoriteArticleMatched(){
+        return pref.getBoolean(PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED, false);
     }
 
 }

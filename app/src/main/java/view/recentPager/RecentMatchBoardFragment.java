@@ -87,6 +87,9 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
 
     @Override
     public void setListData(){
+        if(!matchArticleModelArrayList.isEmpty()){
+            matchArticleModelArrayList.clear();
+        }
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

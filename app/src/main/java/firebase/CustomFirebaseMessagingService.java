@@ -33,11 +33,13 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";    // 매치 게시판(match/hire/recruit)에 댓글이 달렸을 시
     private static final String PUSH_CHANNEL_COMMENT_OF_COMMUNITY = "commentOfCommunity";    // 자유게시판에 댓글이 달렸을 시
     private static final String PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED = "myFavoriteArticleMatched";    // 관심 매치게시판이 '완료'로 상태 변경되었을 때
+    private static final String PUSH_CHANNEL_EVENT = "event";    // 이벤트 전체 푸시
 
     //Oreo 푸시 채널명
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_MATCH = "매치/용병/모집 댓글";
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_COMMUNITY = "자유게시판 댓글";
     private static final String PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED = "관심 시합 게시글의 상태 변경";
+    private static final String PUSH_CHANNEL_NAME_EVENT = "이벤트";
 
     //푸시 타입
     private static final String PUSH_TYPE_COMMENT_OF_MATCH = "commentOfMatch";    // 매치(match/hire/recruit) 게시판의 댓글
@@ -126,13 +128,17 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
             detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
             detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
             detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
+        }else if(dataMap.get("type").equals(PUSH_TYPE_EVENT)){
+            channelId = PUSH_CHANNEL_EVENT;
         }
 
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntent(mainIntent);
-        stackBuilder.addNextIntent(detailIntent);
+        if(!dataMap.get("type").equals(PUSH_TYPE_EVENT)){
+            stackBuilder.addNextIntent(detailIntent);
+        }
         stackBuilder.addParentStack(MainActivity.class);
 
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -166,6 +172,13 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
                 nManager.createNotificationChannel(mChannel);
                 sessionManager.setPushChannelMyFavoriteArticleMatched(true);
+            }else if(dataMap.get("type").equals(PUSH_TYPE_EVENT) && !sessionManager.isPushChannelEvent()){
+                // 이벤트 전체 푸시
+                channelId = PUSH_CHANNEL_EVENT;
+                channelName = PUSH_CHANNEL_NAME_EVENT;
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
+                sessionManager.setPushChannelEvent(true);
             }
         }
 

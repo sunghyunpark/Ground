@@ -239,8 +239,7 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
         if(!isNetworkConnected()){
             showMessage("네트워크 연결상태를 확인해주세요.");
         }else{
-            sortMode = SORT_ALL;
-            init(area, sortMode);
+            resetArticleData();
         }
     }
 }

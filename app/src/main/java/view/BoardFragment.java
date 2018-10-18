@@ -14,12 +14,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.adapter.BoardViewPagerAdapter;
+import view.dialog.AreaSearchDialog;
 import view.dialog.MyContentsDialog;
 
 public class BoardFragment extends BaseFragment {
 
     private BoardViewPagerAdapter pagerAdapter;
     private MyContentsDialog myContentsDialog;
+    private AreaSearchDialog areaSearchDialog;
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
@@ -49,7 +51,6 @@ public class BoardFragment extends BaseFragment {
     }
 
     private void init(){
-        myContentsDialog = new MyContentsDialog(getContext());
         pagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
     }
 
@@ -59,7 +60,13 @@ public class BoardFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @OnClick(R.id.search_btn) void searchBtn(){
+        areaSearchDialog = new AreaSearchDialog(getContext());
+        areaSearchDialog.show();
+    }
+
     @OnClick(R.id.my_btn) void myBtn(){
+        myContentsDialog = new MyContentsDialog(getContext());
         if(isLogin()){
             //login
             myContentsDialog.show();

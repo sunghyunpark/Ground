@@ -66,6 +66,14 @@ public class AreaSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * 검색하기 버튼을 눌렀을 때 다이얼로그로 반환하기 위함.
+     * @return
+     */
+    public ArrayList<Integer> getCheckList(){
+        return this.checkedList;
+    }
+
     public class Area_VH extends RecyclerView.ViewHolder{
         @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.checkbox) CheckBox checkBox;

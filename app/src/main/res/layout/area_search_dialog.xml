@@ -31,7 +31,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/area_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbarSize="5dp"
             android:layout_marginTop="10dp"/>
 
         <Button

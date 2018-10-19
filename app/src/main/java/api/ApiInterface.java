@@ -426,4 +426,15 @@ public interface ApiInterface {
                                                 @Path("no") int no,
                                                 @Path("articleNo") int articleNo);
 
+    /**
+     * 게시글 리스트 API
+     * @param areaNoStr
+     * @return
+     */
+    @GET("api/search/matchArticle/{no}/{areaNoStr}/{order}/{matchDate}")
+    Call<ArticleModelListResponse> getAreaSearchResultList(@Path("no") int no,
+                                                    @Path("areaNoStr") String areaNoStr,
+                                                    @Path("order") String order,
+                                                    @Path("matchDate") String matchDate);
+
 }

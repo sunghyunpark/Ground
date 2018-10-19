@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="2dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/area_search_dialog_search_btn_shape"
             android:textColor="@color/colorWhite"
             android:text="검색"/>
 

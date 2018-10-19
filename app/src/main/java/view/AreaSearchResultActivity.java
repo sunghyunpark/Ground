@@ -96,7 +96,7 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
 
         matchArticleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        areaSearchResultAdapter = new AreaSearchResultAdapter(AreaSearchResultActivity.this, matchArticleModelArrayList, area, new AreaSearchResultAdapter.AreaSearchResultAdapterListener() {
+        areaSearchResultAdapter = new AreaSearchResultAdapter(AreaSearchResultActivity.this, matchArticleModelArrayList, new AreaSearchResultAdapter.AreaSearchResultAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
@@ -152,7 +152,6 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
     }
 
     private void initView(){
-        title_tv.setText(area);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
         boardRecyclerView.setAdapter(areaSearchResultAdapter);
     }

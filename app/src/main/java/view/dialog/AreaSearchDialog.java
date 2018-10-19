@@ -63,7 +63,7 @@ public class AreaSearchDialog extends Dialog{
             Toast.makeText(getContext(), "지역을 선택해주세요.", Toast.LENGTH_SHORT).show();
         }else{
             for(int i=0;i<checkArrayList.size();i++){
-                checkListStr += (i==(checkArrayList.size()-1)) ? checkArrayList.get(i) : checkArrayList.get(i)+",";
+                checkListStr += (i==(checkArrayList.size()-1)) ? checkArrayList.get(i)+1 : (checkArrayList.get(i)+1)+",";
             }
             Intent intent = new Intent(getContext(), AreaSearchResultActivity.class);
             intent.putExtra(GroundApplication.EXTRA_AREA_NO, checkListStr);

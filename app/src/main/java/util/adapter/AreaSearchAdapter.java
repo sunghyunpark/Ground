@@ -52,6 +52,8 @@ public class AreaSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if(isChecked){
                         checkedList.add(position);
+                    }else{
+                        checkedList.remove((Integer)position);
                     }
                 }
             });

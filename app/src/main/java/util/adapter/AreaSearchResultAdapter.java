@@ -34,7 +34,6 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_EMPTY = 2;
-    private String area;    //지역명
     private ArrayList<MatchArticleModel> listItems;
     private Activity context;
     private SessionManager sessionManager;
@@ -43,14 +42,13 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
     private AreaSearchResultAdapterListener areaSearchResultAdapterListener;
 
 
-    public AreaSearchResultAdapter(Activity context, ArrayList<MatchArticleModel> listItems, String area, AreaSearchResultAdapterListener areaSearchResultAdapterListener) {
+    public AreaSearchResultAdapter(Activity context, ArrayList<MatchArticleModel> listItems, AreaSearchResultAdapterListener areaSearchResultAdapterListener) {
         this.context = context;
         this.listItems = listItems;
-        this.area = area;
         this.sessionManager = new SessionManager(context);
         this.areaSearchResultAdapterListener = areaSearchResultAdapterListener;
         Resources res = context.getResources();
-        matchArea = res.getStringArray(R.array.matching_board_list);
+        matchArea = res.getStringArray(R.array.area_search_list);
     }
 
     public interface AreaSearchResultAdapterListener{
@@ -99,7 +97,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }else if(!NetworkUtils.isNetworkConnected(context)){
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
-                        areaSearchResultAdapterListener.goToDetailArticle(position-1, area, currentItem);
+                        areaSearchResultAdapterListener.goToDetailArticle(position-1, changeToAreaName(currentItem.getAreaNo()), currentItem);
                     }
                 }
             });
@@ -236,7 +234,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private String changeToAreaName(int areaNo){
-        return matchArea[areaNo];
+        return matchArea[areaNo-1];
 
     }
 

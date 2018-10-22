@@ -1,5 +1,6 @@
 package view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -11,14 +12,17 @@ import com.groundmobile.ground.R;
 public class YouTubePlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final String API_KEY = "AIzaSyDXT-E0MMC5Jz5mcoil9EsQ3bbVffSuhvQ";
+    private String videoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_you_tube_player);
 
-        // YouTube API KEY를 설정한다
+        Intent intent = getIntent();
+        videoId = intent.getExtras().getString("videoId");
 
+        // YouTube API KEY를 설정한다
         YouTubePlayerView youtubeView = (YouTubePlayerView)findViewById(R.id.youtube_view);
         youtubeView.initialize(API_KEY, this);
 
@@ -46,7 +50,7 @@ public class YouTubePlayerActivity extends YouTubeBaseActivity implements YouTub
 
         // YouTube 동영상 ID를 설정한다
         if (!wasRestored) {
-            player.loadVideo("CZB-CaxLjyw");
+            player.loadVideo(videoId);
             //player.cueVideo("CZB-CaxLjyw");
 
         }

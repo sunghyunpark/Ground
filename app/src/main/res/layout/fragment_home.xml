@@ -205,6 +205,33 @@
             android:layout_height="70dp"
             android:scaleType="centerCrop"/>
 
+        <LinearLayout
+            android:id="@+id/recommend_youtube_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recommend_youtube_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="23dp"
+                android:text="이런 영상은 어때요?"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/recommend_youtube_pager"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginTop="25dp">
+            </android.support.v4.view.ViewPager>
+
+        </LinearLayout>
+
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -29,21 +29,25 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.MatchArticleModel;
 import model.BannerModel;
+import model.YouTubeModel;
 import presenter.HomePresenter;
 import presenter.view.HomeView;
 import util.Util;
 import util.adapter.BannerViewPagerAdapter;
 import util.adapter.GroundUtilAdapter;
 import util.adapter.RecentBoardViewPagerAdapter;
+import util.adapter.RecommendYouTubeViewPagerAdapter;
 import util.adapter.TodayMatchAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
 
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
+    private RecommendYouTubeViewPagerAdapter recommendYouTubeViewPagerAdapter;
     private TodayMatchAdapter todayMatchAdapter;
     private ArrayList<BannerModel> mainBannerList;
     private ArrayList<MatchArticleModel> todayMatchArticleModelArrayList;
+    private ArrayList<YouTubeModel> youTubeModelArrayList;
     private ArrayList<String> groundUtilUpdateList;
     private HomePresenter homePresenter;
 
@@ -57,6 +61,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.recent_pager) ViewPager recent_pager;
     @BindView(R.id.ground_util_recyclerView) RecyclerView groundUtilRecyclerView;
     @BindView(R.id.today_match_recyclerView) RecyclerView todayMatchRecyclerView;
+    @BindView(R.id.recommend_youtube_pager) ViewPager recommendYouTubePager;
     @BindView(R.id.today_match_empty_tv) TextView todayMatchEmptyTv;
     @BindView(R.id.today_match_more_btn) Button todayMatchMoreBtn;
     @BindView(R.id.recommend_banner_iv) ImageView recommendBanner_iv;
@@ -104,6 +109,16 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     private void init(){
+
+        youTubeModelArrayList = new ArrayList<>();
+        YouTubeModel youTubeModel;
+        for(int i=0;i<4;i++){
+            youTubeModel = new YouTubeModel();
+            youTubeModel.setThumbNail("https://img.youtube.com/vi/CSyUOLGhqhw/0.jpg");
+            youTubeModel.setVideoId("CSyUOLGhqhw");
+            youTubeModelArrayList.add(youTubeModel);
+        }
+
         todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
         groundUtilUpdateList = new ArrayList<>();
         mainBannerList = new ArrayList<BannerModel>();
@@ -123,6 +138,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         homePresenter.loadGroundUtilData(groundUtilUpdateList);
         //setGroundRecyclerView();
         setTodayMatchBoard();
+        setRecommendYouTube();
     }
 
     /**
@@ -194,33 +210,41 @@ public class HomeFragment extends BaseFragment implements HomeView{
      * 최신글 하단 띠 배너
      */
     private void setRecentBoardBanner(BannerModel RBBanner){
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.centerCrop();
-        Glide.with(GroundApplication.getAppContext())
-                .setDefaultRequestOptions(requestOptions)
-                .load(GroundApplication.GROUND_DEV_API+RBBanner.getImgPath())
-                .into(recommendBanner_iv);
+        if(RBBanner.getType().equals("off")){
+            recommendBanner_iv.setVisibility(View.GONE);
+        }else{
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.centerCrop();
+            Glide.with(GroundApplication.getAppContext())
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(GroundApplication.GROUND_DEV_API+RBBanner.getImgPath())
+                    .into(recommendBanner_iv);
+        }
     }
 
     /**
      * 오늘의 시합 하단 띠 배너
      */
     private void setTodayMatchBoardBanner(final BannerModel TBBanner){
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.centerCrop();
-        Glide.with(GroundApplication.getAppContext())
-                .setDefaultRequestOptions(requestOptions)
-                .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
-                .into(chatbotBanner_iv);
+        if(TBBanner.getType().equals("off")){
+            chatbotBanner_iv.setVisibility(View.GONE);
+        }else{
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.centerCrop();
+            Glide.with(GroundApplication.getAppContext())
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
+                    .into(chatbotBanner_iv);
 
-        chatbotBanner_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(TBBanner.getUrl()));
-                startActivity(intent);
-            }
-        });
+            chatbotBanner_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(TBBanner.getUrl()));
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     /**
@@ -253,6 +277,20 @@ public class HomeFragment extends BaseFragment implements HomeView{
             todayMatchEmptyTv.setVisibility(View.VISIBLE);
             todayMatchRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void setRecommendYouTube(){
+        recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
+        recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
+
+        float density = getResources().getDisplayMetrics().density;
+        int pageMargin = 8 * (int)density; // 8dp
+
+        recommendYouTubePager.setPageMargin(pageMargin);
+        recommendYouTubePager.setClipToPadding(false);
+        recommendYouTubePager.setPadding(80, 0, 80, 0);
+        recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
     }
 
     @OnClick(R.id.recommend_banner_iv) void recommendBannerBtn(){

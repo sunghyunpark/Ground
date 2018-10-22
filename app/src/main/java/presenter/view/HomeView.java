@@ -16,4 +16,6 @@ public interface HomeView extends BasePresenterView{
 
     void notifyTodayMatchArticle(boolean hasData, int listSize);    // 오늘의 시합 데이터를 받은 뒤 갱신한다.
 
+    void setRecommendYouTube();    // 이런 영상은 어때요?
+
 }

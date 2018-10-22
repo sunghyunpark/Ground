@@ -27,7 +27,6 @@ import model.UserModel;
 import util.Util;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private boolean isAll;
     private ArrayList<CommentModel> listItems;
@@ -51,19 +50,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_item, parent, false);
             return new Comment_VH(v);
-        }else if(viewType == TYPE_HEADER){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_comment_header, parent, false);
-            return new Comment_Header(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
     private CommentModel getItem(int position) {
-        if(isAll){
-            return listItems.get(position);
-        }else{
-            return listItems.get(position-1);
-        }
+        return listItems.get(position);
     }
 
     @Override
@@ -135,11 +127,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-        }else if(holder instanceof Comment_Header){
-            final Comment_Header VHitem = (Comment_Header)holder;
-
-            VHitem.comment_cnt_tv.setText("댓글 "+(getItemCount()-1));
-
         }
     }
 
@@ -179,39 +166,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class Comment_Header extends RecyclerView.ViewHolder{
-        @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
-
-        private Comment_Header(View itemView){
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
-    private boolean isPositionHeader(int position){
-        return position == 0;
-    }
-
     @Override
     public int getItemViewType(int position) {
-        if(isAll){
-            return TYPE_ITEM;
-        }else{
-            if(isPositionHeader(position)){
-                return TYPE_HEADER;
-            }else{
-                return TYPE_ITEM;
-            }
-        }
+        return TYPE_ITEM;
     }
     //increasing getItemcount to 1. This will be the row of header.
     @Override
     public int getItemCount() {
-        if(isAll){
-            return listItems.size();
-        }else{
-            return listItems.size()+1;
-        }
+        return listItems.size();
     }
 
 }

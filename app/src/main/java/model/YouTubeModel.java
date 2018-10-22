@@ -2,9 +2,18 @@ package model;
 
 public class YouTubeModel {
 
+    private String type;
     private String videoId;
-    private String thumbNail;
+    private String imgPath;
     private String title;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getVideoId() {
         return videoId;
@@ -14,12 +23,12 @@ public class YouTubeModel {
         this.videoId = videoId;
     }
 
-    public String getThumbNail() {
-        return thumbNail;
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setThumbNail(String thumbNail) {
-        this.thumbNail = thumbNail;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public String getTitle() {

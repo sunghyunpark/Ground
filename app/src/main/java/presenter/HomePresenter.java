@@ -11,9 +11,11 @@ import api.ApiInterface;
 import api.response.ArticleModelListResponse;
 import api.response.BannerListResponse;
 import api.response.UpdateTimeResponse;
+import api.response.YouTubeListResponse;
 import base.presenter.BasePresenter;
 import model.MatchArticleModel;
 import model.BannerModel;
+import model.YouTubeModel;
 import presenter.view.HomeView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +87,33 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onFailure(Call<BannerListResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    /**
+     * 이런 영상은 어때요?
+     * @param youTubeModelArrayList
+     */
+    public void loadRecommendYouTubeList(final ArrayList<YouTubeModel> youTubeModelArrayList){
+        Call<YouTubeListResponse> call = apiService.getRecommendYouTubeList();
+        call.enqueue(new Callback<YouTubeListResponse>() {
+            @Override
+            public void onResponse(Call<YouTubeListResponse> call, Response<YouTubeListResponse> response) {
+                YouTubeListResponse youTubeListResponse = response.body();
+                if(youTubeListResponse.getYoutubeList().size() > 0) {
+                    for(YouTubeModel ym : youTubeListResponse.getYoutubeList()){
+                        Collections.addAll(youTubeModelArrayList, ym);
+                    }
+                }
+                getView().setRecommendYouTube(youTubeListResponse.getState());
+            }
+
+            @Override
+            public void onFailure(Call<YouTubeListResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("tag", t.toString());
                 Util.showToast(context, "네트워크 연결상태를 확인해주세요.");

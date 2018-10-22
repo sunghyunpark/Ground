@@ -8,6 +8,7 @@ import api.response.CommonResponse;
 import api.response.CommunityModelListResponse;
 import api.response.LoginResponse;
 import api.response.UpdateTimeResponse;
+import api.response.YouTubeListResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -79,6 +80,13 @@ public interface ApiInterface {
      */
     @GET("api/banner/ad/board/")
     Call<BannerListResponse> getBoardBanner();
+
+    /**
+     * 이런 영상은 어때요? API
+     * @return
+     */
+    @GET("api/youtube/recommend/")
+    Call<YouTubeListResponse> getRecommendYouTubeList();
 
     /**
      * 글 쓰기 API

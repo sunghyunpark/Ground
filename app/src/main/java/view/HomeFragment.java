@@ -62,6 +62,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.ground_util_recyclerView) RecyclerView groundUtilRecyclerView;
     @BindView(R.id.today_match_recyclerView) RecyclerView todayMatchRecyclerView;
     @BindView(R.id.recommend_youtube_pager) ViewPager recommendYouTubePager;
+    @BindView(R.id.recommend_youtube_layout) ViewGroup recommend_youtube_layout;
     @BindView(R.id.today_match_empty_tv) TextView todayMatchEmptyTv;
     @BindView(R.id.today_match_more_btn) Button todayMatchMoreBtn;
     @BindView(R.id.recommend_banner_iv) ImageView recommendBanner_iv;
@@ -109,34 +110,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     private void init(){
-
         youTubeModelArrayList = new ArrayList<>();
-        YouTubeModel youTubeModel = new YouTubeModel();
-        youTubeModel.setThumbNail("https://img.youtube.com/vi/CSyUOLGhqhw/0.jpg");
-        youTubeModel.setVideoId("CSyUOLGhqhw");
-        youTubeModel.setTitle("제목1");
-        youTubeModelArrayList.add(youTubeModel);
-
-        YouTubeModel youTubeModel2 = new YouTubeModel();
-        youTubeModel2.setThumbNail("https://img.youtube.com/vi/0ZCfceDeq4g/0.jpg");
-        youTubeModel2.setVideoId("0ZCfceDeq4g");
-        youTubeModel2.setTitle("제목2");
-        youTubeModelArrayList.add(youTubeModel2);
-
-        YouTubeModel youTubeModel3 = new YouTubeModel();
-        youTubeModel3.setThumbNail("https://img.youtube.com/vi/DS9164x7k9s/0.jpg");
-        youTubeModel3.setVideoId("DS9164x7k9s");
-        youTubeModel3.setTitle("제목3");
-        youTubeModelArrayList.add(youTubeModel3);
-
-        YouTubeModel youTubeModel4 = new YouTubeModel();
-        youTubeModel4.setThumbNail("https://img.youtube.com/vi/4WGnpN12I0U/0.jpg");
-        youTubeModel4.setVideoId("4WGnpN12I0U");
-        youTubeModel4.setTitle("제목4");
-        youTubeModelArrayList.add(youTubeModel4);
-
-
-
         todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
         groundUtilUpdateList = new ArrayList<>();
         mainBannerList = new ArrayList<BannerModel>();
@@ -144,6 +118,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
+        homePresenter.loadRecommendYouTubeList(youTubeModelArrayList);
 
         // 일단 그라운드유틸 업데이트 시간을 모두 디폴트로 초기화한다.
         for(int i=0;i<4;i++){
@@ -156,7 +131,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
         homePresenter.loadGroundUtilData(groundUtilUpdateList);
         //setGroundRecyclerView();
         setTodayMatchBoard();
-        setRecommendYouTube();
     }
 
     /**
@@ -298,17 +272,21 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     @Override
-    public void setRecommendYouTube(){
-        recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
-        recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
+    public void setRecommendYouTube(String state){
+        if(state.equals("off")){
+            recommend_youtube_layout.setVisibility(View.GONE);
+        }else{
+            recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
+            recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
 
-        float density = getResources().getDisplayMetrics().density;
-        int pageMargin = 8 * (int)density; // 8dp
+            float density = getResources().getDisplayMetrics().density;
+            int pageMargin = 8 * (int)density; // 8dp
 
-        recommendYouTubePager.setPageMargin(pageMargin);
-        recommendYouTubePager.setClipToPadding(false);
-        recommendYouTubePager.setPadding(80, 0, 80, 0);
-        recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
+            recommendYouTubePager.setPageMargin(pageMargin);
+            recommendYouTubePager.setClipToPadding(false);
+            recommendYouTubePager.setPadding(80, 0, 80, 0);
+            recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
+        }
     }
 
     @OnClick(R.id.recommend_banner_iv) void recommendBannerBtn(){

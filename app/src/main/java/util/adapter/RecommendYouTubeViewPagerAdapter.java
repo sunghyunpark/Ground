@@ -54,7 +54,7 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
         requestOptions.centerCrop();
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
-                .load(youTubeModelArrayList.get(position).getThumbNail())
+                .load(youTubeModelArrayList.get(position).getImgPath())
                 .into(youtube_thumb);
 
         youtube_thumb.setOnClickListener(new View.OnClickListener() {

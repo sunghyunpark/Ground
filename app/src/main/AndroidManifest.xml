@@ -104,11 +104,12 @@
         <activity
             android:name="view.DetailCommunityActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name="view.ImageViewerActivity"></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name="view.ImageViewerActivity" />
         <activity
             android:name="view.AreaSearchResultActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name="view.YouTubePlayerActivity"></activity>
     </application>
 
 </manifest>

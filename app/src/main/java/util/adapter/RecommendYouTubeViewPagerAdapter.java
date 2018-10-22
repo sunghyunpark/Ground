@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.R;
 
@@ -55,6 +56,7 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
                 .load(youTubeModelArrayList.get(position).getImgPath())
+                .apply(new RequestOptions().transform(new RoundedCorners(20)))
                 .into(youtube_thumb);
 
         youtube_thumb.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +64,7 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(context, YouTubePlayerActivity.class);
                 intent.putExtra("videoId", youTubeModelArrayList.get(position).getVideoId());
+                intent.putExtra("title", youTubeModelArrayList.get(position).getTitle());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

@@ -271,6 +271,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
         }
     }
 
+    /**
+     * 서버로부터 받아온 유튜브 (이런 영상은 어때요?) API 를 가지고 on/off 및 뷰페이저에 데이터 셋팅한다.
+     * @param state
+     */
     @Override
     public void setRecommendYouTube(String state){
         if(state.equals("off")){
@@ -284,7 +288,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
             recommendYouTubePager.setPageMargin(pageMargin);
             recommendYouTubePager.setClipToPadding(false);
-            recommendYouTubePager.setPadding(80, 0, 80, 0);
+            recommendYouTubePager.setPadding(60, 0, 90, 0);
             recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
         }
     }

@@ -111,13 +111,31 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void init(){
 
         youTubeModelArrayList = new ArrayList<>();
-        YouTubeModel youTubeModel;
-        for(int i=0;i<4;i++){
-            youTubeModel = new YouTubeModel();
-            youTubeModel.setThumbNail("https://img.youtube.com/vi/CSyUOLGhqhw/0.jpg");
-            youTubeModel.setVideoId("CSyUOLGhqhw");
-            youTubeModelArrayList.add(youTubeModel);
-        }
+        YouTubeModel youTubeModel = new YouTubeModel();
+        youTubeModel.setThumbNail("https://img.youtube.com/vi/CSyUOLGhqhw/0.jpg");
+        youTubeModel.setVideoId("CSyUOLGhqhw");
+        youTubeModel.setTitle("제목1");
+        youTubeModelArrayList.add(youTubeModel);
+
+        YouTubeModel youTubeModel2 = new YouTubeModel();
+        youTubeModel2.setThumbNail("https://img.youtube.com/vi/0ZCfceDeq4g/0.jpg");
+        youTubeModel2.setVideoId("0ZCfceDeq4g");
+        youTubeModel2.setTitle("제목2");
+        youTubeModelArrayList.add(youTubeModel2);
+
+        YouTubeModel youTubeModel3 = new YouTubeModel();
+        youTubeModel3.setThumbNail("https://img.youtube.com/vi/DS9164x7k9s/0.jpg");
+        youTubeModel3.setVideoId("DS9164x7k9s");
+        youTubeModel3.setTitle("제목3");
+        youTubeModelArrayList.add(youTubeModel3);
+
+        YouTubeModel youTubeModel4 = new YouTubeModel();
+        youTubeModel4.setThumbNail("https://img.youtube.com/vi/4WGnpN12I0U/0.jpg");
+        youTubeModel4.setVideoId("4WGnpN12I0U");
+        youTubeModel4.setTitle("제목4");
+        youTubeModelArrayList.add(youTubeModel4);
+
+
 
         todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
         groundUtilUpdateList = new ArrayList<>();

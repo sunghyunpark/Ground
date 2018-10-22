@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -47,6 +48,8 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
 
         ImageView youtube_thumb = (ImageView)v.findViewById(R.id.youtube_thumb);
 
+        TextView youtube_title_tv = (TextView)v.findViewById(R.id.youtube_title_tv);
+
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
         Glide.with(context)
@@ -63,6 +66,8 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
                 context.startActivity(intent);
             }
         });
+
+        youtube_title_tv.setText(youTubeModelArrayList.get(position).getTitle());
 
         container.addView(v);
         return v;

@@ -137,7 +137,6 @@
                 android:textSize="23dp"
                 android:text="오늘의 시합"
                 android:layout_marginLeft="15dp"
-                android:layout_centerVertical="true"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"/>
 
@@ -147,7 +146,7 @@
                 android:textSize="12dp"
                 android:textColor="@color/colorCyan"
                 android:layout_below="@+id/today_match_title_tv"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="45dp"
                 android:text="@string/today_match_sub_tv"/>
@@ -158,8 +157,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
-                android:background="@mipmap/refresh_img"
-                android:layout_centerVertical="true" />
+                android:background="@mipmap/refresh_img"/>
 
         </RelativeLayout>
 

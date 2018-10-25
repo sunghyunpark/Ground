@@ -31,14 +31,16 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
 
     private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private RecentBoardAdapter recentBoardAdapter;
+    private int limit;    // 홈에서 보이는 최신글과 더보기를 통해 진입했을 경우 불러오는 데이터 갯수가 다르기 때문에 사용
 
     @BindView(R.id.hire_recyclerView) RecyclerView recyclerView;
 
     // TODO: Rename and change types and number of parameters
-    public static RecentHireBoardFragment newInstance() {
+    public static RecentHireBoardFragment newInstance(int limit) {
         Bundle args = new Bundle();
 
         RecentHireBoardFragment fragment = new RecentHireBoardFragment();
+        args.putInt("limit", limit);
         fragment.setArguments(args);
 
         return fragment;
@@ -57,6 +59,9 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            limit = getArguments().getInt("limit");
+        }
     }
 
     @Override
@@ -92,7 +97,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH, 0, 5);
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH, 0, limit);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

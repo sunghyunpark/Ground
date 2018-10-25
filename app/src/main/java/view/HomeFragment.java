@@ -41,6 +41,8 @@ import util.adapter.TodayMatchAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
 
+    private static final int RECENT_LOAD_DATA = 5;
+
     private RecentBoardViewPagerAdapter pagerAdapter;
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private RecommendYouTubeViewPagerAdapter recommendYouTubeViewPagerAdapter;
@@ -115,7 +117,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         groundUtilUpdateList = new ArrayList<>();
         mainBannerList = new ArrayList<BannerModel>();
         homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
-        pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager());
+        pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), RECENT_LOAD_DATA);
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
         homePresenter.loadRecommendYouTubeList(youTubeModelArrayList);

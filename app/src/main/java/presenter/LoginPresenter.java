@@ -21,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.SessionManager;
-import util.Util;
 
 public class LoginPresenter extends BasePresenter<LoginView> {
 

@@ -101,11 +101,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     alert.setMessage("정말 삭제 하시겠습니까?");
                     alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if(isAll){
-                                onItemDismiss(position);
-                            }else{
-                                onItemDismiss(position-1);
-                            }
+                            onItemDismiss(position);
                             commentListener.deleteCommentEvent(currentItem.getNo());
                         }
                     });

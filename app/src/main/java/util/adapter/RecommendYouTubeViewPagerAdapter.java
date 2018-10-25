@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import view.YouTubePlayerActivity;
 public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
 
     private Context context;
-    private LayoutInflater inflater;
     private ArrayList<YouTubeModel> youTubeModelArrayList;
 
     public RecommendYouTubeViewPagerAdapter(Context context, ArrayList<YouTubeModel> youTubeModelArrayList){
@@ -43,7 +43,7 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        inflater = (LayoutInflater)context.getSystemService
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.recommend_youtube_view_pager_item, container, false);
 
@@ -63,8 +63,8 @@ public class RecommendYouTubeViewPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, YouTubePlayerActivity.class);
-                intent.putExtra("videoId", youTubeModelArrayList.get(position).getVideoId());
-                intent.putExtra("title", youTubeModelArrayList.get(position).getTitle());
+                intent.putExtra(GroundApplication.EXTRA_YOUTUBE_VIDEO_ID, youTubeModelArrayList.get(position).getVideoId());
+                intent.putExtra(GroundApplication.EXTRA_YOUTUBE_TITLE, youTubeModelArrayList.get(position).getTitle());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

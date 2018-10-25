@@ -39,6 +39,8 @@ public class GroundApplication extends Application{
     public static final String EXTRA_ARTICLE_MODEL = "articleModel";
     public static final String EXTRA_MY_TYPE = "myType";
     public static final String EXTRA_BOARD_PHOTO_URL = "photoUrl";
+    public static final String EXTRA_YOUTUBE_VIDEO_ID = "videoId";
+    public static final String EXTRA_YOUTUBE_TITLE = "title";
 
     //ARTICLE TYPE 댓글 관련하여 match(match/hire/recruit) / free 를 구분할 때 사용
     public static final String BOARD_TYPE_MATCH = "match";    // match(match / hire / recruit)

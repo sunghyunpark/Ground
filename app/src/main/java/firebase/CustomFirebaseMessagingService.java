@@ -147,7 +147,6 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
 
@@ -156,24 +155,30 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
                 channelName = PUSH_CHANNEL_NAME_COMMENT_OF_MATCH;
                 sessionManager.setPushChannelCommentOfMatch(true);
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
             }else if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_FREE) && !sessionManager.isPushChannelCommentOfCommunity()){
                 // 자유게시판의 댓글인 경우
                 channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
                 channelName = PUSH_CHANNEL_NAME_COMMENT_OF_COMMUNITY;
                 sessionManager.setPushChannelCommentOfCommunity(true);
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
             }else if(dataMap.get("type").equals(PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED) && !sessionManager.isPushChannelMyFavoriteArticleMatched()){
                 // 내가 관심 설정한 매치 게시글의 진행 상태가 '완료'로 변경된 경우
                 channelId = PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED;
                 channelName = PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED;
                 sessionManager.setPushChannelMyFavoriteArticleMatched(true);
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
             }else if(dataMap.get("type").equals(PUSH_TYPE_EVENT) && !sessionManager.isPushChannelEvent()){
                 // 이벤트 전체 푸시
                 channelId = PUSH_CHANNEL_EVENT;
                 channelName = PUSH_CHANNEL_NAME_EVENT;
                 sessionManager.setPushChannelEvent(true);
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
             }
-            NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
-            nManager.createNotificationChannel(mChannel);
         }
 
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this, channelId)

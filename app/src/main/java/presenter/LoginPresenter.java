@@ -61,14 +61,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 LoginResponse loginResponse = response.body();
                 if(loginResponse.getCode() == 200){
                     //토스트를 중앙에 띄워준다.
-                    Util.showToast(context, "success");
                     sessionManager.setLogin(true);
-
-                    Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
-                            "message : "+ loginResponse.getMessage()+"\n"+
-                            "uid : "+ loginResponse.getResult().getUid()+"\n"+
-                            "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
-                            "fcmToken : "+ loginResponse.getResult().getFcmToken());
 
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),
@@ -103,11 +96,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 LoginResponse loginResponse = response.body();
                 if(loginResponse.getCode() == 200){
                     sessionManager.setLogin(true);
-                    Log.d("userData", "code : "+ loginResponse.getCode()+"\n"+
-                            "message : "+ loginResponse.getMessage()+"\n"+
-                            "uid : "+ loginResponse.getResult().getUid()+"\n"+
-                            "loginType : "+ loginResponse.getResult().getLoginType()+"\n"+
-                            "fcmToken : "+ loginResponse.getResult().getFcmToken());
 
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,
                             loginResponse.getResult().getNickName(), loginResponse.getResult().getProfile(), loginResponse.getResult().getProfileThumb(),

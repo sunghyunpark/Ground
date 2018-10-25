@@ -41,22 +41,18 @@ import util.adapter.TodayMatchAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
 
-    private static final int RECENT_LOAD_DATA = 5;
+    private static final int RECENT_LOAD_DATA = 5;    // 홈 > 최신글에서 보여지는 글의 갯수
 
-    private RecentBoardViewPagerAdapter pagerAdapter;
-    private BannerViewPagerAdapter bannerViewPagerAdapter;
-    private RecommendYouTubeViewPagerAdapter recommendYouTubeViewPagerAdapter;
-    private TodayMatchAdapter todayMatchAdapter;
-    private ArrayList<BannerModel> mainBannerList;
-    private ArrayList<MatchArticleModel> todayMatchArticleModelArrayList;
-    private ArrayList<YouTubeModel> youTubeModelArrayList;
+    private RecentBoardViewPagerAdapter recentBoardViewPagerAdapter;    // 최신글 뷰페이저 어뎁터
+    private BannerViewPagerAdapter bannerViewPagerAdapter;    // 상단 배너 뷰페이저 어뎁터
+    private TodayMatchAdapter todayMatchAdapter;    // 오늘의 시합 어뎁터
+    private ArrayList<YouTubeModel> youTubeModelArrayList;    // 이런 영상 어때요? 데이터 List
     private ArrayList<String> groundUtilUpdateList;
     private HomePresenter homePresenter;
 
     private static final int SEND_RUNNING = 1000;
     private Handler handler;
     private BannerThread thread;
-
 
     @BindView(R.id.banner_pager) ViewPager banner_pager;
     @BindView(R.id.recent_tab_layout) TabLayout recent_tabLayout;
@@ -78,7 +74,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
             this.handler.removeMessages(0);
         }
 
-        pagerAdapter = null;
+        recentBoardViewPagerAdapter = null;
         bannerViewPagerAdapter = null;
     }
 
@@ -113,11 +109,11 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     private void init(){
         youTubeModelArrayList = new ArrayList<>();
-        todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
+        ArrayList<MatchArticleModel> todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
         groundUtilUpdateList = new ArrayList<>();
-        mainBannerList = new ArrayList<BannerModel>();
+        ArrayList<BannerModel> mainBannerList = new ArrayList<BannerModel>();
         homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
-        pagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), RECENT_LOAD_DATA);
+        recentBoardViewPagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), RECENT_LOAD_DATA);
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
         homePresenter.loadRecommendYouTubeList(youTubeModelArrayList);
@@ -141,7 +137,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setRecentArticlePager(){
-        recent_pager.setAdapter(pagerAdapter);
+        recent_pager.setAdapter(recentBoardViewPagerAdapter);
         //recent_pager.setOffscreenPageLimit(3);
         recent_tabLayout.setupWithViewPager(recent_pager);
     }
@@ -282,7 +278,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         if(state.equals("off")){
             recommend_youtube_layout.setVisibility(View.GONE);
         }else{
-            recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
+            RecommendYouTubeViewPagerAdapter recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
             recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
 
             float density = getResources().getDisplayMetrics().density;

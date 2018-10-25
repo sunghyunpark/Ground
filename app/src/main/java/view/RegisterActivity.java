@@ -71,14 +71,12 @@ public class RegisterActivity extends BaseActivity implements LoginView {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                        //Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            Log.d(TAG, mAuth.getCurrentUser().getUid());
                             String fcmToken = FirebaseInstanceId.getInstance().getToken();
-                            Log.d("fcmToken",fcmToken);
                             loginPresenter.postUserDataForRegister(mAuth.getCurrentUser().getUid(), "email", nickName, email, fcmToken);
                         }else{
                             hideLoading();

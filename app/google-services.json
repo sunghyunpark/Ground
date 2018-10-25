@@ -36,37 +36,6 @@
           "status": 2
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:423533168352:android:7e4cfa9f066c4090",
-        "android_client_info": {
-          "package_name": "com.yssh.ground"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "423533168352-sf32ubd8bv5pi6d7c6loikod8knltf5h.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDXT-E0MMC5Jz5mcoil9EsQ3bbVffSuhvQ"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
     }
   ],
   "configuration_version": "1"

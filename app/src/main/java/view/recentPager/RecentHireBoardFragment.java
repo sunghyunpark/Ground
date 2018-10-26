@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import api.ApiClient;
 import api.ApiInterface;
@@ -34,6 +36,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
     private int limit;    // 홈에서 보이는 최신글과 더보기를 통해 진입했을 경우 불러오는 데이터 갯수가 다르기 때문에 사용
 
     @BindView(R.id.hire_recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recent_empty_tv) TextView recentEmpty_tv;
 
     // TODO: Rename and change types and number of parameters
     public static RecentHireBoardFragment newInstance(int limit) {
@@ -51,7 +54,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
         super.onResume();
         //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
         //돌아왔을 때 변경된 것을 갱신하기 위함.
-        setListData();
+        setListData(true, 0);
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -80,6 +83,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
     private void init(){
         matchArticleModelArrayList = new ArrayList<>();
         recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 3);
+
     }
 
     private void initUI(){
@@ -90,7 +94,25 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
     }
 
     @Override
-    public void setListData(){
+    public void notifyRecentArticle(boolean hasData, int size){
+        if(hasData){
+            recentBoardAdapter.notifyDataSetChanged();
+            recentEmpty_tv.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            if(size >= 5){
+                //todayMatchMoreBtn.setVisibility(View.VISIBLE);
+            }else{
+                //todayMatchMoreBtn.setVisibility(View.GONE);
+            }
+        }else{
+            //todayMatchMoreBtn.setVisibility(View.GONE);
+            recentEmpty_tv.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void setListData(boolean refresh, int articleNo){
         if(!matchArticleModelArrayList.isEmpty()){
             matchArticleModelArrayList.clear();
         }
@@ -104,10 +126,14 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
                 ArticleModelListResponse articleModelListResponse = response.body();
                 if(articleModelListResponse.getCode() == 200){
                     int size = articleModelListResponse.getResult().size();
-                    for(int i=0;i<size;i++){
-                        matchArticleModelArrayList.add(articleModelListResponse.getResult().get(i));
+                    if(size > 0){
+                        for(MatchArticleModel am : articleModelListResponse.getResult()){
+                            Collections.addAll(matchArticleModelArrayList, am);
+                        }
+                        notifyRecentArticle(true, size);
+                    }else{
+                        notifyRecentArticle(false, 0);
                     }
-                    recentBoardAdapter.notifyDataSetChanged();
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

@@ -4,6 +4,18 @@
     android:layout_height="match_parent"
     tools:context="view.boardPager.MatchBoardFragment">
 
+    <TextView
+        android:id="@+id/recent_empty_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:textColor="@color/colorMoreGray"
+        android:text="@string/empty_tv_article"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recruit_recyclerView"
         android:layout_width="match_parent"

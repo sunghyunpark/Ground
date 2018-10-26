@@ -113,7 +113,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         groundUtilUpdateList = new ArrayList<>();
         ArrayList<BannerModel> mainBannerList = new ArrayList<BannerModel>();
         homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
-        recentBoardViewPagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), RECENT_LOAD_DATA);
+        recentBoardViewPagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), false,  RECENT_LOAD_DATA);
         homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
         homePresenter.loadRecommendYouTubeList(youTubeModelArrayList);
@@ -318,6 +318,11 @@ public class HomeFragment extends BaseFragment implements HomeView{
         }else{
             homePresenter.loadTodayMatchList();
         }
+    }
+
+    @OnClick(R.id.recent_more_btn) void recentMoreBtn(){
+        Intent intent = new Intent(getContext(), RecentBoardActivity.class);
+        startActivity(intent);
     }
 
     private class BannerThread extends java.lang.Thread{

@@ -36,7 +36,6 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int HIRE_BOARD = 3;
     private static final int RECRUIT_BOARD = 4;
     private int boardType;
-
     private String[] matchArea, hireArea, recruitArea;
 
     public RecentBoardAdapter(Context context, ArrayList<MatchArticleModel> listItems, int boardType) {

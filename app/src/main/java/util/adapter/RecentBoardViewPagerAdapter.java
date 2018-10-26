@@ -11,21 +11,23 @@ import view.recentPager.RecentRecruitBoardFragment;
 public class RecentBoardViewPagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 3;
     private int limit;    // 홈에서 보이는 최신글과 더보기를 통해 진입했을 경우 불러오는 데이터 갯수가 다르기 때문에 사용
+    private boolean isMore;
 
-    public RecentBoardViewPagerAdapter(FragmentManager fm, int limit){
+    public RecentBoardViewPagerAdapter(FragmentManager fm, boolean isMore, int limit){
         super(fm);
         this.limit = limit;
+        this.isMore = isMore;
     }
 
     @Override
     public Fragment getItem(int position){
         switch (position){
             case 0:
-                return RecentMatchBoardFragment.newInstance(limit);
+                return RecentMatchBoardFragment.newInstance(isMore, limit);
             case 1:
-                return RecentHireBoardFragment.newInstance(limit);
+                return RecentHireBoardFragment.newInstance(isMore, limit);
             case 2:
-                return RecentRecruitBoardFragment.newInstance(limit);
+                return RecentRecruitBoardFragment.newInstance(isMore, limit);
             default:
                 return null;
         }

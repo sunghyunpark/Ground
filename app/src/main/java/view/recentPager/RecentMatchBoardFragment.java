@@ -26,24 +26,29 @@ import presenter.view.RecentBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import util.EndlessRecyclerOnScrollListener;
 import util.Util;
 import util.adapter.RecentBoardAdapter;
 
 public class RecentMatchBoardFragment extends BaseFragment implements RecentBoardView {
 
+    private static final int LOAD_MORE_DATA_COUNT = 20;
     private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private RecentBoardAdapter recentBoardAdapter;
     private int limit;    // 홈에서 보이는 최신글과 더보기를 통해 진입했을 경우 불러오는 데이터 갯수가 다르기 때문에 사용
+    private boolean isMore;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @BindView(R.id.match_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.recent_empty_tv) TextView recentEmpty_tv;
 
     // TODO: Rename and change types and number of parameters
-    public static RecentMatchBoardFragment newInstance(int limit) {
+    public static RecentMatchBoardFragment newInstance(boolean isMore, int limit) {
         Bundle args = new Bundle();
 
         RecentMatchBoardFragment fragment = new RecentMatchBoardFragment();
         args.putInt("limit", limit);
+        args.putBoolean("isMore", isMore);
         fragment.setArguments(args);
 
         return fragment;
@@ -52,9 +57,9 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
     @Override
     public void onResume(){
         super.onResume();
-        //임의의 아이템 클릭 시 list에서 viewCnt를 증가시키는데 다시 목록화면으로
-        //돌아왔을 때 변경된 것을 갱신하기 위함.
-        setListData(true, 0);
+        if(!isMore){
+            setListData(true, 0);
+        }
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -64,6 +69,7 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             limit = getArguments().getInt("limit");
+            isMore = getArguments().getBoolean("isMore");
         }
     }
 
@@ -83,7 +89,6 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
     private void init(){
         matchArticleModelArrayList = new ArrayList<>();
         recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 2);
-
     }
 
     private void initUI(){
@@ -91,35 +96,31 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recentBoardAdapter);
         recyclerView.setNestedScrollingEnabled(false);
-    }
 
-    @Override
-    public void notifyRecentArticle(boolean hasData, int size){
-        if(hasData){
-            recentBoardAdapter.notifyDataSetChanged();
-            recentEmpty_tv.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            if(size >= 5){
-                //todayMatchMoreBtn.setVisibility(View.VISIBLE);
-            }else{
-                //todayMatchMoreBtn.setVisibility(View.GONE);
+        //LoadMore 리스너 등록
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_MORE_DATA_COUNT) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if(!matchArticleModelArrayList.isEmpty()){
+                    setListData(false, matchArticleModelArrayList.get(matchArticleModelArrayList.size()-1).getNo());
+                }
             }
-        }else{
-            //todayMatchMoreBtn.setVisibility(View.GONE);
-            recentEmpty_tv.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+        };
+        if(isMore){
+            setListData(true, 0);
+            recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         }
     }
 
     @Override
     public void setListData(boolean refresh, int articleNo){
-        if(!matchArticleModelArrayList.isEmpty()){
+        if(refresh){
             matchArticleModelArrayList.clear();
         }
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH, 0, limit);
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH, articleNo, limit);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {
@@ -130,9 +131,7 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
                         for(MatchArticleModel am : articleModelListResponse.getResult()){
                             Collections.addAll(matchArticleModelArrayList, am);
                         }
-                        notifyRecentArticle(true, size);
-                    }else{
-                        notifyRecentArticle(false, 0);
+                        recentBoardAdapter.notifyDataSetChanged();
                     }
                 }else{
                     Util.showToast(getContext(), "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");

@@ -109,7 +109,9 @@
         <activity
             android:name="view.AreaSearchResultActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="view.YouTubePlayerActivity"></activity>
+        <activity android:name="view.YouTubePlayerActivity" />
+        <activity android:name="view.RecentBoardActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

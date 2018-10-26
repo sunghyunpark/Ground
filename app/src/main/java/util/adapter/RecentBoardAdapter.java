@@ -1,7 +1,6 @@
 package util.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.SimpleDateFormat;
@@ -21,11 +19,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.MatchArticleModel;
-import model.UserModel;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
-import view.DetailMatchArticleActivity;
 
 public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 1;
@@ -37,17 +33,23 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int RECRUIT_BOARD = 4;
     private int boardType;
     private String[] matchArea, hireArea, recruitArea;
+    private RecentBoardAdapterListener recentBoardAdapterListener;
 
-    public RecentBoardAdapter(Context context, ArrayList<MatchArticleModel> listItems, int boardType) {
+    public RecentBoardAdapter(Context context, ArrayList<MatchArticleModel> listItems, int boardType, RecentBoardAdapterListener recentBoardAdapterListener) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
         this.boardType = boardType;
+        this.recentBoardAdapterListener = recentBoardAdapterListener;
         Resources res = context.getResources();
 
         matchArea = res.getStringArray(R.array.matching_board_list);
         hireArea = res.getStringArray(R.array.hire_board_list);
         recruitArea = res.getStringArray(R.array.recruit_board_list);
+    }
+
+    public interface RecentBoardAdapterListener{
+        void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel);
     }
 
     @Override
@@ -88,13 +90,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }else if(!NetworkUtils.isNetworkConnected(context)){
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
-                        Intent intent = new Intent(context, DetailMatchArticleActivity.class);
-                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
-                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
-                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        recentBoardAdapterListener.goToDetailArticle(position, changeToAreaName(currentItem.getAreaNo()), currentItem);
                     }
                 }
             });

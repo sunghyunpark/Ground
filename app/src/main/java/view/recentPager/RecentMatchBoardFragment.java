@@ -1,5 +1,7 @@
 package view.recentPager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,7 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.MatchArticleModel;
+import model.UserModel;
 import presenter.view.RecentBoardView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,14 +32,17 @@ import retrofit2.Response;
 import util.EndlessRecyclerOnScrollListener;
 import util.Util;
 import util.adapter.RecentBoardAdapter;
+import view.DetailMatchArticleActivity;
 
 public class RecentMatchBoardFragment extends BaseFragment implements RecentBoardView {
 
+    private static final int REQUEST_DETAIL = 2000;
     private static final int LOAD_MORE_DATA_COUNT = 20;
     private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private RecentBoardAdapter recentBoardAdapter;
     private int limit;    // 홈에서 보이는 최신글과 더보기를 통해 진입했을 경우 불러오는 데이터 갯수가 다르기 때문에 사용
     private boolean isMore;
+    private int detailPosition;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @BindView(R.id.match_recyclerView) RecyclerView recyclerView;
@@ -57,9 +63,6 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
     @Override
     public void onResume(){
         super.onResume();
-        if(!isMore){
-            setListData(true, 0);
-        }
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -88,7 +91,18 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
 
     private void init(){
         matchArticleModelArrayList = new ArrayList<>();
-        recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 2);
+        recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 2, new RecentBoardAdapter.RecentBoardAdapterListener() {
+            @Override
+            public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
+                detailPosition = position;
+                Intent intent = new Intent(getContext(), DetailMatchArticleActivity.class);
+                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
+                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                startActivityForResult(intent, REQUEST_DETAIL);
+            }
+        });
     }
 
     private void initUI(){
@@ -106,9 +120,30 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
                 }
             }
         };
+
+        //최초 데이터를 받아온다.
+        setListData(true, 0);
+
         if(isMore){
-            setListData(true, 0);
+            // 더보기 상세 화면인 경우에만 load more 리스너를 사용한다.
             recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+        }
+    }
+
+    /**
+     * 홈 > 최신글 , 더보기 화면에서 상세글 진입 후 돌아왔을 때 해당 게시글 갱신하기 위함.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_DETAIL){
+            if(resultCode == Activity.RESULT_OK){
+                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
+                recentBoardAdapter.notifyDataSetChanged();
+            }
         }
     }
 

@@ -127,7 +127,6 @@
             android:text="더보기"
             android:layout_marginTop="1dp"
             android:textColor="@color/colorBlack"
-            android:layout_marginBottom="15dp"
             android:textSize="15dp"/>
 
         <ImageView
@@ -205,7 +204,6 @@
             android:text="더보기"
             android:layout_marginTop="1dp"
             android:textColor="@color/colorCyan"
-            android:layout_marginBottom="15dp"
             android:textSize="15dp"/>
 
         <ImageView

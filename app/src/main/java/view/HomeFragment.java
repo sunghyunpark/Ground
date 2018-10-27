@@ -43,6 +43,7 @@ import util.adapter.TodayMatchAdapter;
 public class HomeFragment extends BaseFragment implements HomeView{
 
     private static final int RECENT_LOAD_DATA = 5;    // 홈 > 최신글에서 보여지는 글의 갯수
+    private static final int SEND_RUNNING = 1000;    // 슬라이드 광고 handler message
 
     private RecentBoardViewPagerAdapter recentBoardViewPagerAdapter;    // 최신글 뷰페이저 어뎁터
     private BannerViewPagerAdapter bannerViewPagerAdapter;    // 상단 배너 뷰페이저 어뎁터
@@ -51,7 +52,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private ArrayList<String> groundUtilUpdateList;
     private HomePresenter homePresenter;
 
-    private static final int SEND_RUNNING = 1000;
     private Handler handler;
     private BannerThread thread;
 
@@ -74,7 +74,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
             thread.stopThread();
             this.handler.removeMessages(0);
         }
-
         recentBoardViewPagerAdapter = null;
         bannerViewPagerAdapter = null;
     }
@@ -96,7 +95,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         init();
     }
 
@@ -106,7 +104,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
-
         initUI();
         return v;
     }
@@ -189,7 +186,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext(), groundUtilUpdateList);
-
         groundUtilRecyclerView.setAdapter(groundUtilAdapter);
         groundUtilRecyclerView.setLayoutManager(linearLayoutManager);
     }
@@ -204,15 +200,13 @@ public class HomeFragment extends BaseFragment implements HomeView{
     public void setBanner(ArrayList<BannerModel> bannerModelArrayList, BannerModel RBBanner, BannerModel TBBanner){
         // 최상단 광고 슬라이드 뷰페이저를 연결하고 자동 슬라이드 적용한다.
         final int listSize = bannerModelArrayList.size();
-        bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
 
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
         banner_pager.setAdapter(bannerViewPagerAdapter);
         banner_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 if(position < listSize)        //1번째 아이템에서 마지막 아이템으로 이동하면
@@ -220,10 +214,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
                 else if(position >= listSize*2)     //마지막 아이템에서 1번째 아이템으로 이동하면
                     banner_pager.setCurrentItem(position - listSize, false);
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -342,8 +334,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @OnClick(R.id.recommend_banner_iv) void recommendBannerBtn(){
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
+
         //String subject = "문자의 제목";
         String text = "https://play.google.com/store/apps/details?id="+getContext().getPackageName();
+
         //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, text);
 

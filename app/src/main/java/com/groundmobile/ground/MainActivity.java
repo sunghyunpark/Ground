@@ -31,7 +31,6 @@ import view.SettingFragment;
  */
 
 public class MainActivity extends BaseActivity implements LoginView{
-
     private FirebaseAuth.AuthStateListener mAuthListener;
     private BackPressCloseHandler backPressCloseHandler;
     private FirebaseAuth mAuth;
@@ -41,7 +40,6 @@ public class MainActivity extends BaseActivity implements LoginView{
     @BindView(R.id.tab1_img) ImageView tab1_iv;
     @BindView(R.id.tab2_img) ImageView tab2_iv;
     @BindView(R.id.tab3_img) ImageView tab3_iv;
-
     @BindView(R.id.tab1_txt) TextView tab1_tv;
     @BindView(R.id.tab2_txt) TextView tab2_tv;
     @BindView(R.id.tab3_txt) TextView tab3_tv;
@@ -68,7 +66,6 @@ public class MainActivity extends BaseActivity implements LoginView{
         super.onDestroy();
         if(loginPresenter != null)
             loginPresenter.RealmDestroy();
-
         loginPresenter = null;
     }
 
@@ -77,10 +74,6 @@ public class MainActivity extends BaseActivity implements LoginView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        backPressCloseHandler = new BackPressCloseHandler(this);
-
-        mAuth = FirebaseAuth.getInstance();    // Firebase 객체 생성
-
         init();
 
         //하단 탭 메뉴 초기화
@@ -93,6 +86,10 @@ public class MainActivity extends BaseActivity implements LoginView{
      * 업데이트된 user data는 singleTon 객체에 저장된다.
      */
     private void init(){
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
+        // Firebase 객체 생성
+        mAuth = FirebaseAuth.getInstance();
         loginPresenter = new LoginPresenter(this, getApplicationContext());
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();

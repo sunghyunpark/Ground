@@ -20,8 +20,6 @@ import view.dialog.MyContentsDialog;
 public class BoardFragment extends BaseFragment {
 
     private BoardViewPagerAdapter pagerAdapter;
-    private MyContentsDialog myContentsDialog;
-    private AreaSearchDialog areaSearchDialog;
 
     @BindView(R.id.pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
@@ -29,9 +27,7 @@ public class BoardFragment extends BaseFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-
         pagerAdapter = null;
-        myContentsDialog = null;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,12 +57,12 @@ public class BoardFragment extends BaseFragment {
     }
 
     @OnClick(R.id.search_btn) void searchBtn(){
-        areaSearchDialog = new AreaSearchDialog(getContext());
+        AreaSearchDialog areaSearchDialog = new AreaSearchDialog(getContext());
         areaSearchDialog.show();
     }
 
     @OnClick(R.id.my_btn) void myBtn(){
-        myContentsDialog = new MyContentsDialog(getContext());
+        MyContentsDialog myContentsDialog = new MyContentsDialog(getContext());
         if(isLogin()){
             //login
             myContentsDialog.show();
@@ -74,13 +70,5 @@ public class BoardFragment extends BaseFragment {
             //not login
             showMessage("로그인을 해주세요.");
         }
-
-        /*
-        myContentsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-
-            }
-        });*/
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -149,7 +150,7 @@ public class Util {
         try {
             return s.format(getDate(timeStr));
         }catch (NullPointerException e){
-            return GroundApplication.DEFAULT_TIME_FORMAT;
+            return Constants.DEFAULT_TIME_FORMAT;
         }
     }
 
@@ -159,7 +160,7 @@ public class Util {
         try {
             return s.format(getDate(timeStr));
         }catch (NullPointerException e){
-            return GroundApplication.DEFAULT_TIME_FORMAT;
+            return Constants.DEFAULT_TIME_FORMAT;
         }
     }
 

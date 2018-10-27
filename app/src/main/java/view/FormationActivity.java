@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -158,7 +159,7 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         startActivity(Intent.createChooser(share, "Share to"));
 
         JMediaScanner scanner = new JMediaScanner(getApplicationContext());
-        scanner.startScan(Environment.getExternalStorageDirectory()+ "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/"+timeStamp+GroundApplication.IMG_NAME);
+        scanner.startScan(Environment.getExternalStorageDirectory()+ "/" + Constants.STORAGE_DIRECTORY_NAME + "/" + timeStamp + Constants.IMG_NAME);
 
     }
 

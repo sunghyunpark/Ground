@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -32,17 +33,17 @@ public class MyActivity extends BaseActivity implements MyView{
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        type = intent.getExtras().getString(GroundApplication.EXTRA_MY_TYPE);
+        type = intent.getExtras().getString(Constants.EXTRA_MY_TYPE);
 
         init();
     }
 
     private void init(){
-        if(type.equals(GroundApplication.MY_ARTICLE_TYPE)){
+        if(type.equals(Constants.MY_ARTICLE_TYPE)){
             title_tv.setText("내가 작성한 글");
-        }else if(type.equals(GroundApplication.MY_COMMENT_TYPE)){
+        }else if(type.equals(Constants.MY_COMMENT_TYPE)){
             title_tv.setText("내가 작성한 댓글");
-        }else if(type.equals(GroundApplication.MY_FAVORITE_TYPE)){
+        }else if(type.equals(Constants.MY_FAVORITE_TYPE)){
             title_tv.setText("나의 관심 글");
         }
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), type);

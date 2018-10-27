@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -75,7 +76,7 @@ public class HireBoardFragment extends BaseFragment {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH);
+        Call<UpdateTimeResponse> call = apiService.getUpdateTimeList(Constants.HIRE_OF_BOARD_TYPE_MATCH);
         call.enqueue(new Callback<UpdateTimeResponse>() {
             @Override
             public void onResponse(Call<UpdateTimeResponse> call, Response<UpdateTimeResponse> response) {
@@ -110,7 +111,7 @@ public class HireBoardFragment extends BaseFragment {
             areaModel = new AreaModel();
             areaModel.setAreaNo(i);
             areaModel.setAreaName(areaNameArray[i]);
-            areaModel.setUpdatedAt(GroundApplication.DEFAULT_TIME_FORMAT);
+            areaModel.setUpdatedAt(Constants.DEFAULT_TIME_FORMAT);
 
             areaModelArrayList.add(areaModel);
         }

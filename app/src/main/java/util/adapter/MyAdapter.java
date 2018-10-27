@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -89,10 +90,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     if(sessionManager.isLoggedIn()){
                         //login
                         Intent intent = new Intent(context, DetailMatchArticleActivity.class);
-                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
-                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
-                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                        intent.putExtra(Constants.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, currentItem);
+                        intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
+                        intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1
@@ -147,12 +148,12 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
                     if(sessionManager.isLoggedIn()){
                         //login
                         Intent intent = new Intent(context, DetailMatchArticleActivity.class);
-                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
-                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
-                        intent.putExtra(GroundApplication.EXTRA_AREA_NO, currentItem.getAreaNo());
-                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, currentItem.getArticleNo());
-                        intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, currentItem.getBoardType());
+                        intent.putExtra(Constants.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                        intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, false);
+                        intent.putExtra(Constants.EXTRA_AREA_NO, currentItem.getAreaNo());
+                        intent.putExtra(Constants.EXTRA_ARTICLE_NO, currentItem.getArticleNo());
+                        intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, currentItem.getBoardType());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }else{

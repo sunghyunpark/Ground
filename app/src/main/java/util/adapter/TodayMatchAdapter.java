@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -73,10 +74,10 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
                         Intent intent = new Intent(context, DetailMatchArticleActivity.class);
-                        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, currentItem);
-                        intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
-                        intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                        intent.putExtra(Constants.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
+                        intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, currentItem);
+                        intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
+                        intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         //클릭 시 해당 아이템 조회수 +1

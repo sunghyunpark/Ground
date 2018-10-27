@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -66,8 +67,8 @@ public class AreaSearchDialog extends Dialog{
                 checkListStr += (i==(checkArrayList.size()-1)) ? checkArrayList.get(i)+1 : (checkArrayList.get(i)+1)+",";
             }
             Intent intent = new Intent(getContext(), AreaSearchResultActivity.class);
-            intent.putExtra(GroundApplication.EXTRA_AREA_NO, checkListStr);
-            intent.putExtra(GroundApplication.EXTRA_AREA_NAME, "검색");
+            intent.putExtra(Constants.EXTRA_AREA_NO, checkListStr);
+            intent.putExtra(Constants.EXTRA_AREA_NAME, "검색");
             getContext().startActivity(intent);
             dismiss();
 

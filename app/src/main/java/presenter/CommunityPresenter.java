@@ -3,6 +3,7 @@ package presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class CommunityPresenter extends BasePresenter<FreeBoardView> {
         if(refresh)
             communityModelArrayList.clear();
         Call<CommunityModelListResponse> call = null;
-        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(typeOfCommunity.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             // 자유 게시판인 경우
             call = apiService.getCommunityArticleList(typeOfCommunity, no);
         }

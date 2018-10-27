@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -84,8 +85,8 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
-        areaArrayStr = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NO);
+        area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
+        areaArrayStr = intent.getExtras().getString(Constants.EXTRA_AREA_NO);
 
         sortMode = SORT_ALL;
         init(area, sortMode);    //정렬 초기화
@@ -101,10 +102,10 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailMatchArticleActivity.class);
-                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
-                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
-                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
             //전체 정렬
@@ -176,7 +177,7 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
+                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL));
                 areaSearchResultAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
                 areaSearchResultAdapter.onItemDismiss(detailPosition);

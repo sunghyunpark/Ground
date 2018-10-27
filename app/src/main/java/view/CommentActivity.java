@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -49,14 +50,14 @@ public class CommentActivity extends BaseActivity implements CommentView{
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        articleType=  intent.getExtras().getString(GroundApplication.EXTRA_BOARD_TYPE);    // match(match / hire / recruit) / free
-        if(articleType.equals(GroundApplication.BOARD_TYPE_MATCH)){
-            areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
-            boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
-        }else if(articleType.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
-            boardType = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+        articleType=  intent.getExtras().getString(Constants.EXTRA_BOARD_TYPE);    // match(match / hire / recruit) / free
+        if(articleType.equals(Constants.BOARD_TYPE_MATCH)){
+            areaNo = intent.getIntExtra(Constants.EXTRA_AREA_NO, 0);
+            boardType = intent.getExtras().getString(Constants.EXTRA_MATCH_BOARD_TYPE);
+        }else if(articleType.equals(Constants.BOARD_TYPE_COMMUNITY)){
+            boardType = intent.getExtras().getString(Constants.EXTRA_COMMUNITY_BOARD_TYPE);
         }
-        articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
+        articleNo = intent.getIntExtra(Constants.EXTRA_ARTICLE_NO, 0);
 
         init();
     }

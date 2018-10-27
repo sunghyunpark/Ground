@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -86,15 +87,15 @@ public class HireFragment extends Fragment {
         objectArrayList = new ArrayList<>();
 
         switch (type){
-            case GroundApplication.MY_ARTICLE_TYPE :
+            case Constants.MY_ARTICLE_TYPE :
                 loadArticleList(0);
                 typeNo = 0;
                 break;
-            case GroundApplication.MY_COMMENT_TYPE :
+            case Constants.MY_COMMENT_TYPE :
                 loadCommentList(0);
                 typeNo = 1;
                 break;
-            case  GroundApplication.MY_FAVORITE_TYPE :
+            case Constants.MY_FAVORITE_TYPE :
                 loadFavoriteList(0);
                 typeNo = 2;
                 break;
@@ -108,13 +109,13 @@ public class HireFragment extends Fragment {
         recyclerView.setAdapter(myAdapter);
 
         switch (type){
-            case GroundApplication.MY_ARTICLE_TYPE :
+            case Constants.MY_ARTICLE_TYPE :
                 empty_tv.setText(emptyArticleStr);
                 break;
-            case GroundApplication.MY_COMMENT_TYPE :
+            case Constants.MY_COMMENT_TYPE :
                 empty_tv.setText(emptyCommentStr);
                 break;
-            case GroundApplication.MY_FAVORITE_TYPE :
+            case Constants.MY_FAVORITE_TYPE :
                 empty_tv.setText(emptyFavoriteStr);
                 break;
         }

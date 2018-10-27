@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -79,11 +80,11 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
                         if(type == TYPE_MATCH){
-                            goAreaBoardActivity(currentItem, GroundApplication.MATCH_OF_BOARD_TYPE_MATCH);
+                            goAreaBoardActivity(currentItem, Constants.MATCH_OF_BOARD_TYPE_MATCH);
                         }else if(type == TYPE_HIRE){
-                            goAreaBoardActivity(currentItem, GroundApplication.HIRE_OF_BOARD_TYPE_MATCH);
+                            goAreaBoardActivity(currentItem, Constants.HIRE_OF_BOARD_TYPE_MATCH);
                         }else if(type == TYPE_RECRUIT){
-                            goAreaBoardActivity(currentItem, GroundApplication.RECRUIT_OF_BOARD_TYPE_MATCH);
+                            goAreaBoardActivity(currentItem, Constants.RECRUIT_OF_BOARD_TYPE_MATCH);
                         }
                     }
                 }
@@ -111,9 +112,9 @@ public class BoardAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     private void goAreaBoardActivity(AreaModel currentItem, String boardType){
         Intent intent = new Intent(context, MatchAreaBoardActivity.class);
-        intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, boardType);
-        intent.putExtra(GroundApplication.EXTRA_AREA_NAME, currentItem.getAreaName());
-        intent.putExtra(GroundApplication.EXTRA_AREA_NO, currentItem.getAreaNo());
+        intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, boardType);
+        intent.putExtra(Constants.EXTRA_AREA_NAME, currentItem.getAreaName());
+        intent.putExtra(Constants.EXTRA_AREA_NO, currentItem.getAreaNo());
         context.startActivity(intent);
     }
 

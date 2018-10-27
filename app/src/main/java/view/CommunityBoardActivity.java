@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -67,7 +68,7 @@ public class CommunityBoardActivity extends BaseActivity implements FreeBoardVie
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+        typeOfCommunity = intent.getExtras().getString(Constants.EXTRA_COMMUNITY_BOARD_TYPE);
 
         init();
     }
@@ -81,9 +82,9 @@ public class CommunityBoardActivity extends BaseActivity implements FreeBoardVie
             public void goToDetailArticle(int position, CommunityModel communityModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailCommunityActivity.class);
-                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, communityModel);
-                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
+                intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
 
@@ -129,7 +130,7 @@ public class CommunityBoardActivity extends BaseActivity implements FreeBoardVie
             }
         }else if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                communityModelArrayList.set(detailPosition, (CommunityModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
+                communityModelArrayList.set(detailPosition, (CommunityModel)data.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL));
                 freeBoardAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
                 freeBoardAdapter.onItemDismiss(detailPosition);
@@ -140,7 +141,7 @@ public class CommunityBoardActivity extends BaseActivity implements FreeBoardVie
     @OnClick(R.id.write_btn) void writeBtn(){
         if(isLogin()){
             Intent intent = new Intent(getApplicationContext(), WriteCommunityBoardActivity.class);
-            intent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY);
+            intent.putExtra(Constants.EXTRA_COMMUNITY_BOARD_TYPE, Constants.FREE_OF_BOARD_TYPE_COMMUNITY);
             startActivityForResult(intent, REQUEST_WRITE);
         }else{
             showMessage("로그인을 해주세요.");

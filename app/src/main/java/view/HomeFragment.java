@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -153,7 +154,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
         // 그라운드유틸 업데이트 시간을 모두 디폴트로 초기화한다.
         groundUtilUpdateList = new ArrayList<>();
         for(int i=0;i<4;i++){
-            groundUtilUpdateList.add(GroundApplication.DEFAULT_TIME_FORMAT);
+            groundUtilUpdateList.add(Constants.DEFAULT_TIME_FORMAT);
         }
     }
 

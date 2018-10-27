@@ -3,6 +3,7 @@ package presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 
 import java.util.ArrayList;
@@ -47,9 +48,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
     public void postComment(final int areaNo, final int articleNo, String writerId, String comment, final String boardType){
         Call<CommonResponse> call = null;
 
-        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
+        if(type.equals(Constants.BOARD_TYPE_MATCH)){
             call = apiService.writeComment(areaNo, articleNo, writerId, comment, boardType);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+        }else if(type.equals(Constants.BOARD_TYPE_COMMUNITY)){
             call = apiService.writeCommunityArticleComment(articleNo, boardType, writerId, comment);
         }
         call.enqueue(new Callback<CommonResponse>() {
@@ -83,9 +84,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
     public void deleteComment(String boardType, int commentNo, int articleNo, int areaNo){
         Call<CommonResponse> call = null;
 
-        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
+        if(type.equals(Constants.BOARD_TYPE_MATCH)){
             call = apiService.deleteComment(boardType, commentNo, articleNo, areaNo);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+        }else if(type.equals(Constants.BOARD_TYPE_COMMUNITY)){
             call = apiService.deleteCommunityComment(boardType, commentNo, articleNo);
         }
         call.enqueue(new Callback<CommonResponse>() {
@@ -114,9 +115,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
             commentModelArrayList.clear();
         Call<CommentListResponse> call = null;
 
-        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
+        if(type.equals(Constants.BOARD_TYPE_MATCH)){
             call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+        }else if(type.equals(Constants.BOARD_TYPE_COMMUNITY)){
             call = apiService.getCommunityArticleCommentList(boardType, articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {
@@ -153,9 +154,9 @@ public class CommentPresenter extends BasePresenter<CommentView> {
         if(refresh)
             commentModelArrayList.clear();
         Call<CommentListResponse> call = null;
-        if(type.equals(GroundApplication.BOARD_TYPE_MATCH)){
+        if(type.equals(Constants.BOARD_TYPE_MATCH)){
             call = apiService.getCommentList(boardType, articleNo, areaNo, commentNo);
-        }else if(type.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+        }else if(type.equals(Constants.BOARD_TYPE_COMMUNITY)){
             call = apiService.getCommunityArticleCommentList(boardType, articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {

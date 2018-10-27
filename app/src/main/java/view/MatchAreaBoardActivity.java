@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -93,9 +94,9 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
-        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
-        areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
+        boardType = intent.getExtras().getString(Constants.EXTRA_MATCH_BOARD_TYPE);
+        area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
+        areaNo = intent.getIntExtra(Constants.EXTRA_AREA_NO, 0);
 
         sortMode = SORT_ALL;
         init(area, sortMode);    //정렬 초기화
@@ -113,10 +114,10 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailMatchArticleActivity.class);
-                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
-                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
-                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
+                intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
             //전체 정렬
@@ -199,7 +200,7 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
             }
         }else if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
+                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL));
                 areaBoardAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
                 areaBoardAdapter.onItemDismiss(detailPosition);
@@ -217,9 +218,9 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
         if(isLogin()){
             //login
             Intent intent = new Intent(getApplicationContext(), WriteMatchBoardActivity.class);
-            intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, boardType);
-            intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-            intent.putExtra(GroundApplication.EXTRA_AREA_NO, areaNo);
+            intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, boardType);
+            intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+            intent.putExtra(Constants.EXTRA_AREA_NO, areaNo);
             startActivityForResult(intent, REQUEST_WRITE);
         }else{
             //not login

@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -60,9 +61,9 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
-        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
-        areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO,0);
+        boardType = intent.getExtras().getString(Constants.EXTRA_MATCH_BOARD_TYPE);
+        area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
+        areaNo = intent.getIntExtra(Constants.EXTRA_AREA_NO,0);
 
         init();
     }
@@ -73,7 +74,7 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
-        if(boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
+        if(boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
             board_contents_et.setText(matchDefaultStr);
         }
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
@@ -85,9 +86,9 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
 
     // boardType 에 따른 MODE 초기화
     private void initMode(String  boardType){
-        if(boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
+        if(boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
             boardMode = MATCH_MODE;
-        }else if(boardType.equals(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH)){
+        }else if(boardType.equals(Constants.HIRE_OF_BOARD_TYPE_MATCH)){
             boardMode = HIRE_MODE;
         }else{
             boardMode = RECRUIT_MODE;

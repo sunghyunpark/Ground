@@ -23,6 +23,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -109,20 +110,20 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
-        hasArticleModel = intent.getExtras().getBoolean(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL);
-        uid = intent.getExtras().getString(GroundApplication.EXTRA_USER_ID);
+        area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
+        hasArticleModel = intent.getExtras().getBoolean(Constants.EXTRA_EXIST_ARTICLE_MODEL);
+        uid = intent.getExtras().getString(Constants.EXTRA_USER_ID);
         UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
         matchArticleModel = new MatchArticleModel();
         if(hasArticleModel){
-            matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+            matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL);
             matchArticleModel.setViewCnt(matchArticleModel.getViewCnt()+1);
             initMode(matchArticleModel.getMatchBoardType());
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+matchArticleModel.getBoardType()+"\nareaNo : "+matchArticleModel.getAreaNo()+"\narticleNo : "+matchArticleModel.getNo());
         }else{
-            boardType = intent.getExtras().getString(GroundApplication.EXTRA_MATCH_BOARD_TYPE);
-            areaNo = intent.getIntExtra(GroundApplication.EXTRA_AREA_NO, 0);
-            articleNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
+            boardType = intent.getExtras().getString(Constants.EXTRA_MATCH_BOARD_TYPE);
+            areaNo = intent.getIntExtra(Constants.EXTRA_AREA_NO, 0);
+            articleNo = intent.getIntExtra(Constants.EXTRA_ARTICLE_NO, 0);
             initMode(boardType);
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+boardType+"\nareaNo : "+areaNo+"\narticleNo : "+articleNo);
         }
@@ -157,9 +158,9 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
 
     // boardType 에 따른 MODE 초기화
     private void initMode(String  boardType){
-        if(boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
+        if(boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
             boardMode = MATCH_MODE;
-        }else if(boardType.equals(GroundApplication.HIRE_OF_BOARD_TYPE_MATCH)){
+        }else if(boardType.equals(Constants.HIRE_OF_BOARD_TYPE_MATCH)){
             boardMode = HIRE_MODE;
         }else{
             boardMode = RECRUIT_MODE;
@@ -273,7 +274,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
      */
     private void initMatchingStateToggle(){
-        if(matchArticleModel.getMatchBoardType().equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
+        if(matchArticleModel.getMatchBoardType().equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
             setMatchingState(matchArticleModel.getMatchState());
             if(!matchArticleModel.getWriterId().equals(uid)){
                 matching_state_toggle.setEnabled(false);
@@ -366,10 +367,10 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     @Override
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
-        intent.putExtra(GroundApplication.EXTRA_AREA_NO, matchArticleModel.getAreaNo());
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, matchArticleModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, matchArticleModel.getMatchBoardType());
-        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, GroundApplication.BOARD_TYPE_MATCH);
+        intent.putExtra(Constants.EXTRA_AREA_NO, matchArticleModel.getAreaNo());
+        intent.putExtra(Constants.EXTRA_ARTICLE_NO, matchArticleModel.getNo());
+        intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, matchArticleModel.getMatchBoardType());
+        intent.putExtra(Constants.EXTRA_BOARD_TYPE, Constants.BOARD_TYPE_MATCH);
         startActivity(intent);
     }
 
@@ -421,7 +422,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         startActivity(Intent.createChooser(share, "Share to"));
 
         JMediaScanner scanner = new JMediaScanner(getApplicationContext());
-        scanner.startScan(Environment.getExternalStorageDirectory()+ "/" + GroundApplication.STORAGE_DIRECTORY_NAME + "/"+timeStamp+GroundApplication.IMG_NAME);
+        scanner.startScan(Environment.getExternalStorageDirectory()+ "/" + Constants.STORAGE_DIRECTORY_NAME + "/" + timeStamp + Constants.IMG_NAME);
 
     }
 
@@ -486,7 +487,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      */
     @OnClick(R.id.back_btn) void backBtn(){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
+        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -509,8 +510,8 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             @Override
             public void editArticleEvent(){
                 Intent intent = new Intent(getApplicationContext(), EditBoardActivity.class);
-                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
                 startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -544,7 +545,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT) {
             if(resultCode == Activity.RESULT_OK){
-                matchArticleModel = (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+                matchArticleModel = (MatchArticleModel)data.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL);
                 setArticleData(matchArticleModel);
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
@@ -558,7 +559,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     @Override
     public void onBackPressed() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
+        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
         setResult(Activity.RESULT_OK, returnIntent);
         super.onBackPressed();
     }

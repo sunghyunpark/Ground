@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -97,10 +98,10 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;
                 Intent intent = new Intent(getContext(), DetailMatchArticleActivity.class);
-                intent.putExtra(GroundApplication.EXTRA_AREA_NAME, area);
-                intent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
-                intent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, true);
-                intent.putExtra(GroundApplication.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
+                intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
         });
@@ -142,7 +143,7 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_DETAIL){
             if(resultCode == Activity.RESULT_OK){
-                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL));
+                matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL));
                 recentBoardAdapter.notifyDataSetChanged();
             }
         }
@@ -156,7 +157,7 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(GroundApplication.RECRUIT_OF_BOARD_TYPE_MATCH, articleNo, limit);
+        Call<ArticleModelListResponse> call = apiService.getRecentArticleList(Constants.RECRUIT_OF_BOARD_TYPE_MATCH, articleNo, limit);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

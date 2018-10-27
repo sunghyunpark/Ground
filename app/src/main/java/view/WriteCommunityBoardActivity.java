@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -66,7 +67,7 @@ public class WriteCommunityBoardActivity extends BaseActivity implements WriteFr
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+        typeOfCommunity = intent.getExtras().getString(Constants.EXTRA_COMMUNITY_BOARD_TYPE);
 
         init();
     }

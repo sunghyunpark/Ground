@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -50,7 +51,7 @@ public class DetailMoreDialog extends Dialog {
         super(context);
         this.matchArticleModel = matchArticleModel;
         this.detailMoreDialogListener = detailMoreDialogListener;
-        this.boardType = GroundApplication.BOARD_TYPE_MATCH;
+        this.boardType = Constants.BOARD_TYPE_MATCH;
     }
 
     /**
@@ -64,7 +65,7 @@ public class DetailMoreDialog extends Dialog {
         super(context);
         this.communityModel = communityModel;
         this.detailMoreDialogListener = detailMoreDialogListener;
-        this.boardType = GroundApplication.BOARD_TYPE_COMMUNITY;
+        this.boardType = Constants.BOARD_TYPE_COMMUNITY;
     }
 
     public interface DetailMoreDialogListener{
@@ -86,7 +87,7 @@ public class DetailMoreDialog extends Dialog {
     }
 
     private void init(){
-        String writerId = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getWriterId() : communityModel.getWriterId();
+        String writerId = boardType.equals(Constants.BOARD_TYPE_MATCH) ? matchArticleModel.getWriterId() : communityModel.getWriterId();
 
         if(UserModel.getInstance().getUid().equals(writerId)){
             //내 글
@@ -103,9 +104,9 @@ public class DetailMoreDialog extends Dialog {
                 ApiClient.getClient().create(ApiInterface.class);
 
         Call<CommonResponse> call = null;
-        if(boardType.equals(GroundApplication.BOARD_TYPE_MATCH)){
+        if(boardType.equals(Constants.BOARD_TYPE_MATCH)){
             call = apiService.deleteBoard(boardTypeOfArticle, articleNo, uid);
-        }else if(boardType.equals(GroundApplication.BOARD_TYPE_COMMUNITY)){
+        }else if(boardType.equals(Constants.BOARD_TYPE_COMMUNITY)){
             call = apiService.deleteCommunityBoard(boardTypeOfArticle, articleNo, uid);
         }
         call.enqueue(new Callback<CommonResponse>() {
@@ -141,8 +142,8 @@ public class DetailMoreDialog extends Dialog {
         alert.setMessage("정말 삭제 하시겠습니까?");
         alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String boardTypeOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getMatchBoardType() : communityModel.getBoardType();
-                int noOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getNo() : communityModel.getNo();
+                String boardTypeOfArticle = boardType.equals(Constants.BOARD_TYPE_MATCH) ? matchArticleModel.getMatchBoardType() : communityModel.getBoardType();
+                int noOfArticle = boardType.equals(Constants.BOARD_TYPE_MATCH) ? matchArticleModel.getNo() : communityModel.getNo();
                 deleteBoard(boardTypeOfArticle, noOfArticle, UserModel.getInstance().getUid());
             }
         });
@@ -158,8 +159,8 @@ public class DetailMoreDialog extends Dialog {
     }
 
     @OnClick(R.id.report_tv) void reportBtn(){
-        String boardTypeOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getMatchBoardType() : communityModel.getBoardType();
-        int noOfArticle = boardType.equals(GroundApplication.BOARD_TYPE_MATCH) ? matchArticleModel.getNo() : communityModel.getNo();
+        String boardTypeOfArticle = boardType.equals(Constants.BOARD_TYPE_MATCH) ? matchArticleModel.getMatchBoardType() : communityModel.getBoardType();
+        int noOfArticle = boardType.equals(Constants.BOARD_TYPE_MATCH) ? matchArticleModel.getNo() : communityModel.getNo();
 
         ReportDialog reportDialog = new ReportDialog(getContext(), "article", boardTypeOfArticle, noOfArticle, 0);
         reportDialog.show();

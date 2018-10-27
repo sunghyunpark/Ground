@@ -9,6 +9,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -29,7 +30,7 @@ public class ImageViewerActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String photoPath = intent.getExtras().getString(GroundApplication.EXTRA_BOARD_PHOTO_URL);
+        String photoPath = intent.getExtras().getString(Constants.EXTRA_BOARD_PHOTO_URL);
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);

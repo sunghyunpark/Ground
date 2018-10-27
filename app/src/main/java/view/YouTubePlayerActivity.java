@@ -8,6 +8,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -31,8 +32,8 @@ public class YouTubePlayerActivity extends YouTubeBaseActivity implements YouTub
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        videoId = intent.getExtras().getString(GroundApplication.EXTRA_YOUTUBE_VIDEO_ID);
-        titleStr = intent.getExtras().getString(GroundApplication.EXTRA_YOUTUBE_TITLE);
+        videoId = intent.getExtras().getString(Constants.EXTRA_YOUTUBE_VIDEO_ID);
+        titleStr = intent.getExtras().getString(Constants.EXTRA_YOUTUBE_TITLE);
 
         // YouTube API KEY를 설정한다
         youtubeView.initialize(API_KEY, this);

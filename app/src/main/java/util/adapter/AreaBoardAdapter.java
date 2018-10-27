@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -195,7 +196,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            if(!boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
+            if(!boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
                 sort_layout.setVisibility(View.GONE);
             }
 
@@ -266,7 +267,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            if(!boardType.equals(GroundApplication.MATCH_OF_BOARD_TYPE_MATCH)){
+            if(!boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
                 match_state_tv.setVisibility(View.GONE);
             }
 

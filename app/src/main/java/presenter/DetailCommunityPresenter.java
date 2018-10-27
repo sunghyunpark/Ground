@@ -3,6 +3,7 @@ package presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
     public void loadArticleData(int communityNo, String typeOfCommunity){
         Call<CommunityModelListResponse> call = null;
 
-        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(typeOfCommunity.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             call = apiService.getCommunityDetailView(typeOfCommunity, communityNo);
         }
         call.enqueue(new Callback<CommunityModelListResponse>() {
@@ -74,7 +75,7 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
      */
     public void loadFavoriteState(final int articleNo, final String uid, String typeOfCommunity){
         Call<ArticleEtcResponse> call = null;
-        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(typeOfCommunity.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             call = apiService.getCommunityArticleFavoriteState(typeOfCommunity, articleNo, uid);
         }
         call.enqueue(new Callback<ArticleEtcResponse>() {
@@ -103,7 +104,7 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
      */
     public void postFavoriteState(int articleNo, String uid, final String state, String typeOfCommunity){
         Call<CommonResponse> call = null;
-        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(typeOfCommunity.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             call = apiService.postFavoriteStateCommunityArticle(state, articleNo, uid, typeOfCommunity);
         }
         call.enqueue(new Callback<CommonResponse>() {
@@ -135,7 +136,7 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
             commentModelArrayList.clear();
 
         Call<CommentListResponse> call = null;
-        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(typeOfCommunity.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             call = apiService.getCommunityArticleCommentList(typeOfCommunity, articleNo, commentNo);
         }
         call.enqueue(new Callback<CommentListResponse>() {
@@ -170,7 +171,7 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
     public void postComment(final int articleNo, String writerId, String comment, final String typeOfCommunity){
         Call<CommonResponse> call = null;
 
-        if(typeOfCommunity.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(typeOfCommunity.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             call = apiService.writeCommunityArticleComment(articleNo, typeOfCommunity, writerId, comment);
         }
         call.enqueue(new Callback<CommonResponse>() {

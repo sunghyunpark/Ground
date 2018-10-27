@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.MainActivity;
 import com.groundmobile.ground.R;
@@ -106,28 +107,28 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_MATCH)){    // 댓글 푸시인 경우
             channelId = PUSH_CHANNEL_COMMENT_OF_MATCH;
             detailIntent = new Intent(this, DetailMatchArticleActivity.class);
-            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO))]);
-            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO)));
-            detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
-            detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
-            detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
-            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
+            detailIntent.putExtra(Constants.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(Constants.EXTRA_AREA_NO))]);
+            detailIntent.putExtra(Constants.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_AREA_NO)));
+            detailIntent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, dataMap.get(Constants.EXTRA_BOARD_TYPE));
+            detailIntent.putExtra(Constants.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(Constants.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_ARTICLE_NO)));
         }else if(dataMap.get("type").equals(PUSH_TYPE_COMMENT_OF_FREE)){
             channelId = PUSH_CHANNEL_COMMENT_OF_COMMUNITY;
             detailIntent = new Intent(this, DetailCommunityActivity.class);
-            detailIntent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
-            detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
-            detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
-            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
+            detailIntent.putExtra(Constants.EXTRA_COMMUNITY_BOARD_TYPE, dataMap.get(Constants.EXTRA_BOARD_TYPE));
+            detailIntent.putExtra(Constants.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(Constants.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_ARTICLE_NO)));
         }else if(dataMap.get("type").equals(PUSH_TYPE_MY_FAVORITE_ARTICLE_MATCHED)){
             channelId = PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED;
             detailIntent = new Intent(this, DetailMatchArticleActivity.class);
-            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO))]);
-            detailIntent.putExtra(GroundApplication.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_AREA_NO)));
-            detailIntent.putExtra(GroundApplication.EXTRA_MATCH_BOARD_TYPE, dataMap.get(GroundApplication.EXTRA_BOARD_TYPE));
-            detailIntent.putExtra(GroundApplication.EXTRA_USER_ID, getUserId());
-            detailIntent.putExtra(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL, false);
-            detailIntent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(GroundApplication.EXTRA_ARTICLE_NO)));
+            detailIntent.putExtra(Constants.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(Constants.EXTRA_AREA_NO))]);
+            detailIntent.putExtra(Constants.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_AREA_NO)));
+            detailIntent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, dataMap.get(Constants.EXTRA_BOARD_TYPE));
+            detailIntent.putExtra(Constants.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(Constants.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_ARTICLE_NO)));
         }else if(dataMap.get("type").equals(PUSH_TYPE_EVENT)){
             channelId = PUSH_CHANNEL_EVENT;
         }

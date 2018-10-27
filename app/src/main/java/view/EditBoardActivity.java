@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -62,9 +63,9 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        area = intent.getExtras().getString(GroundApplication.EXTRA_AREA_NAME);
+        area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
         matchArticleModel = new MatchArticleModel();
-        matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+        matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL);
 
         init();
     }
@@ -128,7 +129,7 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
             }
             editBoardPresenter.EditBoard(matchArticleModel);
             Intent returnIntent = new Intent();
-            returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, matchArticleModel);
+            returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }

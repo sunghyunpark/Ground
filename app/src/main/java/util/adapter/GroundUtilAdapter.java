@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -121,7 +122,7 @@ public class GroundUtilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private void goToFreeBoardActivity(){
         Intent intent = new Intent(context, CommunityBoardActivity.class);
-        intent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY);
+        intent.putExtra(Constants.EXTRA_COMMUNITY_BOARD_TYPE, Constants.FREE_OF_BOARD_TYPE_COMMUNITY);
         context.startActivity(intent);
     }
 

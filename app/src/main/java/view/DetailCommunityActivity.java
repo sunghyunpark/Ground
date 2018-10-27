@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -78,22 +79,22 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        hasArticleModel = intent.getExtras().getBoolean(GroundApplication.EXTRA_EXIST_ARTICLE_MODEL);
-        uid = intent.getExtras().getString(GroundApplication.EXTRA_USER_ID);
+        hasArticleModel = intent.getExtras().getBoolean(Constants.EXTRA_EXIST_ARTICLE_MODEL);
+        uid = intent.getExtras().getString(Constants.EXTRA_USER_ID);
         UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
         communityModel = new CommunityModel();
 
         if(hasArticleModel){
             // 데이터가 있는 경우
-            communityModel = (CommunityModel)intent.getExtras().getSerializable(GroundApplication.EXTRA_ARTICLE_MODEL);
+            communityModel = (CommunityModel)intent.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL);
             communityModel.setViewCnt(communityModel.getViewCnt()+1);
             typeOfCommunity = communityModel.getBoardType();
             initMode(typeOfCommunity);
             //showMessage("area : "+area+"\nhasArticleModel : "+hasArticleModel+"\nboardType : "+articleModel.getBoardType()+"\nareaNo : "+articleModel.getAreaNo()+"\narticleNo : "+articleModel.getNo());
         }else{
             // 데이터가 없어서 새로 불러와야 하는 경우
-            communityNo = intent.getIntExtra(GroundApplication.EXTRA_ARTICLE_NO, 0);
-            typeOfCommunity = intent.getExtras().getString(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE);
+            communityNo = intent.getIntExtra(Constants.EXTRA_ARTICLE_NO, 0);
+            typeOfCommunity = intent.getExtras().getString(Constants.EXTRA_COMMUNITY_BOARD_TYPE);
             initMode(typeOfCommunity);
             //showMessage("hasArticleModel : "+hasArticleModel+"\nboardType : "+typeOfCommunity+"\narticleNo : "+communityNo);
         }
@@ -123,7 +124,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     }
 
     private void initMode(String boardType){
-        if(boardType.equals(GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY)){
+        if(boardType.equals(Constants.FREE_OF_BOARD_TYPE_COMMUNITY)){
             boardMode = FREE_MODE;
         }
     }
@@ -174,9 +175,9 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     @Override
     public void commentClick(){
         Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
-        intent.putExtra(GroundApplication.EXTRA_ARTICLE_NO, communityModel.getNo());
-        intent.putExtra(GroundApplication.EXTRA_BOARD_TYPE, GroundApplication.BOARD_TYPE_COMMUNITY);    // 전체적인 타입은 community 타입
-        intent.putExtra(GroundApplication.EXTRA_COMMUNITY_BOARD_TYPE, GroundApplication.FREE_OF_BOARD_TYPE_COMMUNITY);    // community 타입 중 free 타입
+        intent.putExtra(Constants.EXTRA_ARTICLE_NO, communityModel.getNo());
+        intent.putExtra(Constants.EXTRA_BOARD_TYPE, Constants.BOARD_TYPE_COMMUNITY);    // 전체적인 타입은 community 타입
+        intent.putExtra(Constants.EXTRA_COMMUNITY_BOARD_TYPE, Constants.FREE_OF_BOARD_TYPE_COMMUNITY);    // community 타입 중 free 타입
         startActivity(intent);
     }
 
@@ -227,7 +228,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ImageViewerActivity.class);
-                intent.putExtra(GroundApplication.EXTRA_BOARD_PHOTO_URL, communityModel.getPhotoUrl());
+                intent.putExtra(Constants.EXTRA_BOARD_PHOTO_URL, communityModel.getPhotoUrl());
                 startActivity(intent);
             }
         });
@@ -293,7 +294,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     @OnClick(R.id.back_btn) void backBtn(){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, communityModel);
+        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -335,7 +336,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     @Override
     public void onBackPressed() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(GroundApplication.EXTRA_ARTICLE_MODEL, communityModel);
+        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
         setResult(Activity.RESULT_OK, returnIntent);
         super.onBackPressed();
     }

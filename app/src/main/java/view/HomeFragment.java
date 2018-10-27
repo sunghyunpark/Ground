@@ -83,6 +83,9 @@ public class HomeFragment extends BaseFragment implements HomeView{
         super.onPause();
     }
 
+    /**
+     * onResume 에서 오늘의 시합 데이터를 받아온다.
+     */
     @Override
     public void onResume(){
         super.onResume();
@@ -107,38 +110,71 @@ public class HomeFragment extends BaseFragment implements HomeView{
         return v;
     }
 
+    /**
+     * - 최상단 슬라이드 배너
+     * : HomePresenter 사용하여 서버로부터 최상단 슬라이드 배너, 최신글 하단 띠 배너, 오늘의 시합 하단 띠 배너 데이터를 받아온다.
+     *
+     * - HomePresenter
+     * : 초기화
+     *
+     * - 오늘의 시합
+     * : 오늘의 시합 List, 어뎁터 초기화
+     *
+     * - 최신글
+     * : 뷰페이저 어뎁터 초기화
+     *
+     * - 이런 영상은 어때요?
+     * : 유튜브 List, 유튜브 데이터를 받아온다.
+     *
+     * - 그라운드
+     * : 그라운드 유틸 List 및 담을 데이터 초기화
+     */
     private void init(){
-        youTubeModelArrayList = new ArrayList<>();
+        // 오늘의 시합 데이터를 담을 리스트를 초기화 한 뒤 어뎁터에 넘겨준다.
         ArrayList<MatchArticleModel> todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
-        groundUtilUpdateList = new ArrayList<>();
-        ArrayList<BannerModel> mainBannerList = new ArrayList<BannerModel>();
-        homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
-        recentBoardViewPagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), false,  RECENT_LOAD_DATA);
-        homePresenter.loadMainBannerList(mainBannerList);    // 상단 슬라이드 배너 데이터 받아옴
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
+
+        // HomePresenter 를 초기화 한다.
+        homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
+
+        // 최신글 뷰페이저 어뎁터를 초기화 한다.
+        recentBoardViewPagerAdapter = new RecentBoardViewPagerAdapter(getChildFragmentManager(), false,  RECENT_LOAD_DATA);
+
+        // 홈 최상단 광고 슬라이드 배너를 담을 리스트를 초기화 한 뒤 서버로 부터 받아온다.
+        // 최신글, 오늘의 시합 하단 띠 배너들은 별도 리스트를 여기서 넘겨주지 않는다.
+        // HomePresenter 에서 최상단 광고 슬라이드 리스트, 최신글, 오늘의 시합 띠 배너를 받아온 뒤 getView.setBanner() 를 통해 받아온다.
+        ArrayList<BannerModel> mainBannerList = new ArrayList<BannerModel>();
+        homePresenter.loadBannerList(mainBannerList);
+
+        // 유튜브 데이터를 담을 리스트를 초기화 한뒤 서버로 부터 받아온다.
+        youTubeModelArrayList = new ArrayList<>();
         homePresenter.loadRecommendYouTubeList(youTubeModelArrayList);
 
-        // 일단 그라운드유틸 업데이트 시간을 모두 디폴트로 초기화한다.
+        // 그라운드유틸 업데이트 시간을 모두 디폴트로 초기화한다.
+        groundUtilUpdateList = new ArrayList<>();
         for(int i=0;i<4;i++){
             groundUtilUpdateList.add(GroundApplication.DEFAULT_TIME_FORMAT);
         }
     }
 
     private void initUI(){
+        // 최신글 영역 초기화
         setRecentArticlePager();
+
+        // 그라운드 유틸 업데이트 시간 초기화
         homePresenter.loadGroundUtilData(groundUtilUpdateList);
-        //setGroundRecyclerView();
+
+        // 오늘의 시합 recyclerView 초기화.
         setTodayMatchBoard();
     }
 
     /**
-     * 최신글 영역
-     * 최신글 영역의 TabLayout 과 viewPager를 초기화한다.
+     * 최신글 영역 초기화
+     * 최신글 viewPager 와 TabLayout 을 연결한다.
      */
     @Override
     public void setRecentArticlePager(){
         recent_pager.setAdapter(recentBoardViewPagerAdapter);
-        //recent_pager.setOffscreenPageLimit(3);
         recent_tabLayout.setupWithViewPager(recent_pager);
     }
 
@@ -158,10 +194,14 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     /**
-     * 최상단 배너 영역, 최신글 하단, 오늘의 시합 하단 띠배너
+     * HomePresenter 에서 서버로부터 받아온 데이터들을 넘겨 받아 적용한다.
+     * - 최상단 광고 슬라이드
+     * - 최신글 하단 띠 배너
+     * - 오늘의 시합 하단 띠 배너
      */
     @Override
     public void setBanner(ArrayList<BannerModel> bannerModelArrayList, BannerModel RBBanner, BannerModel TBBanner){
+        // 최상단 광고 슬라이드 뷰페이저를 연결하고 자동 슬라이드 적용한다.
         final int listSize = bannerModelArrayList.size();
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
 
@@ -190,14 +230,17 @@ public class HomeFragment extends BaseFragment implements HomeView{
         thread = new BannerThread();
         thread.start();
 
+        // 최신글 하단 띠 배너 적용
         setRecentBoardBanner(RBBanner);
 
+        // 오늘의 시합 하단 띠 배너 적용
         setTodayMatchBoardBanner(TBBanner);
 
     }
 
     /**
-     * 최신글 하단 띠 배너
+     * HomePresenter 에서 서버로부터 받아온 RBBanner 를 적용한다.
+     * banner type 이 off 이면 해당 배너를 Gone 하여 미노출한다.
      */
     private void setRecentBoardBanner(BannerModel RBBanner){
         if(RBBanner.getType().equals("off")){
@@ -213,7 +256,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     /**
-     * 오늘의 시합 하단 띠 배너
+     * HomePresenter 에서 서버로부터 받아온 TBBanner 를 적용한다.
+     * banner type 이 off 이면 해당 배너를 Gone 하여 미노출한다.
      */
     private void setTodayMatchBoardBanner(final BannerModel TBBanner){
         if(TBBanner.getType().equals("off")){
@@ -239,6 +283,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     /**
      * 오늘의 시합
+     * recyclerView 초기화한다.
      */
     @Override
     public void setTodayMatchBoard(){
@@ -258,6 +303,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
             todayMatchEmptyTv.setVisibility(View.GONE);
             todayMatchRecyclerView.setVisibility(View.VISIBLE);
             if(listSize >= 5){
+                // 게시글이 5개 이상인 경우 '더보기' 버튼을 노출한다.
                 todayMatchMoreBtn.setVisibility(View.VISIBLE);
             }else{
                 todayMatchMoreBtn.setVisibility(View.GONE);
@@ -270,7 +316,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     /**
-     * 서버로부터 받아온 유튜브 (이런 영상은 어때요?) API 를 가지고 on/off 및 뷰페이저에 데이터 셋팅한다.
+     * 이런 영상은 어때요?
+     * - state > 서버 컨트롤을 위해 off 일 땐 '이런 영상은 어때요?' 영역 자체를 Gone 처리.
      * @param state
      */
     @Override

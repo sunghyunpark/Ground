@@ -69,9 +69,13 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     /**
-     * HOME > 상단 배너 리스트 데이터를 받아온다.
+     * 홈 > 최상단 광고 슬라이드 배너 데이터를 받아온다.
+     * bannerModelArrayList > 최상단 광고 슬라이드 배너 데이터 리스트
+     * RBBanner > Recent Board Banner - 최신글 하단 띠 배너
+     * TBBanner > Today Board Banner - 오늘의 시합 하단 띠 배너
+     * 데이터를 받아온 뒤 getView().setBanner() 를 통해 HomeFragment 로 데이터를 넘겨준다.
      */
-    public void loadMainBannerList(final ArrayList<BannerModel> bannerModelArrayList){
+    public void loadBannerList(final ArrayList<BannerModel> bannerModelArrayList){
         Call<BannerListResponse> call = apiService.getHomeBanner();
         call.enqueue(new Callback<BannerListResponse>() {
             @Override
@@ -95,7 +99,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     /**
-     * 이런 영상은 어때요?
+     * 이런 영상은 어때요? 데이터를 받아온다.
      * @param youTubeModelArrayList
      */
     public void loadRecommendYouTubeList(final ArrayList<YouTubeModel> youTubeModelArrayList){

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.AreaModel;
 import util.adapter.AreaSearchAdapter;
 import view.AreaSearchResultActivity;
 
@@ -46,11 +47,21 @@ public class AreaSearchDialog extends Dialog{
     }
 
     private void init(){
+        ArrayList<AreaModel> areaModelArrayList = new ArrayList<>();
+
         Resources res = getContext().getResources();
-        String [] areaNameArray = res.getStringArray(R.array.area_search_list);
+        String [] areaNameArray = res.getStringArray(R.array.matching_board_list);
+
+        AreaModel areaModel;
+        for(int i=0;i<areaNameArray.length;i++){
+            areaModel = new AreaModel();
+            areaModel.setAreaNo(i);
+            areaModel.setAreaName(areaNameArray[i]);
+            areaModelArrayList.add(areaModel);
+        }
 
         LinearLayoutManager lL = new LinearLayoutManager(getContext());
-        areaSearchAdapter = new AreaSearchAdapter(getContext(), areaNameArray);
+        areaSearchAdapter = new AreaSearchAdapter(areaModelArrayList);
         areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaSearchAdapter);
 
@@ -68,7 +79,6 @@ public class AreaSearchDialog extends Dialog{
             }
             Intent intent = new Intent(getContext(), AreaSearchResultActivity.class);
             intent.putExtra(Constants.EXTRA_AREA_NO, checkListStr);
-            intent.putExtra(Constants.EXTRA_AREA_NAME, "검색");
             getContext().startActivity(intent);
             dismiss();
 

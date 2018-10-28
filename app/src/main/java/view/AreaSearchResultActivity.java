@@ -45,7 +45,6 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
     private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-    private String area, boardType;
     private String areaArrayStr;
     private int detailPosition;    //진입하고자 하는 상세 게시글의 리스트 position 값
 
@@ -85,14 +84,13 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
         areaArrayStr = intent.getExtras().getString(Constants.EXTRA_AREA_NO);
 
         sortMode = SORT_ALL;
-        init(area, sortMode);    //정렬 초기화
+        init(sortMode);    //정렬 초기화
     }
 
-    private void init(final String area, String sortType){
+    private void init(String sortType){
         sortMode = sortType;    //정렬 초기화
 
         matchArticleModelArrayList = new ArrayList<>();

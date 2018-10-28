@@ -9,31 +9,20 @@ import java.io.Serializable;
  */
 public class MatchArticleModel implements Serializable {
     private int no;
-    @SerializedName("board_type")
     private String matchBoardType;
-    @SerializedName("area_no")
     private int areaNo;
-    @SerializedName("writer_id")
-    private String WriterId;
-    @SerializedName("nick_name")
+    private String writerId;
     private String nickName;
     private String profile;
-    @SerializedName("profile_thumb")
     private String profileThumb;
     private String title;
     private String contents;
-    @SerializedName("match_state")
     private String matchState;
-    @SerializedName("match_date")
     private String matchDate;
-    @SerializedName("average_age")
     private String averageAge;
     private String blocked;
-    @SerializedName("view_cnt")
     private int viewCnt;
-    @SerializedName("comment_cnt")
     private String commentCnt;
-    @SerializedName("created_at")
     private String createdAt;
 
     public int getNo() {
@@ -61,12 +50,13 @@ public class MatchArticleModel implements Serializable {
     }
 
     public String getWriterId() {
-        return WriterId;
+        return writerId;
     }
 
     public void setWriterId(String writerId) {
-        WriterId = writerId;
+        this.writerId = writerId;
     }
+
 
     public String getNickName() {
         return nickName;

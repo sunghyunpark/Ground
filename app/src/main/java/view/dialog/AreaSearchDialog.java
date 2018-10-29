@@ -12,7 +12,6 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class AreaSearchDialog extends Dialog{
             Toast.makeText(getContext(), "지역을 선택해주세요.", Toast.LENGTH_SHORT).show();
         }else{
             for(int i=0;i<checkArrayList.size();i++){
-                checkListStr += (i==(checkArrayList.size()-1)) ? checkArrayList.get(i)+1 : (checkArrayList.get(i)+1)+",";
+                checkListStr += (i==(checkArrayList.size()-1)) ? checkArrayList.get(i) : (checkArrayList.get(i))+",";
             }
             Intent intent = new Intent(getContext(), AreaSearchResultActivity.class);
             intent.putExtra(Constants.EXTRA_AREA_NO, checkListStr);

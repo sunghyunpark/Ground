@@ -130,27 +130,6 @@
         <item>의정부/양주/그 외</item>
     </string-array>
 
-    <string-array name="area_search_list">
-        <item>도봉/노원/강북/중랑</item>
-        <item>성북/동대문/종로</item>
-        <item>은평/서대문/마포</item>
-        <item>용산/중구</item>
-        <item>성동/광진/강동</item>
-        <item>송파/서초/강남</item>
-        <item>양천/구로/영등포/강서</item>
-        <item>금천/관악/동작</item>
-        <item>고양</item>
-        <item>인천/부천/김포</item>
-        <item>구리/남양주/하남</item>
-        <item>시흥/안산/광명</item>
-        <item>과천/안양/군포/의왕</item>
-        <item>수원/용인/화성/오산</item>
-        <item>파주</item>
-        <item>성남/광주/이천</item>
-        <item>평택/안성</item>
-        <item>의정부/양주/그 외</item>
-    </string-array>
-
     <string-array name="recruit_board_list">
         <item>서울</item>
         <item>인천/경기</item>

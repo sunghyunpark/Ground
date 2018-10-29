@@ -48,7 +48,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.sessionManager = new SessionManager(context);
         this.areaSearchResultAdapterListener = areaSearchResultAdapterListener;
         Resources res = context.getResources();
-        matchArea = res.getStringArray(R.array.area_search_list);
+        matchArea = res.getStringArray(R.array.matching_board_list);
     }
 
     public interface AreaSearchResultAdapterListener{
@@ -234,7 +234,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private String changeToAreaName(int areaNo){
-        return matchArea[areaNo-1];
+        return matchArea[areaNo];
 
     }
 

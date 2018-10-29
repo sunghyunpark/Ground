@@ -5,14 +5,17 @@ import android.app.DatePickerDialog;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
@@ -35,18 +38,23 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_EMPTY = 2;
     private ArrayList<MatchArticleModel> listItems;
+    private ArrayList<TextView> areaTextViewList;
     private Activity context;
     private SessionManager sessionManager;
     private String[] matchArea;
+    private String areaArrayStr;
 
     private AreaSearchResultAdapterListener areaSearchResultAdapterListener;
 
 
-    public AreaSearchResultAdapter(Activity context, ArrayList<MatchArticleModel> listItems, AreaSearchResultAdapterListener areaSearchResultAdapterListener) {
+    public AreaSearchResultAdapter(Activity context, ArrayList<MatchArticleModel> listItems, String areaArrayStr, AreaSearchResultAdapterListener areaSearchResultAdapterListener) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
         this.areaSearchResultAdapterListener = areaSearchResultAdapterListener;
+        this.areaTextViewList = new ArrayList<>();
+        this.areaArrayStr = areaArrayStr;
+
         Resources res = context.getResources();
         matchArea = res.getStringArray(R.array.matching_board_list);
     }
@@ -154,6 +162,9 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
         @BindView(R.id.date_tv) TextView date_sort_tv;
         @BindView(R.id.match_date_tv) TextView match_date_tv;
         @BindView(R.id.match_state_tv) TextView match_state_tv;
+        @BindView(R.id.area_list_layout) FlexboxLayout area_list_layout;
+
+        TextView area_tv;
         DatePickerDialog datePickerDialog;
 
         private Header_Vh(View itemView){
@@ -162,6 +173,25 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             datePickerDialog = new DatePickerDialog(context, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
 
+            String[] areaNoStrArray = areaArrayStr.split(",");
+            area_list_layout.setFlexWrap(4);
+
+            for(int i=0;i<areaNoStrArray.length;i++){
+                area_list_layout.addView(getTextView(changeToAreaName(Integer.parseInt(areaNoStrArray[i]))));
+            }
+        }
+
+        private TextView getTextView(String areaName){
+            area_tv = new TextView(context);
+            area_tv.setBackgroundResource(R.drawable.area_search_result_shape);
+            area_tv.setText(areaName);
+            area_tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FlexboxLayout.LayoutParams.WRAP_CONTENT, FlexboxLayout.LayoutParams.WRAP_CONTENT) ;
+            params.setMargins(10, 0, 10, 10 );
+            area_tv.setLayoutParams( params );
+
+            return area_tv;
         }
 
         @OnClick(R.id.all_tv) void allSortBtn(){

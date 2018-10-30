@@ -133,12 +133,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rule_layout"
+        android:id="@+id/play_rule_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp">
 
         <ImageView
-            android:id="@+id/rule_iv"
+            android:id="@+id/play_rule_iv"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
@@ -146,11 +146,11 @@
             android:layout_marginLeft="15dp"/>
 
         <TextView
-            android:id="@+id/rule_tv"
+            android:id="@+id/play_rule_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/rule_iv"
+            android:layout_toRightOf="@+id/play_rule_iv"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:textSize="15dp"

@@ -30,6 +30,8 @@ import presenter.WriteBoardPresenter;
 import presenter.view.WriteBoardView;
 import util.Util;
 import view.dialog.AgeSelectDialog;
+import view.dialog.ChargeSelectDialog;
+import view.dialog.PlayRuleSelectDialog;
 
 public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
@@ -155,6 +157,16 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
             }
         });
         ageSelectDialog.show();
+    }
+
+    @OnClick(R.id.charge_layout) void chargeClick(){
+        ChargeSelectDialog chargeSelectDialog = new ChargeSelectDialog(this);
+        chargeSelectDialog.show();
+    }
+
+    @OnClick(R.id.play_rule_layout) void playRuleClick(){
+        PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this);
+        playRuleSelectDialog.show();
     }
 
     @Override

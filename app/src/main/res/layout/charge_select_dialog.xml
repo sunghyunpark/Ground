@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_round_shape"
+    android:gravity="center"
+    android:padding="5dp">
+    
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="구장비 선택"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="무료인 경우엔 아래 무료를 탭 해주세요."
+            android:textSize="12dp"
+            android:gravity="center_horizontal"/>
+
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="#9E9E9E"></LinearLayout>
+
+        <TextView
+            android:id="@+id/free_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="무료"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="15dp"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorBlack"/>
+
+        <EditText
+            android:id="@+id/charge_edit_box"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:textSize="13dp"
+            android:paddingLeft="15dp"
+            android:inputType="number"
+            android:hint="비용을 입력해주세요."/>
+
+        <Button
+            android:id="@+id/ok_btn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/area_search_dialog_search_btn_shape"
+            android:textColor="@color/colorWhite"
+            android:text="확인"/>
+
+    </LinearLayout>
+
+</LinearLayout>

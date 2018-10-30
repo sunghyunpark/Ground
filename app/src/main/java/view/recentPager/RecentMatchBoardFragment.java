@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -64,6 +63,10 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
     @Override
     public void onResume(){
         super.onResume();
+        if(!isMore){
+            //최초 데이터를 받아온다.
+            setListData(true, 0);
+        }
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -122,10 +125,11 @@ public class RecentMatchBoardFragment extends BaseFragment implements RecentBoar
             }
         };
 
-        //최초 데이터를 받아온다.
-        setListData(true, 0);
 
         if(isMore){
+            //최초 데이터를 받아온다.
+            setListData(true, 0);
+
             // 더보기 상세 화면인 경우에만 load more 리스너를 사용한다.
             recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         }

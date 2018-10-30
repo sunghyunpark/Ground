@@ -1,12 +1,8 @@
 package model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class AreaModel {
-    @SerializedName("area_no")
     private int areaNo;
     private String areaName;
-    @SerializedName("updated_at")
     private String updatedAt;
 
     public int getAreaNo() {

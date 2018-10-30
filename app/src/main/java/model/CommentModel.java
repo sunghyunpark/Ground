@@ -1,25 +1,16 @@
 package model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class CommentModel {
     private int no;
-    @SerializedName("article_no")
     private int articleNo;
-    @SerializedName("area_no")
     private int areaNo;
-    @SerializedName("board_type")
     private String boardType;
-    @SerializedName("writer_id")
     private String writerId;
-    @SerializedName("nick_name")
     private String nickName;
     private String profile;
-    @SerializedName("profile_thumb")
     private String profileThumb;
     private String comment;
     private String blocked;
-    @SerializedName("created_at")
     private String createdAt;
 
     public int getNo() {

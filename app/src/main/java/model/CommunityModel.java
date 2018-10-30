@@ -1,7 +1,5 @@
 package model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -9,26 +7,17 @@ import java.io.Serializable;
  */
 public class CommunityModel implements Serializable {
     private int no;
-    @SerializedName("writer_id")
     private String writerId;
-    @SerializedName("nick_name")
     private String nickName;
-    @SerializedName("board_type")
     private String boardType;    // free
     private String profile;
-    @SerializedName("profile_thumb")
     private String profileThumb;
     private String title;
     private String contents;
-    @SerializedName("photo")
     private String photoUrl;
-    @SerializedName("photo_thumb")
     private String photoThumbUrl;
-    @SerializedName("view_cnt")
     private int viewCnt;
-    @SerializedName("comment_cnt")
     private int commentCnt;
-    @SerializedName("created_at")
     private String createdAt;
 
     public int getNo() {

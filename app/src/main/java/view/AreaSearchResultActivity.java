@@ -55,7 +55,8 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
-        resetArticleData();
+        sortMode = SORT_ALL;
+        init(sortMode);    //정렬 초기화
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -201,7 +202,8 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
         if(!isNetworkConnected()){
             showMessage("네트워크 연결상태를 확인해주세요.");
         }else{
-            resetArticleData();
+            sortMode = SORT_ALL;
+            init(sortMode);    //정렬 초기화
         }
     }
 }

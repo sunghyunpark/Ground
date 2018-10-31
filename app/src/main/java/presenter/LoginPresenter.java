@@ -59,7 +59,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
                 if(loginResponse.getCode() == 200){
-                    //토스트를 중앙에 띄워준다.
                     sessionManager.setLogin(true);
 
                     insertUserData(loginResponse.getResult().getUid(), loginResponse.getResult().getLoginType(), email,

@@ -1,23 +1,15 @@
 package model;
 
-import com.google.gson.annotations.SerializedName;
-
-
 public class UserModel {
     private static volatile UserModel user = null;
 
     private String uid;
-    @SerializedName("login_type")
     private String loginType;
     private String email;
-    @SerializedName("nick_name")
     private String nickName;
     private String profile;
-    @SerializedName("profile_thumb")
     private String profileThumb;
-    @SerializedName("fcm_token")
     private String fcmToken;
-    @SerializedName("created_at")
     private String createdAt;
 
     public static  UserModel getInstance(){

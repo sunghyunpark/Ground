@@ -104,7 +104,9 @@ public interface ApiInterface {
                                     @Field("contents") String contents,
                                     @Field("boardType") String boardType,
                                     @Field("matchDate") String matchDate,
-                                    @Field("averageAge") String averageAge);
+                                    @Field("averageAge") String averageAge,
+                                    @Field("charge") String charge,
+                                    @Field("playRule") String playRule);
 
     /**
      * 글 수정 API

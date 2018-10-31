@@ -274,6 +274,64 @@
                     android:textSize="15dp"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/charge_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16dp"
+                    android:text="구장비 : "
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@+id/charge_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/play_rule_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16dp"
+                    android:text="경기 방식 : "
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@+id/play_rule_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"/>
+            </LinearLayout>
+
             <!--
             <TextView
                 android:layout_width="wrap_content"

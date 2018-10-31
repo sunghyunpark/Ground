@@ -1,7 +1,5 @@
 package model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -20,6 +18,8 @@ public class MatchArticleModel implements Serializable {
     private String matchState;
     private String matchDate;
     private String averageAge;
+    private int charge;
+    private int playRule;
     private String blocked;
     private int viewCnt;
     private String commentCnt;
@@ -120,6 +120,22 @@ public class MatchArticleModel implements Serializable {
 
     public void setAverageAge(String averageAge) {
         this.averageAge = averageAge;
+    }
+
+    public int getCharge() {
+        return charge;
+    }
+
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
+
+    public int getPlayRule() {
+        return playRule;
+    }
+
+    public void setPlayRule(int playRule) {
+        this.playRule = playRule;
     }
 
     public String getBlocked() {

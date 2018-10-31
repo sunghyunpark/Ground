@@ -81,6 +81,10 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     @BindView(R.id.matching_state_btn) ToggleButton matching_state_toggle;
     @BindView(R.id.matching_date_tv) TextView match_date_tv;
     @BindView(R.id.matching_date_layout) ViewGroup match_date_layout;
+    @BindView(R.id.charge_tv) TextView charge_tv;
+    @BindView(R.id.charge_layout) ViewGroup charge_layout;
+    @BindView(R.id.play_rule_tv) TextView play_rule_tv;
+    @BindView(R.id.play_rule_layout) ViewGroup play_rule_layout;
     @BindView(R.id.age_tv) TextView age_tv;
     @BindView(R.id.age_layout) ViewGroup age_layout;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
@@ -246,9 +250,13 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         if(boardMode == MATCH_MODE){
             match_date_tv.setText(matchArticleModel.getMatchDate());
             age_tv.setText(matchArticleModel.getAverageAge()+"대");
+            charge_tv.setText(matchArticleModel.getCharge()+"원");
+            play_rule_tv.setText(matchArticleModel.getPlayRule()+" VS "+matchArticleModel.getPlayRule());
         }else{
             match_date_layout.setVisibility(View.GONE);
             age_layout.setVisibility(View.GONE);
+            charge_layout.setVisibility(View.GONE);
+            play_rule_layout.setVisibility(View.GONE);
         }
         contents_tv.setText(matchArticleModel.getContents());
         setUserProfile(matchArticleModel.getProfile());

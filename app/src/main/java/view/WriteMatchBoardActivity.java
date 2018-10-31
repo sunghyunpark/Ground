@@ -50,11 +50,14 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
     @BindView(R.id.board_contents_et) EditText board_contents_et;
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindView(R.id.matching_date_tv) TextView matchingDateTv;
+    @BindView(R.id.charge_tv) TextView charge_tv;
+    @BindView(R.id.play_rule_tv) TextView play_rule_tv;
     @BindView(R.id.matching_date_layout) ViewGroup matchingDateLayout;
     @BindView(R.id.age_tv) TextView ageTv;
     @BindView(R.id.age_layout) ViewGroup ageLayout;
+    @BindView(R.id.charge_layout) ViewGroup chargeLayout;
+    @BindView(R.id.play_rule_layout) ViewGroup playRuleLayout;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
-    @BindString(R.string.write_board_default_txt) String matchDefaultStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +79,12 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
-        if(boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
-            board_contents_et.setText(matchDefaultStr);
-        }
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
         if(boardMode != MATCH_MODE){
             matchingDateLayout.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
+            chargeLayout.setVisibility(View.GONE);
+            playRuleLayout.setVisibility(View.GONE);
         }
     }
 
@@ -103,12 +105,16 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         String contentsStr = board_contents_et.getText().toString().trim();
         String matchDateStr = (matchingDateTv.getVisibility() == View.GONE) ? "" : matchingDateTv.getText().toString().trim();
         String ageStr = (ageTv.getVisibility() == View.GONE) ? "" : ageTv.getText().toString().trim();
+        String chargeStr = (charge_tv.getVisibility() == View.GONE) ? "" : charge_tv.getText().toString().trim();
+        String playRuleStr = (play_rule_tv.getVisibility() == View.GONE) ? "" : play_rule_tv.getText().toString().trim();
 
-        if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && (matchDateStr.equals("") || ageStr.equals("")))){
+        if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && ((matchDateStr.equals("") || ageStr.equals("") || chargeStr.equals("") || playRuleStr.equals(""))))){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             String age = ageStr.replace("대", "");
-            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType, matchDateStr, age);
+            String charge = chargeStr.replace("원", "");
+            String[] playRule = playRuleStr.replaceAll("[^-?0-9]+", " ").split(" ");
+            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType, matchDateStr, age, charge, playRule[0]);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
@@ -160,12 +166,22 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
     }
 
     @OnClick(R.id.charge_layout) void chargeClick(){
-        ChargeSelectDialog chargeSelectDialog = new ChargeSelectDialog(this);
+        ChargeSelectDialog chargeSelectDialog = new ChargeSelectDialog(this, new ChargeSelectDialog.chargeSelectListener() {
+            @Override
+            public void chargeSelectEvent(int charge) {
+                charge_tv.setText(charge+"원");
+            }
+        });
         chargeSelectDialog.show();
     }
 
     @OnClick(R.id.play_rule_layout) void playRuleClick(){
-        PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this);
+        PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this, new PlayRuleSelectDialog.playRuleSelectListener() {
+            @Override
+            public void playRuleSelectEvent(int playRule) {
+                play_rule_tv.setText(playRule+" VS "+playRule);
+            }
+        });
         playRuleSelectDialog.show();
     }
 

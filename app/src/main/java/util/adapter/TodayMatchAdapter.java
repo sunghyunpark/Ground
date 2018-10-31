@@ -20,19 +20,22 @@ import util.SessionManager;
 import util.Util;
 
 public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_ITEM = 1000;
+    private static final int TYPE_ITEM_ISMORE = 1100;
     private ArrayList<MatchArticleModel> listItems;
     private Context context;
     private SessionManager sessionManager;
     private todayMatchListener todayMatchListener;
+    private boolean isMore;
 
     private String[] matchArea;
 
-    public TodayMatchAdapter(Context context, ArrayList<MatchArticleModel> listItems, todayMatchListener todayMatchListener) {
+    public TodayMatchAdapter(Context context, ArrayList<MatchArticleModel> listItems, boolean isMore, todayMatchListener todayMatchListener) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
         this.todayMatchListener = todayMatchListener;
+        this.isMore = isMore;
         Resources res = context.getResources();
 
         matchArea = res.getStringArray(R.array.matching_board_list);
@@ -46,6 +49,9 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_today_match_board_item, parent, false);
+            return new Board_VH(v);
+        } else if(viewType == TYPE_ITEM_ISMORE){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_today_match_board_ismore_item, parent, false);
             return new Board_VH(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -84,16 +90,18 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 
+            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" VS "+currentItem.getPlayRule());
+
             if(isMatchState(position)){
                 // 매칭 완료
                 VHitem.match_state_tv.setText("완료");
                 VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorRed));
-                VHitem.match_state_tv.setBackgroundResource(R.drawable.today_matching_state_on_shape);
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape2);
             }else{
                 // 진행중
                 VHitem.match_state_tv.setText("진행중");
                 VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
-                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape);
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape2);
             }
         }
     }
@@ -118,6 +126,7 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
         @BindView(R.id.area_tv) TextView area_tv;
         @BindView(R.id.match_state_tv) TextView match_state_tv;
+        @BindView(R.id.play_rule_tv) TextView play_rule_tv;
 
         private Board_VH(View itemView){
             super(itemView);
@@ -131,7 +140,11 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        return TYPE_ITEM;
+        if(isMore){
+            return TYPE_ITEM;
+        }else{
+            return TYPE_ITEM_ISMORE;
+        }
     }
     //increasing getItemcount to 1. This will be the row of header.
     @Override

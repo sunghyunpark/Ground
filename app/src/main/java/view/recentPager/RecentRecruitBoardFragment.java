@@ -93,7 +93,7 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
 
     private void init(){
         matchArticleModelArrayList = new ArrayList<>();
-        recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 4, new RecentBoardAdapter.RecentBoardAdapterListener() {
+        recentBoardAdapter = new RecentBoardAdapter(getContext(), matchArticleModelArrayList, 4, isMore, new RecentBoardAdapter.RecentBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;

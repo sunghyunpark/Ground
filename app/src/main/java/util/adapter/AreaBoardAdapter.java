@@ -2,6 +2,7 @@ package util.adapter;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -120,16 +121,20 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 VHitem.new_iv.setVisibility(View.INVISIBLE);
             }
 
+            //VHitem.matching_date_tv.setText(currentItem.getMatchDate());
+
+            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" VS "+currentItem.getPlayRule());
+
             if(isMatchState(position)){
                 // 매칭 완료
                 VHitem.match_state_tv.setText("완료");
                 VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorRed));
-                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape);
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape2);
             }else{
                 // 진행중
                 VHitem.match_state_tv.setText("진행중");
                 VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
-                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape);
+                VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape2);
             }
 
         }else if(holder instanceof Header_Vh){
@@ -262,6 +267,9 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.view_cnt_tv) TextView view_cnt_tv;
         @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
         @BindView(R.id.match_state_tv) TextView match_state_tv;
+        //@BindView(R.id.match_state_layout) ViewGroup match_state_layout;
+        //@BindView(R.id.matching_date_tv) TextView matching_date_tv;
+        @BindView(R.id.play_rule_tv) TextView play_rule_tv;
 
         private Board_VH(View itemView){
             super(itemView);
@@ -269,6 +277,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if(!boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
                 match_state_tv.setVisibility(View.GONE);
+                play_rule_tv.setVisibility(View.GONE);
             }
 
         }

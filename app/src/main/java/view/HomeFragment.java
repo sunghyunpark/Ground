@@ -132,7 +132,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void init(){
         // 오늘의 시합 데이터를 담을 리스트를 초기화 한 뒤 어뎁터에 넘겨준다.
         ArrayList<MatchArticleModel> todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
-        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList, new TodayMatchAdapter.todayMatchListener() {
+        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList, false, new TodayMatchAdapter.todayMatchListener() {
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 Intent intent = new Intent(getContext(), DetailMatchArticleActivity.class);

@@ -60,7 +60,7 @@ public class TodayBoardActivity extends BaseActivity implements TodayBoardView, 
     private void init(){
         // 오늘의 시합 데이터를 담을 리스트를 초기화 한 뒤 어뎁터에 넘겨준다.
         todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
-        todayMatchAdapter = new TodayMatchAdapter(getApplicationContext(), todayMatchArticleModelArrayList, new TodayMatchAdapter.todayMatchListener() {
+        todayMatchAdapter = new TodayMatchAdapter(getApplicationContext(), todayMatchArticleModelArrayList, true, new TodayMatchAdapter.todayMatchListener() {
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
                 detailPosition = position;

@@ -70,12 +70,18 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
     }
 
     private void initUI(){
+
+        // 로그인 상태에 따른 로그인 버튼 초기화
         setLoginState();
+
+        // 앱 버전 초기화
         setAppVersion();
+
+        // 사용자 닉네임 초기화
         setUserNickName();
     }
 
-    //로그인 상태에 따른 init
+    // 로그인 상태에 따른 init
     private void setLoginState(){
         if(sessionManager.isLoggedIn()){
             user_id_tv.setText(UserModel.getInstance().getEmail());
@@ -84,6 +90,7 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         }
     }
 
+    // 사용자 닉네임 초기화
     private void setUserNickName(){
         if(sessionManager.isLoggedIn()){
             user_nickName_tv.setText(UserModel.getInstance().getNickName());
@@ -92,6 +99,7 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         }
     }
 
+    // 앱 버전 초기화
     private void setAppVersion(){
         try {
             PackageInfo i = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
@@ -139,6 +147,7 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @Override
     public void goProfile(){
+        // 로그인 상태라면 닉네임이 적용되어있으니 다이얼로그 노출 시 자동으로 입력되어 있게 설정
         if(isLogin()){
             EditProfileDialog editProfileDialog = new EditProfileDialog(getContext(), new EditProfileDialog.EditProfileDialogListener() {
                 @Override
@@ -153,6 +162,9 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         }
     }
 
+    /**
+     * 카카오톡 챗봇 친구추가 웹 페이지로 이동.
+     */
     @Override
     public void goKakaoChatbot(){
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -160,6 +172,10 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         startActivity(intent);
     }
 
+    /**
+     * 리뷰 작성하기
+     * 플레이 스토어로 이동된다.
+     */
     @Override
     public void goReview(){
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -173,12 +189,20 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         startActivity(intent);
     }
 
+    /**
+     * 버그 신고
+     * 그라운드 네이버 오피스 폼 웹페이지로 이동된다.
+     */
     @Override
     public void goReportBug(){
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://naver.me/IGvFHAfa"));
         startActivity(intent);
     }
 
+    /**
+     * 추천하기
+     * 문자 앱으로 이동되며 디폴트로 문자 내용에 플레이스토어 주소가 입려되어있다.
+     */
     @Override
     public void goRecommend(){
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);

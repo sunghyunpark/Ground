@@ -251,7 +251,11 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             match_date_tv.setText(matchArticleModel.getMatchDate());
             age_tv.setText(matchArticleModel.getAverageAge()+"대");
             charge_tv.setText(matchArticleModel.getCharge()+"원");
-            play_rule_tv.setText(matchArticleModel.getPlayRule()+" VS "+matchArticleModel.getPlayRule());
+            if(matchArticleModel.getPlayRule() == 0){
+                play_rule_tv.setText("기타");
+            }else{
+                play_rule_tv.setText(matchArticleModel.getPlayRule()+" VS "+matchArticleModel.getPlayRule());
+            }
         }else{
             match_date_layout.setVisibility(View.GONE);
             age_layout.setVisibility(View.GONE);

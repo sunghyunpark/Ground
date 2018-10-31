@@ -56,6 +56,32 @@
         android:textStyle="bold"
         android:textSize="15dp"/>
 
+    <TextView
+        android:id="@+id/title_length_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:text="0/50"
+        android:textColor="@color/colorTextHintGray"
+        android:layout_marginTop="7dp"
+        android:layout_gravity="right"/>
+
+    <EditText
+        android:id="@+id/board_title_et"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/comment_shape"
+        android:maxLines="1"
+        android:inputType="text"
+        android:hint="제목"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:layout_marginTop="7dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/colorBlack"/>
+
     <RelativeLayout
         android:id="@+id/matching_date_layout"
         android:layout_width="match_parent"
@@ -107,30 +133,55 @@
             android:hint="평균 연령을 선택해주세요."/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/title_length_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:text="0/50"
-        android:textColor="@color/colorTextHintGray"
-        android:layout_marginTop="7dp"
-        android:layout_gravity="right"/>
-
-    <EditText
-        android:id="@+id/board_title_et"
+    <RelativeLayout
+        android:id="@+id/charge_layout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/comment_shape"
-        android:maxLines="1"
-        android:inputType="text"
-        android:hint="제목"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:textSize="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="@color/colorBlack"/>
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/charge_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/money_img"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/charge_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/charge_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:hint="비용을 선택해주세요."/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/play_rule_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/play_rule_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/rule_img"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/play_rule_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/play_rule_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:hint="경기방식을 선택해주세요."/>
+    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -141,9 +192,10 @@
             android:id="@+id/board_contents_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:minHeight="200dp"
             android:inputType="textMultiLine"
             android:background="@null"
-            android:hint="@string/write_board_default_txt"
+            android:hint="기타 내용"
             android:textSize="15dp"
             android:padding="15dp"
             android:gravity="top" />

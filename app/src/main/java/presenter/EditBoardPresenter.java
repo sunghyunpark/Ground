@@ -27,7 +27,7 @@ public class EditBoardPresenter extends BasePresenter<EditBoardView> {
 
     public void EditBoard(MatchArticleModel matchArticleModel){
         Call<CommonResponse> call = apiService.editBoard(matchArticleModel.getMatchBoardType(), matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matchArticleModel.getTitle(), matchArticleModel.getContents(),
-                matchArticleModel.getMatchDate(), matchArticleModel.getAverageAge());
+                matchArticleModel.getMatchDate(), matchArticleModel.getAverageAge(), matchArticleModel.getCharge(), matchArticleModel.getPlayRule());
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

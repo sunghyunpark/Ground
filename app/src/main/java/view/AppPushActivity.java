@@ -41,6 +41,11 @@ public class AppPushActivity extends BaseActivity {
 
     }
 
+    /**
+     * 푸시 토글 버튼들을 초기화한다.
+     * @param toggleButton
+     * @param state
+     */
     private void setToggleState(ToggleButton toggleButton, boolean state){
         if(state){
             toggleButton.setChecked(true);

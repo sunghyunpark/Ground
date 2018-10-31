@@ -119,7 +119,6 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
         if(!NetworkUtils.isNetworkConnected(getContext())){
             Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
         }else if(!sessionManager.isLoggedIn()){
-            //not login
             //로그인 상태가 아니므로 인트로 화면을 띄워준다.
             startActivity(new Intent(getContext(), IntroActivity.class));
         }else{
@@ -147,7 +146,7 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     @Override
     public void goProfile(){
-        // 로그인 상태라면 닉네임이 적용되어있으니 다이얼로그 노출 시 자동으로 입력되어 있게 설정
+        // 프로필 다이얼로그에서 설정한 닉네임을 설정한다.
         if(isLogin()){
             EditProfileDialog editProfileDialog = new EditProfileDialog(getContext(), new EditProfileDialog.EditProfileDialogListener() {
                 @Override
@@ -201,7 +200,7 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     /**
      * 추천하기
-     * 문자 앱으로 이동되며 디폴트로 문자 내용에 플레이스토어 주소가 입려되어있다.
+     * 문자 앱으로 이동되며 디폴트로 문자 내용에 플레이스토어 주소가 입력되어있다.
      */
     @Override
     public void goRecommend(){

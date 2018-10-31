@@ -105,8 +105,8 @@ public interface ApiInterface {
                                     @Field("boardType") String boardType,
                                     @Field("matchDate") String matchDate,
                                     @Field("averageAge") String averageAge,
-                                    @Field("charge") String charge,
-                                    @Field("playRule") String playRule);
+                                    @Field("charge") int charge,
+                                    @Field("playRule") int playRule);
 
     /**
      * 글 수정 API
@@ -125,7 +125,9 @@ public interface ApiInterface {
                                    @Field("title") String title,
                                    @Field("contents") String contents,
                                    @Field("matchDate") String matchDate,
-                                   @Field("averageAge") String averageAge);
+                                   @Field("averageAge") String averageAge,
+                                   @Field("charge") int charge,
+                                   @Field("playRule") int playRule);
 
     /**
      * 글 삭제 API

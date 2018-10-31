@@ -12,7 +12,6 @@ public class SessionManager {
     private SharedPreferences pref;
 
     private SharedPreferences.Editor editor;
-    private Context _context;
 
     // Shared pref mode
     private int PRIVATE_MODE = 0;
@@ -32,7 +31,7 @@ public class SessionManager {
 
 
     public SessionManager(Context context) {
-        this._context = context;
+        Context _context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
@@ -47,42 +46,52 @@ public class SessionManager {
 
         Log.d(TAG, "User login session modified!");
     }
+
+    // 로그인 상태 여부 확인
     public boolean isLoggedIn(){
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
 
-    public void setPushCommentOfMatch(boolean commentOfMatch){
+    // 매칭 게시글에 댓글이 달렸을 경우 푸시를 받을껀지 셋팅
+   public void setPushCommentOfMatch(boolean commentOfMatch){
         editor.putBoolean(KEY_PUSH_COMMENT_OF_MATCH, commentOfMatch);
         editor.commit();
     }
 
+    // 매칭 게시글에 댓글이 달렸을 경우 푸시 받을껀지 체크 여부 확인
     public boolean isPushCommentOfMatch(){
         return pref.getBoolean(KEY_PUSH_COMMENT_OF_MATCH, true);
     }
 
+    // 자유게시판에 댓글이 달렸을 경우 푸시를 받을껀지 셋팅
     public void setPushCommentOfFree(boolean commentOfFree){
         editor.putBoolean(KEY_PUSH_COMMENT_OF_FREE, commentOfFree);
         editor.commit();
     }
 
+    // 자유게시판에 댓글이 달렸을 경우 푸시 받을껀지 체크 여부 확인
     public boolean isPushCommentOfFree(){
         return pref.getBoolean(KEY_PUSH_COMMENT_OF_FREE, true);
     }
 
+    // 관심있는 매칭 게시글이 매칭상태가 '완료'로 바뀌었을 때 푸시를 받을껀지 셋팅
     public void setPushMyFavoriteArticleMatched(boolean isOn){
         editor.putBoolean(KEY_PUSH_MY_FAVORITE_ARTICLE_MATCHED, isOn);
         editor.commit();
     }
 
+    // 관심있는 매칭 게시글이 매칭 상태가 '완료'로 바뀌었을 때 푸시를 받을껀지 체크 여부 확인
     public boolean isMyFavoriteArticleMatchedOn(){
         return pref.getBoolean(KEY_PUSH_MY_FAVORITE_ARTICLE_MATCHED, true);
     }
 
+    // 이벤트 푸시 받을껀지 셋팅
     public void setEventPush(boolean isOn){
         editor.putBoolean(KEY_EVENT_PUSH, isOn);
         editor.commit();
     }
 
+    // 이벤트 푸시 받을껀지 체크 여부 확인
     public boolean isEventPushOn(){
         return pref.getBoolean(KEY_EVENT_PUSH, true);
     }

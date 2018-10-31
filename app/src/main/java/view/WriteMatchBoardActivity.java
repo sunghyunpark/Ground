@@ -112,9 +112,16 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             String age = ageStr.replace("대", "");
-            String charge = chargeStr.replace("원", "");
-            String[] playRule = playRuleStr.replaceAll("[^-?0-9]+", " ").split(" ");
-            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType, matchDateStr, age, charge, playRule[0]);
+            int charge = Integer.parseInt(chargeStr.replace("원", ""));
+            int playRule;
+            String[] playRuleArray;
+            if(playRuleStr.equals("기타")){
+                playRule = 0;
+            }else{
+                playRuleArray = playRuleStr.replaceAll("[^-?0-9]+", " ").split(" ");
+                playRule = Integer.parseInt(playRuleArray[0]);
+            }
+            writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType, matchDateStr, age, charge, playRule);
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
@@ -179,7 +186,11 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this, new PlayRuleSelectDialog.playRuleSelectListener() {
             @Override
             public void playRuleSelectEvent(int playRule) {
-                play_rule_tv.setText(playRule+" VS "+playRule);
+                if(playRule == 0){
+                    play_rule_tv.setText("기타");
+                }else{
+                    play_rule_tv.setText(playRule+" VS "+playRule);
+                }
             }
         });
         playRuleSelectDialog.show();

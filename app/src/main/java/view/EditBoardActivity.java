@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.text.ParseException;
@@ -31,6 +30,8 @@ import presenter.EditBoardPresenter;
 import presenter.view.EditBoardView;
 import util.Util;
 import view.dialog.AgeSelectDialog;
+import view.dialog.ChargeSelectDialog;
+import view.dialog.PlayRuleSelectDialog;
 
 public class EditBoardActivity extends BaseActivity implements EditBoardView, TextWatcher {
 
@@ -52,6 +53,10 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindView(R.id.matching_date_tv) TextView matchingDateTv;
     @BindView(R.id.matching_date_layout) ViewGroup matchingDateLayout;
+    @BindView(R.id.charge_tv) TextView charge_tv;
+    @BindView(R.id.charge_layout) ViewGroup chargeLayout;
+    @BindView(R.id.play_rule_tv) TextView play_rule_tv;
+    @BindView(R.id.play_rule_layout) ViewGroup playRuleLayout;
     @BindView(R.id.age_tv) TextView ageTv;
     @BindView(R.id.age_layout) ViewGroup ageLayout;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
@@ -83,6 +88,14 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         if(boardMode == MATCH_MODE){
             matchingDateTv.setText(matchArticleModel.getMatchDate());
             ageTv.setText(matchArticleModel.getAverageAge()+"대");
+            charge_tv.setText(matchArticleModel.getCharge()+"원");
+
+            if(matchArticleModel.getPlayRule() == 0){
+                play_rule_tv.setText("기타");
+            }else{
+                play_rule_tv.setText(matchArticleModel.getPlayRule()+" VS "+matchArticleModel.getPlayRule());
+            }
+
             String [] matchDateArray;
             try{
                 matchDateArray= matchArticleModel.getMatchDate().split("-");
@@ -99,6 +112,8 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         }else{
             matchingDateLayout.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
+            chargeLayout.setVisibility(View.GONE);
+            playRuleLayout.setVisibility(View.GONE);
         }
     }
 
@@ -117,8 +132,12 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     public void EditBoard(){
         String titleStr = board_title_et.getText().toString().trim();
         String contentsStr = board_contents_et.getText().toString().trim();
+        String matchDateStr = (matchingDateTv.getVisibility() == View.GONE) ? "" : matchingDateTv.getText().toString().trim();
+        String ageStr = (ageTv.getVisibility() == View.GONE) ? "" : ageTv.getText().toString().trim();
+        String chargeStr = (charge_tv.getVisibility() == View.GONE) ? "" : charge_tv.getText().toString().trim();
+        String playRuleStr = (play_rule_tv.getVisibility() == View.GONE) ? "" : play_rule_tv.getText().toString().trim();
 
-        if(titleStr.equals("") || contentsStr.equals("")){
+        if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && ((matchDateStr.equals("") || ageStr.equals("") || chargeStr.equals("") || playRuleStr.equals(""))))){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             matchArticleModel.setTitle(titleStr);
@@ -126,6 +145,19 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
             if(boardMode == MATCH_MODE){
                 matchArticleModel.setMatchDate(matchingDateTv.getText().toString().trim());
                 matchArticleModel.setAverageAge(ageTv.getText().toString().trim().replace("대", ""));
+
+                int charge = Integer.parseInt(chargeStr.replace("원", ""));
+                matchArticleModel.setCharge(charge);
+
+                int playRule;
+                String[] playRuleArray;
+                if(playRuleStr.equals("기타")){
+                    playRule = 0;
+                }else{
+                    playRuleArray = playRuleStr.replaceAll("[^-?0-9]+", " ").split(" ");
+                    playRule = Integer.parseInt(playRuleArray[0]);
+                }
+                matchArticleModel.setPlayRule(playRule);
             }
             editBoardPresenter.EditBoard(matchArticleModel);
             Intent returnIntent = new Intent();
@@ -178,6 +210,30 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
             }
         });
         ageSelectDialog.show();
+    }
+
+    @OnClick(R.id.charge_layout) void chargeClick(){
+        ChargeSelectDialog chargeSelectDialog = new ChargeSelectDialog(this, new ChargeSelectDialog.chargeSelectListener() {
+            @Override
+            public void chargeSelectEvent(int charge) {
+                charge_tv.setText(charge+"원");
+            }
+        });
+        chargeSelectDialog.show();
+    }
+
+    @OnClick(R.id.play_rule_layout) void playRuleClick(){
+        PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this, new PlayRuleSelectDialog.playRuleSelectListener() {
+            @Override
+            public void playRuleSelectEvent(int playRule) {
+                if(playRule == 0){
+                    play_rule_tv.setText("기타");
+                }else{
+                    play_rule_tv.setText(playRule+" VS "+playRule);
+                }
+            }
+        });
+        playRuleSelectDialog.show();
     }
 
     @Override

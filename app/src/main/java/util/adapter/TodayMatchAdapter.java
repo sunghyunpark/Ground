@@ -1,7 +1,6 @@
 package util.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -18,27 +15,31 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.MatchArticleModel;
-import model.UserModel;
 import util.NetworkUtils;
 import util.SessionManager;
 import util.Util;
-import view.DetailMatchArticleActivity;
 
 public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 1;
     private ArrayList<MatchArticleModel> listItems;
     private Context context;
     private SessionManager sessionManager;
+    private todayMatchListener todayMatchListener;
 
     private String[] matchArea;
 
-    public TodayMatchAdapter(Context context, ArrayList<MatchArticleModel> listItems) {
+    public TodayMatchAdapter(Context context, ArrayList<MatchArticleModel> listItems, todayMatchListener todayMatchListener) {
         this.context = context;
         this.listItems = listItems;
         this.sessionManager = new SessionManager(context);
+        this.todayMatchListener = todayMatchListener;
         Resources res = context.getResources();
 
         matchArea = res.getStringArray(R.array.matching_board_list);
+    }
+
+    public interface todayMatchListener{
+        void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel);
     }
 
     @Override
@@ -73,13 +74,7 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }else if(!NetworkUtils.isNetworkConnected(context)){
                         Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
                     }else{
-                        Intent intent = new Intent(context, DetailMatchArticleActivity.class);
-                        intent.putExtra(Constants.EXTRA_AREA_NAME, changeToAreaName(currentItem.getAreaNo()));
-                        intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, currentItem);
-                        intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
-                        intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        todayMatchListener.goToDetailArticle(position, changeToAreaName(currentItem.getAreaNo()), currentItem);
                         //클릭 시 해당 아이템 조회수 +1
                         listItems.get(position).setViewCnt(getItem(position).getViewCnt()+1);
                     }
@@ -105,6 +100,12 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private String changeToAreaName(int areaNo){
         return matchArea[areaNo];
+    }
+
+    public void onItemDismiss(int position){
+        listItems.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     //게시판 item

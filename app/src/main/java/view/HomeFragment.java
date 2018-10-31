@@ -28,8 +28,9 @@ import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.MatchArticleModel;
 import model.BannerModel;
+import model.MatchArticleModel;
+import model.UserModel;
 import model.YouTubeModel;
 import presenter.HomePresenter;
 import presenter.view.HomeView;
@@ -43,6 +44,7 @@ import util.adapter.TodayMatchAdapter;
 public class HomeFragment extends BaseFragment implements HomeView{
 
     private static final int RECENT_LOAD_DATA = 5;    // 홈 > 최신글에서 보여지는 글의 갯수
+    private static final int TODAY_MATCH_LOAD_DATA = 5;    // 홈 > 오늘의 시합에서 보여지는 글의 갯수
     private static final int SEND_RUNNING = 1000;    // 슬라이드 광고 handler message
 
     private RecentBoardViewPagerAdapter recentBoardViewPagerAdapter;    // 최신글 뷰페이저 어뎁터
@@ -89,7 +91,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @Override
     public void onResume(){
         super.onResume();
-        homePresenter.loadTodayMatchList();
+        homePresenter.loadTodayMatchList(true, 0, TODAY_MATCH_LOAD_DATA);
     }
 
     @Override
@@ -130,7 +132,17 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private void init(){
         // 오늘의 시합 데이터를 담을 리스트를 초기화 한 뒤 어뎁터에 넘겨준다.
         ArrayList<MatchArticleModel> todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
-        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList);
+        todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList, new TodayMatchAdapter.todayMatchListener() {
+            @Override
+            public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
+                Intent intent = new Intent(getContext(), DetailMatchArticleActivity.class);
+                intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
+                intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
+                startActivity(intent);
+            }
+        });
 
         // HomePresenter 를 초기화 한다.
         homePresenter = new HomePresenter(this, getContext(), todayMatchArticleModelArrayList);
@@ -358,13 +370,26 @@ public class HomeFragment extends BaseFragment implements HomeView{
         if(!isNetworkConnected()){
             showMessage("네트워크 연결상태를 확인해주세요.");
         }else{
-            homePresenter.loadTodayMatchList();
+            homePresenter.loadTodayMatchList(true, 0, TODAY_MATCH_LOAD_DATA);
         }
     }
 
     @OnClick(R.id.recent_more_btn) void recentMoreBtn(){
-        Intent intent = new Intent(getContext(), RecentBoardActivity.class);
-        startActivity(intent);
+        if(!isNetworkConnected()){
+            showMessage("네트워크 연결상태를 확인해주세요.");
+        }else{
+            Intent intent = new Intent(getContext(), RecentBoardActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @OnClick(R.id.today_match_more_btn) void todayMatchMoreBtn(){
+        if(!isNetworkConnected()){
+            showMessage("네트워크 연결상태를 확인해주세요.");
+        }else{
+            Intent intent = new Intent(getContext(), TodayBoardActivity.class);
+            startActivity(intent);
+        }
     }
 
     private class BannerThread extends java.lang.Thread{

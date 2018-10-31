@@ -128,11 +128,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
     /**
      * 오늘의 시합 데이터를 받아온다.
      */
-    public void loadTodayMatchList(){
-        if(todayMatchArticleModelArrayList != null){
+    public void loadTodayMatchList(boolean refresh, int no, int limit){
+        if(refresh){
             todayMatchArticleModelArrayList.clear();
         }
-        Call<ArticleModelListResponse> call = apiService.getTodayMatchArticleList(0, 5);
+        Call<ArticleModelListResponse> call = apiService.getTodayMatchArticleList(no, limit);
         call.enqueue(new Callback<ArticleModelListResponse>() {
             @Override
             public void onResponse(Call<ArticleModelListResponse> call, Response<ArticleModelListResponse> response) {

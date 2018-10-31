@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="view.RecentBoardActivity">
+    tools:context="view.TodayBoardActivity">
 
     <RelativeLayout
         android:id="@+id/app_title_bar"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/back_btn"
-            android:text="최신글"
+            android:text="오늘의 시합"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="40dp"
             android:ellipsize="end"
@@ -43,16 +43,15 @@
             android:background="@mipmap/refresh_img_white"/>
     </RelativeLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/recent_tab_layout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/today_match_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/colorBlack"></android.support.design.widget.TabLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/recent_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="wrap_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

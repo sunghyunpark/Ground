@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/area_tv"
-            android:textSize="15dp"
+            android:textSize="14dp"
             android:textColor="@color/colorBlack"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
@@ -54,17 +54,16 @@
                 android:id="@+id/match_state_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:background="@drawable/area_search_result_shape"
+                android:textSize="11dp"
                 android:textColor="@color/colorMoreGray"/>
 
             <TextView
                 android:id="@+id/play_rule_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="11dp"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/area_search_result_shape"
+                android:background="@drawable/match_etc_info_shape"
                 android:textColor="@color/colorMoreGray"/>
         </LinearLayout>
 

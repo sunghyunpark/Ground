@@ -141,9 +141,9 @@ public class TodayMatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
         if(isMore){
-            return TYPE_ITEM;
-        }else{
             return TYPE_ITEM_ISMORE;
+        }else{
+            return TYPE_ITEM;
         }
     }
     //increasing getItemcount to 1. This will be the row of header.

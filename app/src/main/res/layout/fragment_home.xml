@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#eff0f1"
     tools:context="view.HomeFragment">
 
         <RelativeLayout
             android:id="@+id/app_title_bar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@color/colorPrimary"
             android:layout_alignParentTop="true">
             <!--
@@ -26,7 +27,7 @@
             -->
             <ImageView
                 android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ground_logo_test3"/>
@@ -38,6 +39,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#eff0f1"
         android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
@@ -48,7 +50,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/layout_round_shape_white"
             android:orientation="vertical">
 
             <TextView
@@ -65,6 +71,7 @@
                 android:id="@+id/ground_util_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
                 android:layout_marginTop="15dp"/>
 
         </LinearLayout>
@@ -72,7 +79,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/layout_round_shape_white"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -118,9 +128,10 @@
             android:id="@+id/recent_more_btn"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/colorWhite"
+            android:background="@drawable/layout_round_shape_white"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
             android:text="더보기"
-            android:layout_marginTop="1dp"
             android:textColor="@color/colorBlack"
             android:textSize="15dp"/>
 
@@ -128,12 +139,23 @@
             android:id="@+id/recommend_banner_iv"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="10dp"
             android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/layout_round_shape_white">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/today_match_title_tv"
@@ -141,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="23dp"
                 android:text="오늘의 시합"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"/>
@@ -161,6 +184,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:background="@mipmap/refresh_img"/>
 
@@ -169,8 +193,7 @@
         <RelativeLayout
             android:id="@+id/today_match_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/today_match_empty_tv"
@@ -190,14 +213,16 @@
                 android:layout_height="wrap_content"/>
 
         </RelativeLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/today_match_more_btn"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/colorWhite"
+            android:background="@drawable/layout_round_shape_white"
             android:text="더보기"
-            android:layout_marginTop="1dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:textColor="@color/colorCyan"
             android:textSize="15dp"/>
 
@@ -205,19 +230,27 @@
             android:id="@+id/chatbot_banner_iv"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="10dp"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:id="@+id/recommend_youtube_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/layout_round_shape_white"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -242,7 +275,8 @@
                 android:id="@+id/recommend_youtube_pager"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
             </android.support.v4.view.ViewPager>
         </LinearLayout>
 

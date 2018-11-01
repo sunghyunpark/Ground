@@ -10,8 +10,8 @@
     <RelativeLayout
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorWhite"
+        android:layout_height="45dp"
+        android:background="@color/colorBlack"
         android:layout_alignParentTop="true">
 
         <ImageButton
@@ -20,7 +20,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
-            android:background="@mipmap/back_img"/>
+            android:background="@mipmap/back_img_white"/>
 
         <TextView
             android:id="@+id/my_title_tv"
@@ -28,22 +28,19 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
     </RelativeLayout>
-    <!--구분선-->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:orientation="horizontal"
-        android:background="#9E9E9E"></LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        app:tabIndicatorColor="@color/colorBlack"></android.support.design.widget.TabLayout>
+        app:tabBackground="@color/colorBlack"
+        app:tabTextColor="@color/colorTextHintGray"
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorWhite"></android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

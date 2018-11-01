@@ -8,6 +8,7 @@
     android:background="@color/colorPrimary"
     android:id="@+id/background_layout">
 
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +18,14 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"/>
+    -->
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ground_logo_test2"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

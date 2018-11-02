@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,59 +7,77 @@
     android:orientation="vertical"
     tools:context="view.BoardFragment">
 
-    <RelativeLayout
-        android:id="@+id/app_title_bar"
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/colorPrimary"
-        android:layout_alignParentTop="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/board_fragment_title"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorWhite"
-            android:textSize="18dp"/>
+        android:layout_height="wrap_content">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-        <Button
-            android:id="@+id/my_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:text="MY"
-            android:textColor="@color/colorWhite"
-            android:textSize="15dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/app_title_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_alignParentTop="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/board_fragment_title"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"/>
 
-        <ImageButton
-            android:id="@+id/search_btn"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@mipmap/search_img"/>
-    </RelativeLayout>
-    <!--
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:orientation="horizontal"
-        android:background="#9E9E9E"></LinearLayout>
--->
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+                    <Button
+                        android:id="@+id/my_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:text="MY"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15dp"/>
+
+                    <ImageButton
+                        android:id="@+id/search_btn"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:background="@mipmap/search_img"/>
+                </RelativeLayout>
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    app:tabBackground="@color/colorBlack"
+                    app:tabTextColor="@color/colorTextHintGray"
+                    app:tabSelectedTextColor="@color/colorWhite"
+                    app:tabIndicatorColor="@color/colorWhite"></android.support.design.widget.TabLayout>
+            </LinearLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/main.scrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabBackground="@color/colorBlack"
-        app:tabTextColor="@color/colorTextHintGray"
-        app:tabSelectedTextColor="@color/colorWhite"
-        app:tabIndicatorColor="@color/colorWhite"></android.support.design.widget.TabLayout>
-
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:descendantFocusability="blocksDescendants">
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-</LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>

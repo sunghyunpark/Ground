@@ -29,6 +29,7 @@
             android:layout_height="55dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:background="@color/colorBlack"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -49,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/bottom_menu_btn_1"
                     android:textSize="11dp"
-                    android:textColor="@color/colorMoreGray"
+                    android:textColor="@color/colorWhite"
                     android:layout_marginTop="3dp"
                     android:layout_below="@+id/tab1_img"
                     android:layout_centerHorizontal="true"/>
@@ -74,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/bottom_menu_btn_2"
                     android:textSize="11dp"
-                    android:textColor="@color/colorMoreGray"
+                    android:textColor="@color/colorWhite"
                     android:layout_marginTop="3dp"
                     android:layout_below="@+id/tab2_img"
                     android:layout_centerHorizontal="true"/>
@@ -100,7 +101,7 @@
                     android:text="@string/bottom_menu_btn_3"
                     android:layout_marginTop="3dp"
                     android:textSize="11dp"
-                    android:textColor="@color/colorMoreGray"
+                    android:textColor="@color/colorWhite"
                     android:layout_below="@+id/tab3_img"
                     android:layout_centerHorizontal="true"/>
             </RelativeLayout>

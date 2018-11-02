@@ -112,21 +112,21 @@ public class MainActivity extends BaseActivity implements LoginView{
      * @param tabId
      */
     private void initTabIcon(int tabId){
-        tab1_iv.setBackgroundResource(R.mipmap.home_img);
-        tab2_iv.setBackgroundResource(R.mipmap.board_img);
-        tab3_iv.setBackgroundResource(R.mipmap.setting_img);
+        tab1_iv.setBackgroundResource(R.mipmap.home_img_white_not_selected);
+        tab2_iv.setBackgroundResource(R.mipmap.board_img_white_not_selected);
+        tab3_iv.setBackgroundResource(R.mipmap.setting_img_white_not_selected);
 
         switch (tabId){
             case R.id.tab_1:
-                tab1_iv.setBackgroundResource(R.mipmap.home_selected_img);
+                tab1_iv.setBackgroundResource(R.mipmap.home_img_white_selected);
                 break;
 
             case R.id.tab_2:
-                tab2_iv.setBackgroundResource(R.mipmap.board_selected_img);
+                tab2_iv.setBackgroundResource(R.mipmap.board_img_white_selected);
                 break;
 
             case R.id.tab_3:
-                tab3_iv.setBackgroundResource(R.mipmap.setting_selected_img);
+                tab3_iv.setBackgroundResource(R.mipmap.setting_img_white_selected);
                 break;
         }
     }

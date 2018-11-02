@@ -3,7 +3,7 @@
     <color name="colorPrimary">#000000</color> <!-- 시스템 타이틀 바 색상 -->
     <color name="colorPrimaryDark">#000000</color> <!-- status bar-->
     <color name="colorTitleBar">#263238</color>
-    <color name="colorAccent">#00B0FF</color>
+    <color name="colorAccent">#00cf06</color> <!--00B0FF-->
     <color name="colorRed">#F20A0A</color>
     <color name="colorGreen">#48D16A</color>
     <color name="colorWhite">#FFFFFF</color>

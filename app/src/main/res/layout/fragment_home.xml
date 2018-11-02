@@ -60,12 +60,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 android:text="그라운드"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"/>
+                android:textColor="@color/colorBlack"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ground_util_recyclerView"
@@ -93,12 +92,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="23dp"
+                    android:textSize="20dp"
                     android:text="최신글"
                     android:layout_marginLeft="15dp"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/colorBlack" />
 
                 <ImageButton
                     android:id="@+id/recent_refresh_btn"
@@ -161,12 +159,11 @@
                 android:id="@+id/today_match_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 android:text="오늘의 시합"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"/>
+                android:textColor="@color/colorBlack"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -224,7 +221,7 @@
             android:text="더보기"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:textColor="@color/colorCyan"
+            android:textColor="@color/colorBlack"
             android:textSize="15dp"/>
 
         <ImageView
@@ -264,11 +261,10 @@
                     android:id="@+id/recommend_youtube_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="23dp"
+                    android:textSize="20dp"
                     android:text="이런 영상은 어때요?"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/colorBlack"/>
 
             </LinearLayout>
 

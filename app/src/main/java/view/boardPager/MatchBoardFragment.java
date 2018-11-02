@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ public class MatchBoardFragment extends BaseFragment {
 
     private ArrayList<AreaModel> areaModelArrayList;
     private String[] areaNameArray;
+
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
     public static MatchBoardFragment newInstance(){

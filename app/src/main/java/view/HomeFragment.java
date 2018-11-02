@@ -334,8 +334,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
             recommend_youtube_layout.setVisibility(View.GONE);
         }else{
             RecommendYouTubeViewPagerAdapter recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
-            recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
-
             float density = getResources().getDisplayMetrics().density;
             int pageMargin = 8 * (int)density; // 8dp
 

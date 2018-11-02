@@ -40,8 +40,8 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/tab1_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"/>
                 <TextView
@@ -65,8 +65,8 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/tab2_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"/>
                 <TextView
@@ -90,8 +90,8 @@
                 android:layout_weight="1">
                 <ImageView
                     android:id="@+id/tab3_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"/>
                 <TextView

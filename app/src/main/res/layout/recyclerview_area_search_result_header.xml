@@ -3,23 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="10dp"
+    android:background="#eff0f1"
     android:orientation="vertical">
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/area_list_layout"
-        app:flexWrap="wrap"
-        app:alignItems="stretch"
-        app:alignContent="stretch" >
-    </com.google.android.flexbox.FlexboxLayout>
 
     <RelativeLayout
         android:id="@+id/sort_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
@@ -83,4 +73,16 @@
             android:layout_marginLeft="17dp"
             android:text="진행중"/>
     </RelativeLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/area_list_layout"
+        app:flexWrap="wrap"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/colorWhite"
+        app:alignItems="stretch"
+        app:alignContent="stretch" >
+    </com.google.android.flexbox.FlexboxLayout>
 </LinearLayout>

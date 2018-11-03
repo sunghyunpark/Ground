@@ -81,6 +81,7 @@
         android:background="@drawable/comment_shape"
         android:maxLines="1"
         android:inputType="text"
+        android:layout_marginTop="3dp"
         android:hint="제목"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"

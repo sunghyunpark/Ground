@@ -1,5 +1,6 @@
 package view;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,8 +45,8 @@ import util.adapter.TodayMatchAdapter;
 
 public class HomeFragment extends BaseFragment implements HomeView{
 
-    private static final int RECENT_LOAD_DATA = 5;    // 홈 > 최신글에서 보여지는 글의 갯수
-    private static final int TODAY_MATCH_LOAD_DATA = 5;    // 홈 > 오늘의 시합에서 보여지는 글의 갯수
+    private static final int RECENT_LOAD_DATA = 3;    // 홈 > 최신글에서 보여지는 글의 갯수
+    private static final int TODAY_MATCH_LOAD_DATA = 3;    // 홈 > 오늘의 시합에서 보여지는 글의 갯수
     private static final int SEND_RUNNING = 1000;    // 슬라이드 광고 handler message
 
     private RecentBoardViewPagerAdapter recentBoardViewPagerAdapter;    // 최신글 뷰페이저 어뎁터
@@ -213,6 +214,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     public void setBanner(ArrayList<BannerModel> bannerModelArrayList, BannerModel RBBanner, BannerModel TBBanner){
         // 최상단 광고 슬라이드 뷰페이저를 연결하고 자동 슬라이드 적용한다.
         final int listSize = bannerModelArrayList.size();
+        requireTopSlideBannerTargetAPI();
 
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
         banner_pager.setAdapter(bannerViewPagerAdapter);
@@ -242,6 +244,12 @@ public class HomeFragment extends BaseFragment implements HomeView{
         // 오늘의 시합 하단 띠 배너 적용
         setTodayMatchBoardBanner(TBBanner);
 
+    }
+
+    // setNestedScrollingEnable() 함수 자체가 21이상 부터 사용이 가능하여 TargetApi 를 적용함.
+    @TargetApi(21)
+    private void requireTopSlideBannerTargetAPI(){
+        banner_pager.setNestedScrollingEnabled(false);
     }
 
     /**
@@ -310,8 +318,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
             todayMatchAdapter.notifyDataSetChanged();
             todayMatchEmptyTv.setVisibility(View.GONE);
             todayMatchRecyclerView.setVisibility(View.VISIBLE);
-            if(listSize >= 5){
-                // 게시글이 5개 이상인 경우 '더보기' 버튼을 노출한다.
+            if(listSize >= TODAY_MATCH_LOAD_DATA){
+                // 게시글이 3개 이상인 경우 '더보기' 버튼을 노출한다.
                 todayMatchMoreBtn.setVisibility(View.VISIBLE);
             }else{
                 todayMatchMoreBtn.setVisibility(View.GONE);
@@ -333,15 +341,33 @@ public class HomeFragment extends BaseFragment implements HomeView{
         if(state.equals("off")){
             recommend_youtube_layout.setVisibility(View.GONE);
         }else{
+
             RecommendYouTubeViewPagerAdapter recommendYouTubeViewPagerAdapter = new RecommendYouTubeViewPagerAdapter(getContext(), youTubeModelArrayList);
             float density = getResources().getDisplayMetrics().density;
             int pageMargin = 8 * (int)density; // 8dp
 
+            requireRecommendYouTubeTargetAPI();
             recommendYouTubePager.setPageMargin(pageMargin);
             recommendYouTubePager.setClipToPadding(false);
-            recommendYouTubePager.setPadding(60, 0, 90, 0);
+            recommendYouTubePager.setPadding(60, 0, 300, 0);
             recommendYouTubePager.setAdapter(recommendYouTubeViewPagerAdapter);
+
+
+            /*
+            RecommendYouTubeSlideAdapter recommendYouTubeSlideAdapter = new RecommendYouTubeSlideAdapter(getContext(), youTubeModelArrayList);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recommendYouTubeRecyclerView.setLayoutManager(linearLayoutManager);
+            recommendYouTubeRecyclerView.setAdapter(recommendYouTubeSlideAdapter);
+            recommendYouTubeRecyclerView.setNestedScrollingEnabled(false);
+            */
         }
+    }
+    
+    // setNestedScrollingEnable() 함수 자체가 21이상 부터 사용이 가능하여 TargetApi 를 적용함.
+    @TargetApi(21)
+    private void requireRecommendYouTubeTargetAPI(){
+        recommendYouTubePager.setNestedScrollingEnabled(false);
     }
 
     @OnClick(R.id.recommend_banner_iv) void recommendBannerBtn(){

@@ -393,6 +393,11 @@ public class HomeFragment extends BaseFragment implements HomeView{
         }
     }
 
+    @OnClick(R.id.my_btn) void myBtn(){
+        Intent intent = new Intent(getContext(), MyActivity.class);
+        startActivity(intent);
+    }
+
     private class BannerThread extends java.lang.Thread{
         boolean stopped = false;
 

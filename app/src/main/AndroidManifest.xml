@@ -81,7 +81,7 @@
             android:name="view.CommentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="view.MyActivity"
+            android:name="view.MyContentsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="view.OpenSourceActivity"
@@ -113,7 +113,10 @@
         <activity
             android:name="view.RecentBoardActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="view.TodayBoardActivity"
+        <activity
+            android:name="view.TodayBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="view.MyActivity"
             android:screenOrientation="portrait"/>
     </application>
 

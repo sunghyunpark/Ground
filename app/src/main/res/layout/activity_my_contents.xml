@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="view.MyActivity">
+
+    <RelativeLayout
+        android:id="@+id/app_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorBlack"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:background="@mipmap/back_img_white"/>
+
+        <TextView
+            android:id="@+id/my_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp"/>
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        app:tabBackground="@color/colorBlack"
+        app:tabTextColor="@color/colorTextHintGray"
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorWhite"></android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"/>
+
+</LinearLayout>

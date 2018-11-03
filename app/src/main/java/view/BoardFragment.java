@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import util.adapter.BoardViewPagerAdapter;
 import view.dialog.AreaSearchDialog;
-import view.dialog.MyContentsDialog;
 
 public class BoardFragment extends BaseFragment {
 
@@ -59,16 +58,5 @@ public class BoardFragment extends BaseFragment {
     @OnClick(R.id.search_btn) void searchBtn(){
         AreaSearchDialog areaSearchDialog = new AreaSearchDialog(getContext());
         areaSearchDialog.show();
-    }
-
-    @OnClick(R.id.my_btn) void myBtn(){
-        MyContentsDialog myContentsDialog = new MyContentsDialog(getContext());
-        if(isLogin()){
-            //login
-            myContentsDialog.show();
-        }else{
-            //not login
-            showMessage("로그인을 해주세요.");
-        }
     }
 }

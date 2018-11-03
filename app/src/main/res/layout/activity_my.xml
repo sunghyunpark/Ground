@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#eff0f1"
     tools:context="view.MyActivity">
 
     <RelativeLayout
         android:id="@+id/app_title_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/colorBlack"
+        android:background="@color/colorPrimary"
         android:layout_alignParentTop="true">
 
         <ImageButton
@@ -21,31 +22,100 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="7dp"
             android:background="@mipmap/back_img_white"/>
-
         <TextView
-            android:id="@+id/my_title_tv"
+            android:id="@+id/about_area_board_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/back_btn"
+            android:text="MY"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:ellipsize="end"
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
     </RelativeLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:tabBackground="@color/colorBlack"
-        app:tabTextColor="@color/colorTextHintGray"
-        app:tabSelectedTextColor="@color/colorWhite"
-        app:tabIndicatorColor="@color/colorWhite"></android.support.design.widget.TabLayout>
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:background="#eff0f1">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"/>
+        <RelativeLayout
+            android:id="@+id/my_article_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/layout_round_shape_white_top">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:text="내가 작성한 글"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/arrow_right_img"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/my_comment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/colorWhite">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:text="내가 작성한 댓글"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/arrow_right_img"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/my_favorite_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/layout_round_shape_white_bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:text="내가 관심있는 글"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/arrow_right_img"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

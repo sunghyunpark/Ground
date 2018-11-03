@@ -135,8 +135,17 @@
                             android:id="@+id/favorite_tb"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:layout_weight="5"
+                            android:layout_weight="3"
                             android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:id="@+id/like_cnt_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:layout_gravity="center_vertical"
+                            android:text="0"
+                            android:textSize="15dp"
+                            android:textColor="@color/colorMoreGray"/>
                         <TextView
                             android:id="@+id/favorite_tv"
                             android:layout_width="wrap_content"

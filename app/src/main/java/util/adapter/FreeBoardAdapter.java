@@ -80,7 +80,9 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             VHitem.title_tv.setText(currentItem.getTitle());
 
-            VHitem.nick_name_tv.setText(Util.ellipseStr(currentItem.getNickName()));
+            VHitem.nick_name_tv.setText("by. "+Util.ellipseStr(currentItem.getNickName()));
+
+            VHitem.like_cnt_tv.setText(String.valueOf(currentItem.getLikeCnt()));
 
             VHitem.view_cnt_tv.setText(currentItem.getViewCnt()+"");
 
@@ -110,6 +112,7 @@ public class FreeBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.item_layout) ViewGroup item_layout;
         @BindView(R.id.new_iv) ImageView new_iv;
         @BindView(R.id.title_tv) TextView title_tv;
+        @BindView(R.id.like_cnt_tv) TextView like_cnt_tv;
         @BindView(R.id.nick_name_tv) TextView nick_name_tv;
         @BindView(R.id.created_at_tv) TextView created_at_tv;
         @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;

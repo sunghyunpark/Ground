@@ -123,7 +123,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             //VHitem.matching_date_tv.setText(currentItem.getMatchDate());
 
-            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" VS "+currentItem.getPlayRule());
+            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
 
             if(isMatchState(position)){
                 // 매칭 완료

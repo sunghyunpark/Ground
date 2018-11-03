@@ -119,7 +119,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
                 VHitem.new_iv.setVisibility(View.INVISIBLE);
             }
 
-            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" VS "+currentItem.getPlayRule());
+            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
 
             if(isMatchState(position)){
                 // 매칭 완료

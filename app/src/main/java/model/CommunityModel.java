@@ -18,6 +18,7 @@ public class CommunityModel implements Serializable {
     private String photoThumbUrl;
     private int viewCnt;
     private int commentCnt;
+    private int likeCnt;
     private String createdAt;
 
     public int getNo() {
@@ -115,6 +116,14 @@ public class CommunityModel implements Serializable {
 
     public void setCommentCnt(int commentCnt) {
         this.commentCnt = commentCnt;
+    }
+
+    public int getLikeCnt() {
+        return likeCnt;
+    }
+
+    public void setLikeCnt(int likeCnt) {
+        this.likeCnt = likeCnt;
     }
 
     public String getCreatedAt() {

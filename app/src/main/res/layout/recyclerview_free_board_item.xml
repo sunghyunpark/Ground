@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:minHeight="60dp"
+    android:layout_height="wrap_content"
     android:id="@+id/item_layout"
     android:background="#E0E0E0"
     android:orientation="horizontal">
@@ -35,22 +34,45 @@
             android:paddingLeft="7dp"
             android:paddingRight="15dp"/>
 
+        <TextView
+            android:id="@+id/nick_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:layout_below="@+id/title_tv"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorMoreGray"
+            android:layout_marginLeft="10dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
             android:layout_marginRight="35dp"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/nick_name_tv"
             android:layout_marginBottom="10dp">
 
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/favorite_selected_img"/>
+
             <TextView
-                android:id="@+id/nick_name_tv"
+                android:id="@+id/like_cnt_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:textSize="12dp"
-                android:textColor="@color/colorMoreGray"
-                android:layout_marginLeft="15dp" />
+                android:textColor="@color/colorMoreGray"/>
+
+            <ImageView
+                android:layout_width="2dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/circle_devider_shape"/>
 
             <ImageView
                 android:layout_width="15dp"

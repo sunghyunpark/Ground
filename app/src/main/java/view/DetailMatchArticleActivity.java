@@ -254,7 +254,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             if(matchArticleModel.getPlayRule() == 0){
                 play_rule_tv.setText("기타");
             }else{
-                play_rule_tv.setText(matchArticleModel.getPlayRule()+" VS "+matchArticleModel.getPlayRule());
+                play_rule_tv.setText(matchArticleModel.getPlayRule()+" vs "+matchArticleModel.getPlayRule());
             }
         }else{
             match_date_layout.setVisibility(View.GONE);

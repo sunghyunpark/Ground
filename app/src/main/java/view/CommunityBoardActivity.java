@@ -148,6 +148,11 @@ public class CommunityBoardActivity extends BaseActivity implements FreeBoardVie
         }
     }
 
+    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
+        LinearLayoutManager llm = (LinearLayoutManager) boardRecyclerView.getLayoutManager();
+        llm.scrollToPosition(0);
+    }
+
     @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }

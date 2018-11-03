@@ -108,7 +108,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 
-            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" VS "+currentItem.getPlayRule());
+            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
 
             if(isMatchState(position)){
                 // 매칭 완료

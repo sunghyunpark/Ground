@@ -183,6 +183,31 @@
             android:hint="경기방식을 선택해주세요."/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/load_memo_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메모 불러오기"
+            android:textColor="@color/colorAccent"
+            android:layout_marginLeft="15dp"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_toRightOf="@+id/load_memo_tv"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

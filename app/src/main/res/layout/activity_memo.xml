@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBlack"
+    tools:context="view.MemoActivity">
+
+    <RelativeLayout
+        android:id="@+id/app_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:background="@mipmap/back_img_white"/>
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/back_btn"
+            android:text="메모장"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:ellipsize="end"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp"/>
+        <ImageButton
+            android:id="@+id/write_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/write_img_white"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/empty_memo_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/colorWhite"
+        android:visibility="gone"
+        android:text="작성한 메모가 없습니다."/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/memo_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

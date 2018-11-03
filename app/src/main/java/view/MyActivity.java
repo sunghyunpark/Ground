@@ -43,4 +43,9 @@ public class MyActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.memo_layout) void memoLayoutClick(){
+        Intent intent = new Intent(getApplicationContext(), MemoActivity.class);
+        startActivity(intent);
+    }
+
 }

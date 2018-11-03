@@ -157,7 +157,7 @@
         android:background="#eff0f1">
 
         <RelativeLayout
-            android:id="@+id/copy_layout"
+            android:id="@+id/memo_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/layout_round_shape_white_top">

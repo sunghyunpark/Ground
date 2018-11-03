@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="view.WriteMemoActivity">
+
+    <RelativeLayout
+        android:id="@+id/app_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:background="@mipmap/back_img_white"/>
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/back_btn"
+            android:text="메모 쓰기"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:ellipsize="end"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp"/>
+        <Button
+            android:id="@+id/write_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="완료"
+            android:textColor="@color/colorWhite"
+            android:background="@null"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+    <!--구분선-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:orientation="horizontal"
+        android:background="#9E9E9E"></LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="@drawable/comment_shape">
+        <EditText
+            android:id="@+id/memo_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="400dp"
+            android:inputType="textMultiLine"
+            android:background="@null"
+            android:hint="작성하신 메모는 게시글 작성 시 불러올 수 있습니다."
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:gravity="top" />
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

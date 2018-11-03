@@ -116,8 +116,14 @@
         <activity
             android:name="view.TodayBoardActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="view.MyActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="view.MyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="view.MemoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="view.WriteMemoActivity" />
+        <activity android:name="view.EditMemoActivity"></activity>
     </application>
 
 </manifest>

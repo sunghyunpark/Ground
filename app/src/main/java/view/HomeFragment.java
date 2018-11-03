@@ -36,6 +36,8 @@ import model.UserModel;
 import model.YouTubeModel;
 import presenter.HomePresenter;
 import presenter.view.HomeView;
+import util.NetworkUtils;
+import util.SessionManager;
 import util.Util;
 import util.adapter.BannerViewPagerAdapter;
 import util.adapter.GroundUtilAdapter;
@@ -55,6 +57,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private ArrayList<YouTubeModel> youTubeModelArrayList;    // 이런 영상 어때요? 데이터 List
     private ArrayList<String> groundUtilUpdateList;
     private HomePresenter homePresenter;
+    private SessionManager sessionManager;
 
     private Handler handler;
     private BannerThread thread;
@@ -132,6 +135,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
      * : 그라운드 유틸 List 및 담을 데이터 초기화
      */
     private void init(){
+        sessionManager = new SessionManager(getActivity());
+
         // 오늘의 시합 데이터를 담을 리스트를 초기화 한 뒤 어뎁터에 넘겨준다.
         ArrayList<MatchArticleModel> todayMatchArticleModelArrayList = new ArrayList<MatchArticleModel>();
         todayMatchAdapter = new TodayMatchAdapter(getContext(), todayMatchArticleModelArrayList, false, new TodayMatchAdapter.todayMatchListener() {
@@ -363,7 +368,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
             */
         }
     }
-    
+
     // setNestedScrollingEnable() 함수 자체가 21이상 부터 사용이 가능하여 TargetApi 를 적용함.
     @TargetApi(21)
     private void requireRecommendYouTubeTargetAPI(){
@@ -420,8 +425,14 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     @OnClick(R.id.my_btn) void myBtn(){
-        Intent intent = new Intent(getContext(), MyActivity.class);
-        startActivity(intent);
+        if(!sessionManager.isLoggedIn()){
+            Util.showToast(getActivity(), "로그인을 해주세요.");
+        }else if(!NetworkUtils.isNetworkConnected(getActivity())){
+            Util.showToast(getActivity(), "네트워크 연결상태를 확인해주세요.");
+        }else{
+            Intent intent = new Intent(getContext(), MyActivity.class);
+            startActivity(intent);
+        }
     }
 
     private class BannerThread extends java.lang.Thread{

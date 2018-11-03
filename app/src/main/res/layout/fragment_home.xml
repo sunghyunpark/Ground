@@ -13,16 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            app:layout_scrollFlags="scroll|enterAlways">
-
             <RelativeLayout
                 android:id="@+id/app_title_bar"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_alignParentTop="true">
                 <!--
                 <TextView
@@ -51,16 +47,15 @@
                     android:background="@mipmap/my_img_white"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
-        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#eff0f1"
             android:orientation="vertical">
 
@@ -148,7 +143,7 @@
                 android:id="@+id/recent_more_btn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/layout_round_shape_white"
+                android:background="@drawable/layout_round_shape_white_bottom"
                 android:layout_marginRight="4dp"
                 android:layout_marginLeft="4dp"
                 android:text="더보기"
@@ -239,7 +234,7 @@
                 android:id="@+id/today_match_more_btn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/layout_round_shape_white"
+                android:background="@drawable/layout_round_shape_white_bottom"
                 android:text="더보기"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
@@ -260,7 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="50dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginLeft="4dp"
                 android:background="@drawable/layout_round_shape_white"
@@ -299,5 +294,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

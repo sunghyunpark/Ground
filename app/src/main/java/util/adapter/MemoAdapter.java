@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.groundmobile.ground.R;
@@ -27,6 +29,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private Realm mRealm;
     private ArrayList<MemoVO> listItems;
     private memoAdapterListener memoAdapterListener;
+    private int checkPos = -1;
 
     public MemoAdapter(Context context, ArrayList<MemoVO> listItems, Realm mRealm, memoAdapterListener memoAdapterListener) {
         this.listItems = listItems;

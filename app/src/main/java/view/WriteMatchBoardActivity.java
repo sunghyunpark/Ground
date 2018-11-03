@@ -143,6 +143,11 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         dialog.show();
     }
 
+    @OnClick(R.id.go_to_memo_layout) void memoClick(){
+        Intent intent = new Intent(getApplicationContext(), MemoActivity.class);
+        startActivity(intent);
+    }
+
     private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
         SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-M-dd");
         SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");

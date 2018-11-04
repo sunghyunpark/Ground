@@ -6,14 +6,24 @@
     android:layout_height="wrap_content"
     android:minHeight="100dp">
 
+    <ImageButton
+        android:id="@+id/copy_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginRight="15dp"
+        android:background="@mipmap/copy_img_black"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
     <TextView
         android:id="@+id/memo_text_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
-        android:padding="8dp"
+        android:padding="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="40dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:textColor="@color/colorBlack" />
 
     <!--구분선-->

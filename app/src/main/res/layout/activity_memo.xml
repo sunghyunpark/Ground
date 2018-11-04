@@ -50,9 +50,9 @@
         android:layout_height="match_parent"
         android:textSize="15dp"
         android:gravity="center_vertical|center_horizontal"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorBlack"
         android:visibility="gone"
-        android:text="작성한 메모가 없습니다."/>
+        android:text="작성한 메모가 없습니다.\n자주 사용하는 문구는 메모장에 저장해보세요."/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memo_recyclerView"

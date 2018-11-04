@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.groundmobile.ground.R;
 
@@ -72,12 +74,23 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 }
             });
 
+            VHitem.copy_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    android.content.ClipData clip = android.content.ClipData.newPlainText("LABEL", currentItem.getMemoText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(context, "클립보드에 복사했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
     }
 
     class MemoViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.memo_item_layout) ViewGroup memo_item_vg;
         @BindView(R.id.memo_text_tv) TextView memo_text_tv;
+        @BindView(R.id.copy_btn) ImageButton copy_btn;
 
         private MemoViewHolder(View itemView){
             super(itemView);

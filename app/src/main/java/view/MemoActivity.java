@@ -2,13 +2,17 @@ package view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
 
@@ -45,6 +49,7 @@ public class MemoActivity extends BaseActivity implements MemoView{
 
     @BindView(R.id.memo_recyclerView) RecyclerView memoRecyclerView;
     @BindView(R.id.empty_memo_tv) TextView empty_memo_tv;
+    @BindView(R.id.background_img_iv) ImageView background_iv;
 
     @Override
     protected void onDestroy(){
@@ -108,6 +113,22 @@ public class MemoActivity extends BaseActivity implements MemoView{
         // 최초 메모 데이터를 불러온다.
         memoPresenter.setMemoData(true);
 
+        setBackground();
+
+    }
+
+    private void setBackground(){
+        Drawable drawable = getResources().getDrawable(R.drawable.memo_background_img1);
+        //Glide Options
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
+        requestOptions.placeholder(drawable);
+        //requestOptions.override(DISPLAY_WIDTH, DISPLAY_WIDTH);
+
+        Glide.with(getApplicationContext())
+                .setDefaultRequestOptions(requestOptions)
+                .load(null)
+                .into(background_iv);
     }
 
     /**

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorWhite"
     tools:context="view.MemoActivity">
+
+    <ImageView
+        android:id="@+id/background_img_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
 
     <RelativeLayout
         android:id="@+id/app_title_bar"
@@ -49,14 +54,75 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="15dp"
-        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/app_title_bar"
         android:textColor="@color/colorBlack"
         android:visibility="gone"
         android:text="작성한 메모가 없습니다.\n자주 사용하는 문구는 메모장에 저장해보세요."/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/memo_recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_title_bar"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/memo_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8.5"
+            android:background="#99000000"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null">
+                <ImageButton
+                    android:id="@+id/delete_memo_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null">
+                <ImageButton
+                    android:id="@+id/write_memo_btn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null">
+                <ImageButton
+                    android:id="@+id/setting_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -304,12 +304,12 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         if(state.equals("Y")){
             matching_state_toggle.setChecked(true);
             matching_state_toggle.setBackgroundResource(R.drawable.matching_state_on_shape);
-            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorRed));
+            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorMoreGray));
             matching_state_toggle.setText("완료");
         }else{
             matching_state_toggle.setChecked(false);
             matching_state_toggle.setBackgroundResource(R.drawable.matching_state_off_shape);
-            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorMoreGray));
+            matching_state_toggle.setTextColor(getResources().getColor(R.color.colorAccent));
             matching_state_toggle.setText("진행중");
         }
     }

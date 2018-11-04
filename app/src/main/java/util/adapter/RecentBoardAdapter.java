@@ -110,12 +110,12 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(isMatchState(position)){
                 // 매칭 완료
                 VHitem.match_state_tv.setText("완료");
-                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorRed));
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
                 VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_on_shape2);
             }else{
                 // 진행중
                 VHitem.match_state_tv.setText("진행중");
-                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorMoreGray));
+                VHitem.match_state_tv.setTextColor(context.getResources().getColor(R.color.colorAccent));
                 VHitem.match_state_tv.setBackgroundResource(R.drawable.matching_state_off_shape2);
             }
         }

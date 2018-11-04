@@ -44,15 +44,15 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     private static final String SORT_ALL = "all";
     private static final String SORT_MATCH_DATE = "matchDate";
     private static final String SORT_NOT_MATCH_STATE = "matchState";
-    
+
     // 시합날짜 변수
     private String matchDate = GroundApplication.TODAY_YEAR+"-"+GroundApplication.TODAY_MONTH+"-"+GroundApplication.TODAY_DAY;
     private String sortMode;
 
-    private AreaBoardAdapter areaBoardAdapter;
-    private BannerViewPagerAdapter bannerViewPagerAdapter;
-    private AreaBoardPresenter areaBoardPresenter;
-    private ArrayList<MatchArticleModel> matchArticleModelArrayList;
+    private AreaBoardAdapter areaBoardAdapter;    // 게시글 리스트 어뎁터
+    private BannerViewPagerAdapter bannerViewPagerAdapter;    // 상단 배너 뷰페이저 어뎁터
+    private AreaBoardPresenter areaBoardPresenter;    // AreaBoardPresenter
+    private ArrayList<MatchArticleModel> matchArticleModelArrayList;    // 게시글 리스트
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private String area, boardType;
@@ -138,24 +138,20 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
             // 전체 정렬
             @Override
             public void allSort(){
-                resetArticleData();
+                resetArticleDataBySortType(SORT_ALL);
             }
 
             // 시합날짜 정렬
             @Override
             public void dateSort(String matchDateStr){
-                sortMode = SORT_MATCH_DATE;
                 matchDate = matchDateStr;
-                endlessRecyclerOnScrollListener.reset(0, true);
-                areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
+                resetArticleDataBySortType(SORT_MATCH_DATE);
             }
 
             // 진행중 정렬
             @Override
             public void matchStateSort(){
-                sortMode = SORT_NOT_MATCH_STATE;
-                endlessRecyclerOnScrollListener.reset(0, true);
-                areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
+                resetArticleDataBySortType(SORT_NOT_MATCH_STATE);
             }
 
             @Override
@@ -201,10 +197,11 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     }
 
     /**
-     * 게시글 목록 데이터를 다시 새로 불러온다(sort > all)
+     * 게시글 목록 데이터를 다시 새로 불러온다
+     * all, matchDate, matchState
      */
-    private void resetArticleData(){
-        sortMode = SORT_ALL;
+    private void resetArticleDataBySortType(String sortType){
+        sortMode = sortType;
         endlessRecyclerOnScrollListener.reset(0, true);
         areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
     }

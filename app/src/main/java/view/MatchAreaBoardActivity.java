@@ -32,14 +32,20 @@ import util.adapter.BannerViewPagerAdapter;
  */
 public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardView, SwipeRefreshLayout.OnRefreshListener{
 
-    private static final int RESULT_DELETE = 3000;
-    private static final int REQUEST_DETAIL = 2000;
-    private static final int LOAD_DATA_COUNT = 10;
+    // onActivityResult 에 사용되는 변수들
     private static final int REQUEST_WRITE = 1000;
+    private static final int REQUEST_DETAIL = 2000;
+    private static final int RESULT_DELETE = 3000;
 
+    // 게시글을 받아올 갯수
+    private static final int LOAD_DATA_COUNT = 10;
+
+    // 정렬 변수
     private static final String SORT_ALL = "all";
     private static final String SORT_MATCH_DATE = "matchDate";
     private static final String SORT_NOT_MATCH_STATE = "matchState";
+    
+    // 시합날짜 변수
     private String matchDate = GroundApplication.TODAY_YEAR+"-"+GroundApplication.TODAY_MONTH+"-"+GroundApplication.TODAY_DAY;
     private String sortMode;
 
@@ -47,7 +53,6 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     private BannerViewPagerAdapter bannerViewPagerAdapter;
     private AreaBoardPresenter areaBoardPresenter;
     private ArrayList<MatchArticleModel> matchArticleModelArrayList;
-    private ArrayList<BannerModel> bannerModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private String area, boardType;
@@ -58,6 +63,9 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     @BindView(R.id.board_recyclerView) RecyclerView boardRecyclerView;
     @BindView(R.id.about_area_board_title_tv) TextView title_tv;
 
+    /**
+     * Pull to the refresh 를 할 때 초기화를 한다.
+     */
     @Override
     public void onRefresh() {
         //새로고침시 이벤트 구현
@@ -78,10 +86,6 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        /* 메모리 관련 이슈때문에 잠시 주석처리
-        if(areaBoardAdapter != null)
-            areaBoardAdapter.stopBannerThread();
-        */
         areaBoardAdapter = null;
         areaBoardPresenter = null;
         matchArticleModelArrayList = null;
@@ -104,15 +108,24 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     }
 
     private void init(final String area, String sortType){
-        sortMode = sortType;    //정렬 초기화
-        bannerModelArrayList = new ArrayList<>();    //banner List
-        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList);//일단 3이라 두고 서버 연동 시 bannerModelArrayList.size()로 넣어야함
+        // 정렬 초기화
+        sortMode = sortType;
 
+        // 상단 배너 리스트 초기화
+        ArrayList<BannerModel> bannerModelArrayList = new ArrayList<>();
+        // 배너 뷰페이저 어뎁터 초기화
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(getApplicationContext(), bannerModelArrayList);
+
+        // 게시글 리스트 초기화
         matchArticleModelArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        // 게시글 리스트 어뎁터 초기화를 한다.
         areaBoardAdapter = new AreaBoardAdapter(MatchAreaBoardActivity.this, matchArticleModelArrayList, area, bannerViewPagerAdapter, boardType, new AreaBoardAdapter.AreaBoardAdapterListener() {
             @Override
             public void goToDetailArticle(int position, String area, MatchArticleModel matchArticleModel) {
+                // 임의의 게시글 탭했을 경우 상세 화면으로 진입한다.
+                // 이때 ArticleModel 을 넘겨준다.
                 detailPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailMatchArticleActivity.class);
                 intent.putExtra(Constants.EXTRA_USER_ID, UserModel.getInstance().getUid());
@@ -121,12 +134,14 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
                 intent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, true);
                 startActivityForResult(intent, REQUEST_DETAIL);
             }
-            //전체 정렬
+
+            // 전체 정렬
             @Override
             public void allSort(){
                 resetArticleData();
             }
-            //시합날짜 정렬
+
+            // 시합날짜 정렬
             @Override
             public void dateSort(String matchDateStr){
                 sortMode = SORT_MATCH_DATE;
@@ -134,27 +149,34 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
                 endlessRecyclerOnScrollListener.reset(0, true);
                 areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
             }
-            //진행중 정렬
+
+            // 진행중 정렬
             @Override
             public void matchStateSort(){
                 sortMode = SORT_NOT_MATCH_STATE;
                 endlessRecyclerOnScrollListener.reset(0, true);
                 areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
             }
+
             @Override
             public void writeArticle(){
                 onWriteClick();
             }
         });
+
+        // pull to the refresh 를 연결한다.
         swipeRefreshLayout.setOnRefreshListener(this);
+
+        // AreaBoardPresenter 초기화
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaBoardAdapter, matchArticleModelArrayList, bannerModelArrayList);
 
-        //배너 데이터를 받아온다.
+        // 배너 데이터를 받아온다.
         areaBoardPresenter.loadTopBannerList();
 
-        //최초로 게시글 데이터들을 받아온다.
+        // 최초로 게시글 데이터들을 받아온다.
         areaBoardPresenter.loadArticleList(true, areaNo, 0, boardType, sortMode, matchDate);
-        //LoadMore 리스너 등록
+
+        // LoadMore 리스너 등록
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, LOAD_DATA_COUNT) {
             @Override
             public void onLoadMore(int current_page) {
@@ -163,11 +185,15 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
                 }
             }
         };
+        // LoadMore 리스너 연결
         boardRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
 
         initView();
     }
 
+    /**
+     * 상단 타이틀 초기화 및 게시글 리사이클러뷰를 셋팅한다.
+     */
     private void initView(){
         title_tv.setText(area);
         boardRecyclerView.setLayoutManager(linearLayoutManager);
@@ -193,22 +219,27 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_WRITE) {
+            // 글쓰기 후 돌아왔을 경우
             if(resultCode == Activity.RESULT_OK){
                 sortMode = SORT_ALL;
                 init(area, sortMode);
-            }else if (resultCode == Activity.RESULT_CANCELED) {
-                //만약 반환값이 없을 경우의 코드를 여기에 작성하세요.
             }
         }else if(requestCode == REQUEST_DETAIL){
+            // 글 상세 화면 진입 후 돌아온 경우
             if(resultCode == Activity.RESULT_OK){
                 matchArticleModelArrayList.set(detailPosition, (MatchArticleModel)data.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL));
                 areaBoardAdapter.notifyDataSetChanged();
             }else if(resultCode == RESULT_DELETE){
+                // 글 삭제 후 돌아온경우
                 areaBoardAdapter.onItemDismiss(detailPosition);
             }
         }
     }
 
+    /**
+     * AreaBoardPresenter 를 통해 상단 배너 데이터를 받아온뒤
+     * getView() 를 통해 콜백 > notifyDataSetChanged()
+     */
     @Override
     public void setBannerList(){
         bannerViewPagerAdapter.notifyDataSetChanged();

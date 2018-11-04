@@ -49,23 +49,23 @@
             android:background="@mipmap/write_img_white"/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/empty_memo_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="15dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/app_title_bar"
-        android:textColor="@color/colorBlack"
-        android:visibility="gone"
-        android:text="작성한 메모가 없습니다.\n자주 사용하는 문구는 메모장에 저장해보세요."/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_title_bar"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/empty_memo_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15dp"
+            android:layout_weight="1.5"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"
+            android:text="작성한 메모가 없습니다.\n자주 사용하는 문구는 메모장에 저장해보세요."/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/memo_recyclerView"

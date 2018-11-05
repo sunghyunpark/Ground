@@ -39,14 +39,6 @@
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
-        <ImageButton
-            android:id="@+id/write_btn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:background="@mipmap/write_img_white"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -87,11 +79,11 @@
                 android:background="@null">
                 <ImageButton
                     android:id="@+id/delete_memo_btn"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:background="@mipmap/ic_launcher" />
+                    android:background="@mipmap/memo_delete_img" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -100,12 +92,12 @@
                 android:layout_weight="1"
                 android:background="@null">
                 <ImageButton
-                    android:id="@+id/write_memo_btn"
+                    android:id="@+id/write_btn"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:background="@mipmap/ic_launcher" />
+                    android:background="@mipmap/memo_add_img" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -115,11 +107,11 @@
                 android:background="@null">
                 <ImageButton
                     android:id="@+id/setting_btn"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:background="@mipmap/ic_launcher" />
+                    android:background="@mipmap/memo_help_img" />
             </RelativeLayout>
 
         </LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_round_shape"
+    android:gravity="center"
+    android:padding="5dp">
+    
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="300dp">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="사용법"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorBlack"/>
+
+        <!--구분선-->
+        <LinearLayout
+            android:id="@+id/divider_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_below="@+id/title_tv"
+            android:background="#9E9E9E"></LinearLayout>
+
+        <TextView
+            android:id="@+id/help_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:textColor="@color/colorBlack"
+            android:layout_below="@+id/divider_layout"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:text="@string/help_txt"/>
+
+        <Button
+            android:id="@+id/ok_btn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/area_search_dialog_search_btn_shape"
+            android:textColor="@color/colorWhite"
+            android:text="확인"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

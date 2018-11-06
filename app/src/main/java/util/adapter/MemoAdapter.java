@@ -1,14 +1,11 @@
 package util.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +16,8 @@ import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import database.model.MemoVO;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import util.ItemTouchHelperAdapter;
 
 public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
@@ -90,7 +85,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     class MemoViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.memo_item_layout) ViewGroup memo_item_vg;
         @BindView(R.id.memo_text_tv) TextView memo_text_tv;
-        @BindView(R.id.copy_btn) ImageButton copy_btn;
+        @BindView(R.id.copy_btn) Button copy_btn;
 
         private MemoViewHolder(View itemView){
             super(itemView);

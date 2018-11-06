@@ -79,8 +79,8 @@
                 android:background="@null">
                 <ImageButton
                     android:id="@+id/delete_memo_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/memo_delete_img" />
@@ -106,9 +106,9 @@
                 android:layout_weight="1"
                 android:background="@null">
                 <ImageButton
-                    android:id="@+id/setting_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/help_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/memo_help_img" />

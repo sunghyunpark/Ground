@@ -1,6 +1,8 @@
 package view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,7 +15,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -26,13 +27,12 @@ import database.RealmConfig;
 import database.model.MemoVO;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
-import model.MatchArticleModel;
 import model.MemoModel;
 import presenter.MemoPresenter;
 import presenter.view.MemoView;
 import util.SimpleItemTouchHelperCallback;
 import util.adapter.MemoAdapter;
+import view.dialog.MemoHelpDialog;
 
 public class MemoActivity extends BaseActivity implements MemoView{
 
@@ -131,16 +131,6 @@ public class MemoActivity extends BaseActivity implements MemoView{
                 .into(background_iv);
     }
 
-    /**
-     * Realm DB 의 모든 Data 삭제
-     */
-    private void deleteAllMemoDB(){
-        RealmResults<MemoVO> memoVORealmResults = mRealm.where(MemoVO.class).findAll();
-        mRealm.beginTransaction();
-        memoVORealmResults.deleteAllFromRealm();
-        mRealm.commitTransaction();
-    }
-
     @Override
     public void notifyMemoData(boolean hasMemo){
         if(hasMemo){
@@ -177,6 +167,18 @@ public class MemoActivity extends BaseActivity implements MemoView{
         }
     }
 
+    /**
+     * Realm DB 의 모든 Data 삭제
+     */
+    private void deleteAllMemoDB(){
+        memoVOArrayList.clear();
+        RealmResults<MemoVO> memoVORealmResults = mRealm.where(MemoVO.class).findAll();
+        mRealm.beginTransaction();
+        memoVORealmResults.deleteAllFromRealm();
+        mRealm.commitTransaction();
+        notifyMemoData(false);
+    }
+
     @OnClick(R.id.back_btn) void backBtn(){
         finish();
     }
@@ -184,6 +186,30 @@ public class MemoActivity extends BaseActivity implements MemoView{
     @OnClick(R.id.write_btn) void writeBtn(){
         Intent intent = new Intent(getApplicationContext(), WriteMemoActivity.class);
         startActivityForResult(intent, REQUEST_WRITE);
+    }
+
+    @OnClick(R.id.delete_memo_btn) void deleteMemoBtn(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("전체 삭제");
+        alert.setMessage("정말 메모들을 전체 삭제하시겠습니까?");
+        alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                deleteAllMemoDB();
+            }
+        });
+        alert.setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+
+                    }
+                });
+        alert.show();
+    }
+
+    @OnClick(R.id.help_btn) void helpBtn(){
+        MemoHelpDialog memoHelpDialog = new MemoHelpDialog(this);
+        memoHelpDialog.show();
     }
 
 }

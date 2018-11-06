@@ -6,12 +6,14 @@
     android:layout_height="wrap_content"
     android:minHeight="100dp">
 
-    <ImageButton
+    <Button
         android:id="@+id/copy_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginRight="15dp"
-        android:background="@mipmap/copy_img_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="복사"
+        android:textSize="14dp"
+        android:textColor="@color/colorAccent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
 

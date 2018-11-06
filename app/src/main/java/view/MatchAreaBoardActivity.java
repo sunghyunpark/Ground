@@ -158,6 +158,16 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
             public void writeArticle(){
                 onWriteClick();
             }
+
+            @Override
+            public void refreshList(){
+                if(!isNetworkConnected()){
+                    showMessage("네트워크 연결상태를 확인해주세요.");
+                }else{
+                    sortMode = SORT_ALL;
+                    init(area, sortMode);    //정렬 초기화
+                }
+            }
         });
 
         // pull to the refresh 를 연결한다.
@@ -265,12 +275,4 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
         finish();
     }
 
-    @OnClick(R.id.refresh_btn) void refreshBtn(){
-        if(!isNetworkConnected()){
-            showMessage("네트워크 연결상태를 확인해주세요.");
-        }else{
-            sortMode = SORT_ALL;
-            init(area, sortMode);    //정렬 초기화
-        }
-    }
 }

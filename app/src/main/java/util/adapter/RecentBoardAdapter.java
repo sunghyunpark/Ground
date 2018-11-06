@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.groundmobile.ground.R;
@@ -105,7 +104,11 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             VHitem.area_tv.setText(changeToAreaName(currentItem.getAreaNo()));
 
-            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
+            if(currentItem.getPlayRule() == 0){
+                VHitem.play_rule_tv.setText("경기방식 미정");
+            }else{
+                VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
+            }
 
             if(isMatchState(position)){
                 // 매칭 완료

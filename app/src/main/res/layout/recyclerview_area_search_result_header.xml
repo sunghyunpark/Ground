@@ -72,6 +72,15 @@
             android:layout_toRightOf="@id/date_tv"
             android:layout_marginLeft="17dp"
             android:text="진행중"/>
+
+        <ImageButton
+            android:id="@+id/refresh_btn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/refresh_gray_img"/>
     </RelativeLayout>
 
     <com.google.android.flexbox.FlexboxLayout

@@ -34,15 +34,7 @@
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
             android:textSize="18dp"/>
-        <ImageButton
-            android:id="@+id/refresh_btn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/write_btn"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:background="@mipmap/refresh_img_white"/>
+
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

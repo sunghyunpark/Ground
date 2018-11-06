@@ -131,6 +131,15 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
             public void writeArticle(){
                 onWriteClick();
             }
+            @Override
+            public void refreshList(){
+                if(!isNetworkConnected()){
+                    showMessage("네트워크 연결상태를 확인해주세요.");
+                }else{
+                    sortMode = SORT_ALL;
+                    init(sortMode);    //정렬 초기화
+                }
+            }
         });
         swipeRefreshLayout.setOnRefreshListener(this);
         areaBoardPresenter = new AreaBoardPresenter(getApplicationContext(), this, areaSearchResultAdapter, matchArticleModelArrayList, null);
@@ -198,12 +207,4 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
         finish();
     }
 
-    @OnClick(R.id.refresh_btn) void refreshBtn(){
-        if(!isNetworkConnected()){
-            showMessage("네트워크 연결상태를 확인해주세요.");
-        }else{
-            sortMode = SORT_ALL;
-            init(sortMode);    //정렬 초기화
-        }
-    }
 }

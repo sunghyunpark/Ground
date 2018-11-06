@@ -2,7 +2,6 @@ package util.adapter;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -69,6 +68,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void dateSort(String matchDateStr);
         void matchStateSort();
         void writeArticle();
+        void refreshList();
     }
 
     @Override
@@ -122,8 +122,11 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
             //VHitem.matching_date_tv.setText(currentItem.getMatchDate());
-
-            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
+            if(currentItem.getPlayRule() == 0){
+                VHitem.play_rule_tv.setText("경기방식 미정");
+            }else{
+                VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
+            }
 
             if(isMatchState(position)){
                 // 매칭 완료
@@ -204,12 +207,6 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if(!boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
                 sort_layout.setVisibility(View.GONE);
             }
-
-            /*메모리 관련 이슈때문에 잠시 주석처리
-            handler = new Util.BannerHandler(this, banner_pager, bannerCount);
-            thread = new BannerThread();
-            thread.start();
-            */
         }
 
         @OnClick(R.id.all_tv) void allSortBtn(){
@@ -230,6 +227,10 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             match_date_tv.setVisibility(View.GONE);
             areaBoardAdapterListener.matchStateSort();
+        }
+
+        @OnClick(R.id.refresh_btn) void refreshBtn(){
+            areaBoardAdapterListener.refreshList();
         }
 
         private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {

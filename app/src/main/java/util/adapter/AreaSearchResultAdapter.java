@@ -65,6 +65,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
         void dateSort(String matchDateStr);
         void matchStateSort();
         void writeArticle();
+        void refreshList();
     }
 
     @Override
@@ -119,7 +120,11 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
                 VHitem.new_iv.setVisibility(View.INVISIBLE);
             }
 
-            VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
+            if(currentItem.getPlayRule() == 0){
+                VHitem.play_rule_tv.setText("경기방식 미정");
+            }else{
+                VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
+            }
 
             if(isMatchState(position)){
                 // 매칭 완료
@@ -214,6 +219,10 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
             match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             match_date_tv.setVisibility(View.GONE);
             areaSearchResultAdapterListener.matchStateSort();
+        }
+
+        @OnClick(R.id.refresh_btn) void refreshBtn(){
+            areaSearchResultAdapterListener.refreshList();
         }
 
         private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {

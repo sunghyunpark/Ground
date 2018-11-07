@@ -12,6 +12,23 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="평균 연령"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorBlack"/>
+
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:orientation="horizontal"
+            android:background="#9E9E9E"></LinearLayout>
+
+        <TextView
             android:id="@+id/age_10_tv"
             android:layout_width="match_parent"
             android:layout_height="50dp"

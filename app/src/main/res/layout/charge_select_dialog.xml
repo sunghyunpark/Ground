@@ -29,16 +29,26 @@
             android:layout_marginTop="2dp"
             android:background="#9E9E9E"></LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="5dp"
+            android:text="무료 혹은 기타인 경우 0원으로 입력해주세요."
+            android:textColor="@color/colorMoreGray"
+            android:textSize="13dp"/>
+
         <EditText
             android:id="@+id/charge_edit_box"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@null"
-            android:textSize="13dp"
+            android:textSize="15dp"
             android:layout_marginTop="10dp"
             android:paddingLeft="15dp"
+            android:layout_marginBottom="20dp"
             android:inputType="number"
-            android:hint="무료인 경우 0만 입력해주세요."/>
+            android:hint="구장비를 입력해주세요."/>
 
         <Button
             android:id="@+id/ok_btn"

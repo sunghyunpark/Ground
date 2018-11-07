@@ -160,6 +160,7 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(boardType != MATCH_BOARD){
                 match_state_tv.setVisibility(View.GONE);
                 play_rule_tv.setVisibility(View.GONE);
+                average_age_tv.setVisibility(View.GONE);
             }
         }
     }

@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -21,9 +22,11 @@ public class AreaSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_ITEM = 1;
     private ArrayList<AreaModel> areaModelArrayList;
     private ArrayList<Integer> checkedList = new ArrayList<>();
+    private String boardType;    // match/hire/recruit > 매치/용병/모집인지에 따라 보여질 리스트를 다르게 하기 위함.
 
-    public AreaSearchAdapter(ArrayList<AreaModel> areaModelArrayList){
+    public AreaSearchAdapter(ArrayList<AreaModel> areaModelArrayList, String boardType){
         this.areaModelArrayList = areaModelArrayList;
+        this.boardType = boardType;
     }
 
     @Override
@@ -112,8 +115,13 @@ public class AreaSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if(isPositionHeader(position)){
-            return TYPE_HEADER;
+        if(boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
+            // 매치의 경우 지역이 상세로 나뉘어지기 때문에 '서울', '경기'와 같이 헤더인 경우 구분이 필요하여 분기처리한다.
+            if(isPositionHeader(position)){
+                return TYPE_HEADER;
+            }else{
+                return TYPE_ITEM;
+            }
         }else{
             return TYPE_ITEM;
         }

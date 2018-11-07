@@ -26,11 +26,14 @@ import view.AreaSearchResultActivity;
 public class AreaSearchDialog extends Dialog{
 
     private AreaSearchAdapter areaSearchAdapter;
+    private int currentPage;    // 게시판 화면에서 매치,용병,모집 중 어디로 부터 진입했는 지 확인하기 위한 변수
+    private String boardType;    // 게시판 화면에서 매치, 용병, 모집 중 어디로부터 진입했는지 확인하기 위한 변수
 
     @BindView(R.id.area_recyclerView) RecyclerView areaRecyclerView;
 
-    public AreaSearchDialog(Context context){
+    public AreaSearchDialog(Context context, int currentPage){
         super(context);
+        this.currentPage = currentPage;
     }
 
     @Override
@@ -42,14 +45,28 @@ public class AreaSearchDialog extends Dialog{
 
         ButterKnife.bind(this);
 
-        init();
+        init(currentPage);
     }
 
-    private void init(){
+    private void init(int currentPage){
         ArrayList<AreaModel> areaModelArrayList = new ArrayList<>();
 
         Resources res = getContext().getResources();
-        String [] areaNameArray = res.getStringArray(R.array.matching_board_list);
+        String [] areaNameArray = null;
+        switch (currentPage){
+            case 0 :
+                areaNameArray = res.getStringArray(R.array.matching_board_list);
+                boardType = Constants.MATCH_OF_BOARD_TYPE_MATCH;
+                break;
+            case 1:
+                areaNameArray = res.getStringArray(R.array.hire_board_list);
+                boardType = Constants.HIRE_OF_BOARD_TYPE_MATCH;
+                break;
+            case 2:
+                areaNameArray = res.getStringArray(R.array.recruit_board_list);
+                boardType = Constants.RECRUIT_OF_BOARD_TYPE_MATCH;
+                break;
+        }
 
         AreaModel areaModel;
         for(int i=0;i<areaNameArray.length;i++){
@@ -60,7 +77,7 @@ public class AreaSearchDialog extends Dialog{
         }
 
         LinearLayoutManager lL = new LinearLayoutManager(getContext());
-        areaSearchAdapter = new AreaSearchAdapter(areaModelArrayList);
+        areaSearchAdapter = new AreaSearchAdapter(areaModelArrayList, boardType);
         areaRecyclerView.setLayoutManager(lL);
         areaRecyclerView.setAdapter(areaSearchAdapter);
 
@@ -78,6 +95,7 @@ public class AreaSearchDialog extends Dialog{
             }
             Intent intent = new Intent(getContext(), AreaSearchResultActivity.class);
             intent.putExtra(Constants.EXTRA_AREA_NO, checkListStr);
+            intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, boardType);
             getContext().startActivity(intent);
             dismiss();
 

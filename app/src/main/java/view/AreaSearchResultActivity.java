@@ -45,7 +45,7 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
     private ArrayList<MatchArticleModel> matchArticleModelArrayList;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-    private String areaArrayStr;
+    private String areaArrayStr, boardType;
     private int detailPosition;    //진입하고자 하는 상세 게시글의 리스트 position 값
 
     @BindView(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -86,6 +86,7 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
 
         Intent intent = getIntent();
         areaArrayStr = intent.getExtras().getString(Constants.EXTRA_AREA_NO);
+        boardType = intent.getExtras().getString(Constants.EXTRA_MATCH_BOARD_TYPE);
 
         sortMode = SORT_ALL;
         init(sortMode);    //정렬 초기화
@@ -110,22 +111,18 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
             //전체 정렬
             @Override
             public void allSort(){
-                resetArticleData();
+                resetArticleDataBySortType(SORT_ALL);
             }
             //시합날짜 정렬
             @Override
             public void dateSort(String matchDateStr){
-                sortMode = SORT_MATCH_DATE;
                 matchDate = matchDateStr;
-                endlessRecyclerOnScrollListener.reset(0, true);
-                areaBoardPresenter.loadSearchResultList(true, areaArrayStr, 0, sortMode, matchDate);
+                resetArticleDataBySortType(SORT_MATCH_DATE);
             }
             //진행중 정렬
             @Override
             public void matchStateSort(){
-                sortMode = SORT_NOT_MATCH_STATE;
-                endlessRecyclerOnScrollListener.reset(0, true);
-                areaBoardPresenter.loadSearchResultList(true, areaArrayStr, 0, sortMode, matchDate);
+                resetArticleDataBySortType(SORT_NOT_MATCH_STATE);
             }
             @Override
             public void writeArticle(){
@@ -166,10 +163,11 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
     }
 
     /**
-     * 게시글 목록 데이터를 다시 새로 불러온다(sort > all)
+     * 게시글 목록 데이터를 다시 새로 불러온다
+     * all, matchDate, matchState
      */
-    private void resetArticleData(){
-        sortMode = SORT_ALL;
+    private void resetArticleDataBySortType(String sortType){
+        sortMode = sortType;
         endlessRecyclerOnScrollListener.reset(0, true);
         areaBoardPresenter.loadSearchResultList(true, areaArrayStr, 0, sortMode, matchDate);
     }

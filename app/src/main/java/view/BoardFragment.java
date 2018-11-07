@@ -56,7 +56,7 @@ public class BoardFragment extends BaseFragment {
     }
 
     @OnClick(R.id.search_btn) void searchBtn(){
-        AreaSearchDialog areaSearchDialog = new AreaSearchDialog(getContext());
+        AreaSearchDialog areaSearchDialog = new AreaSearchDialog(getContext(), viewPager.getCurrentItem());
         areaSearchDialog.show();
     }
 }

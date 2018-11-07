@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#eff0f1"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -12,17 +12,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/match_date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textSize="15dp"
-            android:visibility="gone"
-            android:layout_marginRight="15dp"
-            android:textColor="@color/colorBlack"/>
 
         <TextView
             android:id="@+id/all_tv"
@@ -48,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:textColor="@color/colorMoreGray"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold"
             android:layout_toRightOf="@+id/all_tv"
             android:layout_marginLeft="17dp"
@@ -67,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:textColor="@color/colorMoreGray"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold"
             android:layout_toRightOf="@id/date_tv"
             android:layout_marginLeft="17dp"
@@ -81,6 +70,17 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:background="@mipmap/refresh_gray_img"/>
+
+        <TextView
+            android:id="@+id/match_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/refresh_btn"
+            android:layout_centerVertical="true"
+            android:textSize="15dp"
+            android:visibility="gone"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/colorWhite"/>
     </RelativeLayout>
 
     <com.google.android.flexbox.FlexboxLayout

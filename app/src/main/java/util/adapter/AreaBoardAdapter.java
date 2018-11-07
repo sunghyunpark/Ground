@@ -210,9 +210,9 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         @OnClick(R.id.all_tv) void allSortBtn(){
-            date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
+            date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
             all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
+            match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
             match_date_tv.setVisibility(View.GONE);
             areaBoardAdapterListener.allSort();
         }
@@ -222,8 +222,8 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         @OnClick(R.id.match_state_tv) void matchStateSortBtn(){
-            date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
-            all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
+            date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+            all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
             match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             match_date_tv.setVisibility(View.GONE);
             areaBoardAdapterListener.matchStateSort();
@@ -249,8 +249,8 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     e.printStackTrace();
                 }
                 date_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-                all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
-                match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorMoreGray));
+                all_sort_tv.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+                match_state_tv.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
                 areaBoardAdapterListener.dateSort(strAfterFormat);
                 match_date_tv.setVisibility(View.VISIBLE);
                 match_date_tv.setText(strAfterFormat);

@@ -57,6 +57,15 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/match_etc_info_shape"
                 android:textColor="@color/colorMoreGray"/>
+
+            <TextView
+                android:id="@+id/average_age_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/area_search_result_shape"
+                android:textColor="@color/colorMoreGray"/>
         </LinearLayout>
 
         <LinearLayout

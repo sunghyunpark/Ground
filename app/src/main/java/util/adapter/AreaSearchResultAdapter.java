@@ -126,6 +126,8 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
                 VHitem.play_rule_tv.setText(currentItem.getPlayRule()+" vs "+currentItem.getPlayRule());
             }
 
+            VHitem.average_age_tv.setText(currentItem.getAverageAge()+"대");
+
             if(isMatchState(position)){
                 // 매칭 완료
                 VHitem.match_state_tv.setText("완료");
@@ -261,6 +263,7 @@ public class AreaSearchResultAdapter extends RecyclerView.Adapter<RecyclerView.V
         @BindView(R.id.comment_cnt_tv) TextView comment_cnt_tv;
         @BindView(R.id.match_state_tv) TextView match_state_tv;
         @BindView(R.id.play_rule_tv) TextView play_rule_tv;
+        @BindView(R.id.average_age_tv) TextView average_age_tv;
         @BindView(R.id.area_tv) TextView area_tv;
 
         private Board_VH(View itemView){

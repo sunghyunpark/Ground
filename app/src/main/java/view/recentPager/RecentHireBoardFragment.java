@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import api.response.ArticleModelListResponse;
 import base.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import model.MatchArticleModel;
 import model.UserModel;
 import presenter.view.RecentBoardView;
@@ -48,6 +48,7 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
 
     @BindView(R.id.hire_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.recent_empty_tv) TextView recentEmpty_tv;
+    @BindView(R.id.up_to_scroll_btn) ViewGroup upToScrollLayout;
 
     // TODO: Rename and change types and number of parameters
     public static RecentHireBoardFragment newInstance(boolean isMore, int limit) {
@@ -127,6 +128,9 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
 
         if(isMore){
             recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+        }else{
+            // 상세 화면이 아닌 경우 스크롤업 버튼 미노출
+            upToScrollLayout.setVisibility(View.GONE);
         }
     }
 
@@ -180,5 +184,10 @@ public class RecentHireBoardFragment extends BaseFragment implements RecentBoard
                 Util.showToast(getContext(), "네트워크 연결상태를 확인해주세요.");
             }
         });
+    }
+
+    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
+        LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
+        llm.scrollToPosition(0);
     }
 }

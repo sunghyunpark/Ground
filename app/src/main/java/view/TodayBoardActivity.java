@@ -123,4 +123,9 @@ public class TodayBoardActivity extends BaseActivity implements TodayBoardView, 
         endlessRecyclerOnScrollListener.reset(0, true);
         todayBoardPresenter.loadTodayMatchList(true, 0, DATA_LOAD_COUNT);
     }
+
+    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
+        LinearLayoutManager llm = (LinearLayoutManager) todayMatchRecyclerView.getLayoutManager();
+        llm.scrollToPosition(0);
+    }
 }

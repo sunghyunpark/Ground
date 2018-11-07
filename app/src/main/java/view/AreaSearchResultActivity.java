@@ -205,4 +205,9 @@ public class AreaSearchResultActivity extends BaseActivity implements AreaBoardV
         finish();
     }
 
+    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
+        LinearLayoutManager llm = (LinearLayoutManager) boardRecyclerView.getLayoutManager();
+        llm.scrollToPosition(0);
+    }
+
 }

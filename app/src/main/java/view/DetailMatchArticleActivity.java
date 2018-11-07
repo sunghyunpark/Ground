@@ -28,6 +28,7 @@ import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import base.BaseActivity;
@@ -35,8 +36,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import model.MatchArticleModel;
 import model.CommentModel;
+import model.MatchArticleModel;
 import model.UserModel;
 import presenter.DetailMatchArticlePresenter;
 import presenter.view.DetailMatchArticleView;
@@ -250,7 +251,11 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         if(boardMode == MATCH_MODE){
             match_date_tv.setText(matchArticleModel.getMatchDate());
             age_tv.setText(matchArticleModel.getAverageAge()+"대");
-            charge_tv.setText(matchArticleModel.getCharge()+"원");
+
+            DecimalFormat dc = new DecimalFormat("###,###,###,###");
+            String chargeStr = dc.format(matchArticleModel.getCharge());
+
+            charge_tv.setText(chargeStr+"원");
             if(matchArticleModel.getPlayRule() == 0){
                 play_rule_tv.setText("기타");
             }else{

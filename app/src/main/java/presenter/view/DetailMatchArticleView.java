@@ -21,6 +21,8 @@ public interface DetailMatchArticleView extends BasePresenterView{
 
     void initComment(boolean hasComment);
 
+    void deleteArticle();
+
     void error();
 
 }

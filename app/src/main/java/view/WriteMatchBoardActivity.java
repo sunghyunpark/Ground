@@ -120,14 +120,19 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             String age = ageStr.replace("대", "").replace("이상", "");
-            int charge = Integer.parseInt(chargeStr.replace("원", ""));
-            int playRule;
+            int charge;
+            int playRule = 0;
             String[] playRuleArray;
-            if(playRuleStr.equals("기타")){
-                playRule = 0;
-            }else{
-                playRuleArray = playRuleStr.replaceAll("[^-?0-9]+", " ").split(" ");
-                playRule = Integer.parseInt(playRuleArray[0]);
+            try{
+                charge= Integer.parseInt(chargeStr.replace("원", ""));
+                if(playRuleStr.equals("기타")){
+                    playRule = 0;
+                }else{
+                    playRuleArray = playRuleStr.replaceAll("[^-?0-9]+", " ").split(" ");
+                    playRule = Integer.parseInt(playRuleArray[0]);
+                }
+            }catch (NumberFormatException NFE){
+                charge = 0;
             }
             writeBoardPresenter.postBoard(areaNo, UserModel.getInstance().getUid(), titleStr, contentsStr, boardType, matchDateStr, age, charge, playRule);
             Intent returnIntent = new Intent();

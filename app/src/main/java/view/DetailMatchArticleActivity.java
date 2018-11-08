@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -26,6 +27,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
+import com.skydoves.powermenu.OnDismissedListener;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -42,10 +47,10 @@ import model.UserModel;
 import presenter.DetailMatchArticlePresenter;
 import presenter.view.DetailMatchArticleView;
 import util.JMediaScanner;
+import util.PowerMenuUtil;
 import util.SaveImageTask;
 import util.Util;
 import util.adapter.CommentAdapter;
-import view.dialog.DetailMoreDialog;
 import view.dialog.ReportDialog;
 
 public class DetailMatchArticleActivity extends BaseActivity implements DetailMatchArticleView {
@@ -58,6 +63,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     private static final int HIRE_MODE = 2;
     private static final int RECRUIT_MODE = 3;
     private int boardMode;
+    private PowerMenu morePowerMenu;
 
     private String area, uid;
     private boolean hasArticleModel;
@@ -88,6 +94,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     @BindView(R.id.play_rule_layout) ViewGroup play_rule_layout;
     @BindView(R.id.age_tv) TextView age_tv;
     @BindView(R.id.age_layout) ViewGroup age_layout;
+    @BindView(R.id.detail_more_btn) ImageButton detailMoreBtn;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -118,8 +125,11 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         area = intent.getExtras().getString(Constants.EXTRA_AREA_NAME);
         hasArticleModel = intent.getExtras().getBoolean(Constants.EXTRA_EXIST_ARTICLE_MODEL);
         uid = intent.getExtras().getString(Constants.EXTRA_USER_ID);
+
         UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
+
         matchArticleModel = new MatchArticleModel();
+
         if(hasArticleModel){
             matchArticleModel = (MatchArticleModel)intent.getExtras().getSerializable(Constants.EXTRA_ARTICLE_MODEL);
             matchArticleModel.setViewCnt(matchArticleModel.getViewCnt()+1);
@@ -141,6 +151,9 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      * CommentAdapter 내에서 댓글 삭제 부분은 Callback 을 통해 통신한다.
      */
     private void init(){
+
+        morePowerMenu = PowerMenuUtil.getDetailMatchArticleMorePowerMenu(getApplicationContext(), this, moreOnMenuItemClickListener, onMoreMenuDismissedListener, matchArticleModel);
+
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
@@ -205,6 +218,41 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
                 .into(user_profile_iv);
     }
 
+    // 평균 연령 클릭 리스너
+    private OnMenuItemClickListener<PowerMenuItem> moreOnMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            morePowerMenu.setSelectedPosition(position); // change selected item
+            morePowerMenu.dismiss();
+
+            switch (item.getTitle()){
+                case "수정" :
+                    Intent intent = new Intent(getApplicationContext(), EditBoardActivity.class);
+                    intent.putExtra(Constants.EXTRA_AREA_NAME, area);
+                    intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                    startActivityForResult(intent, REQUEST_EDIT);
+                    break;
+                case "삭제" :
+                    detailMatchArticlePresenter.deleteArticle((hasArticleModel) ? matchArticleModel.getMatchBoardType() : boardType, (hasArticleModel) ? matchArticleModel.getNo() : articleNo,
+                            uid);
+                    break;
+                case "신고" :
+                    ReportDialog reportDialog = new ReportDialog(getApplicationContext(), "article", (hasArticleModel) ? matchArticleModel.getMatchBoardType() : boardType,
+                            (hasArticleModel) ? matchArticleModel.getNo() : articleNo, 0);
+                    reportDialog.show();
+                    break;
+            }
+
+        }
+    };
+
+    // 평균 연령 dismiss 리스너
+    private OnDismissedListener onMoreMenuDismissedListener = new OnDismissedListener() {
+        @Override
+        public void onDismissed() {
+        }
+    };
+
     /**
      * commentPresenter 를 통해 받아온 댓글 리스트 중 commentList 의 size 를 통해
      * 댓글이 있는지 없는지 판별을 한 뒤에 initComment 를 통해 Gone 처리 여부 수행한다.
@@ -219,6 +267,13 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             empty_comment_tv.setVisibility(View.VISIBLE);
             comment_recyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void deleteArticle(){
+        Intent returnIntent = new Intent();
+        setResult(RESULT_DELETE, returnIntent);
+        finish();
     }
 
     /**
@@ -527,22 +582,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      * - 게시글 수정
      */
     @OnClick(R.id.detail_more_btn) void moreBtn(){
-        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, matchArticleModel, new DetailMoreDialog.DetailMoreDialogListener() {
-            @Override
-            public void deleteArticleEvent() {
-                Intent returnIntent = new Intent();
-                setResult(RESULT_DELETE, returnIntent);
-                finish();
-            }
-            @Override
-            public void editArticleEvent(){
-                Intent intent = new Intent(getApplicationContext(), EditBoardActivity.class);
-                intent.putExtra(Constants.EXTRA_AREA_NAME, area);
-                intent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
-                startActivityForResult(intent, REQUEST_EDIT);
-            }
-        });
-        detailMoreDialog.show();
+        morePowerMenu.showAsDropDown(detailMoreBtn);
     }
 
     @Override
@@ -585,10 +625,14 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      */
     @Override
     public void onBackPressed() {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
-        setResult(Activity.RESULT_OK, returnIntent);
-        super.onBackPressed();
+        if(morePowerMenu.isShowing()){
+            morePowerMenu.dismiss();
+        }else{
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+            setResult(Activity.RESULT_OK, returnIntent);
+            super.onBackPressed();
+        }
     }
 
 }

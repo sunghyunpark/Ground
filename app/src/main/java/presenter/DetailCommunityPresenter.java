@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -203,6 +202,32 @@ public class DetailCommunityPresenter extends BasePresenter<DetailCommunityView>
                 CommonResponse commonResponse = response.body();
                 if(commonResponse.getCode() == 200){
                     Util.showToast(context, "댓글을 삭제하였습니다.");
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+            }
+        });
+    }
+
+    public void deleteArticle(String boardType, int articleNo, String uid){
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CommonResponse> call = apiService.deleteCommunityBoard(boardType, articleNo, uid);
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    Util.showToast(context, "게시글을 삭제하였습니다.");
+                    getView().deleteArticle();
                 }else{
                     Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
                 }

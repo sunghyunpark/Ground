@@ -20,4 +20,6 @@ public interface DetailCommunityView extends BasePresenterView {
 
     void initComment(boolean hasComment);
 
+    void deleteArticle();
+
 }

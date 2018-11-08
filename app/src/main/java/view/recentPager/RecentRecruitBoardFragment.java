@@ -65,6 +65,10 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
     @Override
     public void onResume(){
         super.onResume();
+        if(!isMore){
+            //최초 데이터를 받아온다.
+            setListData(true, 0);
+        }
         if(recentBoardAdapter != null)
             recentBoardAdapter.notifyDataSetChanged();
     }
@@ -129,6 +133,10 @@ public class RecentRecruitBoardFragment extends BaseFragment implements RecentBo
         setListData(true, 0);
 
         if(isMore){
+            //최초 데이터를 받아온다.
+            setListData(true, 0);
+
+            // 더보기 상세 화면인 경우에만 load more 리스너를 사용한다.
             recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
         }else{
             // 상세 화면이 아닌 경우 스크롤업 버튼 미노출

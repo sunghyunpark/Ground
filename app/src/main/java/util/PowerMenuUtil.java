@@ -15,6 +15,10 @@ import com.skydoves.powermenu.PowerMenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.CommunityModel;
+import model.MatchArticleModel;
+import model.UserModel;
+
 public class PowerMenuUtil {
 
     /**
@@ -75,10 +79,11 @@ public class PowerMenuUtil {
                 .build();
     }
 
-    public static PowerMenu getDetailArticleMorePowerMenu(Context context, LifecycleOwner lifecycleOwner, OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener, OnDismissedListener onDismissedListener, boolean isMyContents){
+    public static PowerMenu getDetailMatchArticleMorePowerMenu(Context context, LifecycleOwner lifecycleOwner, OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener,
+                                                          OnDismissedListener onDismissedListener, MatchArticleModel matchArticleModel){
         List<PowerMenuItem> itemList = new ArrayList<>();
 
-        if(isMyContents){
+        if(matchArticleModel.getWriterId().equals(UserModel.getInstance().getUid())){
             itemList.add(new PowerMenuItem("수정", false));
             itemList.add(new PowerMenuItem("삭제", false));
         }else{
@@ -92,9 +97,35 @@ public class PowerMenuUtil {
                 .setMenuShadow(10f)
                 .setWidth(GroundApplication.DISPLAY_WIDTH/2)
                 .setTextColor(context.getResources().getColor(R.color.colorBlack))
-                .setSelectedTextColor(Color.WHITE)
+                .setSelectedTextColor(Color.BLACK)
                 .setMenuColor(Color.WHITE)
-                .setSelectedMenuColor(context.getResources().getColor(R.color.colorPrimary))
+                .setSelectedMenuColor(context.getResources().getColor(R.color.colorWhite))
+                .setOnMenuItemClickListener(onMenuItemClickListener)
+                .setOnDismissListener(onDismissedListener)
+                .build();
+    }
+
+    public static PowerMenu getDetailFreeArticleMorePowerMenu(Context context, LifecycleOwner lifecycleOwner, OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener,
+                                                               OnDismissedListener onDismissedListener, CommunityModel communityModel){
+        List<PowerMenuItem> itemList = new ArrayList<>();
+
+        if(communityModel.getWriterId().equals(UserModel.getInstance().getUid())){
+            itemList.add(new PowerMenuItem("수정", false));
+            itemList.add(new PowerMenuItem("삭제", false));
+        }else{
+            itemList.add(new PowerMenuItem("신고", false));
+        }
+        return new PowerMenu.Builder(context)
+                .addItemList(itemList)
+                .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT) // Animation start point (TOP | LEFT)
+                .setLifecycleOwner(lifecycleOwner)
+                .setMenuRadius(10f)
+                .setMenuShadow(10f)
+                .setWidth(GroundApplication.DISPLAY_WIDTH/2)
+                .setTextColor(context.getResources().getColor(R.color.colorBlack))
+                .setSelectedTextColor(Color.BLACK)
+                .setMenuColor(Color.WHITE)
+                .setSelectedMenuColor(context.getResources().getColor(R.color.colorWhite))
                 .setOnMenuItemClickListener(onMenuItemClickListener)
                 .setOnDismissListener(onDismissedListener)
                 .build();

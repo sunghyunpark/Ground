@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
+import com.skydoves.powermenu.OnDismissedListener;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 
 import java.util.ArrayList;
 
@@ -29,9 +34,9 @@ import model.CommunityModel;
 import model.UserModel;
 import presenter.DetailCommunityPresenter;
 import presenter.view.DetailCommunityView;
+import util.PowerMenuUtil;
 import util.Util;
 import util.adapter.CommentAdapter;
-import view.dialog.DetailMoreDialog;
 import view.dialog.ReportDialog;
 
 public class DetailCommunityActivity extends BaseActivity implements DetailCommunityView{
@@ -45,6 +50,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     private DetailCommunityPresenter detailCommunityPresenter;
 
     private int favoriteState = -1;    // -1 : null, 0: not like, 1:like
+    private PowerMenu morePowerMenu;
     private int boardMode;
 
     private static final int FREE_MODE = 1;
@@ -63,6 +69,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     @BindView(R.id.comment_et) EditText comment_et;
     @BindView(R.id.empty_comment_tv) TextView empty_comment_tv;
     @BindView(R.id.favorite_tb) ImageView favorite_tb;
+    @BindView(R.id.detail_more_btn) ImageButton detailMoreBtn;
     @BindString(R.string.error_not_exist_input_txt) String errorNotExistInputStr;
 
     @Override
@@ -103,6 +110,9 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
     }
 
     private void init(){
+
+        morePowerMenu = PowerMenuUtil.getDetailFreeArticleMorePowerMenu(getApplicationContext(), this, moreOnMenuItemClickListener, onMoreMenuDismissedListener, communityModel);
+
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
@@ -154,6 +164,44 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
                 .setDefaultRequestOptions(requestOptions)
                 .load(GroundApplication.GROUND_DEV_API+urlPath)
                 .into(user_profile_iv);
+    }
+
+    // 평균 연령 클릭 리스너
+    private OnMenuItemClickListener<PowerMenuItem> moreOnMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            morePowerMenu.setSelectedPosition(position); // change selected item
+            morePowerMenu.dismiss();
+
+            switch (item.getTitle()){
+                case "수정" :
+
+                    break;
+                case "삭제" :
+                    detailCommunityPresenter.deleteArticle("free", (hasArticleModel) ? communityModel.getNo() : communityNo, uid);
+                    break;
+                case "신고" :
+                    ReportDialog reportDialog = new ReportDialog(getApplicationContext(), "article", "free",
+                            (hasArticleModel) ? communityModel.getNo() : communityNo, 0);
+                    reportDialog.show();
+                    break;
+            }
+
+        }
+    };
+
+    // 평균 연령 dismiss 리스너
+    private OnDismissedListener onMoreMenuDismissedListener = new OnDismissedListener() {
+        @Override
+        public void onDismissed() {
+        }
+    };
+
+    @Override
+    public void deleteArticle(){
+        Intent returnIntent = new Intent();
+        setResult(RESULT_DELETE, returnIntent);
+        finish();
     }
 
     @Override
@@ -315,19 +363,7 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
      * - 게시글 수정
      */
     @OnClick(R.id.detail_more_btn) void moreBtn(){
-        DetailMoreDialog detailMoreDialog = new DetailMoreDialog(this, communityModel, new DetailMoreDialog.DetailMoreDialogListener() {
-            @Override
-            public void deleteArticleEvent() {
-                Intent returnIntent = new Intent();
-                setResult(RESULT_DELETE, returnIntent);
-                finish();
-            }
-            @Override
-            public void editArticleEvent(){
-
-            }
-        });
-        detailMoreDialog.show();
+        morePowerMenu.showAsDropDown(detailMoreBtn);
     }
 
     /**
@@ -335,10 +371,14 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
      */
     @Override
     public void onBackPressed() {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
-        setResult(Activity.RESULT_OK, returnIntent);
-        super.onBackPressed();
+        if(morePowerMenu.isShowing()){
+            morePowerMenu.dismiss();
+        }else{
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
+            setResult(Activity.RESULT_OK, returnIntent);
+            super.onBackPressed();
+        }
     }
 
 }

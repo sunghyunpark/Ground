@@ -15,6 +15,10 @@ import android.widget.TextView;
 import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
+import com.skydoves.powermenu.OnDismissedListener;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,10 +32,8 @@ import butterknife.OnClick;
 import model.UserModel;
 import presenter.WriteBoardPresenter;
 import presenter.view.WriteBoardView;
+import util.PowerMenuUtil;
 import util.Util;
-import view.dialog.AgeSelectDialog;
-import view.dialog.ChargeSelectDialog;
-import view.dialog.PlayRuleSelectDialog;
 
 public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardView, TextWatcher {
 
@@ -45,12 +47,15 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
     private String beforeStr;
     private WriteBoardPresenter writeBoardPresenter;
 
+    private PowerMenu agePowerMenu, playRulePowerMenu;
+
+    @BindView(R.id.write_board_layout) ViewGroup write_board_layout;
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
     @BindView(R.id.board_contents_et) EditText board_contents_et;
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindView(R.id.matching_date_tv) TextView matchingDateTv;
-    @BindView(R.id.charge_tv) TextView charge_tv;
+    @BindView(R.id.charge_et) EditText charge_et;
     @BindView(R.id.play_rule_tv) TextView play_rule_tv;
     @BindView(R.id.matching_date_layout) ViewGroup matchingDateLayout;
     @BindView(R.id.age_tv) TextView ageTv;
@@ -75,6 +80,9 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
 
     private void init(){
         initMode(boardType);
+
+        agePowerMenu = PowerMenuUtil.getAgePowerMenu(getApplicationContext(), this, ageOnMenuItemClickListener, onAgeMenuDismissedListener);
+        playRulePowerMenu = PowerMenuUtil.getPlayRulePowerMenu(getApplicationContext(), this, playRuleOnMenuItemClickListener, onPlayRuleMenuDismissedListener);
 
         board_title_et.addTextChangedListener(this);
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
@@ -105,13 +113,13 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         String contentsStr = board_contents_et.getText().toString().trim();
         String matchDateStr = (matchingDateTv.getVisibility() == View.GONE) ? "" : matchingDateTv.getText().toString().trim();
         String ageStr = (ageTv.getVisibility() == View.GONE) ? "" : ageTv.getText().toString().trim();
-        String chargeStr = (charge_tv.getVisibility() == View.GONE) ? "" : charge_tv.getText().toString().trim();
+        String chargeStr = (charge_et.getVisibility() == View.GONE) ? "" : charge_et.getText().toString().trim();
         String playRuleStr = (play_rule_tv.getVisibility() == View.GONE) ? "" : play_rule_tv.getText().toString().trim();
 
         if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && ((matchDateStr.equals("") || ageStr.equals("") || chargeStr.equals("") || playRuleStr.equals(""))))){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
-            String age = ageStr.replace("대", "");
+            String age = ageStr.replace("대", "").replace("이상", "");
             int charge = Integer.parseInt(chargeStr.replace("원", ""));
             int playRule;
             String[] playRuleArray;
@@ -127,6 +135,39 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
             finish();
         }
     }
+
+    // 평균 연령 클릭 리스너
+    private OnMenuItemClickListener<PowerMenuItem> ageOnMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            agePowerMenu.setSelectedPosition(position); // change selected item
+            agePowerMenu.dismiss();
+            ageTv.setText(String.valueOf(item.getTitle()));
+        }
+    };
+
+    // 평균 연령 dismiss 리스너
+    private OnDismissedListener onAgeMenuDismissedListener = new OnDismissedListener() {
+        @Override
+        public void onDismissed() {
+        }
+    };
+
+    // 경기방식 클릭 리스너
+    private OnMenuItemClickListener<PowerMenuItem> playRuleOnMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            playRulePowerMenu.setSelectedPosition(position); // change selected item
+            playRulePowerMenu.dismiss();
+            play_rule_tv.setText(String.valueOf(item.getTitle()));
+        }
+    };
+    // 경기방식 dismiss 리스너
+    private OnDismissedListener onPlayRuleMenuDismissedListener = new OnDismissedListener() {
+        @Override
+        public void onDismissed() {
+        }
+    };
 
     @OnClick(R.id.write_btn) void writeBtn(){
         writeBoard();
@@ -168,37 +209,11 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
     };
 
     @OnClick(R.id.age_layout) void ageClick(){
-        AgeSelectDialog ageSelectDialog = new AgeSelectDialog(this, new AgeSelectDialog.ageSelectDialogListener() {
-            @Override
-            public void ageSelectEvent(int age) {
-                ageTv.setText(String.valueOf(age)+"대");
-            }
-        });
-        ageSelectDialog.show();
-    }
-
-    @OnClick(R.id.charge_layout) void chargeClick(){
-        ChargeSelectDialog chargeSelectDialog = new ChargeSelectDialog(this, new ChargeSelectDialog.chargeSelectListener() {
-            @Override
-            public void chargeSelectEvent(int charge) {
-                charge_tv.setText(charge+"원");
-            }
-        });
-        chargeSelectDialog.show();
+        agePowerMenu.showAtCenter(write_board_layout);
     }
 
     @OnClick(R.id.play_rule_layout) void playRuleClick(){
-        PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this, new PlayRuleSelectDialog.playRuleSelectListener() {
-            @Override
-            public void playRuleSelectEvent(int playRule) {
-                if(playRule == 0){
-                    play_rule_tv.setText("기타");
-                }else{
-                    play_rule_tv.setText(playRule+" VS "+playRule);
-                }
-            }
-        });
-        playRuleSelectDialog.show();
+        playRulePowerMenu.showAtCenter(write_board_layout);
     }
 
     @Override
@@ -220,5 +235,15 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(agePowerMenu.isShowing())
+            agePowerMenu.dismiss();
+        else if(playRulePowerMenu.isShowing())
+            playRulePowerMenu.dismiss();
+        else
+            super.onBackPressed();
     }
 }

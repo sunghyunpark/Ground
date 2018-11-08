@@ -12,6 +12,9 @@ import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PowerMenuUtil {
 
     /**
@@ -59,6 +62,31 @@ public class PowerMenuUtil {
                 .addItem(new PowerMenuItem("11vs11", false))
                 .addItem(new PowerMenuItem("기타", false))
                 .setAnimation(MenuAnimation.SHOW_UP_CENTER) // Animation start point (TOP | LEFT)
+                .setLifecycleOwner(lifecycleOwner)
+                .setMenuRadius(10f)
+                .setMenuShadow(10f)
+                .setWidth(GroundApplication.DISPLAY_WIDTH/2)
+                .setTextColor(context.getResources().getColor(R.color.colorBlack))
+                .setSelectedTextColor(Color.WHITE)
+                .setMenuColor(Color.WHITE)
+                .setSelectedMenuColor(context.getResources().getColor(R.color.colorPrimary))
+                .setOnMenuItemClickListener(onMenuItemClickListener)
+                .setOnDismissListener(onDismissedListener)
+                .build();
+    }
+
+    public static PowerMenu getDetailArticleMorePowerMenu(Context context, LifecycleOwner lifecycleOwner, OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener, OnDismissedListener onDismissedListener, boolean isMyContents){
+        List<PowerMenuItem> itemList = new ArrayList<>();
+
+        if(isMyContents){
+            itemList.add(new PowerMenuItem("수정", false));
+            itemList.add(new PowerMenuItem("삭제", false));
+        }else{
+            itemList.add(new PowerMenuItem("신고", false));
+        }
+        return new PowerMenu.Builder(context)
+                .addItemList(itemList)
+                .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT) // Animation start point (TOP | LEFT)
                 .setLifecycleOwner(lifecycleOwner)
                 .setMenuRadius(10f)
                 .setMenuShadow(10f)

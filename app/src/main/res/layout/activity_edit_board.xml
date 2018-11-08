@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/edit_board_layout"
     android:background="@color/colorWhite"
     tools:context="view.WriteMatchBoardActivity">
 
@@ -104,6 +105,7 @@
             android:layout_toRightOf="@+id/matching_date_iv"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:textColor="@color/colorBlack"
             android:textSize="15dp"
             android:hint="시합 날짜를 선택해주세요."/>
     </RelativeLayout>
@@ -128,34 +130,10 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/age_iv"
             android:layout_marginLeft="15dp"
+            android:textColor="@color/colorBlack"
             android:layout_marginRight="15dp"
             android:textSize="15dp"
             android:hint="평균 연령을 선택해주세요."/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/charge_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
-
-        <ImageView
-            android:id="@+id/charge_iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/money_img"
-            android:layout_marginLeft="15dp"/>
-
-        <TextView
-            android:id="@+id/charge_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/charge_iv"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:textSize="15dp"
-            android:hint="비용을 선택해주세요."/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -179,8 +157,36 @@
             android:layout_toRightOf="@+id/play_rule_iv"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:textColor="@color/colorBlack"
             android:textSize="15dp"
             android:hint="경기방식을 선택해주세요."/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/charge_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/charge_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/money_img"
+            android:layout_marginLeft="15dp"/>
+
+        <EditText
+            android:id="@+id/charge_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/charge_iv"
+            android:layout_marginLeft="15dp"
+            android:inputType="number"
+            android:textColor="@color/colorBlack"
+            android:layout_marginRight="25dp"
+            android:textSize="15dp"
+            android:hint="비용을 선택해주세요."/>
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView

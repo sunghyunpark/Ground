@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
+import com.skydoves.powermenu.OnDismissedListener;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,10 +32,8 @@ import butterknife.OnClick;
 import model.MatchArticleModel;
 import presenter.EditBoardPresenter;
 import presenter.view.EditBoardView;
+import util.PowerMenuUtil;
 import util.Util;
-import view.dialog.AgeSelectDialog;
-import view.dialog.ChargeSelectDialog;
-import view.dialog.PlayRuleSelectDialog;
 
 public class EditBoardActivity extends BaseActivity implements EditBoardView, TextWatcher {
 
@@ -44,16 +46,18 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     private MatchArticleModel matchArticleModel;
     private String beforeStr;
     private EditBoardPresenter editBoardPresenter;
+    private PowerMenu agePowerMenu, playRulePowerMenu;
 
     private int year, month, day;
 
+    @BindView(R.id.edit_board_layout) ViewGroup edit_board_layout;
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.board_title_et) EditText board_title_et;
     @BindView(R.id.board_contents_et) EditText board_contents_et;
     @BindView(R.id.title_length_tv) TextView title_length_tv;
     @BindView(R.id.matching_date_tv) TextView matchingDateTv;
     @BindView(R.id.matching_date_layout) ViewGroup matchingDateLayout;
-    @BindView(R.id.charge_tv) TextView charge_tv;
+    @BindView(R.id.charge_et) EditText charge_et;
     @BindView(R.id.charge_layout) ViewGroup chargeLayout;
     @BindView(R.id.play_rule_tv) TextView play_rule_tv;
     @BindView(R.id.play_rule_layout) ViewGroup playRuleLayout;
@@ -78,6 +82,9 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     private void init(){
         initMode(matchArticleModel.getMatchBoardType());
 
+        agePowerMenu = PowerMenuUtil.getAgePowerMenu(getApplicationContext(), this, ageOnMenuItemClickListener, onAgeMenuDismissedListener);
+        playRulePowerMenu = PowerMenuUtil.getPlayRulePowerMenu(getApplicationContext(), this, playRuleOnMenuItemClickListener, onPlayRuleMenuDismissedListener);
+
         editBoardPresenter = new EditBoardPresenter(this, getApplicationContext());
         board_title_et.addTextChangedListener(this);
         area_tv.setText(area);
@@ -87,13 +94,13 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
         if(boardMode == MATCH_MODE){
             matchingDateTv.setText(matchArticleModel.getMatchDate());
-            ageTv.setText(matchArticleModel.getAverageAge()+"대");
-            charge_tv.setText(matchArticleModel.getCharge()+"원");
+            ageTv.setText(matchArticleModel.getAverageAge());
+            charge_et.setText(matchArticleModel.getCharge()+"원");
 
             if(matchArticleModel.getPlayRule() == 0){
                 play_rule_tv.setText("기타");
             }else{
-                play_rule_tv.setText(matchArticleModel.getPlayRule()+" VS "+matchArticleModel.getPlayRule());
+                play_rule_tv.setText(matchArticleModel.getPlayRule()+" vs "+matchArticleModel.getPlayRule());
             }
 
             String [] matchDateArray;
@@ -128,13 +135,46 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         }
     }
 
+    // 평균 연령 클릭 리스너
+    private OnMenuItemClickListener<PowerMenuItem> ageOnMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            agePowerMenu.setSelectedPosition(position); // change selected item
+            agePowerMenu.dismiss();
+            ageTv.setText(String.valueOf(item.getTitle()));
+        }
+    };
+
+    // 평균 연령 dismiss 리스너
+    private OnDismissedListener onAgeMenuDismissedListener = new OnDismissedListener() {
+        @Override
+        public void onDismissed() {
+        }
+    };
+
+    // 경기방식 클릭 리스너
+    private OnMenuItemClickListener<PowerMenuItem> playRuleOnMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            playRulePowerMenu.setSelectedPosition(position); // change selected item
+            playRulePowerMenu.dismiss();
+            play_rule_tv.setText(String.valueOf(item.getTitle()));
+        }
+    };
+    // 경기방식 dismiss 리스너
+    private OnDismissedListener onPlayRuleMenuDismissedListener = new OnDismissedListener() {
+        @Override
+        public void onDismissed() {
+        }
+    };
+
     @Override
     public void EditBoard(){
         String titleStr = board_title_et.getText().toString().trim();
         String contentsStr = board_contents_et.getText().toString().trim();
         String matchDateStr = (matchingDateTv.getVisibility() == View.GONE) ? "" : matchingDateTv.getText().toString().trim();
         String ageStr = (ageTv.getVisibility() == View.GONE) ? "" : ageTv.getText().toString().trim();
-        String chargeStr = (charge_tv.getVisibility() == View.GONE) ? "" : charge_tv.getText().toString().trim();
+        String chargeStr = (charge_et.getVisibility() == View.GONE) ? "" : charge_et.getText().toString().trim();
         String playRuleStr = (play_rule_tv.getVisibility() == View.GONE) ? "" : play_rule_tv.getText().toString().trim();
 
         if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && ((matchDateStr.equals("") || ageStr.equals("") || chargeStr.equals("") || playRuleStr.equals(""))))){
@@ -203,37 +243,11 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
     };
 
     @OnClick(R.id.age_layout) void ageClick(){
-        AgeSelectDialog ageSelectDialog = new AgeSelectDialog(this, new AgeSelectDialog.ageSelectDialogListener() {
-            @Override
-            public void ageSelectEvent(int age) {
-                ageTv.setText(String.valueOf(age)+"대");
-            }
-        });
-        ageSelectDialog.show();
-    }
-
-    @OnClick(R.id.charge_layout) void chargeClick(){
-        ChargeSelectDialog chargeSelectDialog = new ChargeSelectDialog(this, new ChargeSelectDialog.chargeSelectListener() {
-            @Override
-            public void chargeSelectEvent(int charge) {
-                charge_tv.setText(charge+"원");
-            }
-        });
-        chargeSelectDialog.show();
+        agePowerMenu.showAtCenter(edit_board_layout);
     }
 
     @OnClick(R.id.play_rule_layout) void playRuleClick(){
-        PlayRuleSelectDialog playRuleSelectDialog = new PlayRuleSelectDialog(this, new PlayRuleSelectDialog.playRuleSelectListener() {
-            @Override
-            public void playRuleSelectEvent(int playRule) {
-                if(playRule == 0){
-                    play_rule_tv.setText("기타");
-                }else{
-                    play_rule_tv.setText(playRule+" VS "+playRule);
-                }
-            }
-        });
-        playRuleSelectDialog.show();
+        playRulePowerMenu.showAtCenter(edit_board_layout);
     }
 
     @Override

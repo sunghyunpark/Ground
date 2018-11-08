@@ -218,8 +218,15 @@ public class DetailMatchArticlePresenter extends BasePresenter<DetailMatchArticl
         });
     }
 
-    public void changeMatchState(int areaNo, int articleNo, final String state){
-        Call<CommonResponse> call = apiService.changeMatchState(areaNo, articleNo, state);
+    /**
+     * 매치, 용병 게시글의 매칭 상태 변경 시 사용되는 메소드
+     * @param areaNo
+     * @param articleNo
+     * @param state
+     * @param boardType
+     */
+    public void changeMatchState(int areaNo, int articleNo, final String state, String boardType){
+        Call<CommonResponse> call = apiService.changeMatchState(areaNo, articleNo, state, boardType);
         call.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

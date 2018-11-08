@@ -206,7 +206,7 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            if(!boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
+            if(boardType.equals(Constants.RECRUIT_OF_BOARD_TYPE_MATCH)){
                 sort_layout.setVisibility(View.GONE);
             }
         }
@@ -279,12 +279,16 @@ public class AreaBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            if(!boardType.equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
+            if(boardType.equals(Constants.HIRE_OF_BOARD_TYPE_MATCH)){
+                // 용병 게시글인 경우
+                play_rule_tv.setVisibility(View.GONE);
+                average_age_tv.setVisibility(View.GONE);
+            }else if(boardType.equals(Constants.RECRUIT_OF_BOARD_TYPE_MATCH)){
+                // 모집 게시글인 경우
                 match_state_tv.setVisibility(View.GONE);
                 play_rule_tv.setVisibility(View.GONE);
                 average_age_tv.setVisibility(View.GONE);
             }
-
         }
     }
 

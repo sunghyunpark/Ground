@@ -157,7 +157,12 @@ public class RecentBoardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            if(boardType != MATCH_BOARD){
+            if(boardType == HIRE_BOARD){
+                // 용병 게시글인 경우
+                play_rule_tv.setVisibility(View.GONE);
+                average_age_tv.setVisibility(View.GONE);
+            }else if(boardType == RECRUIT_BOARD){
+                // 모집 게시글인 경우
                 match_state_tv.setVisibility(View.GONE);
                 play_rule_tv.setVisibility(View.GONE);
                 average_age_tv.setVisibility(View.GONE);

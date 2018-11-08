@@ -248,7 +248,9 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         nick_name_tv.setText(matchArticleModel.getNickName());
         created_at_tv.setText(Util.parseTimeWithoutSec(matchArticleModel.getCreatedAt()));
         view_cnt_tv.setText("조회 "+ matchArticleModel.getViewCnt());
+
         if(boardMode == MATCH_MODE){
+            // 매치 게시글인 경우
             match_date_tv.setText(matchArticleModel.getMatchDate());
             age_tv.setText(matchArticleModel.getAverageAge()+"대");
 
@@ -261,12 +263,19 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             }else{
                 play_rule_tv.setText(matchArticleModel.getPlayRule()+" vs "+matchArticleModel.getPlayRule());
             }
-        }else{
+        }else if(boardMode == HIRE_MODE){
+            // 용병 게시글인 경우
+            age_layout.setVisibility(View.GONE);
+            charge_layout.setVisibility(View.GONE);
+            play_rule_layout.setVisibility(View.GONE);
+        } else{
+            // 모집 게시글인 경우
             match_date_layout.setVisibility(View.GONE);
             age_layout.setVisibility(View.GONE);
             charge_layout.setVisibility(View.GONE);
             play_rule_layout.setVisibility(View.GONE);
         }
+
         contents_tv.setText(matchArticleModel.getContents());
         setUserProfile(matchArticleModel.getProfile());
         initMatchingStateToggle();
@@ -276,7 +285,8 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             public void onClick(View view) {
                 setMatchingState(matching_state_toggle.isChecked() ? "Y" : "N");
                 matchArticleModel.setMatchState(matching_state_toggle.isChecked() ? "Y" : "N");
-                detailMatchArticlePresenter.changeMatchState(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N");
+                detailMatchArticlePresenter.changeMatchState(matchArticleModel.getAreaNo(), matchArticleModel.getNo(), matching_state_toggle.isChecked() ? "Y" : "N",
+                        (hasArticleModel) ? matchArticleModel.getMatchBoardType() : boardType);
             }
         });
 
@@ -291,7 +301,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
      * boardType 이 match 인 경우에만 토글버튼을 노출시킨다.
      */
     private void initMatchingStateToggle(){
-        if(matchArticleModel.getMatchBoardType().equals(Constants.MATCH_OF_BOARD_TYPE_MATCH)){
+        if(matchArticleModel.getMatchBoardType().equals(Constants.MATCH_OF_BOARD_TYPE_MATCH) || matchArticleModel.getMatchBoardType().equals(Constants.HIRE_OF_BOARD_TYPE_MATCH)){
             setMatchingState(matchArticleModel.getMatchState());
             if(!matchArticleModel.getWriterId().equals(uid)){
                 matching_state_toggle.setEnabled(false);

@@ -152,7 +152,8 @@ public interface ApiInterface {
     @PUT("api/boards/view/matchState/")
     Call<CommonResponse> changeMatchState(@Field("areaNo") int areaNo,
                                           @Field("no") int articleNo,
-                                          @Field("state") String state);
+                                          @Field("state") String state,
+                                          @Field("boardType") String boardType);
 
     /**
      * 게시글 리스트 API

@@ -88,7 +88,11 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         writeBoardPresenter = new WriteBoardPresenter(this, getApplicationContext());
         area_tv.setText(area);
         // 매칭 게시글 쓰기가 아니면 매칭날짜 및 연령 입력 폼 GONE 처리한다.
-        if(boardMode != MATCH_MODE){
+        if(boardMode == HIRE_MODE){
+            ageLayout.setVisibility(View.GONE);
+            chargeLayout.setVisibility(View.GONE);
+            playRuleLayout.setVisibility(View.GONE);
+        }else if(boardMode == RECRUIT_MODE){
             matchingDateLayout.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
             chargeLayout.setVisibility(View.GONE);

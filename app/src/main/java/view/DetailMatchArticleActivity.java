@@ -237,7 +237,7 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
                             uid);
                     break;
                 case "신고" :
-                    ReportDialog reportDialog = new ReportDialog(getApplicationContext(), "article", (hasArticleModel) ? matchArticleModel.getMatchBoardType() : boardType,
+                    ReportDialog reportDialog = new ReportDialog(DetailMatchArticleActivity.this, "article", (hasArticleModel) ? matchArticleModel.getMatchBoardType() : boardType,
                             (hasArticleModel) ? matchArticleModel.getNo() : articleNo, 0);
                     reportDialog.show();
                     break;

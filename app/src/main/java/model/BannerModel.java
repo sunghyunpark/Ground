@@ -3,6 +3,7 @@ package model;
 public class BannerModel {
     private String type;    // app / web
     private String imgPath;
+    private String bgColor;
     private String url;
 
     public String getType() {
@@ -19,6 +20,14 @@ public class BannerModel {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public String getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(String bgColor) {
+        this.bgColor = bgColor;
     }
 
     public String getUrl() {

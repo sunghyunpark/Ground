@@ -2,6 +2,7 @@ package view;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,6 +74,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     @BindView(R.id.today_match_more_btn) Button todayMatchMoreBtn;
     @BindView(R.id.recommend_banner_iv) ImageView recommendBanner_iv;
     @BindView(R.id.chatbot_banner_iv) ImageView chatbotBanner_iv;
+    @BindView(R.id.chatbot_banner_layout) ViewGroup chatbotBanner_layout;
 
     @Override
     public void onDestroy(){
@@ -284,12 +286,14 @@ public class HomeFragment extends BaseFragment implements HomeView{
             chatbotBanner_iv.setVisibility(View.GONE);
         }else{
             RequestOptions requestOptions = new RequestOptions();
-            requestOptions.centerCrop();
+            requestOptions.fitCenter();
             Glide.with(GroundApplication.getAppContext())
                     .setDefaultRequestOptions(requestOptions)
                     .load(GroundApplication.GROUND_DEV_API+TBBanner.getImgPath())
                     .apply(new RequestOptions().transform(new RoundedCorners(20)))
                     .into(chatbotBanner_iv);
+
+            chatbotBanner_layout.setBackgroundColor(Color.parseColor(TBBanner.getBgColor()));
 
             chatbotBanner_iv.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -58,9 +58,13 @@
 
     <!-- App Push Activity -->
     <string name="app_push_activity_title">푸시알림</string>
-    <string name="match_comment_push_title">매치, 용병, 모집 게시글의 댓글 알림 받기</string>
+    <string name="match_comment_push_title">댓글 알림 받기</string>
     <string name="match_comment_push_sub">매치, 용병, 모집 게시글에 댓글이 달렸을 시 알림을 받습니다.</string>
     <string name="match_push_title">매칭완료 알림 받기</string>
+    <string name="matching_date_of_match_title">매치 게시글 알림 받기</string>
+    <string name="matching_date_of_match_sub">설정한 지역 및 날짜에 게시글이 등록되면 알림을 받습니다.</string>
+    <string name="matching_date_of_hire_title">용병 게시글 알림 받기</string>
+    <string name="matching_date_of_hire_sub">설정한 지역 및 날짜에 게시글이 등록되면 알림을 받습니다.</string>
     <string name="match_push_sub">관심 설정하신 게시글이 매칭완료가 되면 알림을 받습니다.</string>
     <string name="free_comment_push_title">자유게시판 댓글 알림 받기</string>
     <string name="free_comment_push_sub">게시글에 댓글이 달렸을 시 알림을 받습니다.</string>

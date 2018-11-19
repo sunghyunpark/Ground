@@ -126,8 +126,6 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         hasArticleModel = intent.getExtras().getBoolean(Constants.EXTRA_EXIST_ARTICLE_MODEL);
         uid = intent.getExtras().getString(Constants.EXTRA_USER_ID);
 
-        showMessage(uid+" asdfas");
-
         UserModel.getInstance().setUid(uid);    //푸시를 통해 바로 액티비티 진입 시 uid값을 새로 받아오지만 moreBtn과 같이 UserModel을 이용하는 부분도 있어서 다시 넣어준다.
 
         matchArticleModel = new MatchArticleModel();
@@ -300,7 +298,6 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
     public void setArticleData(final MatchArticleModel matchArticleModel){
         // matchArticleModel 을 다 받아오기전에 초기화를 하게되면 crash 가 발생되어, 모든 데이터들을 셋팅할 때 초기화를 한다.
         morePowerMenu = PowerMenuUtil.getDetailMatchArticleMorePowerMenu(getApplicationContext(), this, moreOnMenuItemClickListener, onMoreMenuDismissedListener, matchArticleModel);
-
 
         title_tv.setText(matchArticleModel.getTitle());
         nick_name_tv.setText(matchArticleModel.getNickName());

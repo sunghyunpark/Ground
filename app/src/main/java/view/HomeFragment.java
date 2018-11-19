@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -204,8 +205,10 @@ public class HomeFragment extends BaseFragment implements HomeView{
      */
     @Override
     public void setGroundRecyclerView(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(),3);
+
+        //linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         GroundUtilAdapter groundUtilAdapter = new GroundUtilAdapter(getContext(), groundUtilUpdateList);
         groundUtilRecyclerView.setAdapter(groundUtilAdapter);
         groundUtilRecyclerView.setLayoutManager(linearLayoutManager);

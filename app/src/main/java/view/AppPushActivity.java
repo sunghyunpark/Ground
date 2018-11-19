@@ -1,7 +1,11 @@
 package view;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.groundmobile.ground.R;
@@ -77,6 +81,7 @@ public class AppPushActivity extends BaseActivity {
                 setToggleState(eventPushToggle, eventPushToggle.isChecked());
                 sessionManager.setEventPush(eventPushToggle.isChecked());
                 break;
+
         }
     }
 

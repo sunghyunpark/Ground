@@ -111,8 +111,6 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     private void init(){
 
-        morePowerMenu = PowerMenuUtil.getDetailFreeArticleMorePowerMenu(getApplicationContext(), this, moreOnMenuItemClickListener, onMoreMenuDismissedListener, communityModel);
-
         ArrayList<CommentModel> commentModelArrayList = new ArrayList<CommentModel>();
         LinearLayoutManager lL = new LinearLayoutManager(getApplicationContext());
         CommentAdapter commentAdapter = new CommentAdapter(getApplicationContext(), commentModelArrayList, false, new CommentAdapter.CommentListener() {
@@ -251,6 +249,9 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
 
     @Override
     public void setArticleData(final CommunityModel communityModel){
+
+        morePowerMenu = PowerMenuUtil.getDetailFreeArticleMorePowerMenu(getApplicationContext(), this, moreOnMenuItemClickListener, onMoreMenuDismissedListener, communityModel);
+
         title_tv.setText(communityModel.getTitle());
         nick_name_tv.setText(communityModel.getNickName());
         created_at_tv.setText(Util.parseTimeWithoutSec(communityModel.getCreatedAt()));

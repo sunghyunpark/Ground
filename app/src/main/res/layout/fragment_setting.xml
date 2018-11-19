@@ -130,7 +130,7 @@
             android:id="@+id/app_push_btn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="0.5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorWhite">
@@ -156,7 +156,7 @@
             android:id="@+id/kakao_chatbot_btn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="0.5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorWhite">
@@ -181,7 +181,7 @@
             android:id="@+id/review_btn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="0.5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorWhite">
@@ -206,7 +206,7 @@
             android:id="@+id/recommend_btn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="0.5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@drawable/layout_round_shape_white_bottom">
@@ -269,7 +269,7 @@
             android:id="@+id/app_license_btn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="0.5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@color/colorWhite">
@@ -293,7 +293,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="0.5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:background="@drawable/layout_round_shape_white_bottom">

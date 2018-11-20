@@ -43,7 +43,7 @@ public class MatchingDateAlarmAdapter extends RecyclerView.Adapter<RecyclerView.
             final MatchingDateAlarmModel currentItem = getItem(position);
             final Alarm_VH VHitem = (Alarm_VH)holder;
 
-            VHitem.alarm_tv.setText(currentItem.getAreaName()+" - "+currentItem.getMatchingDate());
+            VHitem.alarm_tv.setText(currentItem.getAreaName()+" - "+currentItem.getMatchDate());
 
             VHitem.delete_btn.setOnClickListener(new View.OnClickListener() {
                 @Override

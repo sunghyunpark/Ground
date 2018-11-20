@@ -121,6 +121,16 @@
             android:layout_marginBottom="10dp"/>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/empty_alarm_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/colorMoreGray"
+        android:visibility="gone"
+        android:text="등록된 알림이 없습니다."/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/alarm_recyclerView"
         android:layout_width="match_parent"

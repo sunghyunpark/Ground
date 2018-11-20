@@ -7,6 +7,7 @@ import api.response.CommentListResponse;
 import api.response.CommonResponse;
 import api.response.CommunityModelListResponse;
 import api.response.LoginResponse;
+import api.response.MatchDateAlarmListResponse;
 import api.response.UpdateTimeResponse;
 import api.response.YouTubeListResponse;
 import okhttp3.MultipartBody;
@@ -449,5 +450,16 @@ public interface ApiInterface {
                                                     @Path("areaNoStr") String areaNoStr,
                                                     @Path("order") String order,
                                                     @Path("matchDate") String matchDate);
+
+    @GET("api/alarm/matchDateAlarm/{uid}/{boardType}")
+    Call<MatchDateAlarmListResponse> getMatchDateAlarmList(@Path("uid") String uid,
+                                                           @Path("boardType") String boardType);
+
+    @FormUrlEncoded
+    @POST("api/alarm/matchDateAlarm")
+    Call<CommonResponse> registerMatchDateAlarm(@Field("uid") String uid,
+                                                @Field("boardType") String boardType,
+                                                @Field("areaNo") int areaNo,
+                                                @Field("matchDate") String matchDate);
 
 }

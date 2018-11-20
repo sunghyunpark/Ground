@@ -41,11 +41,13 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
     private PowerMenu selectAreaPowerMenu;
     private MatchingDateAlarmAdapter matchingDateAlarmAdapter;
     private ArrayList<MatchingDateAlarmModel> matchingDateAlarmModelArrayList;
-    private LinearLayoutManager linearLayoutManager;
+
+    private MatchingDateAlarmModel matchingDateAlarmModel;
 
     @BindView(R.id.matching_date_tv) TextView matching_date_tv;
     @BindView(R.id.area_tv) TextView area_tv;
     @BindView(R.id.alarm_recyclerView) RecyclerView alarmRecyclerview;
+    @BindView(R.id.empty_alarm_tv) TextView emptyAlarm_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +67,13 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
         selectAreaPowerMenu = PowerMenuUtil.getAreaListMenu(getApplicationContext(), this, areaOnMenuItemClickListener, onMoreMenuDismissedListener, type);
         matchingDateAlarmModelArrayList = new ArrayList<>();
         matchingDateAlarmAdapter = new MatchingDateAlarmAdapter(matchingDateAlarmModelArrayList);
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
 
         alarmRecyclerview.setLayoutManager(linearLayoutManager);
         alarmRecyclerview.setAdapter(matchingDateAlarmAdapter);
+
+        // 데이터를 받아온다.
+        matchingDateAlarmPresenter.loadAlarmList(type, matchingDateAlarmModelArrayList);
     }
 
     /**
@@ -128,7 +133,6 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
             String strAfterFormat = "";
             try {
                 Date originDate = originFormat.parse(strBeforeFormat);
-
                 strAfterFormat = newFormat.format(originDate);
             }catch (ParseException e){
                 e.printStackTrace();
@@ -136,6 +140,27 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
             matching_date_tv.setText(strAfterFormat);
         }
     };
+
+    @Override
+    public void loadComplete(boolean error){
+        if(error){
+            emptyAlarm_tv.setVisibility(View.VISIBLE);
+            alarmRecyclerview.setVisibility(View.GONE);
+        }else{
+            alarmRecyclerview.setVisibility(View.VISIBLE);
+            emptyAlarm_tv.setVisibility(View.GONE);
+            matchingDateAlarmAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void registerComplete(boolean error){
+        if(!error){
+            matchingDateAlarmModelArrayList.add(matchingDateAlarmModel);
+            matchingDateAlarmAdapter.notifyDataSetChanged();
+            initSetting();
+        }
+    }
 
     @OnClick({R.id.back_btn, R.id.area_layout, R.id.matching_date_layout, R.id.add_btn}) void onClick(View v){
         switch (v.getId()){
@@ -157,14 +182,13 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
                 if((areaNo < 0) || (area_tv.getText().toString().equals("")) || matching_date_tv.getText().toString().equals("")){
                     showMessage("정보를 입력해주세요.");
                 }else{
-                    MatchingDateAlarmModel matchingDateAlarmModel = new MatchingDateAlarmModel();
+                    matchingDateAlarmModel = new MatchingDateAlarmModel();
                     matchingDateAlarmModel.setAreaNo(areaNo);
                     matchingDateAlarmModel.setAreaName(area_tv.getText().toString());
-                    matchingDateAlarmModel.setMatchingDate(matching_date_tv.getText().toString());
+                    matchingDateAlarmModel.setMatchDate(matching_date_tv.getText().toString());
 
-                    matchingDateAlarmModelArrayList.add(matchingDateAlarmModel);
-                    matchingDateAlarmAdapter.notifyDataSetChanged();
-                    initSetting();
+                    matchingDateAlarmPresenter.registerAlarm(type, matchingDateAlarmModel);
+
                 }
                 break;
         }

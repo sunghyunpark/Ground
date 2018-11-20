@@ -3,7 +3,7 @@ package model;
 public class MatchingDateAlarmModel {
     private int areaNo;
     private String areaName;
-    private String matchingDate;
+    private String matchDate;
 
     public int getAreaNo() {
         return areaNo;
@@ -21,11 +21,11 @@ public class MatchingDateAlarmModel {
         this.areaName = areaName;
     }
 
-    public String getMatchingDate() {
-        return matchingDate;
+    public String getMatchDate() {
+        return matchDate;
     }
 
-    public void setMatchingDate(String matchingDate) {
-        this.matchingDate = matchingDate;
+    public void setMatchDate(String matchDate) {
+        this.matchDate = matchDate;
     }
 }

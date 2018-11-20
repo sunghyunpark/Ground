@@ -28,18 +28,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.MatchingDateAlarmModel;
-import presenter.MatchingDateAlarmPresenter;
-import presenter.view.MatchingDateAlarmView;
+import presenter.MatchDateAlarmPresenter;
+import presenter.view.MatchDateAlarmView;
 import util.PowerMenuUtil;
-import util.adapter.MatchingDateAlarmAdapter;
+import util.adapter.MatchDateAlarmAdapter;
 
-public class MatchingDateAlarmActivity extends BaseActivity implements MatchingDateAlarmView{
+public class MatchDateAlarmActivity extends BaseActivity implements MatchDateAlarmView {
 
     private String type;    // match / hire 알림인지 판별하기 위한 변수
     private int areaNo = -1;    //지역 번호를 알기 위한 변수 초기값은 -1
-    private MatchingDateAlarmPresenter matchingDateAlarmPresenter;
+    private MatchDateAlarmPresenter matchDateAlarmPresenter;
     private PowerMenu selectAreaPowerMenu;
-    private MatchingDateAlarmAdapter matchingDateAlarmAdapter;
+    private MatchDateAlarmAdapter matchDateAlarmAdapter;
     private ArrayList<MatchingDateAlarmModel> matchingDateAlarmModelArrayList;
 
     private MatchingDateAlarmModel matchingDateAlarmModel;
@@ -62,18 +62,24 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
         init(type);
     }
 
-    private void init(String type){
-        matchingDateAlarmPresenter = new MatchingDateAlarmPresenter(this, getApplicationContext());
+    private void init(final String type){
+        matchDateAlarmPresenter = new MatchDateAlarmPresenter(this, getApplicationContext());
         selectAreaPowerMenu = PowerMenuUtil.getAreaListMenu(getApplicationContext(), this, areaOnMenuItemClickListener, onMoreMenuDismissedListener, type);
         matchingDateAlarmModelArrayList = new ArrayList<>();
-        matchingDateAlarmAdapter = new MatchingDateAlarmAdapter(matchingDateAlarmModelArrayList);
+        matchDateAlarmAdapter = new MatchDateAlarmAdapter(matchingDateAlarmModelArrayList, new MatchDateAlarmAdapter.MatchDateAlarmListener() {
+            @Override
+            public void deleteAlarm(MatchingDateAlarmModel matchingDateAlarmModel) {
+                matchDateAlarmPresenter.unregisterAlarm(type, matchingDateAlarmModel);
+            }
+        });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
 
         alarmRecyclerview.setLayoutManager(linearLayoutManager);
-        alarmRecyclerview.setAdapter(matchingDateAlarmAdapter);
+        alarmRecyclerview.setAdapter(matchDateAlarmAdapter);
 
         // 데이터를 받아온다.
-        matchingDateAlarmPresenter.loadAlarmList(type, matchingDateAlarmModelArrayList);
+        matchDateAlarmPresenter.loadAlarmList(type, matchingDateAlarmModelArrayList);
     }
 
     /**
@@ -149,16 +155,28 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
         }else{
             alarmRecyclerview.setVisibility(View.VISIBLE);
             emptyAlarm_tv.setVisibility(View.GONE);
-            matchingDateAlarmAdapter.notifyDataSetChanged();
+            matchDateAlarmAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void registerComplete(boolean error){
         if(!error){
+            loadComplete(false);
             matchingDateAlarmModelArrayList.add(matchingDateAlarmModel);
-            matchingDateAlarmAdapter.notifyDataSetChanged();
+            matchDateAlarmAdapter.notifyDataSetChanged();
             initSetting();
+        }
+    }
+
+    @Override
+    public void unregisterComplete(boolean error){
+        if(!error){
+            if(matchingDateAlarmModelArrayList.size() == 0){
+                emptyAlarm_tv.setVisibility(View.VISIBLE);
+                alarmRecyclerview.setVisibility(View.GONE);
+            }
+            matchDateAlarmAdapter.notifyDataSetChanged();
         }
     }
 
@@ -187,7 +205,7 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
                     matchingDateAlarmModel.setAreaName(area_tv.getText().toString());
                     matchingDateAlarmModel.setMatchDate(matching_date_tv.getText().toString());
 
-                    matchingDateAlarmPresenter.registerAlarm(type, matchingDateAlarmModel);
+                    matchDateAlarmPresenter.registerAlarm(type, matchingDateAlarmModel);
 
                 }
                 break;

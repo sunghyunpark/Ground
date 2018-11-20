@@ -124,7 +124,7 @@
             android:screenOrientation="portrait" />
         <activity android:name="view.WriteMemoActivity" />
         <activity android:name="view.EditMemoActivity" />
-        <activity android:name="view.MatchingDateAlarmActivity"></activity>
+        <activity android:name="view.MatchDateAlarmActivity"></activity>
     </application>
 
 </manifest>

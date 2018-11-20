@@ -13,15 +13,21 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import model.MatchingDateAlarmModel;
 
-public class MatchingDateAlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class MatchDateAlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_ITEM = 0;
     private ArrayList<MatchingDateAlarmModel> matchingDateAlarmModelArrayList;
+    private MatchDateAlarmListener matchDateAlarmListener;
 
-
-    public MatchingDateAlarmAdapter(ArrayList<MatchingDateAlarmModel> matchingDateAlarmModelArrayList){
+    public MatchDateAlarmAdapter(ArrayList<MatchingDateAlarmModel> matchingDateAlarmModelArrayList, MatchDateAlarmListener matchDateAlarmListener){
         this.matchingDateAlarmModelArrayList = matchingDateAlarmModelArrayList;
+        this.matchDateAlarmListener = matchDateAlarmListener;
+    }
+
+    public interface MatchDateAlarmListener{
+        void deleteAlarm(MatchingDateAlarmModel matchingDateAlarmModel);
     }
 
     @Override
@@ -49,6 +55,7 @@ public class MatchingDateAlarmAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View view) {
                     onItemDismiss(position);
+                    matchDateAlarmListener.deleteAlarm(currentItem);
                 }
             });
         }

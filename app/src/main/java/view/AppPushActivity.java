@@ -84,18 +84,22 @@ public class AppPushActivity extends BaseActivity {
     }
 
     @OnClick({R.id.matching_date_of_match_push_btn, R.id.matching_date_of_hire_push_btn}) void matchingDateClick(View v){
-        Intent intent = new Intent(getApplicationContext(), MatchingDateAlarmActivity.class);
-        switch (v.getId()){
-            case R.id.matching_date_of_match_push_btn:
-                intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, Constants.MATCH_OF_BOARD_TYPE_MATCH);
-                startActivity(intent);
-                break;
+        if(isLogin()){
+            Intent intent = new Intent(getApplicationContext(), MatchDateAlarmActivity.class);
+            switch (v.getId()){
+                case R.id.matching_date_of_match_push_btn:
+                    intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, Constants.MATCH_OF_BOARD_TYPE_MATCH);
+                    startActivity(intent);
+                    break;
 
-            case R.id.matching_date_of_hire_push_btn:
-                intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, Constants.HIRE_OF_BOARD_TYPE_MATCH);
-                startActivity(intent);
-                break;
+                case R.id.matching_date_of_hire_push_btn:
+                    intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, Constants.HIRE_OF_BOARD_TYPE_MATCH);
+                    startActivity(intent);
+                    break;
 
+            }
+        }else{
+            showMessage("로그인을 해주세요.");
         }
     }
 

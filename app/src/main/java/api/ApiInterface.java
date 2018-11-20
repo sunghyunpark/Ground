@@ -462,4 +462,9 @@ public interface ApiInterface {
                                                 @Field("areaNo") int areaNo,
                                                 @Field("matchDate") String matchDate);
 
+    @DELETE("api/alarm/matchDateAlarm/{uid}/{boardType}/{areaNo}/{matchDate}")
+    Call<CommonResponse> unregisterMatchDateAlarm(@Path("uid") String uid,
+                                                  @Path("boardType") String boardType,
+                                                  @Path("areaNo") int areaNo,
+                                                  @Path("matchDate") String matchDate);
 }

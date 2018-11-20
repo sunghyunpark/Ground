@@ -16,13 +16,13 @@ import api.response.MatchDateAlarmListResponse;
 import base.presenter.BasePresenter;
 import model.MatchingDateAlarmModel;
 import model.UserModel;
-import presenter.view.MatchingDateAlarmView;
+import presenter.view.MatchDateAlarmView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.Util;
 
-public class MatchingDateAlarmPresenter extends BasePresenter<MatchingDateAlarmView> {
+public class MatchDateAlarmPresenter extends BasePresenter<MatchDateAlarmView> {
 
     private Context context;
     private ApiInterface apiService;
@@ -30,7 +30,7 @@ public class MatchingDateAlarmPresenter extends BasePresenter<MatchingDateAlarmV
     private String[] matchAreaNameArray;
     private String[] hireAreaNameArray;
 
-    public MatchingDateAlarmPresenter(MatchingDateAlarmView view, Context context){
+    public MatchDateAlarmPresenter(MatchDateAlarmView view, Context context){
         super(view);
         this.context = context;
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -96,7 +96,28 @@ public class MatchingDateAlarmPresenter extends BasePresenter<MatchingDateAlarmV
     }
 
     public void unregisterAlarm(String type, MatchingDateAlarmModel matchingDateAlarmModel){
+        Call<CommonResponse> call = apiService.unregisterMatchDateAlarm(UserModel.getInstance().getUid(), type, matchingDateAlarmModel.getAreaNo(), matchingDateAlarmModel.getMatchDate());
+        call.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                if(commonResponse.getCode() == 200){
+                    Util.showToast(context, "알림이 삭제되었습니다.");
+                    getView().unregisterComplete(false);
+                }else{
+                    Util.showToast(context, "에러가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+                    getView().unregisterComplete(true);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("tag", t.toString());
+                Util.showToast(context, "네트워크 연결상태를 확인해주세요.");
+                getView().unregisterComplete(true);
+            }
+        });
     }
 
 }

@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -18,15 +20,18 @@ import com.skydoves.powermenu.PowerMenuItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import model.MatchingDateAlarmModel;
 import presenter.MatchingDateAlarmPresenter;
 import presenter.view.MatchingDateAlarmView;
 import util.PowerMenuUtil;
+import util.adapter.MatchingDateAlarmAdapter;
 
 public class MatchingDateAlarmActivity extends BaseActivity implements MatchingDateAlarmView{
 
@@ -34,9 +39,13 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
     private int areaNo = -1;    //지역 번호를 알기 위한 변수 초기값은 -1
     private MatchingDateAlarmPresenter matchingDateAlarmPresenter;
     private PowerMenu selectAreaPowerMenu;
+    private MatchingDateAlarmAdapter matchingDateAlarmAdapter;
+    private ArrayList<MatchingDateAlarmModel> matchingDateAlarmModelArrayList;
+    private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.matching_date_tv) TextView matching_date_tv;
     @BindView(R.id.area_tv) TextView area_tv;
+    @BindView(R.id.alarm_recyclerView) RecyclerView alarmRecyclerview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,12 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
     private void init(String type){
         matchingDateAlarmPresenter = new MatchingDateAlarmPresenter(this, getApplicationContext());
         selectAreaPowerMenu = PowerMenuUtil.getAreaListMenu(getApplicationContext(), this, areaOnMenuItemClickListener, onMoreMenuDismissedListener, type);
+        matchingDateAlarmModelArrayList = new ArrayList<>();
+        matchingDateAlarmAdapter = new MatchingDateAlarmAdapter(matchingDateAlarmModelArrayList);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        alarmRecyclerview.setLayoutManager(linearLayoutManager);
+        alarmRecyclerview.setAdapter(matchingDateAlarmAdapter);
     }
 
     /**
@@ -71,7 +86,6 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
         public void onItemClick(int position, PowerMenuItem item) {
             //selectAreaPowerMenu.setSelectedPosition(position); // change selected item
             selectAreaPowerMenu.dismiss();
-
             area_tv.setText(item.getTitle());
 
             Resources res = getResources();
@@ -143,6 +157,13 @@ public class MatchingDateAlarmActivity extends BaseActivity implements MatchingD
                 if((areaNo < 0) || (area_tv.getText().toString().equals("")) || matching_date_tv.getText().toString().equals("")){
                     showMessage("정보를 입력해주세요.");
                 }else{
+                    MatchingDateAlarmModel matchingDateAlarmModel = new MatchingDateAlarmModel();
+                    matchingDateAlarmModel.setAreaNo(areaNo);
+                    matchingDateAlarmModel.setAreaName(area_tv.getText().toString());
+                    matchingDateAlarmModel.setMatchingDate(matching_date_tv.getText().toString());
+
+                    matchingDateAlarmModelArrayList.add(matchingDateAlarmModel);
+                    matchingDateAlarmAdapter.notifyDataSetChanged();
                     initSetting();
                 }
                 break;

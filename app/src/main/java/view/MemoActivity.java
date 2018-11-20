@@ -77,7 +77,7 @@ public class MemoActivity extends BaseActivity implements MemoView{
         memoVOArrayList = new ArrayList<>();
 
         // 메모 presenter 초기화
-        memoPresenter = new MemoPresenter(this, getApplicationContext(), memoVOArrayList, mRealm);
+        memoPresenter = new MemoPresenter(this, memoVOArrayList, mRealm);
 
         // 메모 리사이클러뷰 어뎁터 초기화
         memoAdapter = new MemoAdapter(getApplicationContext(), memoVOArrayList, mRealm, new MemoAdapter.memoAdapterListener() {

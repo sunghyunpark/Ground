@@ -1,11 +1,8 @@
 package view;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.groundmobile.ground.R;
@@ -83,6 +80,11 @@ public class AppPushActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+    @OnClick({R.id.matching_date_of_match_push_btn, R.id.matching_date_of_hire_push_btn}) void matchingDateClick(){
+        Intent intent = new Intent(getApplicationContext(), MatchingDateAlarmActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.back_btn) void backBtn(){

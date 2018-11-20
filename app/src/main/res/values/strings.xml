@@ -111,6 +111,11 @@
     <string name="free_board_activity_like_btn">좋아요</string>
     <string name="free_board_activity_contents_hint">부적절한 게시글 및 홍보 도배글은 제재대상이 될 수 있습니다</string>
 
+    <!-- MatchingDate Alarm Activity-->
+    <string name="matching_date_alarm_activity_sub">원하는 지역 및 시합날짜를 선택하면 게시글이 등록될 때 푸시 알림을 받을 수 있습니다.</string>
+    <string name="matching_date_alarm_activity_area_tv">지역을 선택해주세요.</string>
+    <string name="matching_date_alarm_activity_matching_date_tv">시합 날짜를 선택해주세요.</string>
+
     <!-- Help Memo Dialog -->
     <string name="help_txt">- 작성 : +버튼 탭\n\n- 삭제 : 좌 or 우로 스와이프\n\n- 순서 이동 : 꾹 누른 후 이동\n\n- 수정 : 메모 탭</string>
 

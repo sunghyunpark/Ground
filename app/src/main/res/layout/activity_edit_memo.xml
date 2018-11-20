@@ -43,12 +43,6 @@
             android:background="@null"
             android:textSize="15dp"/>
     </RelativeLayout>
-    <!--구분선-->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:orientation="horizontal"
-        android:background="#9E9E9E"></LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

@@ -1,12 +1,8 @@
 package presenter;
 
-import android.content.Context;
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import base.presenter.BasePresenter;
-import database.RealmConfig;
 import database.model.MemoVO;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -14,13 +10,11 @@ import io.realm.Sort;
 import presenter.view.MemoView;
 
 public class MemoPresenter extends BasePresenter<MemoView> {
-    private Context context;
     private ArrayList<MemoVO> memoVOArrayList;
     private Realm mRealm;
 
-    public MemoPresenter(MemoView view, Context context, ArrayList<MemoVO> memoVOArrayList, Realm mRealm){
+    public MemoPresenter(MemoView view, ArrayList<MemoVO> memoVOArrayList, Realm mRealm){
         super(view);
-        this.context = context;
         this.memoVOArrayList = memoVOArrayList;
         this.mRealm = mRealm;
     }

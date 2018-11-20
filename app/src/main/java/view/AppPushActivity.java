@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ToggleButton;
 
+import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
 
 import base.BaseActivity;
@@ -82,9 +83,20 @@ public class AppPushActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.matching_date_of_match_push_btn, R.id.matching_date_of_hire_push_btn}) void matchingDateClick(){
+    @OnClick({R.id.matching_date_of_match_push_btn, R.id.matching_date_of_hire_push_btn}) void matchingDateClick(View v){
         Intent intent = new Intent(getApplicationContext(), MatchingDateAlarmActivity.class);
-        startActivity(intent);
+        switch (v.getId()){
+            case R.id.matching_date_of_match_push_btn:
+                intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, Constants.MATCH_OF_BOARD_TYPE_MATCH);
+                startActivity(intent);
+                break;
+
+            case R.id.matching_date_of_hire_push_btn:
+                intent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, Constants.HIRE_OF_BOARD_TYPE_MATCH);
+                startActivity(intent);
+                break;
+
+        }
     }
 
     @OnClick(R.id.back_btn) void backBtn(){

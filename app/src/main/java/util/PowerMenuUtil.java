@@ -150,7 +150,7 @@ public class PowerMenuUtil {
                 .build();
     }
 
-    public static PowerMenu getMatchAreaListMenu(Context context, LifecycleOwner lifecycleOwner, OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener,
+    public static PowerMenu getAreaListMenu(Context context, LifecycleOwner lifecycleOwner, OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener,
                                                  OnDismissedListener onDismissedListener, String type){
         List<PowerMenuItem> itemList = new ArrayList<>();
 
@@ -184,12 +184,13 @@ public class PowerMenuUtil {
             itemList.add(new PowerMenuItem("제주", false));
         }
         return new PowerMenu.Builder(context)
-
+                .addItemList(itemList)
                 .setAnimation(MenuAnimation.SHOW_UP_CENTER) // Animation start point (TOP | LEFT)
                 .setLifecycleOwner(lifecycleOwner)
                 .setMenuRadius(10f)
                 .setMenuShadow(10f)
-                .setWidth(GroundApplication.DISPLAY_WIDTH/2)
+                .setWidth(GroundApplication.DISPLAY_WIDTH - GroundApplication.DISPLAY_WIDTH/5)
+                .setHeight(GroundApplication.DISPLAY_HEIGHT/2)
                 .setTextColor(context.getResources().getColor(R.color.colorBlack))
                 .setSelectedTextColor(Color.WHITE)
                 .setMenuColor(Color.WHITE)

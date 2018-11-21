@@ -320,6 +320,8 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
             }
         }else if(boardMode == HIRE_MODE){
             // 용병 게시글인 경우
+            match_date_tv.setText(matchArticleModel.getMatchDate());
+
             age_layout.setVisibility(View.GONE);
             charge_layout.setVisibility(View.GONE);
             play_rule_layout.setVisibility(View.GONE);

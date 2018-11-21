@@ -120,7 +120,8 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         String chargeStr = (charge_et.getVisibility() == View.GONE) ? "" : charge_et.getText().toString().trim();
         String playRuleStr = (play_rule_tv.getVisibility() == View.GONE) ? "" : play_rule_tv.getText().toString().trim();
 
-        if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && ((matchDateStr.equals("") || ageStr.equals("") || chargeStr.equals("") || playRuleStr.equals(""))))){
+        if(titleStr.equals("") || contentsStr.equals("") || ((boardMode == MATCH_MODE) && ((matchDateStr.equals("") || ageStr.equals("") || chargeStr.equals("") || playRuleStr.equals(""))))
+                || ((boardMode == HIRE_MODE) && (matchDateStr.equals("")))){
             Util.showToast(getApplicationContext(), errorNotExistInputStr);
         }else{
             String age = ageStr.replace("대", "").replace("이상", "");

@@ -372,9 +372,16 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
      */
     @Override
     public void onBackPressed() {
-        if(morePowerMenu.isShowing()){
-            morePowerMenu.dismiss();
-        }else{
+        try{
+            if(morePowerMenu.isShowing()){
+                morePowerMenu.dismiss();
+            }else{
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
+                setResult(Activity.RESULT_OK, returnIntent);
+                super.onBackPressed();
+            }
+        }catch (NullPointerException npe){
             Intent returnIntent = new Intent();
             returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
             setResult(Activity.RESULT_OK, returnIntent);

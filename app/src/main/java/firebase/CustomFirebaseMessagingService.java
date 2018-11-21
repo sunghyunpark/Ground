@@ -15,7 +15,6 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.MainActivity;
 import com.groundmobile.ground.R;
 
@@ -34,21 +33,26 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     private static final String PUSH_CHANNEL_COMMENT_OF_MATCH = "commentOfMatch";    // 매치 게시판(match/hire/recruit)에 댓글이 달렸을 시
     private static final String PUSH_CHANNEL_COMMENT_OF_COMMUNITY = "commentOfCommunity";    // 자유게시판에 댓글이 달렸을 시
     private static final String PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED = "myFavoriteArticleMatched";    // 관심 매치게시판이 '완료'로 상태 변경되었을 때
+    private static final String PUSH_CHANNEL_MATCH_DATE_ALARM = "matchDateAlarm";    // 원하는 날짜 게시글 푸시 알림
     private static final String PUSH_CHANNEL_EVENT = "event";    // 이벤트 전체 푸시
 
     //Oreo 푸시 채널명
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_MATCH = "매치/용병/모집 댓글";
     private static final String PUSH_CHANNEL_NAME_COMMENT_OF_COMMUNITY = "자유게시판 댓글";
     private static final String PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED = "관심 시합 게시글의 상태 변경";
+    private static final String PUSH_CHANNEL_NAME_MATCH_DATE_ALARM = "게시글 알림";
     private static final String PUSH_CHANNEL_NAME_EVENT = "이벤트";
 
     //푸시 타입
     private static final String PUSH_TYPE_COMMENT_OF_MATCH = "commentOfMatch";    // 매치(match/hire/recruit) 게시판의 댓글
     private static final String PUSH_TYPE_COMMENT_OF_FREE = "commentOfFree";    // 자유게시판 댓글
-    private static final String PUSH_TYPE_MY_FAVORITE_ARTICLE_MATCHED = "match";
+    private static final String PUSH_TYPE_MY_FAVORITE_ARTICLE_MATCHED = "match";    // 관심있는 게시글 매칭 상태 변경
+    private static final String PUSH_TYPE_MATCH_DATE_ALARM = "matchDateAlarm";    // 원하는 날짜 및 지역 게시글 알림.
     private static final String PUSH_TYPE_EVENT = "event";
     private String[] areaNameArray;
     private SessionManager sessionManager;
+
+
     /**
      * Called when message is received.
      *
@@ -77,6 +81,9 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 if(sessionManager.isMyFavoriteArticleMatchedOn()){
                     sendNotification(pushDataMap);
                 }
+                break;
+            case PUSH_TYPE_MATCH_DATE_ALARM:    // 원하는 날짜 및 지역 게시글 등록 시 알림
+                sendNotification(pushDataMap);
                 break;
             case PUSH_TYPE_EVENT:    // 이벤트 푸시
                 if(sessionManager.isEventPushOn()){
@@ -129,6 +136,15 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
             detailIntent.putExtra(Constants.EXTRA_USER_ID, getUserId());
             detailIntent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, false);
             detailIntent.putExtra(Constants.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_ARTICLE_NO)));
+        }else if(dataMap.get("type").equals(PUSH_TYPE_MATCH_DATE_ALARM)){
+            channelId = PUSH_CHANNEL_MATCH_DATE_ALARM;
+            detailIntent = new Intent(this, DetailMatchArticleActivity.class);
+            detailIntent.putExtra(Constants.EXTRA_AREA_NAME, areaNameArray[Integer.parseInt(dataMap.get(Constants.EXTRA_AREA_NO))]);
+            detailIntent.putExtra(Constants.EXTRA_AREA_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_AREA_NO)));
+            detailIntent.putExtra(Constants.EXTRA_MATCH_BOARD_TYPE, dataMap.get(Constants.EXTRA_BOARD_TYPE));
+            detailIntent.putExtra(Constants.EXTRA_USER_ID, getUserId());
+            detailIntent.putExtra(Constants.EXTRA_EXIST_ARTICLE_MODEL, false);
+            detailIntent.putExtra(Constants.EXTRA_ARTICLE_NO, Integer.parseInt(dataMap.get(Constants.EXTRA_ARTICLE_NO)));
         }else if(dataMap.get("type").equals(PUSH_TYPE_EVENT)){
             channelId = PUSH_CHANNEL_EVENT;
         }
@@ -170,6 +186,13 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 channelId = PUSH_CHANNEL_MY_FAVORITE_ARTICLE_MATCHED;
                 channelName = PUSH_CHANNEL_NAME_MY_FAVORITE_ARTICLE_MATCHED;
                 sessionManager.setPushChannelMyFavoriteArticleMatched(true);
+                NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+                nManager.createNotificationChannel(mChannel);
+            }else if(dataMap.get("type").equals(PUSH_TYPE_MATCH_DATE_ALARM) && !sessionManager.isPushChannelMatchDateAlarm()){
+                // 원하는 날짜 및 지역 게시글이 등록되면 푸시 알림
+                channelId = PUSH_CHANNEL_MATCH_DATE_ALARM;
+                channelName = PUSH_CHANNEL_NAME_MATCH_DATE_ALARM;
+                sessionManager.setPushMatchDateAlarm(true);
                 NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
                 nManager.createNotificationChannel(mChannel);
             }else if(dataMap.get("type").equals(PUSH_TYPE_EVENT) && !sessionManager.isPushChannelEvent()){

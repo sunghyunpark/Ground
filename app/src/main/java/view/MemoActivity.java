@@ -179,37 +179,38 @@ public class MemoActivity extends BaseActivity implements MemoView{
         notifyMemoData(false);
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
-
-    @OnClick(R.id.write_btn) void writeBtn(){
-        Intent intent = new Intent(getApplicationContext(), WriteMemoActivity.class);
-        startActivityForResult(intent, REQUEST_WRITE);
-    }
-
-    @OnClick(R.id.delete_memo_btn) void deleteMemoBtn(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("전체 삭제");
-        alert.setMessage("정말 메모들을 전체 삭제하시겠습니까?");
-        alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                deleteAllMemoDB();
-            }
-        });
-        alert.setNegativeButton("아니오",
-                new DialogInterface.OnClickListener() {
+    @OnClick({R.id.back_btn, R.id.write_btn, R.id.delete_memo_btn, R.id.help_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.write_btn:
+                Intent intent = new Intent(getApplicationContext(), WriteMemoActivity.class);
+                startActivityForResult(intent, REQUEST_WRITE);
+                break;
+            case R.id.delete_memo_btn:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("전체 삭제");
+                alert.setMessage("정말 메모들을 전체 삭제하시겠습니까?");
+                alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-
+                        deleteAllMemoDB();
                     }
                 });
-        alert.show();
-    }
+                alert.setNegativeButton("아니오",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Canceled.
 
-    @OnClick(R.id.help_btn) void helpBtn(){
-        MemoHelpDialog memoHelpDialog = new MemoHelpDialog(this);
-        memoHelpDialog.show();
+                            }
+                        });
+                alert.show();
+                break;
+            case R.id.help_btn:
+                MemoHelpDialog memoHelpDialog = new MemoHelpDialog(this);
+                memoHelpDialog.show();
+                break;
+        }
     }
 
 }

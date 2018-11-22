@@ -528,65 +528,63 @@ public class DetailMatchArticleActivity extends BaseActivity implements DetailMa
         }
     }
 
-    @OnClick({R.id.favorite_btn}) void favoriteBtnClicked(){
-        favoriteClick();
-    }
+    @OnClick({R.id.favorite_btn, R.id.write_comment_btn, R.id.comment_btn, R.id.capture_btn, R.id.back_btn, R.id.detail_more_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.favorite_btn:
+                favoriteClick();
+                break;
+            case R.id.write_comment_btn:
+                writeComment();
+                break;
+            case R.id.comment_btn:
+                commentClick();
+                break;
+            case R.id.capture_btn:
+                if (ContextCompat.checkSelfPermission(DetailMatchArticleActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                        .checkSelfPermission(DetailMatchArticleActivity.this,
+                                Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale
+                            (DetailMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-    @OnClick(R.id.write_comment_btn) void writeCommentBtn(){
-        writeComment();
-    }
-
-    @OnClick(R.id.comment_btn) void commentBtn(){
-        commentClick();
-    }
-
-    @OnClick(R.id.capture_btn) void captureBtn(){
-        if (ContextCompat.checkSelfPermission(DetailMatchArticleActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(DetailMatchArticleActivity.this,
-                        Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (DetailMatchArticleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
-                        new String[]{Manifest.permission
-                                .WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-            } else {
-                ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
-                        new String[]{Manifest.permission
-                                .WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-            }
-        } else {
-            captureClick();
+                        ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
+                                new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+                    } else {
+                        ActivityCompat.requestPermissions(DetailMatchArticleActivity.this,
+                                new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+                    }
+                } else {
+                    captureClick();
+                }
+                break;
+            /*
+             * 좌측 상단 뒤로가기 버튼 탭 이벤트
+             * 게시글 리스트 화면으로 돌아갈때 Result 값을 반환한다.
+             * 반환된 result 값을 통해 리스트 내에서 해당 item 을 갱신한다.
+             */
+            case R.id.back_btn:
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+                break;
+            /*
+             * 우측 상단 더보기 버튼 이벤트
+             * 탭 시 DetailMoreDialog 가 노출된다.
+             * 이때 DetailMoreDialog 와 상세 게시글 화면간의 통신을 위해 Callback 함수를 통해 데이터를 주고 전달받는다.
+             * - 게시글 삭제
+             * - 게시글 수정
+             */
+            case R.id.detail_more_btn:
+                morePowerMenu.showAsDropDown(detailMoreBtn);
+                break;
         }
     }
-
-    /**
-     * 좌측 상단 뒤로가기 버튼 탭 이벤트
-     * 게시글 리스트 화면으로 돌아갈때 Result 값을 반환한다.
-     * 반환된 result 값을 통해 리스트 내에서 해당 item 을 갱신한다.
-     */
-    @OnClick(R.id.back_btn) void backBtn(){
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, matchArticleModel);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-    }
-
-    /**
-     * 우측 상단 더보기 버튼 이벤트
-     * 탭 시 DetailMoreDialog 가 노출된다.
-     * 이때 DetailMoreDialog 와 상세 게시글 화면간의 통신을 위해 Callback 함수를 통해 데이터를 주고 전달받는다.
-     * - 게시글 삭제
-     * - 게시글 수정
-     */
-    @OnClick(R.id.detail_more_btn) void moreBtn(){
-        morePowerMenu.showAsDropDown(detailMoreBtn);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {

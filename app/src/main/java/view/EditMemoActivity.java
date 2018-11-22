@@ -2,11 +2,10 @@ package view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
-import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
 
 import base.BaseActivity;
@@ -52,28 +51,30 @@ public class EditMemoActivity extends BaseActivity {
         memo_et.setText(memoModel.getMemoText());
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
+    @OnClick({R.id.back_btn, R.id.write_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.write_btn:
+                String memoStr = memo_et.getText().toString().trim();
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        String memoStr = memo_et.getText().toString().trim();
+                if(memoStr.equals("")){
+                    showMessage(errorNotExistInputStr);
+                }else{
+                    mRealm.beginTransaction();
+                    MemoVO memoVO = mRealm.where(MemoVO.class).equalTo("no", memoModel.getNo()).findFirst();
+                    memoVO.setMemoText(memoStr);
+                    memoModel.setMemoText(memoStr);
 
-        if(memoStr.equals("")){
-            showMessage(errorNotExistInputStr);
-        }else{
-            mRealm.beginTransaction();
-            MemoVO memoVO = mRealm.where(MemoVO.class).equalTo("no", memoModel.getNo()).findFirst();
-            memoVO.setMemoText(memoStr);
-            memoModel.setMemoText(memoStr);
+                    mRealm.commitTransaction();
 
-            mRealm.commitTransaction();
-
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("memoModel", memoModel);
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("memoModel", memoModel);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+                break;
         }
     }
-
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.groundmobile.ground.Constants;
@@ -267,17 +268,19 @@ public class MatchAreaBoardActivity extends BaseActivity implements AreaBoardVie
         }
     }
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        onWriteClick();
-    }
-
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
-
-    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
-        LinearLayoutManager llm = (LinearLayoutManager) boardRecyclerView.getLayoutManager();
-        llm.scrollToPosition(0);
+    @OnClick({R.id.write_btn, R.id.back_btn, R.id.up_to_scroll_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.write_btn:
+                onWriteClick();
+                break;
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.up_to_scroll_btn:
+                LinearLayoutManager llm = (LinearLayoutManager) boardRecyclerView.getLayoutManager();
+                llm.scrollToPosition(0);
+                break;
+        }
     }
 
 }

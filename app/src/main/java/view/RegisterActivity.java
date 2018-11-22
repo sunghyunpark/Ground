@@ -3,6 +3,7 @@ package view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -120,11 +121,14 @@ public class RegisterActivity extends BaseActivity implements LoginView {
     /**
      * 가입하기 버튼 클릭 시 간단하게 검증 후 firebase 로 전송함과 동시에 ground server 로 보낸다.
      */
-    @OnClick(R.id.register_btn) void registerBtn(){
-        loginClick();
-    }
-
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
+    @OnClick({R.id.register_btn, R.id.back_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.register_btn:
+                loginClick();
+                break;
+            case R.id.back_btn:
+                finish();
+                break;
+        }
     }
 }

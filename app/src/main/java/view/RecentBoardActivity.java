@@ -3,6 +3,7 @@ package view;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.groundmobile.ground.R;
 
@@ -35,11 +36,14 @@ public class RecentBoardActivity extends BaseActivity {
         recent_tabLayout.setupWithViewPager(recent_pager);
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
-
-    @OnClick(R.id.refresh_btn) void refreshBtn(){
-        init();
+    @OnClick({R.id.back_btn, R.id.refresh_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.refresh_btn:
+                init();
+                break;
+        }
     }
 }

@@ -3,6 +3,7 @@ package view;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -103,11 +104,15 @@ public class LoginActivity extends BaseActivity implements LoginView {
         }
     }
 
-    @OnClick(R.id.login_btn) void loginBtn(){
-        loginClick();
+    @OnClick({R.id.login_btn, R.id.back_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.login_btn:
+                loginClick();
+                break;
+            case R.id.back_btn:
+                finish();
+                break;
+        }
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
 }

@@ -235,35 +235,32 @@ public class SettingFragment extends BaseFragment implements LoginView, SettingV
 
     }
 
-    @OnClick(R.id.login_btn) void loginBtn(){
-        login();
-    }
-
-    @OnClick(R.id.profile_btn) void profileBtn(){
-        goProfile();
-    }
-
-    @OnClick(R.id.kakao_chatbot_btn) void kakaoChatBotBtn(){
-        goKakaoChatbot();
-    }
-
-    @OnClick(R.id.review_btn) void reviewBtn(){
-        goReview();
-    }
-
-    @OnClick(R.id.app_license_btn) void openSourceBtn(){
-        goOpenSource();
-    }
-
-    @OnClick(R.id.report_issue_btn) void reportIssueBtn(){
-        goReportBug();
-    }
-
-    @OnClick(R.id.recommend_btn) void recommendBtn(){
-        goRecommend();
-    }
-
-    @OnClick(R.id.app_push_btn) void appPushBtn(){
-        goAppPush();
+    @OnClick({R.id.login_btn, R.id.profile_btn, R.id.kakao_chatbot_btn, R.id.review_btn, R.id.app_license_btn, R.id.report_issue_btn, R.id.recommend_btn, R.id.app_push_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.login_btn:
+                login();
+                break;
+            case R.id.profile_btn:
+                goProfile();
+                break;
+            case R.id.kakao_chatbot_btn:
+                goKakaoChatbot();
+                break;
+            case R.id.review_btn:
+                goReview();
+                break;
+            case R.id.app_license_btn:
+                goOpenSource();
+                break;
+            case R.id.report_issue_btn:
+                goReportBug();
+                break;
+            case R.id.recommend_btn:
+                goRecommend();
+                break;
+            case R.id.app_push_btn:
+                goAppPush();
+                break;
+        }
     }
 }

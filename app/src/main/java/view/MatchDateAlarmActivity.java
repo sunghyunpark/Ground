@@ -182,20 +182,16 @@ public class MatchDateAlarmActivity extends BaseActivity implements MatchDateAla
 
     @OnClick({R.id.back_btn, R.id.area_layout, R.id.matching_date_layout, R.id.add_btn}) void onClick(View v){
         switch (v.getId()){
-
             case R.id.back_btn:    // 뒤로가기
                 finish();
                 break;
-
             case R.id.area_layout:    // 지역 선택 탭
                 selectAreaPowerMenu.showAtCenter(area_tv);
                 break;
-
             case R.id.matching_date_layout:    // 시합날짜 선택 탭
                 DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
                 dialog.show();
                 break;
-
             case R.id.add_btn:    // 추가하기 탭
                 if((areaNo < 0) || (area_tv.getText().toString().equals("")) || matching_date_tv.getText().toString().equals("")){
                     showMessage("정보를 입력해주세요.");

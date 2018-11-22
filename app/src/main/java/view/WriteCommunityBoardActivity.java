@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import base.BaseActivity;
@@ -131,36 +130,38 @@ public class WriteCommunityBoardActivity extends BaseActivity implements WriteFr
         }
     }
 
-    @OnClick(R.id.add_photo_btn) void addPhotoBtn(){
-        if (ContextCompat.checkSelfPermission(WriteCommunityBoardActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(WriteCommunityBoardActivity.this,
-                        Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (WriteCommunityBoardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+    @OnClick({R.id.add_photo_btn, R.id.write_btn, R.id.back_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.add_photo_btn:
+                if (ContextCompat.checkSelfPermission(WriteCommunityBoardActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                        .checkSelfPermission(WriteCommunityBoardActivity.this,
+                                Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale
+                            (WriteCommunityBoardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                ActivityCompat.requestPermissions(WriteCommunityBoardActivity.this,
-                        new String[]{Manifest.permission
-                                .WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-            } else {
-                ActivityCompat.requestPermissions(WriteCommunityBoardActivity.this,
-                        new String[]{Manifest.permission
-                                .WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-            }
-        } else {
-            goToSelectPhoto();
+                        ActivityCompat.requestPermissions(WriteCommunityBoardActivity.this,
+                                new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+                    } else {
+                        ActivityCompat.requestPermissions(WriteCommunityBoardActivity.this,
+                                new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+                    }
+                } else {
+                    goToSelectPhoto();
+                }
+                break;
+            case R.id.write_btn:
+                WriteBoard();
+                break;
+            case R.id.back_btn:
+                finish();
+                break;
         }
-    }
-
-    @OnClick(R.id.write_btn) void writeBtn(){
-        WriteBoard();
-    }
-
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
     }
 
     /**

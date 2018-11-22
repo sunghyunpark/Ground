@@ -337,36 +337,35 @@ public class DetailCommunityActivity extends BaseActivity implements DetailCommu
         }
     }
 
-    @OnClick({R.id.favorite_btn}) void favoriteBtnClicked(){
-        favoriteClick();
+    @OnClick({R.id.favorite_btn, R.id.back_btn, R.id.write_comment_btn, R.id.comment_btn, R.id.detail_more_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.favorite_btn:
+                favoriteClick();
+                break;
+            case R.id.back_btn:
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+                break;
+            case R.id.write_comment_btn:
+                writeComment();
+                break;
+            case R.id.comment_btn:
+                commentClick();
+                break;
+            /*
+             * 우측 상단 더보기 버튼 이벤트
+             * 탭 시 DetailMoreDialog 가 노출된다.
+             * 이때 DetailMoreDialog 와 상세 게시글 화면간의 통신을 위해 Callback 함수를 통해 데이터를 주고 전달받는다.
+             * - 게시글 삭제
+             * - 게시글 수정
+             */
+            case R.id.detail_more_btn:
+                morePowerMenu.showAsDropDown(detailMoreBtn);
+                break;
+        }
     }
-
-    @OnClick(R.id.back_btn) void backBtn(){
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(Constants.EXTRA_ARTICLE_MODEL, communityModel);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-    }
-
-    @OnClick(R.id.write_comment_btn) void writeCommentBtn(){
-        writeComment();
-    }
-
-    @OnClick(R.id.comment_btn) void commentBtn(){
-        commentClick();
-    }
-
-    /**
-     * 우측 상단 더보기 버튼 이벤트
-     * 탭 시 DetailMoreDialog 가 노출된다.
-     * 이때 DetailMoreDialog 와 상세 게시글 화면간의 통신을 위해 Callback 함수를 통해 데이터를 주고 전달받는다.
-     * - 게시글 삭제
-     * - 게시글 수정
-     */
-    @OnClick(R.id.detail_more_btn) void moreBtn(){
-        morePowerMenu.showAsDropDown(detailMoreBtn);
-    }
-
     /**
      * 하드웨어 back 버튼으로 뒤로가기 시 게시글 리스트 화면에 articleModel 과 함께 result 값을 돌려준다.
      */

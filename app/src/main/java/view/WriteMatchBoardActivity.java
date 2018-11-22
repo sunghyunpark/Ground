@@ -179,25 +179,33 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
         }
     };
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        writeBoard();
+    @OnClick({R.id.write_btn, R.id.back_btn, R.id.matching_date_layout, R.id.memo_layout, R.id.age_layout, R.id.play_rule_layout}) void Click(View v){
+        switch (v.getId()){
+            case R.id.write_btn:
+                writeBoard();
+                break;
+            case R.id.back_btn:
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
+                break;
+            case R.id.matching_date_layout:
+                DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
+                dialog.show();
+                break;
+            case R.id.memo_layout:
+                Intent memoIntent = new Intent(getApplicationContext(), MemoActivity.class);
+                startActivity(memoIntent);
+                break;
+            case R.id.age_layout:
+                agePowerMenu.showAtCenter(write_board_layout);
+                break;
+            case R.id.play_rule_layout:
+                playRulePowerMenu.showAtCenter(write_board_layout);
+                break;
+        }
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_CANCELED, returnIntent);
-        finish();
-    }
-
-    @OnClick(R.id.matching_date_layout) void matchingDateClick(){
-        DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, GroundApplication.TODAY_YEAR, GroundApplication.TODAY_MONTH-1, GroundApplication.TODAY_DAY);
-        dialog.show();
-    }
-
-    @OnClick(R.id.memo_layout) void memoClick(){
-        Intent intent = new Intent(getApplicationContext(), MemoActivity.class);
-        startActivity(intent);
-    }
 
     private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
         SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-M-dd");
@@ -217,14 +225,6 @@ public class WriteMatchBoardActivity extends BaseActivity implements WriteBoardV
             matchingDateTv.setText(strAfterFormat);
         }
     };
-
-    @OnClick(R.id.age_layout) void ageClick(){
-        agePowerMenu.showAtCenter(write_board_layout);
-    }
-
-    @OnClick(R.id.play_rule_layout) void playRuleClick(){
-        playRulePowerMenu.showAtCenter(write_board_layout);
-    }
 
     @Override
     public void afterTextChanged(Editable s) {

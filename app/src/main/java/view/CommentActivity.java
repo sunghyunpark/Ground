@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -132,11 +131,15 @@ public class CommentActivity extends BaseActivity implements CommentView{
         }
     }
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        writeComment();
+    @OnClick({R.id.write_btn, R.id.back_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.write_btn:
+                writeComment();
+                break;
+            case R.id.back_btn:
+                finish();
+                break;
+        }
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
 }

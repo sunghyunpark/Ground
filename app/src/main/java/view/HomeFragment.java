@@ -1,6 +1,5 @@
 package view;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -224,7 +223,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
     public void setBanner(ArrayList<BannerModel> bannerModelArrayList, BannerModel RBBanner, BannerModel TBBanner){
         // 최상단 광고 슬라이드 뷰페이저를 연결하고 자동 슬라이드 적용한다.
         final int listSize = bannerModelArrayList.size();
-        requireTopSlideBannerTargetAPI();
 
         bannerViewPagerAdapter = new BannerViewPagerAdapter(getContext(), bannerModelArrayList);
         banner_pager.setAdapter(bannerViewPagerAdapter);
@@ -254,12 +252,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
         // 오늘의 시합 하단 띠 배너 적용
         setTodayMatchBoardBanner(TBBanner);
 
-    }
-
-    // setNestedScrollingEnable() 함수 자체가 21이상 부터 사용이 가능하여 TargetApi 를 적용함.
-    @TargetApi(21)
-    private void requireTopSlideBannerTargetAPI(){
-        banner_pager.setNestedScrollingEnabled(false);
     }
 
     /**
@@ -358,7 +350,6 @@ public class HomeFragment extends BaseFragment implements HomeView{
             float density = getResources().getDisplayMetrics().density;
             int pageMargin = 8 * (int)density; // 8dp
 
-            requireRecommendYouTubeTargetAPI();
             recommendYouTubePager.setPageMargin(pageMargin);
             recommendYouTubePager.setClipToPadding(false);
             recommendYouTubePager.setPadding(60, 0, 300, 0);
@@ -376,69 +367,62 @@ public class HomeFragment extends BaseFragment implements HomeView{
         }
     }
 
-    // setNestedScrollingEnable() 함수 자체가 21이상 부터 사용이 가능하여 TargetApi 를 적용함.
-    @TargetApi(21)
-    private void requireRecommendYouTubeTargetAPI(){
-        recommendYouTubePager.setNestedScrollingEnabled(false);
-    }
+    @OnClick({R.id.recommend_banner_iv, R.id.recent_refresh_btn, R.id.today_match_refresh_btn, R.id.recent_more_btn, R.id.today_match_more_btn, R.id.my_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.recommend_banner_iv:
+                Intent recommendBannerIntent = new Intent(android.content.Intent.ACTION_SEND);
+                recommendBannerIntent.setType("text/plain");
 
-    @OnClick(R.id.recommend_banner_iv) void recommendBannerBtn(){
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("text/plain");
+                //String subject = "문자의 제목";
+                String text = "https://play.google.com/store/apps/details?id="+getContext().getPackageName();
 
-        //String subject = "문자의 제목";
-        String text = "https://play.google.com/store/apps/details?id="+getContext().getPackageName();
+                //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                recommendBannerIntent.putExtra(Intent.EXTRA_TEXT, text);
 
-        //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-
-        // Title of intent
-        Intent chooser = Intent.createChooser(intent, "친구에게 공유하기");
-        startActivity(chooser);
-    }
-
-    @OnClick(R.id.recent_refresh_btn) void recentRefreshBtn(){
-        if(!isNetworkConnected()){
-            showMessage("네트워크 연결상태를 확인해주세요.");
-        }else{
-            setRecentArticlePager();
-        }
-    }
-
-    @OnClick(R.id.today_match_refresh_btn) void todayMatchRefreshBtn(){
-        if(!isNetworkConnected()){
-            showMessage("네트워크 연결상태를 확인해주세요.");
-        }else{
-            homePresenter.loadTodayMatchList(true, 0, TODAY_MATCH_LOAD_DATA);
-        }
-    }
-
-    @OnClick(R.id.recent_more_btn) void recentMoreBtn(){
-        if(!isNetworkConnected()){
-            showMessage("네트워크 연결상태를 확인해주세요.");
-        }else{
-            Intent intent = new Intent(getContext(), RecentBoardActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    @OnClick(R.id.today_match_more_btn) void todayMatchMoreBtn(){
-        if(!isNetworkConnected()){
-            showMessage("네트워크 연결상태를 확인해주세요.");
-        }else{
-            Intent intent = new Intent(getContext(), TodayBoardActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    @OnClick(R.id.my_btn) void myBtn(){
-        if(!sessionManager.isLoggedIn()){
-            Util.showToast(getActivity(), "로그인을 해주세요.");
-        }else if(!NetworkUtils.isNetworkConnected(getActivity())){
-            Util.showToast(getActivity(), "네트워크 연결상태를 확인해주세요.");
-        }else{
-            Intent intent = new Intent(getContext(), MyActivity.class);
-            startActivity(intent);
+                // Title of intent
+                Intent chooser = Intent.createChooser(recommendBannerIntent, "친구에게 공유하기");
+                startActivity(chooser);
+                break;
+            case R.id.recent_refresh_btn:
+                if(!isNetworkConnected()){
+                    showMessage("네트워크 연결상태를 확인해주세요.");
+                }else{
+                    setRecentArticlePager();
+                }
+                break;
+            case R.id.today_match_refresh_btn:
+                if(!isNetworkConnected()){
+                    showMessage("네트워크 연결상태를 확인해주세요.");
+                }else{
+                    homePresenter.loadTodayMatchList(true, 0, TODAY_MATCH_LOAD_DATA);
+                }
+                break;
+            case R.id.recent_more_btn:
+                if(!isNetworkConnected()){
+                    showMessage("네트워크 연결상태를 확인해주세요.");
+                }else{
+                    Intent recentMoreIntent = new Intent(getContext(), RecentBoardActivity.class);
+                    startActivity(recentMoreIntent);
+                }
+                break;
+            case R.id.today_match_more_btn:
+                if(!isNetworkConnected()){
+                    showMessage("네트워크 연결상태를 확인해주세요.");
+                }else{
+                    Intent todayMatchMoreIntent = new Intent(getContext(), TodayBoardActivity.class);
+                    startActivity(todayMatchMoreIntent);
+                }
+                break;
+            case R.id.my_btn:
+                if(!sessionManager.isLoggedIn()){
+                    Util.showToast(getActivity(), "로그인을 해주세요.");
+                }else if(!NetworkUtils.isNetworkConnected(getActivity())){
+                    Util.showToast(getActivity(), "네트워크 연결상태를 확인해주세요.");
+                }else{
+                    Intent myIntent = new Intent(getContext(), MyActivity.class);
+                    startActivity(myIntent);
+                }
+                break;
         }
     }
 

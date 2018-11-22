@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.groundmobile.ground.Constants;
 import com.groundmobile.ground.R;
@@ -115,17 +116,19 @@ public class TodayBoardActivity extends BaseActivity implements TodayBoardView, 
         todayMatchAdapter.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
-
-    @OnClick(R.id.refresh_btn) void refreshBtn(){
-        endlessRecyclerOnScrollListener.reset(0, true);
-        todayBoardPresenter.loadTodayMatchList(true, 0, DATA_LOAD_COUNT);
-    }
-
-    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
-        LinearLayoutManager llm = (LinearLayoutManager) todayMatchRecyclerView.getLayoutManager();
-        llm.scrollToPosition(0);
+    @OnClick({R.id.back_btn, R.id.refresh_btn, R.id.up_to_scroll_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.refresh_btn:
+                endlessRecyclerOnScrollListener.reset(0, true);
+                todayBoardPresenter.loadTodayMatchList(true, 0, DATA_LOAD_COUNT);
+                break;
+            case R.id.up_to_scroll_btn:
+                LinearLayoutManager llm = (LinearLayoutManager) todayMatchRecyclerView.getLayoutManager();
+                llm.scrollToPosition(0);
+                break;
+        }
     }
 }

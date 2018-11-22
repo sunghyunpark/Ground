@@ -3,6 +3,7 @@ package view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import com.groundmobile.ground.R;
@@ -44,32 +45,35 @@ public class WriteMemoActivity extends BaseActivity {
         mRealm = Realm.getInstance(realmConfig.MemoRealmVersion(getApplicationContext()));
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
+    @OnClick({R.id.back_btn, R.id.write_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.write_btn:
+                String memoStr = memo_et.getText().toString().trim();
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        String memoStr = memo_et.getText().toString().trim();
+                if(memoStr.equals("")){
+                    showMessage(errorNotExistInputStr);
+                }else{
+                    mRealm.beginTransaction();
+                    MemoVO memoVO = new MemoVO();
 
-        if(memoStr.equals("")){
-            showMessage(errorNotExistInputStr);
-        }else{
-            mRealm.beginTransaction();
-            MemoVO memoVO = new MemoVO();
+                    Number maxId = mRealm.where(MemoVO.class).max("no");
+                    int nextId = (maxId == null) ? 0:maxId.intValue() + 1;
 
-            Number maxId = mRealm.where(MemoVO.class).max("no");
-            int nextId = (maxId == null) ? 0:maxId.intValue() + 1;
+                    memoVO.setNo(nextId);
+                    memoVO.setOrder(nextId);
+                    memoVO.setMemoText(memoStr);
 
-            memoVO.setNo(nextId);
-            memoVO.setOrder(nextId);
-            memoVO.setMemoText(memoStr);
+                    mRealm.copyToRealmOrUpdate(memoVO);
+                    mRealm.commitTransaction();
 
-            mRealm.copyToRealmOrUpdate(memoVO);
-            mRealm.commitTransaction();
-
-            Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+                break;
         }
     }
 }

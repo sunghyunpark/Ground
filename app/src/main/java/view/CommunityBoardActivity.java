@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.groundmobile.ground.Constants;
-import com.groundmobile.ground.GroundApplication;
 import com.groundmobile.ground.R;
 
 import java.util.ArrayList;
@@ -138,22 +138,24 @@ public class CommunityBoardActivity extends BaseActivity implements FreeBoardVie
         }
     }
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        if(isLogin()){
-            Intent intent = new Intent(getApplicationContext(), WriteCommunityBoardActivity.class);
-            intent.putExtra(Constants.EXTRA_COMMUNITY_BOARD_TYPE, Constants.FREE_OF_BOARD_TYPE_COMMUNITY);
-            startActivityForResult(intent, REQUEST_WRITE);
-        }else{
-            showMessage("로그인을 해주세요.");
+    @OnClick({R.id.back_btn, R.id.write_btn, R.id.up_to_scroll_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.write_btn:
+                if(isLogin()){
+                    Intent intent = new Intent(getApplicationContext(), WriteCommunityBoardActivity.class);
+                    intent.putExtra(Constants.EXTRA_COMMUNITY_BOARD_TYPE, Constants.FREE_OF_BOARD_TYPE_COMMUNITY);
+                    startActivityForResult(intent, REQUEST_WRITE);
+                }else{
+                    showMessage("로그인을 해주세요.");
+                }
+                break;
+            case R.id.up_to_scroll_btn:
+                LinearLayoutManager llm = (LinearLayoutManager) boardRecyclerView.getLayoutManager();
+                llm.scrollToPosition(0);
+                break;
         }
-    }
-
-    @OnClick(R.id.up_to_scroll_btn) void upToScrollBtn(){
-        LinearLayoutManager llm = (LinearLayoutManager) boardRecyclerView.getLayoutManager();
-        llm.scrollToPosition(0);
-    }
-
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
     }
 }

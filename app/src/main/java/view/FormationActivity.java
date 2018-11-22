@@ -220,39 +220,40 @@ public class FormationActivity extends BaseActivity implements View.OnTouchListe
         return true;
     }
 
-    @OnClick(R.id.back_btn) void backBtn(){
-        finish();
-    }
+    @OnClick({R.id.back_btn, R.id.add_btn, R.id.minus_btn, R.id.save_btn}) void Click(View v){
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.add_btn:
+                addCircle();
+                break;
+            case R.id.minus_btn:
+                removeCircle();
+                break;
+            case R.id.save_btn:
+                if (ContextCompat.checkSelfPermission(FormationActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                        .checkSelfPermission(FormationActivity.this,
+                                Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale
+                            (FormationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-    @OnClick(R.id.add_btn) void addCircleBtn(){
-        addCircle();
-    }
-
-    @OnClick(R.id.minus_btn) void removeCircleBtn(){
-        removeCircle();
-    }
-
-    @OnClick(R.id.save_btn) void saveBtn(){
-        if (ContextCompat.checkSelfPermission(FormationActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
-                .checkSelfPermission(FormationActivity.this,
-                        Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale
-                    (FormationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                ActivityCompat.requestPermissions(FormationActivity.this,
-                        new String[]{Manifest.permission
-                                .WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-            } else {
-                ActivityCompat.requestPermissions(FormationActivity.this,
-                        new String[]{Manifest.permission
-                                .WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-            }
-        } else {
-            saveClick();
+                        ActivityCompat.requestPermissions(FormationActivity.this,
+                                new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+                    } else {
+                        ActivityCompat.requestPermissions(FormationActivity.this,
+                                new String[]{Manifest.permission
+                                        .WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSIONS);
+                    }
+                } else {
+                    saveClick();
+                }
+                break;
         }
     }
 

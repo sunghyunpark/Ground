@@ -207,20 +207,27 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
         }
     }
 
-    @OnClick(R.id.write_btn) void writeBtn(){
-        EditBoard();
-    }
-
-    @OnClick(R.id.back_btn) void backBtn(){
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_CANCELED, returnIntent);
-        finish();
-    }
-
-    @OnClick(R.id.matching_date_layout) void matchingDateClick(){
-        DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, year, month-1, day);
-
-        dialog.show();
+    @OnClick({R.id.write_btn, R.id.back_btn, R.id.matching_date_layout, R.id.age_layout, R.id.play_rule_layout}) void Click(View v){
+        switch (v.getId()){
+            case R.id.write_btn:
+                EditBoard();
+                break;
+            case R.id.back_btn:
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
+                break;
+            case R.id.matching_date_layout:
+                DatePickerDialog dialog = new DatePickerDialog(this, onDateSetListener, year, month-1, day);
+                dialog.show();
+                break;
+            case R.id.age_layout:
+                agePowerMenu.showAtCenter(edit_board_layout);
+                break;
+            case R.id.play_rule_layout:
+                playRulePowerMenu.showAtCenter(edit_board_layout);
+                break;
+        }
     }
 
     private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -241,14 +248,6 @@ public class EditBoardActivity extends BaseActivity implements EditBoardView, Te
             matchingDateTv.setText(strAfterFormat);
         }
     };
-
-    @OnClick(R.id.age_layout) void ageClick(){
-        agePowerMenu.showAtCenter(edit_board_layout);
-    }
-
-    @OnClick(R.id.play_rule_layout) void playRuleClick(){
-        playRulePowerMenu.showAtCenter(edit_board_layout);
-    }
 
     @Override
     public void afterTextChanged(Editable s) {
